@@ -1,0 +1,9 @@
+To import .SVG assets to android studio don't 
+drag and drop!
+else it won't be converted to xml
+
+instead right click drawable...
+ -> New
+	-> Vector Asset
+
+;)

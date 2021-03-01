@@ -1,4 +1,4 @@
-package com.example.uvme;
+package com.elec_coen_390.uvme;
 
 import org.junit.Test;
 

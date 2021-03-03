@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -14,11 +16,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    private BottomNavigationView bottomNavigationView;
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        this.getSupportActionBar().hide();
+
         setContentView(R.layout.activity_profile);
 
         TextView title = (TextView) findViewById(R.id.activityProfile);
@@ -30,7 +33,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void setupBottomNavigationListener() {
 
-        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
 
         Menu menu = bottomNavigationView.getMenu();
         MenuItem menuItem = menu.getItem(0); // bottom navigation menu index item {0(Profile),1(Home),2(More)}
@@ -43,8 +46,7 @@ public class ProfileActivity extends AppCompatActivity {
                 switch (item.getItemId()) {
 
                     case R.id.action_home:
-                        Intent intentHome = new Intent(ProfileActivity.this, MainActivity.class);
-                        startActivity(intentHome);
+                        goToMainActivity();
                         break;
 
                     case R.id.action_profile:
@@ -52,12 +54,32 @@ public class ProfileActivity extends AppCompatActivity {
                         break;
 
                     case R.id.action_more:
-                        Intent intentMore = new Intent(ProfileActivity.this, MoreActivity.class);
-                        startActivity(intentMore);
+                        goToMoreActivity();
                         break;
                 }
                 return false;
             }
         });
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        goToMainActivity();
+    }
+
+    protected void goToMainActivity() {
+        Intent intentMain = new Intent(this, MainActivity.class);
+        startActivity(intentMain);
+        finish();
+    }
+
+    protected void goToMoreActivity() {
+        Intent intentMore = new Intent(this, MoreActivity.class);
+        startActivity(intentMore);
+        finish();
+    }
+
+
+
 }

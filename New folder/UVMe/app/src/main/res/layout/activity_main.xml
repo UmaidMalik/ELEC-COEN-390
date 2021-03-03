@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/midnight_blue"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:textSize="30sp"
+        android:textColor="@color/light_blue"
+        android:fontFamily="@font/roboto_thin"
+        android:id="@+id/activityMain"
+        android:textAlignment="center" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:menu="@menu/bottom_nav_menu"
+        android:background="@color/secondary_blue"
+        app:itemBackground="@color/secondary_blue"
+        app:itemIconTint="@animator/nav_selector"
+        app:itemTextColor="@animator/nav_selector"/>
+
+    <ImageView
+        android:id="@+id/ic_sun"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/bottom_navigation"
+        android:layout_below="@+id/activityMain"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="151dp"
+        android:layout_marginBottom="204dp"
+        android:scaleX="1.5"
+        android:scaleY="1.5"
+        app:srcCompat="@drawable/ic_sunlight_default_level1_lightblue"
+        tools:ignore="VectorDrawableCompat" />
+
+
+</RelativeLayout>

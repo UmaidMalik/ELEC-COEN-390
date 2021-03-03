@@ -24,6 +24,11 @@ public class MoreActivity extends AppCompatActivity {
         TextView title = (TextView) findViewById(R.id.activityMore);
         title.setText("More Activity");
 
+        setupBottomNavigationListener();
+    }
+
+    private void setupBottomNavigationListener() {
+
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
 
         Menu menu = bottomNavigationView.getMenu();
@@ -53,6 +58,7 @@ public class MoreActivity extends AppCompatActivity {
                 return false;
             }
         });
+
     }
 }
 

@@ -2,11 +2,11 @@ package com.elec_coen_390.uvme;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -22,6 +22,23 @@ public class MainActivity extends AppCompatActivity {
 
         TextView title = (TextView) findViewById(R.id.activityMain);
         title.setText("Main/Home Activity");
+
+
+        ImageView ic_sun = (ImageView) findViewById(R.id.ic_sun);
+
+        /**
+        ic_sun.setImageResource(R.drawable.ic_sunlight_default_level1_lightblue);
+        ic_sun.setImageResource(R.drawable.ic_sunlight_level2);
+        ic_sun.setImageResource(R.drawable.ic_sunlight_level3);
+        ic_sun.setImageResource(R.drawable.ic_sunlight_level4);
+        ic_sun.setImageResource(R.drawable.ic_sunlight_level5);
+        */
+
+        setupBottomNavigationListener();
+
+    }
+
+    private void setupBottomNavigationListener() {
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
 

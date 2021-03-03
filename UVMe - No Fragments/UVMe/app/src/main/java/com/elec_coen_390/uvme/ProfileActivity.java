@@ -24,6 +24,12 @@ public class ProfileActivity extends AppCompatActivity {
         TextView title = (TextView) findViewById(R.id.activityProfile);
         title.setText("Profile Activity");
 
+        setupBottomNavigationListener();
+
+    }
+
+    private void setupBottomNavigationListener() {
+
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
 
         Menu menu = bottomNavigationView.getMenu();

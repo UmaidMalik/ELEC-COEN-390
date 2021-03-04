@@ -26,7 +26,13 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
+        goToProfileActivity();
 
+    }
+     // function to take us to profile activty using intent
+    protected  void goToProfileActivity(){
+        Intent intent = new Intent(this, ProfileActivity.class); // where we are then where we wanna go
+        startActivity(intent);
     }
 
 }

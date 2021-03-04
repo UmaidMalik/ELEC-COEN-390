@@ -35,6 +35,8 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         saveButton = findViewById(R.id.saveButton);
 
 
+
+
         noEdits(); // default to no edits
         Intent intent = getIntent(); // lets us go back and forth from app to app
     }
@@ -65,6 +67,19 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         eyeColourSpinner= findViewById(R.id.eyeColourSpinner);
         skinToneSpinner=findViewById(R.id.skinToneSpinner);
         profileSelectSpinner=findViewById(R.id.profileSelectSpinner);
+        Spinner profileSwitchSpinner = findViewById(R.id.profileSelectSpinner);
+        profileSwitchSpinner.getBackground().setColorFilter(getResources().getColor(R.color.font_lightblue), PorterDuff.Mode.SRC_ATOP);
+         // this needs to be changed. future uses will get users created profiles from database.
+        ArrayList<String> listOfNames =new ArrayList<>(); // list of strings for users created profiles.
+        listOfNames.add("Salar Jaberi");
+        listOfNames.add("kelly");
+        listOfNames.add("Saag");
+        listOfNames.add("Umaid");
+        listOfNames.add("Parker");
+        ArrayAdapter<String> profileAdapter = new ArrayAdapter<String>(this,R.layout.color_spinner_layour,listOfNames);
+        profileAdapter.setDropDownViewResource(R.layout.sprinner_dropdown_layout);
+        profileSwitchSpinner.setAdapter(profileAdapter);
+        profileSwitchSpinner.setOnItemSelectedListener(this);
         // enable modes for noedits
         editTextAge.setEnabled(false);
         editTextPersonName.setEnabled(false);
@@ -74,7 +89,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         editButton.setEnabled(true);
         eyeColourSpinner.setEnabled(false);
         skinToneSpinner.setEnabled(false);
-        profileSelectSpinner.setEnabled(false);
+        profileSelectSpinner.setEnabled(true);
 
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,8 +111,6 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         // spinner setup and setting the drop down icon to light blue
         Spinner eyeColor = findViewById(R.id.eyeColourSpinner);
         Spinner skinTone = findViewById(R.id.skinToneSpinner);
-        Spinner profileSwitchSpinner = findViewById(R.id.profileSelectSpinner);
-        profileSwitchSpinner.getBackground().setColorFilter(getResources().getColor(R.color.font_lightblue), PorterDuff.Mode.SRC_ATOP);
         eyeColourSpinner.getBackground().setColorFilter(getResources().getColor(R.color.font_lightblue), PorterDuff.Mode.SRC_ATOP);
         skinToneSpinner.getBackground().setColorFilter(getResources().getColor(R.color.font_lightblue), PorterDuff.Mode.SRC_ATOP);
 
@@ -120,16 +133,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         skinTone.setOnItemSelectedListener(this);
 
         // this needs to be changed. future uses will get users created profiles from database.
-        ArrayList<String> listOfNames =new ArrayList<>(); // list of strings for users created profiles.
-        listOfNames.add("Salar Jaberi");
-        listOfNames.add("kelly");
-        listOfNames.add("Saag");
-        listOfNames.add("Umaid");
-        listOfNames.add("Parker");
-        ArrayAdapter<String> profileAdapter = new ArrayAdapter<String>(this,R.layout.color_spinner_layour,listOfNames);
-        profileAdapter.setDropDownViewResource(R.layout.sprinner_dropdown_layout);
-        profileSwitchSpinner.setAdapter(profileAdapter);
-        profileSwitchSpinner.setOnItemSelectedListener(this);
+
 
         editTextAge.setEnabled(true);
         editTextPersonName.setEnabled(true);
@@ -138,14 +142,13 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         editButton.setEnabled(true);
         eyeColourSpinner.setEnabled(true);
         skinToneSpinner.setEnabled(true);
-        profileSelectSpinner.setEnabled(true);
+        profileSelectSpinner.setEnabled(false);
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String name =editTextPersonName.getText().toString();
                 String age = editTextAge.getText().toString();
-               
 
                 SharedPreferences sharedPreferences = getSharedPreferences("profile-sharedPrefences", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -159,7 +162,6 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
             }
         });
     }
-
     // override functions needed to output the Spinners information with their given locations.
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {

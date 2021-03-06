@@ -38,42 +38,7 @@ public class MoreActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_more);
 
-        listView = (ListView) findViewById(R.id.moreActivityListView);
-
-        CustomAdapter customAdapter = new CustomAdapter();
-        listView.setAdapter(customAdapter);
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                
-                Intent intent;
-                switch(i) {
-
-                    case 0:
-                        intent = new Intent(getApplicationContext(), NotificationsActivity.class);
-                        startActivity(intent);
-                        break;
-                    case 1:
-                        intent = new Intent(getApplicationContext(), UVHistoryActivity.class);
-                        startActivity(intent);
-                        break;
-                    case 2:
-                        intent = new Intent(getApplicationContext(), UVSensorActivity.class);
-                        startActivity(intent);
-                        break;
-                    case 3:
-                        intent = new Intent(getApplicationContext(), InfoActivity.class);
-                        startActivity(intent);
-                        break;
-                    case 4:
-                        intent = new Intent(getApplicationContext(), ThemesActivity.class);
-                        startActivity(intent);
-                        break;
-
-                }
-            }
-        });
+        setupListView();
 
         setupBottomNavigationListener();
     }
@@ -107,6 +72,45 @@ public class MoreActivity extends AppCompatActivity {
 
             return moreView;
         }
+    }
+
+    private void setupListView() {
+        listView = (ListView) findViewById(R.id.moreActivityListView);
+
+        CustomAdapter customAdapter = new CustomAdapter();
+        listView.setAdapter(customAdapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                Intent intent;
+                switch(i) {
+
+                    case 0:
+                        intent = new Intent(getApplicationContext(), NotificationsActivity.class);
+                        startActivity(intent);
+                        break;
+                    case 1:
+                        intent = new Intent(getApplicationContext(), UVHistoryActivity.class);
+                        startActivity(intent);
+                        break;
+                    case 2:
+                        intent = new Intent(getApplicationContext(), UVSensorActivity.class);
+                        startActivity(intent);
+                        break;
+                    case 3:
+                        intent = new Intent(getApplicationContext(), InfoActivity.class);
+                        startActivity(intent);
+                        break;
+                    case 4:
+                        intent = new Intent(getApplicationContext(), ThemesActivity.class);
+                        startActivity(intent);
+                        break;
+
+                }
+            }
+        });
     }
 
     private void setupBottomNavigationListener() {

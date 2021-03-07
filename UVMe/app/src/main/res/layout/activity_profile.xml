@@ -164,7 +164,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextAge"
-        app:layout_constraintVertical_bias="0.171" />
+        app:layout_constraintVertical_bias="0.15" />
 
     <Spinner
         android:id="@+id/eyeColourSpinner"
@@ -175,5 +175,30 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/skinToneSpinner"
         app:layout_constraintVertical_bias="0.396" />
+
+    <TextView
+        android:id="@+id/eyeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#B1D4E0"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/eyeColourSpinner"
+        app:layout_constraintEnd_toEndOf="@+id/eyeColourSpinner"
+        app:layout_constraintHorizontal_bias="0.113"
+        app:layout_constraintStart_toStartOf="@+id/eyeColourSpinner"
+        app:layout_constraintTop_toTopOf="@+id/eyeColourSpinner"
+        app:layout_constraintVertical_bias="0.54" />
+
+    <TextView
+        android:id="@+id/skinToneTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#B1D4E0"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/skinToneSpinner"
+        app:layout_constraintEnd_toEndOf="@+id/skinToneSpinner"
+        app:layout_constraintHorizontal_bias="0.107"
+        app:layout_constraintStart_toStartOf="@+id/skinToneSpinner"
+        app:layout_constraintTop_toTopOf="@+id/skinToneSpinner" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

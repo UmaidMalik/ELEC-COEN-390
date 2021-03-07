@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="mainFile">profile-sharedPrefences</string>
+    <string name="profileName">name-sharedPrefences</string>
+    <string name="profileAge">age-sharedPrefences</string>
+    <string name="profileEye">last_val_eye</string>
+    <string name="profileSkin">last_val_skin</string>
+    <string name="profileGender">last_val_gender</string>
+</resources>

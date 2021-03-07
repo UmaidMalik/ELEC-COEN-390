@@ -15,20 +15,25 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
-import java.lang.reflect.Array;
+import com.example.uvme.ui.profileAtributes.eyeAdapter;
+import com.example.uvme.ui.profileAtributes.eyeColor;
+
 import java.util.ArrayList;
 
 public class ProfileActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     // setup for buttons Profile UI
+
+    private ArrayList<eyeColor> meyeColor;
+    private eyeAdapter meyeAdapter;
+
     private TextView selectedProfileTextView;
-
     private TextView genderTextView;
-
     private TextView eyeTextView;
     private TextView skinToneTextView;
     private EditText editTextPersonName;
@@ -38,22 +43,16 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
     private Button addProfileButton;
     private Spinner eyeColourSpinner;
     private Spinner skinToneSpinner;
-    private Spinner profileSelectSpinner;
     private Spinner genderSpinner;
-
     private SharedPreferences prefseye;
     private SharedPreferences prefsSkin;
     private SharedPreferences prefsGender;
-
     private final String prefNameEye = "spinner_value_eye";
     private final String prefNameSkin = "spinner_value_skin";
     private  final String prefNameGender ="spinner_value_gender";
-
-    int id_gender=0;
-    int id_eye=0;
-    int id_skin=0;
-
+    int id_gender,id_eye,id_skin=0;
     final String TAG = "ProfileActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,7 +61,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         eyeTextView =findViewById(R.id.eyeTextView);
         skinToneTextView=findViewById(R.id.skinToneTextView);
         genderTextView=findViewById(R.id.genderTextView);
-
+        selectedProfileTextView=findViewById(R.id.selectedProfileTextView);
         noEdits(); // default to no edits
         Intent intent = getIntent(); // lets us go back and forth from app to app
     }
@@ -72,13 +71,11 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         super.onResume();
         // this is where to save the button information
         SharedPreferences sharedPreferences = getSharedPreferences("profile-sharedPrefences", Context.MODE_PRIVATE); // open a fille
-        String name =sharedPreferences.getString("name-sharedPrefences",null);
-        String age =sharedPreferences.getString("age-sharedPrefences",null);
-        String eye =sharedPreferences.getString("last_val_eye",null);
-        String skin = sharedPreferences.getString("last_val_skin",null);
-        String gender = sharedPreferences.getString("last_val_gender",null);
-
-
+        String name =sharedPreferences.getString(getString(R.string.profileName),null);
+        String age =sharedPreferences.getString(getString(R.string.profileAge),null);
+        String eye =sharedPreferences.getString(getString(R.string.profileEye),null);
+        String skin = sharedPreferences.getString(getString(R.string.profileSkin),null);
+        String gender = sharedPreferences.getString(getString(R.string.profileGender),null);
 
        if (name == null) {
             loadData(); // if name is empty, load the data
@@ -90,7 +87,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
                 eyeTextView.setText(eye);
                 skinToneTextView.setText(skin);
                 genderTextView.setText(gender);
-                
+                selectedProfileTextView.setText(name);
             }
     }
 
@@ -105,30 +102,13 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         eyeColourSpinner= findViewById(R.id.eyeColourSpinner);
         skinToneSpinner=findViewById(R.id.skinToneSpinner);
         genderSpinner=findViewById(R.id.genderSpinner);
-        profileSelectSpinner=findViewById(R.id.profileSelectSpinner);
-        Spinner profileSwitchSpinner = findViewById(R.id.profileSelectSpinner);
-        profileSwitchSpinner.getBackground().setColorFilter(getResources().getColor(R.color.font_lightblue), PorterDuff.Mode.SRC_ATOP);
-
-        // this needs to be changed. future uses will get users created profiles from database.
-        ArrayList<String> listOfNames =new ArrayList<>(); // list of strings for users created profiles.
-        listOfNames.add("Salar Jaberi");
-        listOfNames.add("kelly");
-        listOfNames.add("Saag");
-        listOfNames.add("Umaid");
-        listOfNames.add("Parker");
-        ArrayAdapter<String> profileAdapter = new ArrayAdapter<String>(this,R.layout.color_spinner_layour,listOfNames);
-        profileAdapter.setDropDownViewResource(R.layout.sprinner_dropdown_layout);
-        profileSwitchSpinner.setAdapter(profileAdapter);
-        profileSwitchSpinner.setOnItemSelectedListener(this);
 
         // enable modes for noedits
         enableModeNoEdit();
-
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Edits(); // sends to the edit function
-
                 Toast.makeText(getApplicationContext(),"EDIT MODE",Toast.LENGTH_SHORT).show();
             }
         });
@@ -146,92 +126,89 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         skinToneSpinner.getBackground().setColorFilter(getResources().getColor(R.color.font_lightblue), PorterDuff.Mode.SRC_ATOP);
         genderSpinner.getBackground().setColorFilter(getResources().getColor(R.color.font_lightblue), PorterDuff.Mode.SRC_ATOP);
         ///
+            final Spinner genderSpin = (Spinner) findViewById(R.id.genderSpinner);
+            ArrayAdapter<CharSequence> genderAdapter = ArrayAdapter.createFromResource(ProfileActivity.this,
+                    R.array.gender, R.layout.color_spinner_layour);
+            genderAdapter.setDropDownViewResource(R.layout.sprinner_dropdown_layout);
+            genderSpin.setAdapter(genderAdapter);
+            prefsGender = getSharedPreferences(prefNameGender, MODE_PRIVATE);
+            id_gender = prefsGender.getInt("last_val_gender", 0);
+            genderSpin.setSelection(id_gender);
+            genderSpin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> arg0, View arg1, int Genderposition, long arg3) {
+                    // TODO Auto-generated method stub
+                    prefsGender = getSharedPreferences(prefNameGender, MODE_PRIVATE);
+                    SharedPreferences.Editor editor = prefsGender.edit();
+                    //---save the values in the EditText view to preferences---
+                    editor.putInt("last_val_gender", Genderposition);
+                    //---saves the values---
+                    editor.apply();
+                    genderTextView.setText(String.valueOf(Genderposition + 1));
 
-        
-        final Spinner genderSpin=(Spinner) findViewById(R.id.genderSpinner);
-        ArrayAdapter<CharSequence> genderAdapter = ArrayAdapter.createFromResource(ProfileActivity.this, R.array.gender, R.layout.color_spinner_layour);
-        genderAdapter.setDropDownViewResource(R.layout.sprinner_dropdown_layout);
-        genderSpin.setAdapter(genderAdapter);
+                }
 
-        prefsGender = getSharedPreferences(prefNameGender, MODE_PRIVATE);
-        id_gender=prefsGender.getInt("last_val_gender",0);
-        genderSpin.setSelection(id_gender);
+                @Override
+                public void onNothingSelected(AdapterView<?> arg0) {
+                    // TODO Auto-generated method stub
+                }
+            });
+            genderTextView.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-        genderSpin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> arg0, View arg1,int Genderposition, long arg3) {
-                // TODO Auto-generated method stub
-                prefsGender = getSharedPreferences(prefNameGender, MODE_PRIVATE);
-                SharedPreferences.Editor editor = prefsGender.edit();
-                //---save the values in the EditText view to preferences---
-                editor.putInt("last_val_gender", Genderposition);
-                //---saves the values---
-                editor.apply();
-                 genderTextView.setText(String.valueOf(Genderposition + 1));
+                }
 
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> arg0) {
-                // TODO Auto-generated method stub
-            }
-        });
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                }
 
-        genderTextView.addTextChangedListener(new TextWatcher(){
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void afterTextChanged(Editable s)
-            {
-                try
-                {
-                    int nPosition = Integer.parseInt(s.toString());
-                    if (nPosition >= 1 && nPosition <= 12) {
-                        if(nPosition==1){
-                            genderTextView.setText("CHANGE");
+                @SuppressLint("SetTextI18n")
+                @Override
+                public void afterTextChanged(Editable s) {
+                    try {
+                        int nPosition = Integer.parseInt(s.toString());
+                        if (nPosition >= 1 && nPosition <= 12) {
+                            if (nPosition == 1) {
+                                genderTextView.setText("CHANGE");
+                            }
+                            if (nPosition == 2) {
+                                genderTextView.setText("Male");
+                            }
+                            if (nPosition == 3) {
+                                genderTextView.setText("Female");
+                            }
+                            genderSpinner.setSelection(nPosition - 1);
                         }
-                        if(nPosition==2){
-                            genderTextView.setText("Male");
-                        }
-                        if(nPosition==3){
-                            genderTextView.setText("Female");
-                        }
-                        genderSpinner.setSelection(nPosition - 1);
+                    } catch (NumberFormatException nfe) {
+                        Log.i(TAG, "Unable to find N Position.");
                     }
                 }
-                catch(NumberFormatException nfe)
-                {
-                    Log.i(TAG, "Unable to find N Position.");
-                }
-            }
-        });
+            });
 
 
         ///
-        final Spinner eyeColor=(Spinner) findViewById(R.id.eyeColourSpinner);
-        ArrayAdapter<CharSequence> eyeColorAdapter = ArrayAdapter.createFromResource(ProfileActivity.this, R.array.eyeColor, R.layout.color_spinner_layour);
-        eyeColorAdapter.setDropDownViewResource(R.layout.sprinner_dropdown_layout);
-        eyeColor.setAdapter(eyeColorAdapter);
-
+         initList();
+        final  Spinner eyeColor=(Spinner) findViewById(R.id.eyeColourSpinner);
+        meyeAdapter=new eyeAdapter(this,meyeColor);
+        eyeColor.setAdapter(meyeAdapter);
         prefseye = getSharedPreferences(prefNameEye, MODE_PRIVATE);
         id_eye=prefseye.getInt("last_val_eye",0);
         eyeColor.setSelection(id_eye);
-
         eyeColor.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> arg0, View arg1,int position, long arg3) {
                 // TODO Auto-generated method stub
+
                 prefseye = getSharedPreferences(prefNameEye, MODE_PRIVATE);
                 SharedPreferences.Editor editor = prefseye.edit();
                 //---save the values in the EditText view to preferences---
                 editor.putInt("last_val_eye", position);
                 //---saves the values---
                 editor.apply();
+                eyeColor clickedItem = (eyeColor) arg0.getItemAtPosition(position);
+                String clickedEye=clickedItem.getEyeColor();
+
                 eyeTextView.setText(String.valueOf(position + 1));
             }
             @Override
@@ -239,6 +216,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
             // TODO Auto-generated method stub
             }
         });
+
         eyeTextView.addTextChangedListener(new TextWatcher(){
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -255,22 +233,21 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
                     int nPosition = Integer.parseInt(s.toString());
                     if (nPosition >= 1 && nPosition <= 12) {
                            if(nPosition==1){
-                           eyeTextView.setText("CHANGE");
+                               eyeTextView.setText("Default");
                            }
                                 if(nPosition==2){
-                                    eyeTextView.setText("Brown");
+                                    eyeTextView.setText("Blue");
                                 }
                                     if(nPosition==3){
-                                        eyeTextView.setText("Blue");
+                                        eyeTextView.setText("Brown");
                                     }
                                         if(nPosition==4){
-                                            eyeTextView.setText("Green");
+                                            eyeTextView.setText("Gray");
                                         }
                                             if(nPosition==5){
-                                                eyeTextView.setText("Gray");
+                                                eyeTextView.setText("Green");
                                             }
                                                 eyeColourSpinner.setSelection(nPosition - 1);
-
                     }
                 }
                 catch(NumberFormatException nfe)
@@ -279,6 +256,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
                 }
             }
         });
+
         final Spinner skinTone=(Spinner) findViewById(R.id.skinToneSpinner);
         ArrayAdapter<CharSequence> skinToneAdapter = ArrayAdapter.createFromResource(
                 ProfileActivity.this,
@@ -350,17 +328,19 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
             @Override
             public void onClick(View view) {
                String name =editTextPersonName.getText().toString();
+               String profile = selectedProfileTextView.getText().toString();
                 String age = editTextAge.getText().toString();
                 String eye= eyeTextView.getText().toString();
                 String skin=skinToneTextView.getText().toString();
                 String gender=genderTextView.getText().toString();
-                SharedPreferences sharedPreferences = getSharedPreferences("profile-sharedPrefences", Context.MODE_PRIVATE);
+                SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.mainFile), Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString("name-sharedPrefences",name);
-                editor.putString("age-sharedPrefences",age);
-                editor.putString("last_val_eye",eye);
-                editor.putString("last_val_skin",skin);
-                editor.putString("last_val_gender",gender);
+                editor.putString(getString(R.string.profileName),name);
+                editor.putString(getString(R.string.profileAge),age);
+                editor.putString(getString(R.string.profileEye),eye);
+                editor.putString(getString(R.string.profileSkin),skin);
+                editor.putString(getString(R.string.profileGender),gender);
+                editor.putString("profile-sharedPrefences",profile);
                 editor.apply(); // saved into the file
                 noEdits(); // after user saved information it is sent back to the No edit mode.
                 Toast.makeText(getApplicationContext(),"SAVED",Toast.LENGTH_LONG).show();
@@ -387,9 +367,8 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         editButton.setEnabled(true);
         eyeColourSpinner.setEnabled(true);
         skinToneSpinner.setEnabled(true);
-        profileSelectSpinner.setEnabled(false);
-        genderSpinner.setEnabled(true);
 
+        genderSpinner.setEnabled(true);
         eyeTextView.setEnabled(false);
         eyeTextView.setVisibility(View.INVISIBLE);
         skinToneTextView.setEnabled(false);
@@ -409,10 +388,18 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         eyeColourSpinner.setEnabled(false);
         skinToneSpinner.setEnabled(false);
         genderSpinner.setEnabled(false);
-        profileSelectSpinner.setEnabled(false);
+
         eyeTextView.setEnabled(true);
         skinToneTextView.setEnabled(true);
         genderTextView.setEnabled(true);
+    }
+    private void initList(){
+        meyeColor = new ArrayList<>();
+        meyeColor.add(new eyeColor("Default",R.drawable.ic_eye_default));
+        meyeColor.add(new eyeColor("Blue",R.drawable.ic_eye_blue));
+        meyeColor.add(new eyeColor("Brown",R.drawable.ic_eye_brown));
+        meyeColor.add(new eyeColor("Gray",R.drawable.ic_eye_gray));
+        meyeColor.add(new eyeColor("Green",R.drawable.ic_eye_green));
 
     }
 }

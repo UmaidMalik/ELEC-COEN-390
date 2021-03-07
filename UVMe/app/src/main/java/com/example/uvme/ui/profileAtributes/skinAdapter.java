@@ -11,16 +11,13 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import com.example.uvme.R;
-
 import java.util.ArrayList;
 
-public class eyeAdapter extends ArrayAdapter<eyeColor> {
-    public eyeAdapter(@NonNull Context context, ArrayList<eyeColor> eyeColors) {
-        super(context, 0,eyeColors);
+public class skinAdapter extends ArrayAdapter<skinTone> {
+    public skinAdapter(@NonNull Context context, ArrayList<skinTone> skinTones) {
+        super(context, 0,skinTones);
     }
-
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -31,17 +28,18 @@ public class eyeAdapter extends ArrayAdapter<eyeColor> {
     public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         return initview(position,convertView,parent);
     }
+
     private View initview(int position,View convertView,ViewGroup parent){
         if (convertView==null){
-            convertView=LayoutInflater.from(getContext()).inflate(R.layout.eye_color_row,parent,false);
+            convertView=LayoutInflater.from(getContext()).inflate(R.layout.skin_tone_row,parent,false);
         }
-        ImageView imageViewEyeColor= convertView.findViewById(R.id.eyeColorIcon);
-        TextView eyeText =convertView.findViewById(R.id.eyeAtribute);
-        eyeColor eye = getItem(position);
 
-        if (eye!=null) {
-            imageViewEyeColor.setImageResource(eye.getEyeIcon());
-            eyeText.setText(eye.getEyeColor());
+        ImageView skintoneImage= convertView.findViewById(R.id.skinToneIcon);
+        TextView skinText =convertView.findViewById(R.id.skinAtribute);
+        skinTone skin = getItem(position);
+        if (skin!=null) {
+            skintoneImage.setImageResource(skin.getSkinIcon());
+            skinText.setText(skin.getSkinColor());
         }
         return convertView;
     }

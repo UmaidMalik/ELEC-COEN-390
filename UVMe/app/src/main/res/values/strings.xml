@@ -4,28 +4,7 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
 
-    <string-array name="eyeColor">
-        <item>CHANGE</item>
-        <item>Brown</item>
-        <item>Blue</item>
-        <item>Green</item>
-        <item>Gray</item>
-    </string-array>
 
-    <string-array name="skinTone">
-        <item>CHANGE</item>
-        <item>Light</item>
-        <item>Medium</item>
-        <item>Dark</item>
-    </string-array>
-
-    <string-array name="names">
-        <item>NO DATA</item>
-        <item>Salar</item>
-        <item>Jaberi</item>
-        <item>Kelly</item>
-
-    </string-array>
 
     <string-array name="gender">
         <item>NO DATA</item>

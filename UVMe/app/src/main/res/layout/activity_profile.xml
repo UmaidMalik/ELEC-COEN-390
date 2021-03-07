@@ -159,10 +159,10 @@
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/eyeColourSpinner"
         app:layout_constraintEnd_toEndOf="@+id/eyeColourSpinner"
-        app:layout_constraintHorizontal_bias="0.113"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/eyeColourSpinner"
         app:layout_constraintTop_toTopOf="@+id/eyeColourSpinner"
-        app:layout_constraintVertical_bias="0.54" />
+        app:layout_constraintVertical_bias="0.513" />
 
     <TextView
         android:id="@+id/skinToneTextView"
@@ -172,9 +172,10 @@
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/skinToneSpinner"
         app:layout_constraintEnd_toEndOf="@+id/skinToneSpinner"
-        app:layout_constraintHorizontal_bias="0.107"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/skinToneSpinner"
-        app:layout_constraintTop_toTopOf="@+id/skinToneSpinner" />
+        app:layout_constraintTop_toTopOf="@+id/skinToneSpinner"
+        app:layout_constraintVertical_bias="0.588" />
 
     <TextView
         android:id="@+id/selectedProfileTextView"
@@ -193,25 +194,24 @@
         android:id="@+id/textView8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:text="Gender"
         android:textColor="#B1D4E0"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.615" />
+        app:layout_constraintStart_toStartOf="@+id/textView2"
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        app:layout_constraintVertical_bias="0.349" />
 
     <Spinner
         android:id="@+id/genderSpinner"
-        android:layout_width="144dp"
-        android:layout_height="55dp"
+        android:layout_width="149dp"
+        android:layout_height="60dp"
         app:layout_constraintBottom_toBottomOf="@+id/textView8"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.886"
+        app:layout_constraintHorizontal_bias="0.916"
         app:layout_constraintStart_toEndOf="@+id/textView8"
         app:layout_constraintTop_toTopOf="@+id/textView8"
-        app:layout_constraintVertical_bias="0.451" />
+        app:layout_constraintVertical_bias="0.388" />
 
     <TextView
         android:id="@+id/genderTextView"
@@ -221,10 +221,10 @@
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/genderSpinner"
         app:layout_constraintEnd_toEndOf="@+id/genderSpinner"
-        app:layout_constraintHorizontal_bias="0.118"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/genderSpinner"
         app:layout_constraintTop_toBottomOf="@+id/editTextAge"
-        app:layout_constraintVertical_bias="0.69" />
+        app:layout_constraintVertical_bias="0.66" />
 
     <TextView
         android:id="@+id/textMain"

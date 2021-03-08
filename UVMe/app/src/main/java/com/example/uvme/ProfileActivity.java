@@ -67,7 +67,6 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         noEdits(); // default to no edits
         Intent intent = getIntent(); // lets us go back and forth from app to app
     }
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -92,7 +91,6 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
                 selectedProfileTextView.setText(name);
             }
     }
-
     @SuppressLint("CutPasteId")
     protected void noEdits(){
         // function is used to display users information, edit mode is engaged when selected

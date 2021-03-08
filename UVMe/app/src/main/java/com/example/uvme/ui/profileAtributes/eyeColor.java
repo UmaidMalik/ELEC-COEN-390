@@ -15,5 +15,4 @@ public int getEyeIcon(){
     return mEyeIcon;
 }
 
-
 }

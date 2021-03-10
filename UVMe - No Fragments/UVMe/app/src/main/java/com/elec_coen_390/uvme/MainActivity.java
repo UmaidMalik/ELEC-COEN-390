@@ -17,6 +17,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
+
+     Button button;
+     int count = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +33,39 @@ public class MainActivity extends AppCompatActivity {
         title.setText("Main/Home Activity");
 
 
+        button = (Button) findViewById(R.id.button);
         ImageView ic_sun = (ImageView) findViewById(R.id.ic_sun);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                count++;
+                        count = count % 5;
+
+                        switch (count) {
+
+                            case 0:
+                                ic_sun.setImageResource(R.drawable.ic_sunlight_default_level1_lightblue);
+                                break;
+                            case 1:
+                                ic_sun.setImageResource(R.drawable.ic_sunlight_level2);
+                                break;
+                            case 2:
+                                ic_sun.setImageResource(R.drawable.ic_sunlight_level3);
+                                break;
+                            case 3:
+                                ic_sun.setImageResource(R.drawable.ic_sunlight_level4);
+                                break;
+                            case 4:
+                                ic_sun.setImageResource(R.drawable.ic_sunlight_level5);
+                                break;
+                        }
+
+                System.out.println("Count = " + count);
+                }
+
+        });
+
 
         /*
          ic_sun.setImageResource(R.drawable.ic_sunlight_default_level1_lightblue);

@@ -84,7 +84,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         editTextPersonName = findViewById(R.id.editTextPersonName);
         editTextAge = findViewById(R.id.editTextAge);
         editButton = findViewById(R.id.editButton);
-        addProfileButton = findViewById(R.id.addProfileButton);
+
         eyeColourSpinner= findViewById(R.id.eyeColourSpinner);
         skinToneSpinner=findViewById(R.id.skinToneSpinner);
         genderSpinner=findViewById(R.id.genderSpinner);
@@ -188,7 +188,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         editTextPersonName = findViewById(R.id.editTextPersonName);
         editTextAge = findViewById(R.id.editTextAge);
         editButton = findViewById(R.id.editButton);
-        addProfileButton = findViewById(R.id.addProfileButton);
+
 
         // spinner setup and setting the drop down icon to light blue
         eyeColourSpinner.getBackground().setColorFilter(getResources().getColor(R.color.font_lightblue), PorterDuff.Mode.SRC_ATOP);
@@ -312,7 +312,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         editTextAge.setEnabled(true);
         editTextPersonName.setEnabled(true);
         saveButton.setEnabled(true);
-        addProfileButton.setEnabled(true);
+
         editButton.setEnabled(true);
         eyeColourSpinner.setEnabled(true);
         skinToneSpinner.setEnabled(true);
@@ -323,7 +323,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         editTextPersonName.setEnabled(false);
         saveButton.setCursorVisible(true);
         saveButton.setEnabled(false);
-        addProfileButton.setEnabled(true);
+
         editButton.setEnabled(true);
         eyeColourSpinner.setEnabled(true);
         skinToneSpinner.setEnabled(false);

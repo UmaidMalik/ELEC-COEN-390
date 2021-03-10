@@ -210,7 +210,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         mskinAdapter = new skinAdapter(this, mskinColor);
         skinTone.setAdapter(mskinAdapter);
 
-        // Share prefences information, finds position of the Spinner and saves in id_skin
+        // Share preferences information, finds position of the Spinner and saves in id_skin
         prefsSkin = getSharedPreferences(prefNameSkin, MODE_PRIVATE);
         id_skin = prefsSkin.getInt("last_val_skin", 0);
         skinTone.setSelection(id_skin);

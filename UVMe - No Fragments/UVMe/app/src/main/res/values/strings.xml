@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">UVMe</string>
+    <string-array name="gender">
+        <item>Female</item>
+        <item>Male</item>
+    </string-array>
 </resources>

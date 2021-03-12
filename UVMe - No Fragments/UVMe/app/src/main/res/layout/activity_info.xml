@@ -7,15 +7,240 @@
     android:background="@color/midnight_blue"
     tools:context=".InfoActivity">
 
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:menu="@menu/bottom_nav_menu"
+        android:background="@color/secondary_blue"
+        app:itemBackground="@color/secondary_blue"
+        app:itemIconTint="@animator/nav_selector"
+        app:itemTextColor="@animator/nav_selector"/>
+
+    <ListView
+        android:id="@+id/moreActivityListView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <TextView
+        android:id="@+id/textView14"
+        android:layout_width="248dp"
+        android:layout_height="88dp"
+        android:text="Apply SPF 30+ sunscreen every 2 hours; wear a hat and sunglasses; seek shade during midday hours (10 a.m. to 4 p.m.), when the sun’s rays are most intense"
+        android:textColor="#FAF2F2"
+        android:textSize="12sp"
+        tools:layout_editor_absoluteX="162dp"
+        tools:layout_editor_absoluteY="229dp" />
+
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="249dp"
+        android:layout_height="98dp"
+        android:text="Apply SPF 30+ sunscreen every 2 hours; wear a wide-brimmed hat, sunglasses, and a long-sleeved shirt and pants if practical; seek shade during midday hours (10 a.m. to 4 p.m.), when the sun’s rays are most intense"
+        android:textColor="#FAF2F2"
+        android:textSize="12sp"
+        tools:layout_editor_absoluteX="162dp"
+        tools:layout_editor_absoluteY="317dp" />
+
+    <TextView
+        android:id="@+id/textView16"
+        android:layout_width="245dp"
+        android:layout_height="106dp"
+        android:text="Apply SPF 30+ sunscreen every 2 hours; wear a wide-brimmed hat, sunglasses, and a long-sleeved shirt and pants if practical; seek shade during midday hours (10 a.m. to 4 p.m.), when the sun’s rays are most intense; limit time outdoors"
+        android:textColor="#FAF2F2"
+        android:textSize="12sp"
+        tools:layout_editor_absoluteX="163dp"
+        tools:layout_editor_absoluteY="432dp" />
+
+    <TextView
+        android:id="@+id/textView17"
+        android:layout_width="246dp"
+        android:layout_height="105dp"
+        android:text="Apply SPF 30+ sunscreen every 2 hours; wear a wide-brimmed hat, sunglasses, and a long-sleeved shirt and pants if practical; seek shade during midday hours (10 a.m. to 4 p.m.), when the sun’s rays are most intense; limit time outdoors"
+        android:textColor="#FAF2F2"
+        android:textSize="12sp"
+        tools:layout_editor_absoluteX="162dp"
+        tools:layout_editor_absoluteY="538dp" />
+
+    <TextView
+        android:id="@+id/textView9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:layout_centerHorizontal="true"
-        android:textSize="30sp"
-        android:textColor="@color/light_blue"
-        android:fontFamily="@font/roboto_thin"
-        android:id="@+id/activityInfo"
-        android:textAlignment="center" />
+        android:text="0-2"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="174dp" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="3-5"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="269dp" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="6-7"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="362dp" />
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="11+"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+
+        tools:layout_editor_absoluteX="15dp"
+        tools:layout_editor_absoluteY="554dp" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Risk of Harm"
+        android:textColor="#FFFFFF"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="76dp"
+        tools:layout_editor_absoluteY="99dp" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Recommended Protection"
+        android:textColor="#FFFFFF"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="199dp"
+        tools:layout_editor_absoluteY="99dp" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Info"
+        android:textColor="#FFFFFF"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="165dp"
+        tools:layout_editor_absoluteY="16dp" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="UV Index"
+        android:textColor="#FFFFFF"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="9dp"
+        tools:layout_editor_absoluteY="99dp" />
+
+    <TextView
+        android:id="@+id/low"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/low"
+        android:gravity="center"
+        android:text="Low"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="76dp"
+        tools:layout_editor_absoluteY="155dp" />
+
+    <TextView
+        android:id="@+id/moderate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/moderate"
+        android:gravity="center"
+        android:text="Moderate"
+        android:textColor="#000000"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        tools:layout_editor_absoluteX="76dp"
+        tools:layout_editor_absoluteY="247dp" />
+
+    <TextView
+        android:id="@+id/high"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/high"
+        android:gravity="center"
+        android:text="High"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="76dp"
+        tools:layout_editor_absoluteY="345dp" />
+
+    <TextView
+        android:id="@+id/veryhigh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/veryhigh"
+        android:gravity="center"
+        android:text="Very High"
+        android:textColor="#000000"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="78dp"
+        tools:layout_editor_absoluteY="445dp" />
+
+    <TextView
+        android:id="@+id/extreme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/extreme"
+        android:gravity="center"
+        android:text="Extreme"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="76dp"
+        tools:layout_editor_absoluteY="538dp" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="8-10"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        tools:layout_editor_absoluteX="9dp"
+        tools:layout_editor_absoluteY="464dp" />
+
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="246dp"
+        android:layout_height="70dp"
+        android:text="Apply SPF 30+ sunscreen; wear sunglasses on bright days"
+        android:textColor="#FAF2F2"
+        android:textSize="14sp"
+        tools:layout_editor_absoluteX="162dp"
+        tools:layout_editor_absoluteY="159dp" />
+
+
 
 </RelativeLayout>

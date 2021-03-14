@@ -163,7 +163,7 @@ void setup()
   //success = ble.sendCommandWithIntReply( F("AT+GATTADDCHAR=UUID=0x0003,PROPERTIES=0x2,MIN_LEN=1,MAX_LEN=20,VALUE=0"), &uvTimeCharId);
   //if (! success) error(F("Could not add UV Sensor Time characteristic"));
 
-  success = ble.sendCommandWithIntReply( F("AT+GATTADDCHAR=UUID128=00-00-00-02-A9-A6-4E-69-87-BD-29-12-35-71-61-B3, PROPERTIES=0x10, MIN_LEN=1, MAX_LEN=20,VALUE=0,DATATYPE= 1"), &uvIntensityCharId);
+  success = ble.sendCommandWithIntReply( F("AT+GATTADDCHAR=UUID128=00-00-00-02-A9-A6-4E-69-87-BD-29-12-35-71-61-B3, PROPERTIES=0x2, MIN_LEN=1, MAX_LEN=20,VALUE=0,DATATYPE= 1"), &uvIntensityCharId);
   if (! success) error(F("Could not add UV Intensity characteristic"));
 
   //success = ble.sendCommandWithIntReply( F("AT+GATTADDCHAR=UUID128=00-00-00-03-A9-A6-4E-69-87-BD-29-12-35-71-61-B3, PROPERTIES=0x2, MIN_LEN=1, MAX_LEN=20,VALUE=0,DATATYPE=1"), &uvTimeCharId);

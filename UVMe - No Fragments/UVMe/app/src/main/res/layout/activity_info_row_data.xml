@@ -28,32 +28,41 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginStart="25dp"
-            android:layout_toEndOf="@id/imageViewColorImage"
+            android:layout_toEndOf="@id/relativeViewColorImage"
             android:text="recommended protections"
             android:textColor="@color/light_blue"
             android:fontFamily="@font/roboto_thin"
             android:textSize="20sp" />
 
+         <RelativeLayout
+             android:id="@+id/relativeViewColorImage"
+             android:layout_width="80dp"
+             android:layout_height="80dp"
+             android:layout_marginStart="75dp">
+
+
         <ImageView
             android:id="@+id/imageViewColorImage"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_alignParentLeft="true"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_centerInParent="true"
             android:layout_centerVertical="true"
-            android:layout_marginStart="75dp"
+
             android:src="@drawable/low" />
+
+
 
         <TextView
             android:id="@+id/textViewColorMeaning"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginStart="88dp"
-            android:textSize="16dp"
-            android:textColor="@color/light_blue"
-            android:fontFamily="@font/roboto_light"
+            android:layout_centerInParent="true"
+            android:textSize="14dp"
+            android:textColor="@color/midnight_blue"
             android:text="Low"
             />
+         </RelativeLayout>
 
     </RelativeLayout>
 

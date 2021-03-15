@@ -77,6 +77,7 @@ int count = 0;
 
  int32_t uvServiceId;
  int32_t uvIntensityCharId;
+ int32_t uvIntensityCharIdNotify;
  //int32_t uvTimeCharId;
 
 
@@ -125,6 +126,7 @@ void updateIntCharacteristic(String nameOfChar, float characteristic, int32_t ch
 void emitUVSensorData(float uvIntensity) {
 
   updateIntCharacteristic("UV Intensity", uvIntensity, uvIntensityCharId);
+  updateIntCharacteristic("UV Intensity", uvIntensity, uvIntensityCharIdNotify);
   //updateIntCharacteristic("UV Sensor Time", counter, int(uvTimeReference), uvTimeCharId);
   
 
@@ -157,14 +159,17 @@ void setup()
   success = ble.sendCommandWithIntReply( F("AT+GATTADDSERVICE=UUID128=00-00-00-01-A9-A6-4E-69-87-BD-29-12-35-71-61-B3"), &uvServiceId);
   if (!success) error(F("Could not add UV Sensor service"));
 
-  //success = ble.sendCommandWithIntReply( F("AT+GATTADDCHAR=UUID=0x0010,PROPERTIES=0x02,MIN_LEN=1,MAX_LEN=20,VALUE=0"), &uvIntensityCharId);
+  success = ble.sendCommandWithIntReply( F("AT+GATTADDCHAR=UUID128=00-00-00-02-A9-A6-4E-69-87-BD-29-12-35-71-61-B3, PROPERTIES=0x2, MIN_LEN=1, MAX_LEN=20,VALUE=0,DATATYPE= 1"), &uvIntensityCharId);
+  if (! success) error(F("Could not add UV Intensity characteristic"));
+
+  success = ble.sendCommandWithIntReply( F("AT+GATTADDCHAR=UUID128=00-00-00-03-A9-A6-4E-69-87-BD-29-12-35-71-61-B3, PROPERTIES=0x10, MIN_LEN=1, MAX_LEN=20,VALUE=0,DATATYPE= 1"), &uvIntensityCharIdNotify);
+  if (! success) error(F("Could not add UV Intensity characteristic"));
+
+   //success = ble.sendCommandWithIntReply( F("AT+GATTADDCHAR=UUID=0x0010,PROPERTIES=0x02,MIN_LEN=1,MAX_LEN=20,VALUE=0"), &uvIntensityCharId);
   //if (! success) error(F("Could not add UV Intensity characteristic"));
 
   //success = ble.sendCommandWithIntReply( F("AT+GATTADDCHAR=UUID=0x0003,PROPERTIES=0x2,MIN_LEN=1,MAX_LEN=20,VALUE=0"), &uvTimeCharId);
   //if (! success) error(F("Could not add UV Sensor Time characteristic"));
-
-  success = ble.sendCommandWithIntReply( F("AT+GATTADDCHAR=UUID128=00-00-00-02-A9-A6-4E-69-87-BD-29-12-35-71-61-B3, PROPERTIES=0x2, MIN_LEN=1, MAX_LEN=20,VALUE=0,DATATYPE= 1"), &uvIntensityCharId);
-  if (! success) error(F("Could not add UV Intensity characteristic"));
 
   //success = ble.sendCommandWithIntReply( F("AT+GATTADDCHAR=UUID128=00-00-00-03-A9-A6-4E-69-87-BD-29-12-35-71-61-B3, PROPERTIES=0x2, MIN_LEN=1, MAX_LEN=20,VALUE=0,DATATYPE=1"), &uvTimeCharId);
   //if (! success) error(F("Could not add UV Sensor Time characteristic"));

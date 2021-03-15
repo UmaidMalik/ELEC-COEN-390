@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/moreActivityListViewData"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp">
+
+        <TextView
+            android:id="@+id/textViewUVIndex"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="15dp"
+            android:textSize="16dp"
+            android:textColor="@color/light_blue"
+            android:fontFamily="@font/roboto_light"
+            android:text="0-2"
+            />
+
+        <TextView
+            android:id="@+id/textViewRecommendedProtections"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="25dp"
+            android:layout_toEndOf="@id/imageViewColorImage"
+            android:text="recommended protections"
+            android:textColor="@color/light_blue"
+            android:fontFamily="@font/roboto_thin"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:id="@+id/imageViewColorImage"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="75dp"
+            android:src="@drawable/low" />
+
+        <TextView
+            android:id="@+id/textViewColorMeaning"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="88dp"
+            android:textSize="16dp"
+            android:textColor="@color/light_blue"
+            android:fontFamily="@font/roboto_light"
+            android:text="Low"
+            />
+
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -6,4 +6,60 @@
         <item>Male</item>
         <item>Female</item>
     </string-array>
+
+
+    <string name="ble_not_supported">BLE is not supported</string>
+    <string name="label_data">Data:</string>
+    <string name="label_device_address">Device address:</string>
+    <string name="label_state">State:</string>
+    <string name="no_data">No data</string>
+    <string name="connected">Connected</string>
+    <string name="disconnected">Disconnected</string>
+    <string name="title_devices">UV Sensor BLE Device Scan</string>
+    <string name="error_bluetooth_not_supported">Bluetooth not supported.</string>
+
+    <string name="unknown_device">Unknown device</string>
+    <string name="unknown_characteristic">Unknown characteristic</string>
+    <string name="unknown_service">Unknown service</string>
+
+    <!-- Menu items -->
+    <string name="menu_connect">Connect</string>
+    <string name="menu_disconnect">Disconnect</string>
+    <string name="menu_scan">Scan</string>
+    <string name="menu_stop">Stop</string>
+
+
+    <!-- Disclaimer Dialog -->
+    <string name="ok_terms_of_service">You chose OK action for Terms of Services</string>
+    <string name="cancel_terms_of_service">You chose Cancel action for Terms of Services</string>
+    <string name="terms_of_services">Terms of Services</string>
+    <string name="warning_label">
+        WARNING: PLEASE READ THE DISCLAIMER BEFORE USING THIS APPLICATION\n
+        \nThe UVMe app device and sensor are tools to help you enjoy your time in the sun.
+        The purpose of the sensor and the app is to help reduce Ultraviolet (UV) exposure
+        and avoid skin damage such as sunburns and skin damage. It is for personal use and
+        may not be used as for medicinal advice. The information provided is not intended
+        for treatment, diagnoses, nor for prevent or curing any diseases. Persons using
+        the data within for medical purposes such as avoiding sun exposure for medical
+        purposes, should not rely solely on the accuracy of the data herein. Some
+        medicines and over the-counter drugs can cause the skin to sunburn very
+        quickly. Talk with a medical specialist or pharmacist.
+        \n
+        \nThe calculations and formulas in the application are based on information
+        provided by a variety of sources and cannot be exact. We do not have control
+        on the accuracy of the input data by the users or their use of the device.
+        The UVMe device can accurately measure UV ratings when properly used and
+        functioning.
+        \n
+        \nThe application without connection to the UVMe device cannot measure to the
+        actual amount of UV. The application calculates the amount of UV radiation
+        based on UV index data available from https://www.epa.gov. All UV index
+        forecasts have inaccuracies because they are predictions. https://www.epa.gov
+        cannot be held responsible for any consequences that may result from the use
+        of this application.\n
+        \nThank you for using UVMe.
+    </string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+
 </resources>

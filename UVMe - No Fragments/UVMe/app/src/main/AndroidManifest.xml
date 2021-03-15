@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.elec_coen_390.uvme">
+    package="com.elec_coen_390.uvme"
+    android:versionCode="1"
+    android:versionName="1.0">
 
-    <!-- Declare this required feature if you want to make the app available to BLE-capable
-    devices only.  If you want to make your app available to devices that don't support BLE,
-    you should omit this in the manifest.  Instead, determine BLE capability by using
-    PackageManager.hasSystemFeature(FEATURE_BLUETOOTH_LE) -->
     <uses-feature android:name="android.hardware.bluetooth_le" android:required="true" />
 
     <uses-permission android:name="android.permission.BLUETOOTH" />
@@ -41,6 +39,7 @@
         <activity
             android:name=".MoreActivity"
             android:parentActivityName=".MainActivity" />
+        <activity android:name=".DeviceControlActivity"/>
         <service android:name=".BluetoothLeService" android:enabled="true" />
     </application>
 

@@ -96,9 +96,14 @@ public class InfoActivity extends AppCompatActivity {
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
 
-        Menu menu = bottomNavigationView.getMenu();
-        MenuItem menuItem = menu.getItem(1); // bottom navigation menu index item {0(Profile),1(Home),2(More)}
-        menuItem.setChecked(false);
+        // Menu items are left unselected
+        bottomNavigationView.getMenu().getItem(0).setCheckable(false);
+        bottomNavigationView.getMenu().getItem(1).setCheckable(false);
+        bottomNavigationView.getMenu().getItem(2).setCheckable(false);
+
+
+
+
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -107,16 +112,22 @@ public class InfoActivity extends AppCompatActivity {
                 switch (item.getItemId()) {
 
                     case R.id.action_profile:
+                        item.setCheckable(true);
                         goToProfileActivity();
-                        break;
+                        return true;
+                        //break;
 
                     case R.id.action_more:
+                        item.setCheckable(true);
                         goToMoreActivity();
-                        break;
+                        return true;
+                        //break;
 
                     case R.id.action_home:
+                        item.setCheckable(true);
                         goToMainActivity();
-                        break;
+                        return true;
+                        //break;
 
                     default:
 
@@ -129,6 +140,7 @@ public class InfoActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        goToMoreActivity();
     }
 
     protected void goToProfileActivity() {

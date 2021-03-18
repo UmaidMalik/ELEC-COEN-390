@@ -22,20 +22,24 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class UVSensorActivity extends ListActivity {
+public class UVSensorActivity extends AppCompatActivity {
 
     private static final int ACCESS_COARSE_LOCATION_REQUEST = 1;
     private LeDeviceListAdapter mLeDeviceListAdapter;
     private BluetoothAdapter mBluetoothAdapter;
     private boolean mScanning;
     private Handler mHandler;
+
+    private ListView listView;
 
     private static final int REQUEST_ENABLE_BT = 1;
 
@@ -58,10 +62,12 @@ public class UVSensorActivity extends ListActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //this.getActionBar().hide();
+        this.getSupportActionBar().show();
+        getSupportActionBar().setTitle(R.string.title_devices);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        setContentView(R.layout.activity_uv_sensor);
 
-        //getActionBar().setTitle(R.string.title_devices);
-
+        setupListView(mLeDeviceListAdapter);
         mHandler = new Handler();
 
 
@@ -78,6 +84,7 @@ public class UVSensorActivity extends ListActivity {
 
         // Check for coarse location access.
         hasPermissions();
+
 
         // Checks if Bluetooth is supported om the device.
         if (mBluetoothAdapter == null) {
@@ -133,7 +140,8 @@ public class UVSensorActivity extends ListActivity {
 
         // Initializes list view adapter.
         mLeDeviceListAdapter = new LeDeviceListAdapter();
-        setListAdapter(mLeDeviceListAdapter);
+        setupListView(mLeDeviceListAdapter);
+        //setListAdapter(mLeDeviceListAdapter);
         scanLeDevice(true);
     }
 
@@ -154,6 +162,7 @@ public class UVSensorActivity extends ListActivity {
         mLeDeviceListAdapter.clear();
     }
 
+    /*
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
         final BluetoothDevice device = mLeDeviceListAdapter.getDevice(position);
@@ -166,6 +175,33 @@ public class UVSensorActivity extends ListActivity {
             mScanning = false;
         }
         startActivity(intent);
+    }
+
+     */
+
+
+
+    private void setupListView(LeDeviceListAdapter mLeDeviceListAdapter) {
+        listView = (ListView) findViewById(R.id.uvSensorActivityListView);
+
+        //UVSensorActivity.LeDeviceListAdapter customAdapter = new UVSensorActivity.LeDeviceListAdapter();
+        listView.setAdapter(mLeDeviceListAdapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                final BluetoothDevice device = mLeDeviceListAdapter.getDevice(position);
+                if (device == null) return;
+                final Intent intent = new Intent(getApplicationContext(), DeviceControlActivity.class);
+                intent.putExtra(DeviceControlActivity.EXTRAS_DEVICE_NAME, device.getName());
+                intent.putExtra(DeviceControlActivity.EXTRAS_DEVICE_ADDRESS, device.getAddress());
+                if (mScanning) {
+                    mBluetoothAdapter.stopLeScan(mLeScanCallback);
+                    mScanning = false;
+                }
+                startActivity(intent);
+            }
+        });
     }
 
     private void scanLeDevice(final boolean enable) {
@@ -264,5 +300,28 @@ public class UVSensorActivity extends ListActivity {
     static class ViewHolder {
         TextView deviceName;
         TextView deviceAddress;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        goToMoreActivity();
+    }
+
+    protected void goToProfileActivity() {
+        Intent intentProfile = new Intent(this, ProfileActivity.class);
+        startActivity(intentProfile);
+        //finish();
+    }
+
+    protected void goToMoreActivity() {
+        Intent intentMore = new Intent(this, MoreActivity.class);
+        startActivity(intentMore);
+        //finish();
+    }
+    protected void goToMainActivity() {
+        Intent intentMain = new Intent(this, MainActivity.class);
+        startActivity(intentMain);
+       // finish();
     }
 }

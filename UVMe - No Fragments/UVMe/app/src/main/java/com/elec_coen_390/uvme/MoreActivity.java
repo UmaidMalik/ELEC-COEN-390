@@ -90,22 +90,27 @@ public class MoreActivity extends AppCompatActivity {
                     case 0:
                         intent = new Intent(getApplicationContext(), NotificationsActivity.class);
                         startActivity(intent);
+                        finish();
                         break;
                     case 1:
                         intent = new Intent(getApplicationContext(), UVHistoryActivity.class);
                         startActivity(intent);
+                        finish();
                         break;
                     case 2:
                         intent = new Intent(getApplicationContext(), UVSensorActivity.class);
                         startActivity(intent);
+                        finish();
                         break;
                     case 3:
                         intent = new Intent(getApplicationContext(), InfoActivity.class);
                         startActivity(intent);
+                        finish();
                         break;
                     case 4:
                         intent = new Intent(getApplicationContext(), ThemesActivity.class);
                         startActivity(intent);
+                        finish();
                         break;
 
                 }

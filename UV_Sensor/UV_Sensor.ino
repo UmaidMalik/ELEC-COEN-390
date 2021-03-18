@@ -140,6 +140,7 @@ void setup()
   delay(500);
   boolean success;
   Serial.begin(115200);
+  //Serial.begin(9600);
 
   pinMode(UVOUT, INPUT);
   pinMode(REF_3V3, INPUT);

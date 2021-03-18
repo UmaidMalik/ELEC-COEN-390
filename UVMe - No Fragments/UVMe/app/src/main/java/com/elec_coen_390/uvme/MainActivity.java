@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
             alert.getWindow().setBackgroundDrawable(new ColorDrawable(0xFF1C3F60)); // or secondary_blue?
 
             SharedPreferences.Editor editor = prefs.edit();
-            editor.putBoolean("firstStart", true); // Set to false so that it will only appear once when accepted
+            editor.putBoolean("firstStart", false); // Set to false so that it will only appear once when accepted
             editor.apply();
             this.getSupportActionBar().hide();
         }

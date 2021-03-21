@@ -83,7 +83,7 @@ public class UVgraph extends AppCompatActivity {
         startActivity(intentHistory);
         finish();
     }
-
+//ok
     protected  void showGraph(){ // this function needs to be changed
         // styling series
         double x=0;

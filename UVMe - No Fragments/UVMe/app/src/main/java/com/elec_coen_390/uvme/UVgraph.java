@@ -63,8 +63,8 @@ public class UVgraph extends AppCompatActivity {
         });
         avgUV=findViewById(R.id.avgUV);
         maxUV=findViewById(R.id.maxUV);
-       // showGraph();
-       week();
+        showGraph();
+       //week();
        // showGraph();
 
     }
@@ -89,27 +89,44 @@ public class UVgraph extends AppCompatActivity {
         double x=0;
         int numDataPoints=24;
         GraphView graph = (GraphView) findViewById(R.id.graph);
-        series1 = new LineGraphSeries<>();
-        series3 = new PointsGraphSeries<>();
-        for (int i=0; i<=numDataPoints;i++) {
+        int arr[];
+        int temp[];
+        arr=new int[24];
+        double max = arr[0];
+        for (int i=0; i<24;i++){
             Random rand = new Random();
             int rand_int1 = rand.nextInt(11);
-            double rand_int2 = rand.nextDouble();
-            double d = rand_int1 / rand_int2;
-            if (d!=0) {
-             if (d < 11 && d > 0) {
-                 System.out.println("Random Integers: " + d);
-             } else rand_int1 += rand_int1;
+            if (rand_int1!=0) {
+                arr[i] = rand_int1;
+            }
+            for (int counter = 1; counter < arr.length; counter++)
+            {    if (arr[counter] > max)
+            { max = arr[counter]; }
+                maxUV.setText(String.valueOf(max));
+            }
+            double average = rand_int1/arr.length;
+            avgUV.setText(String.valueOf(average));
 
-             x+=+0.1;
-             series1.appendData(new DataPoint(x, d), true, 10);
-             series3.appendData(new DataPoint(x, d), true, 10);
-             double avrg = d / numDataPoints;
-             avgUV.setText(String.valueOf(avrg));
-             maxUV.setText(String.valueOf(Math.ceil(d)));
-         }
         }
+        series1 = new LineGraphSeries<>(new DataPoint[] {
+                new DataPoint(2, arr[0]),
+                new DataPoint(4, arr[1]),
+                new DataPoint(6, arr[2]),
+                new DataPoint(8, arr[3]),
+                new DataPoint(14, arr[4]),
+                new DataPoint(18, arr[5]),
+                new DataPoint(21, arr[6]),
+        });
+        series3=new PointsGraphSeries<>(new DataPoint[]{
+                new DataPoint(2, arr[0]),
+                new DataPoint(4, arr[1]),
+                new DataPoint(6, arr[2]),
+                new DataPoint(8, arr[3]),
+                new DataPoint(14, arr[4]),
+                new DataPoint(18, arr[5]),
+                new DataPoint(21, arr[6]),
 
+        });
 
         graph.addSeries(series1);
         graph.addSeries(series3);
@@ -122,7 +139,7 @@ public class UVgraph extends AppCompatActivity {
         graph.getGridLabelRenderer().setVerticalAxisTitle("UVI");
         graph.getGridLabelRenderer().setVerticalAxisTitleColor(Color.WHITE);
         graph.getGridLabelRenderer().setVerticalAxisTitleTextSize(50);
-        graph.getGridLabelRenderer().setVerticalAxisTitle("TIME");
+        graph.getGridLabelRenderer().setHorizontalAxisTitle("TIME");
 
 
 
@@ -179,17 +196,13 @@ public class UVgraph extends AppCompatActivity {
             }
             for (int counter = 1; counter < arr.length; counter++)
             {    if (arr[counter] > max)
-                {
-                    max = arr[counter];
-                }
-
+                { max = arr[counter]; }
                 maxUV.setText(String.valueOf(max));
             }
             double average = rand_int1/arr.length;
             avgUV.setText(String.valueOf(average));
 
         }
-
         series1 = new LineGraphSeries<>(new DataPoint[] {
                 new DataPoint(d1, arr[0]),
                 new DataPoint(d2, arr[1]),
@@ -198,10 +211,7 @@ public class UVgraph extends AppCompatActivity {
                 new DataPoint(d5, arr[4]),
                 new DataPoint(d6, arr[5]),
                 new DataPoint(d7, arr[6]),
-
         });
-
-
         series3=new PointsGraphSeries<>(new DataPoint[]{
                 new DataPoint(d1, arr[0]),
                 new DataPoint(d2, arr[1]),

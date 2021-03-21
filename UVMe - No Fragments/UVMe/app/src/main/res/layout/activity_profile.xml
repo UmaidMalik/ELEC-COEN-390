@@ -12,10 +12,8 @@
         android:id="@+id/editButton"
         android:layout_width="118dp"
         android:layout_height="52dp"
-        android:fontFamily="@font/roboto_light"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="150dp"
-        android:layout_marginStart="25dp"
         android:text="EDIT" />
 
     <TextView
@@ -25,23 +23,22 @@
         android:text="Name"
         android:layout_marginTop="260dp"
         android:layout_marginLeft="25dp"
-        android:layout_marginStart="25dp"
-        android:textColor="@color/light_blue"
+        android:textColor="#B1D4E0"
         android:textSize="18sp"
         />
 
     <EditText
         android:id="@+id/editTextPersonName"
-        android:layout_width="wrap_content"
+        android:layout_width="123dp"
         android:layout_height="58dp"
-        android:layout_marginEnd="25dp"
-        android:layout_alignParentRight="true"
+        android:layout_marginStart="180dp"
+        android:layout_marginLeft="280dp"
         android:layout_marginTop="240dp"
+        android:layout_toEndOf="@+id/textView2"
         android:digits=" abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="NO DATA"
-        android:textAlignment="viewEnd"
         android:textColor="#B1D4E0" />
 
     <TextView
@@ -51,7 +48,7 @@
         android:layout_marginTop="350dp"
         android:layout_marginLeft="25dp"
         android:text="Age"
-        android:textColor="@color/light_blue"
+        android:textColor="#B1D4E0"
         android:textSize="18sp"
         />
 
@@ -59,17 +56,16 @@
         android:id="@+id/editTextAge"
         android:layout_width="123dp"
         android:layout_height="58dp"
-        android:layout_marginEnd="25dp"
+        android:layout_marginStart="195dp"
         android:layout_marginLeft="280dp"
         android:layout_marginTop="338dp"
-        android:layout_alignParentRight="true"
+        android:layout_toEndOf="@+id/textView3"
         android:digits="0123456789"
         android:ems="10"
         android:inputType="textPersonName"
         android:maxLength="2"
         android:text="00"
-        android:textAlignment="viewEnd"
-        android:textColor="@color/light_blue"
+        android:textColor="#B1D4E0"
         />
 
     <TextView
@@ -78,9 +74,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="530dp"
         android:layout_marginLeft="25dp"
-        android:text="Skin Tone"
-
-        android:textColor="@color/light_blue"
+        android:text="Skin Tone "
+        android:textColor="#B1D4E0"
         android:textSize="18sp"
         />
 
@@ -91,7 +86,7 @@
         android:layout_marginTop="620dp"
         android:layout_marginLeft="25dp"
         android:text="Eye Colour"
-        android:textColor="@color/light_blue"
+        android:textColor="#B1D4E0"
         android:textSize="18sp"
         />
 
@@ -99,32 +94,30 @@
         android:id="@+id/saveButton"
         android:layout_width="118dp"
         android:layout_height="52dp"
-        android:fontFamily="@font/roboto_light"
-        android:layout_alignParentRight="true"
         android:layout_marginTop="150dp"
-        android:layout_marginEnd="25dp"
+        android:layout_marginLeft="270dp"
         android:text="SAVE" />
 
     <Spinner
         android:id="@+id/skinToneSpinner"
-        android:layout_width="wrap_content"
+        android:layout_width="188dp"
         android:layout_height="59dp"
+        android:layout_marginStart="88dp"
+        android:layout_marginLeft="280dp"
         android:layout_marginTop="515dp"
-        android:layout_marginEnd="25dp"
-        android:layout_alignParentRight="true"
-
+        android:layout_toEndOf="@+id/textView4"
         android:dropDownSelector="@color/light_blue"
         />
 
 
     <Spinner
         android:id="@+id/eyeColourSpinner"
-        android:layout_width="wrap_content"
+        android:layout_width="183dp"
         android:layout_height="63dp"
-        android:layout_marginEnd="25dp"
+        android:layout_marginStart="85dp"
+        android:layout_marginLeft="280dp"
         android:layout_marginTop="600dp"
-        android:layout_alignParentRight="true"
-
+        android:layout_toEndOf="@+id/textView5"
         />
 
     <TextView
@@ -134,8 +127,8 @@
 
         android:layout_marginTop="80dp"
         android:layout_centerHorizontal="true"
-        android:fontFamily="@font/roboto_thin"
-        android:textColor="@color/light_blue"
+
+        android:textColor="#B1D4E0"
         android:textSize="30sp"
         />
 
@@ -147,7 +140,7 @@
         android:layout_marginTop="440dp"
         android:layout_marginLeft="25dp"
         android:text="Gender"
-        android:textColor="@color/light_blue"
+        android:textColor="#B1D4E0"
         android:textSize="18sp"
         />
 
@@ -155,10 +148,11 @@
         android:id="@+id/genderSpinner"
         android:layout_width="133dp"
         android:layout_height="59dp"
-        android:layout_marginEnd="25dp"
-        android:layout_alignParentRight="true"
-
+        android:layout_marginStart="150dp"
+        android:layout_marginLeft="280dp"
         android:layout_marginTop="425dp"
+        android:layout_toEndOf="@+id/textView8"
+
         />
 
     <TextView
@@ -167,10 +161,8 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:text="PROFILE"
-        android:textSize="30sp"
-        android:textColor="@color/light_blue"
-        android:fontFamily="@font/roboto_thin"
-         />
+        android:textColor="#B95D63"
+        android:textSize="36sp" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"

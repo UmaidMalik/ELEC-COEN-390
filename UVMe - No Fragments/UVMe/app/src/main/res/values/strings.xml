@@ -6,6 +6,12 @@
         <item>Male</item>
         <item>Female</item>
     </string-array>
+    <string-array name="Time">
+        <item>Day</item>
+        <item>Week</item>
+        <item>Month</item>
+        <item>Year</item>
+    </string-array>
 
 
     <string name="ble_not_supported">BLE is not supported</string>

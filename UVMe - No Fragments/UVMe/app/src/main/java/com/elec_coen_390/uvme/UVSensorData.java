@@ -1,5 +1,7 @@
 package com.elec_coen_390.uvme;
 
+import android.content.Intent;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -21,4 +23,5 @@ public class UVSensorData {
 
         this.UVIntensity = UVIntensity;
     }
+
 }

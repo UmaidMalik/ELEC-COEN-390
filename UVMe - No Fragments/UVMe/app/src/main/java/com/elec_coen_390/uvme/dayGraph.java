@@ -16,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.elec_coen_390.uvme.profileAtributes.eyeColor;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -23,8 +24,11 @@ import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.LegendRenderer;
 import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.DataPointInterface;
 import com.jjoe64.graphview.series.LineGraphSeries;
+import com.jjoe64.graphview.series.OnDataPointTapListener;
 import com.jjoe64.graphview.series.PointsGraphSeries;
+import com.jjoe64.graphview.series.Series;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -145,6 +149,14 @@ public class dayGraph extends AppCompatActivity {
         graph.addSeries(series1);
         graph.addSeries(series3);
 
+        series3.setOnDataPointTapListener(new OnDataPointTapListener() {
+            @Override
+            public void onTap(Series series, DataPointInterface dataPoint) {
+                Toast.makeText(getApplicationContext(), "UV Intensity"+dataPoint, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
         graph.setTitle("DAY OVERVIEW");
         graph.setTitleTextSize(100);
         graph.setTitleColor(Color.WHITE);
@@ -152,8 +164,8 @@ public class dayGraph extends AppCompatActivity {
         graph.getGridLabelRenderer().setVerticalAxisTitle("UVI");
         graph.getGridLabelRenderer().setVerticalAxisTitleColor(Color.WHITE);
         graph.getGridLabelRenderer().setVerticalAxisTitleTextSize(50);
-       // graph.getGridLabelRenderer().setHorizontalAxisTitle("TIME");
-        //graph.getGridLabelRenderer().setHorizontalAxisTitleColor(Color.WHITE);
+        graph.getGridLabelRenderer().setHorizontalAxisTitle("TIME");
+        graph.getGridLabelRenderer().setHorizontalAxisTitleColor(Color.WHITE);
         graph.getGridLabelRenderer().setVerticalLabelsColor(Color.WHITE);
         graph.getGridLabelRenderer().setHorizontalLabelsColor(Color.WHITE);
         graph.getGridLabelRenderer().setHorizontalLabelsAngle(75);

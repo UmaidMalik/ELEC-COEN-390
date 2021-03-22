@@ -10,13 +10,17 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.DataPointInterface;
 import com.jjoe64.graphview.series.LineGraphSeries;
+import com.jjoe64.graphview.series.OnDataPointTapListener;
 import com.jjoe64.graphview.series.PointsGraphSeries;
+import com.jjoe64.graphview.series.Series;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -113,6 +117,7 @@ public class weekGraph extends AppCompatActivity {
                 new DataPoint(d6, 6),
                 new DataPoint(d7, 7),
 
+
         });
 
 
@@ -132,6 +137,8 @@ public class weekGraph extends AppCompatActivity {
         graph.getGridLabelRenderer().setHorizontalAxisTitleColor(Color.WHITE);
         graph.getGridLabelRenderer().setVerticalLabelsColor(Color.WHITE);
         graph.getGridLabelRenderer().setHorizontalLabelsColor(Color.WHITE);
+        graph.getGridLabelRenderer().setHorizontalAxisTitle("DAYS");
+        graph.getGridLabelRenderer().setHorizontalAxisTitleColor(Color.WHITE);
         graph.getGridLabelRenderer().setHorizontalLabelsAngle(75);
         graph.getGridLabelRenderer().setGridColor(Color.WHITE);
         graph.getViewport().setScalable(true);  // activate horizontal zooming and scrolling
@@ -145,6 +152,13 @@ public class weekGraph extends AppCompatActivity {
         graph.getViewport().setMinX(d1.getTime());
         graph.getViewport().setMaxX(d7.getTime());
         graph.getViewport().setXAxisBoundsManual(true);
+
+        dataPointPointsGraphSeries.setOnDataPointTapListener(new OnDataPointTapListener() {
+            @Override
+            public void onTap(Series series, DataPointInterface dataPoint) {
+                Toast.makeText(getApplicationContext(), "UV Intensity"+dataPoint, Toast.LENGTH_SHORT).show();
+            }
+        });
 
 // as we use dates as labels, the human rounding to nice readable numbers
 // is not necessary

@@ -23,15 +23,49 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="180dp"
-        android:layout_marginBottom="150dp"
+        android:layout_marginBottom="170dp"
         android:outlineAmbientShadowColor="@color/light_blue" />
     <Button
-        android:id="@+id/showGraphButton"
-        android:text="Show Graph"
-        android:layout_width="wrap_content"
+        android:id="@+id/showWeekGraphButton"
+        android:text="Show Week"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="635dp"
-        android:layout_centerHorizontal="true"/>
+        android:layout_marginTop="615dp"
+  android:layout_marginLeft="140dp"/>
+    <Button
+        android:id="@+id/showGraphButton"
+        android:text="Show Day"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="615dp"
+        android:layout_marginLeft="20dp"
+        />
+    <Button
+        android:id="@+id/showMonthGraphButton"
+        android:layout_width="100dp"
+        android:text="Show Month"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="615dp"
+        android:layout_marginLeft="265dp"
+        />
+    <Button
+        android:id="@+id/showOverallGraphButton"
+        android:layout_width="wrap_content"
+        android:text="Show Overall Exposure"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="555dp"
+        android:layout_centerHorizontal="true"
 
+        />
 
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:menu="@menu/bottom_nav_menu"
+        android:background="@color/secondary_blue"
+        app:itemBackground="@color/secondary_blue"
+        app:itemIconTint="@animator/nav_selector"
+        app:itemTextColor="@animator/nav_selector"/>
 </RelativeLayout>

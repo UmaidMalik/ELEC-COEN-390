@@ -53,13 +53,6 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
     private  final String prefNameGender ="spinner_value_gender";
     int id_gender,id_eye,id_skin=0;
     final String TAG = "ProfileActivity";
-
-
-
-
-
-
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,8 +64,6 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         selectedProfileTextView=findViewById(R.id.selectedProfileTextView);
         noEdits(); // Default mode sends to NoEdits, Once edit is selected user can change informaiton
         Intent intent = getIntent(); // lets us go back and forth from app to app
-
-
     }
     @Override
     protected void onResume() {
@@ -406,13 +397,10 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         mskinColor.add(new skinTone("Brown",R.drawable.ic_brown));
         mskinColor.add(new skinTone("Black",R.drawable.ic_black));
     }
-
     protected void goToMoreActivity() {
         Intent intentMore = new Intent(this, MoreActivity.class);
         startActivity(intentMore);
         finish();
     }
-
-
 
 }

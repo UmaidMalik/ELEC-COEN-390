@@ -22,7 +22,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.UVMe">
-        <activity android:name=".UVgraph"></activity>
+        <activity android:name=".weekGraph"></activity>
+        <activity android:name=".dayGraph" />
         <activity android:name=".ThemesActivity" />
         <activity android:name=".InfoActivity" />
         <activity android:name=".UVSensorActivity" />

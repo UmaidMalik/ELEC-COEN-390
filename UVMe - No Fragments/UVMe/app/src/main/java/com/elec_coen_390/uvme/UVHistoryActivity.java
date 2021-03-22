@@ -16,6 +16,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class UVHistoryActivity extends AppCompatActivity {
 Button showGraphButton;
 Button showWeekGraphButton;
+Button showMonthGraphButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +26,7 @@ Button showWeekGraphButton;
         TextView title = (TextView) findViewById(R.id.activityUVHistory);
         title.setText("UV History");
         setupBottomNavigationListener();
+        showMonthGraphButton=findViewById(R.id.showMonthGraphButton);
         showGraphButton=findViewById(R.id.showGraphButton);
         showWeekGraphButton=findViewById(R.id.showWeekGraphButton);
 
@@ -38,6 +40,12 @@ Button showWeekGraphButton;
             @Override
             public void onClick(View view) {
                 goToGraphActivity();
+            }
+        });
+        showMonthGraphButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToMonthGraph();
             }
         });
 
@@ -103,6 +111,11 @@ Button showWeekGraphButton;
     protected  void goToWeekGraph(){
         Intent intentGraphWeek = new Intent(this, weekGraph.class);
         startActivity(intentGraphWeek);
+        finish();
+    }
+    protected  void goToMonthGraph(){
+        Intent intentGraphMonth = new Intent(this, monthGraph.class);
+        startActivity(intentGraphMonth);
         finish();
     }
 }

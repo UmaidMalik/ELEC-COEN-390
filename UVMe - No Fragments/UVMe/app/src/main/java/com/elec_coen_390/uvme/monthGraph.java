@@ -25,9 +25,8 @@ import com.jjoe64.graphview.series.Series;
 import java.text.NumberFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Random;
 
-public class weekGraph extends AppCompatActivity {
+public class monthGraph extends AppCompatActivity {
     public LineGraphSeries<DataPoint> lineGraphSeries;
     public PointsGraphSeries<DataPoint> dataPointPointsGraphSeries;
     private Context activity;
@@ -35,13 +34,14 @@ public class weekGraph extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_month_graph);
         this.getSupportActionBar().hide();
         setContentView(R.layout.activity_week_graph);
         setupBottomNavigationListener();
         avgUV=findViewById(R.id.avgUV);
         maxUV=findViewById(R.id.maxUV);
         Intent intent = getIntent(); // lets us go back and forth from app to app
-        week();
+      month();
     }
     @Override
     public void onBackPressed() {
@@ -53,28 +53,21 @@ public class weekGraph extends AppCompatActivity {
         startActivity(intentHistory);
         finish();
     }
-    protected void week(){
+    protected void month(){
         // generate Dates
         Calendar calendar = Calendar.getInstance();
 
         Date d1 = calendar.getTime();
-        calendar.add(Calendar.DATE, 1);
+        calendar.add(Calendar.MONTH, 1);
         Date d2 = calendar.getTime();
-        calendar.add(Calendar.DATE, 1);
+        calendar.add(Calendar.MONTH, 1);
         Date d3 = calendar.getTime();
-        calendar.add(Calendar.DATE, 1);
-        Date d4 = calendar.getTime();
-        calendar.add(Calendar.DATE, 1);
-        Date d5 = calendar.getTime();
-        calendar.add(Calendar.DATE, 1);
-        Date d6 = calendar.getTime();
-        calendar.add(Calendar.DATE, 1);
-        Date d7 = calendar.getTime();
-        calendar.add(Calendar.DATE, 1);
+        calendar.add(Calendar.MONTH, 1);
+
 
         GraphView graph = (GraphView) findViewById(R.id.graph);
 
-        double []yArray=new double[]{1,2,5.33,4.1,1,1,1}; // this needs to be swapped out for database info
+        double []yArray=new double[]{1,2,5.33}; // this needs to be swapped out for database info
         double maxUVI = yArray[0];
         int n=yArray.length;
         final double average = average(yArray, n); // USED TO FIND AVERAGE UVI LEVEL FROM DATABASE ( SOON )
@@ -92,24 +85,18 @@ public class weekGraph extends AppCompatActivity {
                 new DataPoint(d1, yArray[0]),
                 new DataPoint(d2, yArray[1]),
                 new DataPoint(d3, yArray[2]),
-                new DataPoint(d4, yArray[3]),
-                new DataPoint(d5, yArray[4]),
-                new DataPoint(d6, yArray[5]),
-                new DataPoint(d7, yArray[6])
+
         });
         dataPointPointsGraphSeries =new PointsGraphSeries<>(new DataPoint[]{
                 new DataPoint(d1, yArray[0]),
                 new DataPoint(d2, yArray[1]),
                 new DataPoint(d3, yArray[2]),
-                new DataPoint(d4, yArray[3]),
-                new DataPoint(d5, yArray[4]),
-                new DataPoint(d6, yArray[5]),
-                new DataPoint(d7, yArray[6])
+
         });
 
         graph.addSeries(lineGraphSeries);
         graph.addSeries(dataPointPointsGraphSeries);
-        graph.setTitle("WEEK OVERVIEW");
+        graph.setTitle("MONTH OVERVIEW");
         graph.setTitleTextSize(100);
         graph.setTitleColor(Color.WHITE);
         graph.getGridLabelRenderer().setVerticalAxisTitle("UVI");
@@ -117,13 +104,13 @@ public class weekGraph extends AppCompatActivity {
         graph.getGridLabelRenderer().setVerticalAxisTitleTextSize(50);
 // set date label formatter
         graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getActivity()));
-        graph.getGridLabelRenderer().setNumHorizontalLabels(7); // only 4 because of the space
+        graph.getGridLabelRenderer().setNumHorizontalLabels(4); // only 4 because of the space
         graph.getGridLabelRenderer().setHorizontalAxisTitleColor(Color.WHITE);
         graph.getGridLabelRenderer().setVerticalLabelsColor(Color.WHITE);
         graph.getGridLabelRenderer().setHorizontalLabelsColor(Color.WHITE);
-        graph.getGridLabelRenderer().setHorizontalAxisTitle("DAYS");
+        graph.getGridLabelRenderer().setHorizontalAxisTitle("WEEK");
         graph.getGridLabelRenderer().setHorizontalAxisTitleColor(Color.WHITE);
-        graph.getGridLabelRenderer().setHorizontalLabelsAngle(75);
+        graph.getGridLabelRenderer().setHorizontalLabelsAngle(85);
         graph.getGridLabelRenderer().setGridColor(Color.WHITE);
         graph.getViewport().setScalable(true);  // activate horizontal zooming and scrolling
         graph.getViewport().setScrollable(true);  // activate horizontal scrolling
@@ -134,7 +121,7 @@ public class weekGraph extends AppCompatActivity {
         graph.getViewport().setMinY(0);
         graph.getViewport().setMaxY(11);
         graph.getViewport().setMinX(d1.getTime());
-        graph.getViewport().setMaxX(d7.getTime());
+        graph.getViewport().setMaxX(d3.getTime());
         graph.getViewport().setXAxisBoundsManual(true);
 
         dataPointPointsGraphSeries.setOnDataPointTapListener(new OnDataPointTapListener() {
@@ -147,7 +134,6 @@ public class weekGraph extends AppCompatActivity {
 
         graph.getGridLabelRenderer().setHumanRounding(false);
     }
-
     static double average(double[] a, int n) // FUNCTION RETURNS AVERAGE VALUE
     {
         // Find sum of array element
@@ -157,7 +143,6 @@ public class weekGraph extends AppCompatActivity {
 
         return sum / n;
     }
-
     public Context getActivity() {
         Context activity = null;
         return activity;

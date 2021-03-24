@@ -79,14 +79,8 @@ public class weekGraph extends AppCompatActivity {
         final double average = average(yArray, n); // USED TO FIND AVERAGE UVI LEVEL FROM DATABASE ( SOON )
         NumberFormat nm = NumberFormat.getNumberInstance();
         avgUV.setText(nm.format(average(yArray,n)));
-        for (int i = 0; i < yArray.length; i++) { // FUNCTION USED TO FIND MAX UVI LEVEL OF ENTIRE DAY
-            for (int counter = 1; counter < yArray.length; counter++) {
-                if (yArray[counter] > maxUVI) {
-                    maxUVI = yArray[counter];
-                    maxUV.setText(String.valueOf(maxUVI));
-                }
-            }
-        }
+        max(yArray);
+        maxUV.setText(String.valueOf(max(yArray)));
         lineGraphSeries = new LineGraphSeries<>(new DataPoint[] {
                 new DataPoint(d1, yArray[0]),
                 new DataPoint(d2, yArray[1]),
@@ -150,7 +144,13 @@ public class weekGraph extends AppCompatActivity {
             sum += a[i];
         return sum / n;
     }
-
+    static double max(double []a){ // function to find max UVI
+        double max=0;
+        for (int i = 0; i < a.length; i++) { // FUNCTION USED TO FIND MAX UVI LEVEL OF ENTIRE DAY
+            for (int counter = 1; counter < a.length; counter++) {
+                if (a[counter] > max) {
+                    max = a[counter]; } } }
+        return max;}
     public Context getActivity() {
         Context activity = null;
         return activity;

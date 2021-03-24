@@ -31,7 +31,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class ProfileActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
-
     private ArrayList<eyeColor> meyeColor;
     private eyeAdapter meyeAdapter;
     private ArrayList<skinTone> mskinColor;
@@ -59,9 +58,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         this.getSupportActionBar().hide();
         setContentView(R.layout.activity_profile);
         setupBottomNavigationListener();
-
         // Setup Textviews
-
         saveButton = findViewById(R.id.saveButton);
         selectedProfileTextView=findViewById(R.id.selectedProfileTextView);
         noEdits(); // Default mode sends to NoEdits, Once edit is selected user can change informaiton
@@ -397,12 +394,9 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         mskinColor.add(new skinTone("Medium",R.drawable.ic_medium));
         mskinColor.add(new skinTone("Olive",R.drawable.ic_olive));
         mskinColor.add(new skinTone("Brown",R.drawable.ic_brown));
-        mskinColor.add(new skinTone("Black",R.drawable.ic_black));
-    }
+        mskinColor.add(new skinTone("Black",R.drawable.ic_black)); }
     protected void goToMoreActivity() {
         Intent intentMore = new Intent(this, MoreActivity.class);
         startActivity(intentMore);
-        finish();
-    }
-
+        finish(); }
 }

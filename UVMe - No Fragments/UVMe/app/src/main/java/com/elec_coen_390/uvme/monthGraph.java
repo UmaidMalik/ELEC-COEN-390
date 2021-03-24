@@ -25,7 +25,6 @@ import com.jjoe64.graphview.series.Series;
 import java.text.NumberFormat;
 import java.util.Calendar;
 import java.util.Date;
-
 public class monthGraph extends AppCompatActivity {
     public LineGraphSeries<DataPoint> lineGraphSeries;
     public PointsGraphSeries<DataPoint> dataPointPointsGraphSeries;
@@ -41,7 +40,7 @@ public class monthGraph extends AppCompatActivity {
         avgUV=findViewById(R.id.avgUV);
         maxUV=findViewById(R.id.maxUV);
         Intent intent = getIntent(); // lets us go back and forth from app to app
-      month();
+        month();
     }
     @Override
     public void onBackPressed() {
@@ -56,14 +55,12 @@ public class monthGraph extends AppCompatActivity {
     protected void month(){
         // generate Dates
         Calendar calendar = Calendar.getInstance();
-
         Date d1 = calendar.getTime();
         calendar.add(Calendar.MONTH, 1);
         Date d2 = calendar.getTime();
         calendar.add(Calendar.MONTH, 1);
         Date d3 = calendar.getTime();
         calendar.add(Calendar.MONTH, 1);
-
 
         GraphView graph = (GraphView) findViewById(R.id.graph);
 
@@ -73,26 +70,16 @@ public class monthGraph extends AppCompatActivity {
         final double average = average(yArray, n); // USED TO FIND AVERAGE UVI LEVEL FROM DATABASE ( SOON )
         NumberFormat nm = NumberFormat.getNumberInstance();
         avgUV.setText(nm.format(average(yArray,n)));
-        for (int i = 0; i < yArray.length; i++) { // FUNCTION USED TO FIND MAX UVI LEVEL OF ENTIRE DAY
-            for (int counter = 1; counter < yArray.length; counter++) {
-                if (yArray[counter] > maxUVI) {
-                    maxUVI = yArray[counter];
-                    maxUV.setText(String.valueOf(maxUVI));
-                }
-            }
-        }
+        max(yArray);
+        maxUV.setText(String.valueOf(max(yArray)));
         lineGraphSeries = new LineGraphSeries<>(new DataPoint[] {
                 new DataPoint(d1, yArray[0]),
                 new DataPoint(d2, yArray[1]),
-                new DataPoint(d3, yArray[2]),
-
-        });
+                new DataPoint(d3, yArray[2]),});
         dataPointPointsGraphSeries =new PointsGraphSeries<>(new DataPoint[]{
                 new DataPoint(d1, yArray[0]),
                 new DataPoint(d2, yArray[1]),
-                new DataPoint(d3, yArray[2]),
-
-        });
+                new DataPoint(d3, yArray[2]),});
 
         graph.addSeries(lineGraphSeries);
         graph.addSeries(dataPointPointsGraphSeries);
@@ -102,7 +89,7 @@ public class monthGraph extends AppCompatActivity {
         graph.getGridLabelRenderer().setVerticalAxisTitle("UVI");
         graph.getGridLabelRenderer().setVerticalAxisTitleColor(Color.WHITE);
         graph.getGridLabelRenderer().setVerticalAxisTitleTextSize(50);
-// set date label formatter
+        // set date label formatter
         graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getActivity()));
         graph.getGridLabelRenderer().setNumHorizontalLabels(4); // only 4 because of the space
         graph.getGridLabelRenderer().setHorizontalAxisTitleColor(Color.WHITE);
@@ -131,9 +118,7 @@ public class monthGraph extends AppCompatActivity {
             }
         });
 
-
-        graph.getGridLabelRenderer().setHumanRounding(false);
-    }
+        graph.getGridLabelRenderer().setHumanRounding(false);}
     static double average(double[] a, int n) // FUNCTION RETURNS AVERAGE VALUE
     {
         // Find sum of array element
@@ -190,4 +175,11 @@ public class monthGraph extends AppCompatActivity {
             }
         });
     }
+    static double max(double []a){ // function to find max UVI
+        double max=0;
+        for (int i = 0; i < a.length; i++) { // FUNCTION USED TO FIND MAX UVI LEVEL OF ENTIRE DAY
+            for (int counter = 1; counter < a.length; counter++) {
+                if (a[counter] > max) {
+                    max = a[counter]; } } }
+        return max;}
 }

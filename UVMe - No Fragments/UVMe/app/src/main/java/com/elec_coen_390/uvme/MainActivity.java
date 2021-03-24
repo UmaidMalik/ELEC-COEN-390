@@ -28,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
     AlertDialog.Builder builder;
     public static final String TAG = "Main Activity";
 
-
      Button button;
      int count = 0;
     @Override
@@ -45,9 +44,9 @@ public class MainActivity extends AppCompatActivity {
         TextView title = (TextView) findViewById(R.id.activityMain);
         title.setText("Main/Home Activity");
 
+
         SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
         boolean firstStart = prefs.getBoolean("firstStart", true);
-
 
         if (firstStart) {
             Log.d(TAG,"Enter a Statement");

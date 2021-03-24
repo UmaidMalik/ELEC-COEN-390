@@ -59,7 +59,9 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         this.getSupportActionBar().hide();
         setContentView(R.layout.activity_profile);
         setupBottomNavigationListener();
+
         // Setup Textviews
+
         saveButton = findViewById(R.id.saveButton);
         selectedProfileTextView=findViewById(R.id.selectedProfileTextView);
         noEdits(); // Default mode sends to NoEdits, Once edit is selected user can change informaiton

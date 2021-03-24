@@ -48,25 +48,18 @@ public class dayGraph extends AppCompatActivity {
         GraphView graph = (GraphView) findViewById(R.id.graph);
 
         int []xArray=new int[24]; // X AXIS
-        double []yArray=new double[]{1,2,5.33,4.1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}; // this needs to be swapped out for database info
+        double []yArray=new double[]{1,2,5.33,4.1,1,1,1,1,1,6,1,1,1,1,1,1,1,1,1,1,1,1,1,1}; // this needs to be swapped out for database info
         double maxUVI = yArray[0];
         int n=yArray.length;
         final double average = average(yArray, n); // USED TO FIND AVERAGE UVI LEVEL FROM DATABASE ( SOON )
         NumberFormat nm = NumberFormat.getNumberInstance();
         avgUV.setText(nm.format(average(yArray,n)));
 
-        for (int i = 0; i < xArray.length; i++) { // CREATES X AXIS
-            xArray[i] = i;
-        }
-        for (int i = 0; i < yArray.length; i++) { // FUNCTION USED TO FIND MAX UVI LEVEL OF ENTIRE DAY
-            for (int counter = 1; counter < yArray.length; counter++) {
-                if (yArray[counter] > maxUVI) {
-                    maxUVI = yArray[counter];
-                    maxUV.setText(String.valueOf(maxUVI));
-                }
-            }
-        }
+        // CREATES X AXIS
+        for (int i = 0; i < xArray.length; i++) { xArray[i] = i; }
 
+        max(yArray);
+        maxUV.setText(String.valueOf(max(yArray)));
         series1 = new LineGraphSeries<>(new DataPoint[] { // SERIES ONE SHOWS USER A LINE GRAPH
                 new DataPoint(xArray[0], yArray[0]),
                 new DataPoint(xArray[1], yArray[1]),
@@ -91,8 +84,8 @@ public class dayGraph extends AppCompatActivity {
                 new DataPoint(xArray[20], yArray[20]),
                 new DataPoint(xArray[21], yArray[21]),
                 new DataPoint(xArray[22], yArray[22]),
-                new DataPoint(xArray[23], yArray[23])
-        });
+                new DataPoint(xArray[23], yArray[23])});
+
         series3=new PointsGraphSeries<>(new DataPoint[]{ // SERIES 3 SHOWS THE USER A DOT GRAPH FROM SERIES 1
                 new DataPoint(xArray[0], yArray[0]),
                 new DataPoint(xArray[1], yArray[1]),
@@ -117,8 +110,7 @@ public class dayGraph extends AppCompatActivity {
                 new DataPoint(xArray[20], yArray[20]),
                 new DataPoint(xArray[21], yArray[21]),
                 new DataPoint(xArray[22], yArray[22]),
-                new DataPoint(xArray[23], yArray[23])
-        });
+                new DataPoint(xArray[23], yArray[23])});
         graph.addSeries(series1);
         graph.addSeries(series3);
 
@@ -151,17 +143,20 @@ public class dayGraph extends AppCompatActivity {
         graph.getViewport().setMaxY(11);
         graph.getViewport().setMinX(0);
         graph.getViewport().setMaxX(24);
-        graph.getGridLabelRenderer().setNumHorizontalLabels(24);
-    }
+        graph.getGridLabelRenderer().setNumHorizontalLabels(24);}
     static double average(double[] a, int n) // FUNCTION RETURNS AVERAGE VALUE
-    {
-        // Find sum of array element
+    {// Find sum of array element
         double sum = 0;
         for (int i = 0; i < n; i++)
             sum += a[i];
-
-        return sum / n;
-    }
+        return sum / n; }
+    static double max(double []a){ // function to find max UVI
+        double max=0;
+        for (int i = 0; i < a.length; i++) { // FUNCTION USED TO FIND MAX UVI LEVEL OF ENTIRE DAY
+            for (int counter = 1; counter < a.length; counter++) {
+                if (a[counter] > max) {
+                    max = a[counter]; } } }
+        return max;}
 
     public Context getActivity() {
         Context activity = null;

@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,7 +57,6 @@ public class weekGraph extends AppCompatActivity {
     protected void week(){
         // generate Dates
         Calendar calendar = Calendar.getInstance();
-
         Date d1 = calendar.getTime();
         calendar.add(Calendar.DATE, 1);
         Date d2 = calendar.getTime();
@@ -71,7 +71,6 @@ public class weekGraph extends AppCompatActivity {
         calendar.add(Calendar.DATE, 1);
         Date d7 = calendar.getTime();
         calendar.add(Calendar.DATE, 1);
-
         GraphView graph = (GraphView) findViewById(R.id.graph);
 
         double []yArray=new double[]{1,2,5.33,4.1,1,1,1}; // this needs to be swapped out for database info
@@ -106,7 +105,6 @@ public class weekGraph extends AppCompatActivity {
                 new DataPoint(d6, yArray[5]),
                 new DataPoint(d7, yArray[6])
         });
-
         graph.addSeries(lineGraphSeries);
         graph.addSeries(dataPointPointsGraphSeries);
         graph.setTitle("WEEK OVERVIEW");
@@ -129,7 +127,6 @@ public class weekGraph extends AppCompatActivity {
         graph.getViewport().setScrollable(true);  // activate horizontal scrolling
         graph.getViewport().setScalableY(true);  // activate horizontal and vertical zooming and scrolling
         graph.getViewport().setScrollableY(true);
-
         // set manual x bounds to have nice steps
         graph.getViewport().setMinY(0);
         graph.getViewport().setMaxY(11);
@@ -143,18 +140,14 @@ public class weekGraph extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "UV Intensity"+dataPoint, Toast.LENGTH_SHORT).show();
             }
         });
-
-
         graph.getGridLabelRenderer().setHumanRounding(false);
     }
-
     static double average(double[] a, int n) // FUNCTION RETURNS AVERAGE VALUE
     {
         // Find sum of array element
         double sum = 0;
         for (int i = 0; i < n; i++)
             sum += a[i];
-
         return sum / n;
     }
 

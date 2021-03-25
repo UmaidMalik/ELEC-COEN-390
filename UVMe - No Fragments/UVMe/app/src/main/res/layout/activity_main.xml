@@ -80,7 +80,7 @@
         android:textAlignment="center"
         android:textColor="@color/light_blue"
         android:layout_marginLeft="120dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="80dp" />
 
 
     <TextView
@@ -91,7 +91,7 @@
         android:textAlignment="center"
         android:textColor="@color/light_blue"
         android:layout_marginLeft="25dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="100dp" />
 
 
     <TextView
@@ -102,7 +102,7 @@
         android:textAlignment="center"
         android:textColor="@color/light_blue"
         android:layout_marginLeft="70dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="100dp" />
 
 
 </RelativeLayout>

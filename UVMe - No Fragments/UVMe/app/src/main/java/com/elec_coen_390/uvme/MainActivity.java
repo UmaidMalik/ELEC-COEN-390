@@ -15,6 +15,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Looper;
 import android.provider.Settings;
 import android.text.Html;
@@ -46,6 +47,11 @@ public class MainActivity extends AppCompatActivity {
     Button button;
     int count = 0;
 
+    // Declaring variable for splash screen
+
+    private static int SPLASH_TIME_OUT = 3000;
+
+
     /*
     // Current location: Initializing the variable
 
@@ -68,6 +74,19 @@ public class MainActivity extends AppCompatActivity {
         this.getSupportActionBar().hide();
 
         setContentView(R.layout.activity_main);
+
+        // Welcome screen = 3 s
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                Intent homeIntent = new Intent(MainActivity.this, WelcomeActivity.class);
+                startActivity(homeIntent);
+                finish();
+
+            }
+        }, SPLASH_TIME_OUT);
 
         /*
         // Current Location: Assigning variable

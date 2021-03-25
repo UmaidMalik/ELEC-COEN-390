@@ -74,7 +74,7 @@ public class weekGraph extends AppCompatActivity {
         GraphView graph = (GraphView) findViewById(R.id.graph);
 
         double []yArray=new double[]{1,2,5.33,4.1,1,1,1}; // this needs to be swapped out for database info
-        double maxUVI = yArray[0];
+
         int n=yArray.length;
         final double average = average(yArray, n); // USED TO FIND AVERAGE UVI LEVEL FROM DATABASE ( SOON )
         NumberFormat nm = NumberFormat.getNumberInstance();
@@ -127,13 +127,6 @@ public class weekGraph extends AppCompatActivity {
         graph.getViewport().setMinX(d1.getTime());
         graph.getViewport().setMaxX(d7.getTime());
         graph.getViewport().setXAxisBoundsManual(true);
-
-        dataPointPointsGraphSeries.setOnDataPointTapListener(new OnDataPointTapListener() {
-            @Override
-            public void onTap(Series series, DataPointInterface dataPoint) {
-                Toast.makeText(getApplicationContext(), "UV Intensity"+dataPoint, Toast.LENGTH_SHORT).show();
-            }
-        });
         graph.getGridLabelRenderer().setHumanRounding(false);
     }
     static double average(double[] a, int n) // FUNCTION RETURNS AVERAGE VALUE

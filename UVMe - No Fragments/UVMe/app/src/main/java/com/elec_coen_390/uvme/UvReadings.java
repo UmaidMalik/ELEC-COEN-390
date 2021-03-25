@@ -1,5 +1,9 @@
 package com.elec_coen_390.uvme;
 
+import java.sql.Time;
+import java.util.Calendar;
+import java.util.Date;
+
 public class UvReadings {
     private int uvId;
 
@@ -34,6 +38,7 @@ public class UvReadings {
     /*set UV value */
     public void setUv(double uv) {
         this.uv_value = uv;
+
     }
 
     /*get UV value*/

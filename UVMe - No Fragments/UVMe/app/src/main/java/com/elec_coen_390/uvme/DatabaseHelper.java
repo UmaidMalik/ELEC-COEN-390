@@ -9,6 +9,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -59,6 +60,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return id;
     }
 
+
     public List<UvReadings> getAllUVData(String date) {
         SQLiteDatabase database = this.getReadableDatabase();
         Cursor cursor = null;
@@ -73,7 +75,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     int id = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_UV_ID));
                     double time = cursor.getDouble(cursor.getColumnIndex(Config.COLUMN_UV_TIME));
                     double value = cursor.getDouble(cursor.getColumnIndex(Config.COLUMN_UV_VALUE));
-                    UvReadings uvReadings = new UvReadings( time, value, date);
+                    UvReadings uvReadings = new UvReadings(time, value, date);
                     uvList.add(uvReadings);
                 } while (cursor.moveToNext());
                 return uvList; }

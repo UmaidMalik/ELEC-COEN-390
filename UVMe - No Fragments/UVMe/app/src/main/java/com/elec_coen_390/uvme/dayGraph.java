@@ -3,6 +3,7 @@ package com.elec_coen_390.uvme;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -10,25 +11,38 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.GridLabelRenderer;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.DataPointInterface;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import com.jjoe64.graphview.series.OnDataPointTapListener;
 import com.jjoe64.graphview.series.PointsGraphSeries;
 import com.jjoe64.graphview.series.Series;
+
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class dayGraph extends AppCompatActivity {
+
     public LineGraphSeries<DataPoint> series1, series2;
     public PointsGraphSeries<DataPoint> series3;
-    TextView avgUV, maxUV;
+    TextView avgUV;
+    TextView maxUV;
+    TextView condition;
+     TextView conditionResult;
+    DatePickerDialog datePicker;
     String date2 = "";
     DatabaseHelper db;
+    SimpleDateFormat format = new SimpleDateFormat("h:mm a");
 
     Button dayButton, weekButton;
     private Context activity;
@@ -43,29 +57,42 @@ public class dayGraph extends AppCompatActivity {
         maxUV = findViewById(R.id.maxUV);
         Intent intent = getIntent(); // lets us go back and forth from app to app
         showDay();
+        setDate();
     }
 
-    protected void showDay() { // this function needs to be changed
+    protected void showDay() {
         // styling series
         GraphView graph = (GraphView) findViewById(R.id.graph);
 
         int[] xArray = new int[24]; // X AXIS
-
-        double[] yArray = new double[]{1, 2, 5.33, 4.1, 1, 1, 1, 1, 1, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}; // this needs to be swapped out for database info
-
-
+        double[] yArray = new double[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 3, 2, 3.23, 4.33, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}; // this needs to be swapped out for database info
         int n = yArray.length;
         final double average = average(yArray, n); // USED TO FIND AVERAGE UVI LEVEL FROM DATABASE ( SOON )
         NumberFormat nm = NumberFormat.getNumberInstance();
-        avgUV.setText(nm.format(average(yArray, n)));
 
         // CREATES X AXIS
         for (int i = 0; i < xArray.length; i++) {
             xArray[i] = i;
         }
+        graph.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter(){
+            @Override
+            public String formatLabel(double value, boolean isValueX){
+                if(isValueX)
+                {
+                    return format.format(new Date((long) value));
+                }
+                else
+                {
+                    return super.formatLabel(value, isValueX);
+                }}
+        });
+        graph.getGridLabelRenderer().setHumanRounding(false);
 
         max(yArray);
+        avgUV.setText(nm.format(average(yArray, n)));
         maxUV.setText(String.valueOf(max(yArray)));
+
+        // function will be deleted after database is implemented
         series1 = new LineGraphSeries<>(new DataPoint[]{ // SERIES ONE SHOWS USER A LINE GRAPH
                 new DataPoint(xArray[0], yArray[0]),
                 new DataPoint(xArray[1], yArray[1]),
@@ -116,28 +143,25 @@ public class dayGraph extends AppCompatActivity {
                 new DataPoint(xArray[20], yArray[20]),
                 new DataPoint(xArray[21], yArray[21]),
                 new DataPoint(xArray[22], yArray[22]),
-                new DataPoint(xArray[23], yArray[23])});
+                new DataPoint(xArray[23], yArray[23])
+        });
+
+
         graph.addSeries(series1);
         graph.addSeries(series3);
 
         series3.setOnDataPointTapListener(new OnDataPointTapListener() { // ALLOWS USER TO SEE NODES
             @Override
             public void onTap(Series series, DataPointInterface dataPoint) {
-                Toast.makeText(getApplicationContext(), "UV Intensity" + dataPoint, Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "\t\t\t  UV Intensity \n [HOUR,INTENSITY] \n" +"\t\t\t\t\t"+ dataPoint, Toast.LENGTH_LONG).show();
             }
         });
-        // GRAPH SETUP
         graph.setTitle("DAY OVERVIEW"); // TITLE
         graph.setTitleTextSize(100);
         graph.setTitleColor(Color.WHITE);
-
-
         graph.getGridLabelRenderer().setVerticalAxisTitle("UVI"); // AXIS
         graph.getGridLabelRenderer().setVerticalAxisTitleColor(Color.WHITE);
         graph.getGridLabelRenderer().setVerticalAxisTitleTextSize(50);
-
-        graph.getGridLabelRenderer().setHorizontalAxisTitle("TIME (HOURS)");
-        graph.getGridLabelRenderer().setHorizontalAxisTitleColor(Color.WHITE);
         graph.getGridLabelRenderer().setVerticalLabelsColor(Color.WHITE);
         graph.getGridLabelRenderer().setHorizontalLabelsColor(Color.WHITE);
         graph.getGridLabelRenderer().setHorizontalLabelsAngle(75); // ANGLE OF AXIS
@@ -146,12 +170,28 @@ public class dayGraph extends AppCompatActivity {
         graph.getViewport().setScrollable(true);  // activate horizontal scrolling
         graph.getViewport().setScalableY(true);  // activate horizontal and vertical zooming and scrolling
         graph.getViewport().setScrollableY(true);
+
+        graph.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
+            @Override
+            public String formatLabel(double value, boolean isValueX){
+                if(isValueX)
+                {
+                    Date d = new Date((long) (value));
+                    return (format.format(d));
+                }
+                else
+                {
+                    return super.formatLabel(value, isValueX);
+                }}
+        });
+        graph.getGridLabelRenderer().setHumanRounding(false);
+        GridLabelRenderer gridLabel = graph.getGridLabelRenderer();
         // SETTING BOUNDS
         graph.getViewport().setMinY(0);
         graph.getViewport().setMaxY(11);
         graph.getViewport().setMinX(0);
         graph.getViewport().setMaxX(24);
-        graph.getGridLabelRenderer().setNumHorizontalLabels(24);
+       graph.getGridLabelRenderer().setNumHorizontalLabels(24);
     }
 
     static double average(double[] a, int n) // FUNCTION RETURNS AVERAGE VALUE
@@ -178,11 +218,9 @@ public class dayGraph extends AppCompatActivity {
         Context activity = null;
         return activity;
     }
-
     public void setActivity(Context activity) {
         this.activity = activity;
     }
-
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -240,6 +278,55 @@ public class dayGraph extends AppCompatActivity {
             }
         });
     }
+    protected void setDate() { // Used to date the date with calendar
+                final Calendar calendar = Calendar.getInstance();
+                int day = calendar.get(Calendar.DAY_OF_MONTH);
+                int month = calendar.get(Calendar.MONTH);
+                int year = calendar.get(Calendar.YEAR);
+                datePicker = new DatePickerDialog(dayGraph.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        int monthAdjusted = monthOfYear + 1;
+                        String zeroMonth = "";
+                        String zeroDay = "";
+                        if (monthAdjusted < 10) {
+                            zeroMonth = "0"+String.valueOf(monthAdjusted);
+                        } else {
+                            zeroMonth = String.valueOf(monthAdjusted);
+                        }
+                        if (dayOfMonth < 10) {
+                            zeroDay = "0"+String.valueOf(dayOfMonth);
+                        } else {
+                            zeroDay = String.valueOf(dayOfMonth);
+                        }
+                        String dateChosen = year + "-" + zeroMonth + "-" + zeroDay;
+                        getUVReadingFromDate(dateChosen); // send the format to the database (year - month - day)
+                    }
+                }, year, month, day);
+                datePicker.show();
+            }
+
+    public void getUVReadingFromDate(final String date) {
+    List<UvReadings> uvReadings;
+    DatabaseHelper databaseHelper = new DatabaseHelper(dayGraph.this);
+            uvReadings = databaseHelper.getAllUVData(date); // fetch all UV values by date
+                   // series3.resetData(new DataPoint[]{}); // Reset previous series
+                    //series1.resetData(new DataPoint[]{}); // Reset previous series
+                    DataPoint[] points = new DataPoint[500];
+                    int newCounter = 0;
+                    for (int i = 0; i < uvReadings.size(); i++) {
+                        double x = uvReadings.get(i).getUvTime();
+                        double y = uvReadings.get(i).getUv();
+                        DataPoint point = new DataPoint(x, y);
+                        points[newCounter] = point;
+                        series3.appendData(new DataPoint(point.getX(), point.getY()), true, 500);
+                        series1.appendData(new DataPoint(point.getX(), point.getY()), true, 500);
+                        newCounter = newCounter + 1;
+        }
+        date2 = date;
+        }
+
+
 
 }
 

@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         builder = new AlertDialog.Builder(this, R.style.AlertDialogStyle);
 
         TextView title = (TextView) findViewById(R.id.activityMain);
-        title.setText("Main/Home Activity");
+        title.setText("<Message to user>");
 
 
         SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
                                     Toast.LENGTH_SHORT).show();
                         }
                     });
+
             //Creating dialog box
             AlertDialog alert = builder.create();
             //Setting the title manually

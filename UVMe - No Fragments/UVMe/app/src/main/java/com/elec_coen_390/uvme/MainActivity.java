@@ -69,10 +69,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
         this.getSupportActionBar().hide();
-
         setContentView(R.layout.activity_main);
 
         // Welcome screen = 3 s

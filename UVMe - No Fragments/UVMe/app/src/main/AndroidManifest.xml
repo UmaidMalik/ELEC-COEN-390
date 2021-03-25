@@ -22,7 +22,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.UVMe">
-        <activity android:name=".monthGraph"></activity>
+        <activity android:name=".monthGraph" />
         <activity android:name=".weekGraph" />
         <activity android:name=".dayGraph" />
         <activity android:name=".ThemesActivity" />

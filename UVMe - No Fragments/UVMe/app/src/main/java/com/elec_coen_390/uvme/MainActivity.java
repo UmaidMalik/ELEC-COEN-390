@@ -3,6 +3,7 @@ package com.elec_coen_390.uvme;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -10,6 +11,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -27,6 +29,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 import java.text.DecimalFormat;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -34,17 +43,96 @@ public class MainActivity extends AppCompatActivity {
     AlertDialog.Builder builder;
     public static final String TAG = "Main Activity";
 
+  
+    // Declaring variable for splash screen
 
-     Button button;
-     int count = 0;
+    private static int SPLASH_TIME_OUT = 3000;
+
+    // Current location: Initializing the variable
+
+    /*
+
+    // in string.xml
+    <string name="map key" translatable="false">AIzaSyCDhBHjPpQ64TF7NRswV6NnSkTJxU0JVGo</string>
+
+
+    API key generated: AIzaSyCDhBHjPpQ64TF7NRswV6NnSkTJxU0JVGo
+
+    Button btLocation;
+    TextView tvCity, tvUVI, tvTemp;
+    FusedLocationProviderClient fusedLocationProviderClient;
+    */
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         this.getSupportActionBar().hide();
-
-
         setContentView(R.layout.activity_main);
+
+        // Welcome screen = 3 s
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                Intent homeIntent = new Intent(MainActivity.this, WelcomeActivity.class);
+                startActivity(homeIntent);
+                finish();
+
+            }
+        }, SPLASH_TIME_OUT);
+
+        /*
+        // Current Location: Assigning variable
+        btLocation = findViewById(R.id.bt_Location);
+        tvCity = findViewById(R.id.tv_City);
+        tvUVI = findViewById(R.id.tv_UVI);
+        tvTemp = findViewById(R.id.tv_Temp);
+
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(MainActivity.this);
+
+        btLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Check condition
+
+                if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+
+                    // When permission granted: call method
+
+                    getCurrentLocation();
+
+                } else {
+
+                    // when permission is not granted: Request permission
+
+                    ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 100);
+
+
+                }
+            }
+        });
+
+        @Override
+        public void onRequestPermissionResult ( int requestCode, @NonNull String[] permissions,
+        @NonNull int[] grantResults){
+        if (requestCode == 100 && grantResults.length > 0 && (grantResults[0] + grantResults[1] ==
+
+        PackageManager.PERMISSION_GRANTED)){
+
+    // when permission granted: call method
+
+        getCurrentLocation();
+    } else{
+
+            // when permission is denied: display error
+
+            Toast.makeText(getApplicationContext(), "Permission Denied!", Toast.LENGTH_SHORT).show();
+
+    }
+
+
+    */
 
         builder = new AlertDialog.Builder(this, R.style.AlertDialogStyle);
 
@@ -57,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         if (firstStart) {
-            Log.d(TAG,"Enter a Statement");
+            Log.d(TAG, "Enter a Statement");
             builder.setTitle(R.string.terms_of_services);
             builder.setMessage(R.string.warning_label)
                     .setCancelable(true)
@@ -98,13 +186,33 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        ic_sun = (ImageView) findViewById(R.id.ic_sun);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                count++;
+                        count = count % 5;
 
-        setupBottomNavigationListener();
+                        switch (count) {
 
-        startSunUIThread(getCurrentFocus());
-    }
+                            case 0:
+                                ic_sun.setImageResource(R.drawable.ic_sunlight_default_level1_lightblue);
+                                break;
+                            case 1:
+                                ic_sun.setImageResource(R.drawable.ic_sunlight_level2);
+                                break;
+                            case 2:
+                                ic_sun.setImageResource(R.drawable.ic_sunlight_level3);
+                                break;
+                            case 3:
+                                ic_sun.setImageResource(R.drawable.ic_sunlight_level4);
+                                break;
+                            case 4:
+                                ic_sun.setImageResource(R.drawable.ic_sunlight_level5);
+                                break;
+                        }
 
+                System.out.println("Count = " + count);
+                }
 
     private void startSunUIThread(View view) {
         RunnableUVIndex runnableUVIndex = new RunnableUVIndex();
@@ -113,73 +221,17 @@ public class MainActivity extends AppCompatActivity {
 
     private class RunnableUVIndex implements Runnable {
 
-        @Override
-        public void run() {
-            while (true) {
 
                 Log.d(TAG, "startThread: " + uvIndex);
 
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        updateSunColor();
-                    }
-                });
-
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+        setupBottomNavigationListener();
 
 
-            }
-        }
-    }
-
-    private void updateSunColor() {
-        uvIndex = UVSensorData.getUVIntensity();
-        if (uvIndex < 3)
-            ic_sun.setImageResource(R.drawable.ic_sunlight_default_level1_lightblue);
-        else if (uvIndex >= 3 && uvIndex < 6)
-            ic_sun.setImageResource(R.drawable.ic_sunlight_level2);
-        else if (uvIndex >= 6 && uvIndex < 8)
-            ic_sun.setImageResource(R.drawable.ic_sunlight_level3);
-        else if (uvIndex >= 8 && uvIndex < 11)
-            ic_sun.setImageResource(R.drawable.ic_sunlight_level4);
-        else
-            ic_sun.setImageResource(R.drawable.ic_sunlight_level5);
-    }
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
 
-    private final BroadcastReceiver mGattUpdateReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            final String action = intent.getAction();
-            if (BluetoothLeService.ACTION_DATA_AVAILABLE.equals(action))
-                displayUVSensorData(intent.getStringExtra(BluetoothLeService.EXTRA_DATA_VALUE_UV_INDEX));
-            }
-    };
-
-    private void displayUVSensorData(String uvIndex) {
-        textViewUVIndex.setText(uvIndex);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
 
     }
-    private static IntentFilter makeGattUpdateIntentFilter() {
-        final IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(BluetoothLeService.ACTION_GATT_CONNECTED);
-        intentFilter.addAction(BluetoothLeService.ACTION_GATT_DISCONNECTED);
-        intentFilter.addAction(BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED);
-        intentFilter.addAction(BluetoothLeService.ACTION_DATA_AVAILABLE);
-        return intentFilter;
-    }
-
 
     private void setupBottomNavigationListener() {
 
@@ -227,6 +279,5 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intentMore);
         finish();
     }
-
 
 }

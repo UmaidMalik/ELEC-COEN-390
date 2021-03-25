@@ -4,6 +4,18 @@
     android:versionCode="1"
     android:versionName="1.2">
 
+    <uses-feature
+        android:name="android.hardware.bluetooth_le"
+        android:required="true" />
+
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -12,9 +24,27 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/Theme.UVMe">
-        <activity android:name=".monthGraph" />
-        <activity android:name=".weekGraph" />
-        <activity android:name=".dayGraph" />
+        <activity android:name=".monthGraph"
+            android:screenOrientation="locked"/>
+        <activity android:name=".weekGraph"
+            android:screenOrientation="locked" />
+        <activity android:name=".dayGraph"
+            android:screenOrientation="locked"/>
+        <activity android:name=".ThemesActivity"
+            android:screenOrientation="locked" />
+        <activity android:name=".InfoActivity"
+            android:screenOrientation="locked" />
+        <activity android:name=".UVSensorActivity"
+            android:screenOrientation="locked" />
+        <activity android:name=".UVHistoryActivity"
+            android:screenOrientation="locked" />
+        <activity android:name=".NotificationsActivity"
+            android:screenOrientation="locked" />
+        <activity android:name=".HelpActivity"
+            android:screenOrientation="locked" />
+
+        <activity android:name=".MainActivity"
+            android:screenOrientation="locked" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -38,15 +68,6 @@
             android:enabled="true" />
     </application>
 
-    <uses-feature
-        android:name="android.hardware.bluetooth_le"
-        android:required="true" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.BLUETOOTH" />
-
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    
 
 </manifest>

@@ -32,7 +32,7 @@ import java.util.Date;
 import java.util.List;
 
 public class dayGraph extends AppCompatActivity {
-
+/////////////ok
     public LineGraphSeries<DataPoint> series1, series2;
     public PointsGraphSeries<DataPoint> series3;
     TextView avgUV;
@@ -118,7 +118,7 @@ public class dayGraph extends AppCompatActivity {
                 new DataPoint(xArray[21], yArray[21]),
                 new DataPoint(xArray[22], yArray[22]),
                 new DataPoint(xArray[23], yArray[23])});
-
+        // function will be deleted after database is implemented
         series3 = new PointsGraphSeries<>(new DataPoint[]{ // SERIES 3 SHOWS THE USER A DOT GRAPH FROM SERIES 1
                 new DataPoint(xArray[0], yArray[0]),
                 new DataPoint(xArray[1], yArray[1]),
@@ -278,6 +278,7 @@ public class dayGraph extends AppCompatActivity {
             }
         });
     }
+
     protected void setDate() { // Used to date the date with calendar
                 final Calendar calendar = Calendar.getInstance();
                 int day = calendar.get(Calendar.DAY_OF_MONTH);

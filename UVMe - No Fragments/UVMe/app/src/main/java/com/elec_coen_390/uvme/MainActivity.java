@@ -43,6 +43,9 @@ public class MainActivity extends AppCompatActivity {
     AlertDialog.Builder builder;
     public static final String TAG = "Main Activity";
 
+    private TextView textViewUVIndex;
+    private ImageView ic_sun;
+    private float uvIndex = 0.00f;
   
     // Declaring variable for splash screen
 
@@ -71,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Welcome screen = 3 s
 
+        /*
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -81,6 +85,8 @@ public class MainActivity extends AppCompatActivity {
 
             }
         }, SPLASH_TIME_OUT);
+        */
+
 
         /*
         // Current Location: Assigning variable
@@ -178,41 +184,45 @@ public class MainActivity extends AppCompatActivity {
             SharedPreferences.Editor editor = prefs.edit();
             editor.putBoolean("firstStart", false); // Set to false so that it will only appear once when accepted
             editor.apply();
-            this.getSupportActionBar().hide();
+
+
 
 
 
         }
+        this.getSupportActionBar().hide();
+
+        setupBottomNavigationListener();
+
+        textViewUVIndex = (TextView) findViewById(R.id.textViewUVIndex);
+        ic_sun = (ImageView) findViewById(R.id.ic_sun);
+
+        textViewUVIndex.setText(String.valueOf(UVSensorData.getUVIntensity()));
 
 
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                count++;
-                        count = count % 5;
+        startSunUIThread(getCurrentFocus());
+    }
 
-                        switch (count) {
+    private void updateSunColor() {
+        uvIndex = UVSensorData.getUVIntensity();
+        if (uvIndex < 3)
+            ic_sun.setImageResource(R.drawable.ic_sunlight_default_level1_lightblue);
+        else if (uvIndex >= 3 && uvIndex < 6)
+            ic_sun.setImageResource(R.drawable.ic_sunlight_level2);
+        else if (uvIndex >= 6 && uvIndex < 8)
+            ic_sun.setImageResource(R.drawable.ic_sunlight_level3);
+        else if (uvIndex >= 8 && uvIndex < 11)
+            ic_sun.setImageResource(R.drawable.ic_sunlight_level4);
+        else
+            ic_sun.setImageResource(R.drawable.ic_sunlight_level5);
+    }
 
-                            case 0:
-                                ic_sun.setImageResource(R.drawable.ic_sunlight_default_level1_lightblue);
-                                break;
-                            case 1:
-                                ic_sun.setImageResource(R.drawable.ic_sunlight_level2);
-                                break;
-                            case 2:
-                                ic_sun.setImageResource(R.drawable.ic_sunlight_level3);
-                                break;
-                            case 3:
-                                ic_sun.setImageResource(R.drawable.ic_sunlight_level4);
-                                break;
-                            case 4:
-                                ic_sun.setImageResource(R.drawable.ic_sunlight_level5);
-                                break;
-                        }
 
-                System.out.println("Count = " + count);
-                }
+    private void displayUVSensorData(String uvIndex) {
+        textViewUVIndex.setText(uvIndex);
+    }
+
 
     private void startSunUIThread(View view) {
         RunnableUVIndex runnableUVIndex = new RunnableUVIndex();
@@ -222,15 +232,55 @@ public class MainActivity extends AppCompatActivity {
     private class RunnableUVIndex implements Runnable {
 
 
+        @Override
+        public void run() {
+            while (true) {
+
                 Log.d(TAG, "startThread: " + uvIndex);
 
-        setupBottomNavigationListener();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        updateSunColor();
+                    }
+                });
+
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 
 
-        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            }
+        }
 
 
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
+
+    }
+
+    private final BroadcastReceiver mGattUpdateReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            final String action = intent.getAction();
+            if (BluetoothLeService.ACTION_DATA_AVAILABLE.equals(action))
+                displayUVSensorData(intent.getStringExtra(BluetoothLeService.EXTRA_DATA_VALUE_UV_INDEX));
+        }
+    };
+
+    private static IntentFilter makeGattUpdateIntentFilter() {
+        final IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(BluetoothLeService.ACTION_GATT_CONNECTED);
+        intentFilter.addAction(BluetoothLeService.ACTION_GATT_DISCONNECTED);
+        intentFilter.addAction(BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED);
+        intentFilter.addAction(BluetoothLeService.ACTION_DATA_AVAILABLE);
+        return intentFilter;
     }
 
     private void setupBottomNavigationListener() {
@@ -263,10 +313,8 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-    }
+
+
 
     protected void goToProfileActivity() {
         Intent intentProfile = new Intent(this, ProfileActivity.class);

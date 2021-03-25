@@ -1,15 +1,23 @@
 package com.elec_coen_390.uvme;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 public class UVHistoryActivity extends AppCompatActivity {
 Button showGraphButton;
+Button showWeekGraphButton;
+Button showMonthGraphButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -17,12 +25,27 @@ Button showGraphButton;
         setContentView(R.layout.activity_uv_history);
         TextView title = (TextView) findViewById(R.id.activityUVHistory);
         title.setText("UV History");
+        setupBottomNavigationListener();
+        showMonthGraphButton=findViewById(R.id.showMonthGraphButton);
         showGraphButton=findViewById(R.id.showGraphButton);
+        showWeekGraphButton=findViewById(R.id.showWeekGraphButton);
 
+        showWeekGraphButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToWeekGraph();
+            }
+        });
         showGraphButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 goToGraphActivity();
+            }
+        });
+        showMonthGraphButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToMonthGraph();
             }
         });
 
@@ -33,7 +56,37 @@ Button showGraphButton;
         super.onBackPressed();
         goToMoreActivity();
     }
+    private void setupBottomNavigationListener() {
 
+        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+
+        Menu menu = bottomNavigationView.getMenu();
+        MenuItem menuItem = menu.getItem(2); // bottom navigation menu index item {0(Profile),1(Home),2(More)}
+        menuItem.setChecked(true);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                switch (item.getItemId()) {
+
+                    case R.id.action_home:
+                        goToMainActivity();
+                        break;
+
+                    case R.id.action_profile:
+                        goToProfileActivity();
+                        break;
+
+                    case R.id.action_more:
+
+                        break;
+                }
+                return false;
+            }
+        });
+
+    }
     protected void goToProfileActivity() {
         Intent intentProfile = new Intent(this, ProfileActivity.class);
         startActivity(intentProfile);
@@ -51,8 +104,18 @@ Button showGraphButton;
         finish();
     }
     protected void goToGraphActivity() {
-        Intent intentGraph = new Intent(this, UVgraph.class);
+        Intent intentGraph = new Intent(this, dayGraph.class);
         startActivity(intentGraph);
+        finish();
+    }
+    protected  void goToWeekGraph(){
+        Intent intentGraphWeek = new Intent(this, weekGraph.class);
+        startActivity(intentGraphWeek);
+        finish();
+    }
+    protected  void goToMonthGraph(){
+        Intent intentGraphMonth = new Intent(this, monthGraph.class);
+        startActivity(intentGraphMonth);
         finish();
     }
 }

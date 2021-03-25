@@ -34,15 +34,9 @@ public class MainActivity extends AppCompatActivity {
     AlertDialog.Builder builder;
     public static final String TAG = "Main Activity";
 
-    private TextView textViewUVIndex;
-    private ImageView ic_sun;
 
-    private float uvIndex = 0.00f;
-
-
-
-
-
+     Button button;
+     int count = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,15 +49,12 @@ public class MainActivity extends AppCompatActivity {
         builder = new AlertDialog.Builder(this, R.style.AlertDialogStyle);
 
         TextView title = (TextView) findViewById(R.id.activityMain);
-        title.setText("Main/Home Activity");
+        title.setText("<Message to user>");
 
 
         SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
         boolean firstStart = prefs.getBoolean("firstStart", true);
 
-        textViewUVIndex = findViewById(R.id.textViewUVIndex);
-
-        textViewUVIndex.setText(String.valueOf(UVSensorData.getUVIntensity()));
 
         if (firstStart) {
             Log.d(TAG,"Enter a Statement");
@@ -85,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
                                     Toast.LENGTH_SHORT).show();
                         }
                     });
+
             //Creating dialog box
             AlertDialog alert = builder.create();
             //Setting the title manually

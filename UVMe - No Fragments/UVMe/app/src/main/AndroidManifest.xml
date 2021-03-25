@@ -12,26 +12,9 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/Theme.UVMe">
-        <activity android:name=".HelpActivity"></activity>
-        <activity android:name=".UVgraph" />
-        <activity
-            android:name=".ThemesActivity"
-            android:screenOrientation="locked" />
-        <activity
-            android:name=".InfoActivity"
-            android:screenOrientation="locked" />
-        <activity
-            android:name=".UVSensorActivity"
-            android:screenOrientation="locked" />
-        <activity
-            android:name=".UVHistoryActivity"
-            android:screenOrientation="locked" />
-        <activity
-            android:name=".NotificationsActivity"
-            android:screenOrientation="locked" />
-        <activity
-            android:name=".MainActivity"
-            android:screenOrientation="locked">
+        <activity android:name=".monthGraph" />
+        <activity android:name=".weekGraph" />
+        <activity android:name=".dayGraph" />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

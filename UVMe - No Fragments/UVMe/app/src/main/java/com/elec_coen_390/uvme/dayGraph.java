@@ -292,9 +292,7 @@ public class dayGraph extends AppCompatActivity {
                         String zeroDay = "";
                         if (monthAdjusted < 10) {
                             zeroMonth = "0"+String.valueOf(monthAdjusted);
-                        } else {
-                            zeroMonth = String.valueOf(monthAdjusted);
-                        }
+                        } else { zeroMonth = String.valueOf(monthAdjusted); }
                         if (dayOfMonth < 10) {
                             zeroDay = "0"+String.valueOf(dayOfMonth);
                         } else {
@@ -324,10 +322,10 @@ public class dayGraph extends AppCompatActivity {
                         series1.appendData(new DataPoint(point.getX(), point.getY()), true, 500);
                         newCounter = newCounter + 1;
         }
+
         date2 = date;
+
         }
-
-
 
 }
 

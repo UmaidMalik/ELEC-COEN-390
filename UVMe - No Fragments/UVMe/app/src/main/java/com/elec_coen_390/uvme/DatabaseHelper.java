@@ -30,25 +30,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String CREATE_TABLE_UV_DATA = "CREATE TABLE " + Config.UV_TABLE_NAME +          /** Defining uv data table */
                 " (" +
                 Config.COLUMN_DATE + " TEXT NOT NULL," +
-                Config.COLUMN_UV_VALUE + " DOUBLE NOT NULL," +
-                Config.COLUMN_UV_TIME + " DOUBLE NOT NULL)";
+                Config.COLUMN_UV_VALUE + " FLOAT NOT NULL," +
+                Config.COLUMN_UV_TIME + " FLOAT NOT NULL)";
 
         sqLiteDatabase.execSQL(CREATE_TABLE_UV_DATA);
     }
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         // ALTER THE DESIGN FOR AN UPDATE
+        
     }
 
     public long insertUV(UvReadings uv){
-
         long id = -1;
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(Config.COLUMN_DATE, uv.getDate() );
         contentValues.put(Config.COLUMN_UV_VALUE, uv.getUv() );
         contentValues.put(Config.COLUMN_UV_TIME, uv.getUvTime() );
-
         try {
             id = db.insertOrThrow(Config.UV_TABLE_NAME, null, contentValues);
         } catch (SQLException ex) {
@@ -59,7 +58,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         return id;
     }
-
 
     public List<UvReadings> getAllUVData(String date) {
         SQLiteDatabase database = this.getReadableDatabase();

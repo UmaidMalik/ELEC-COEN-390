@@ -4,11 +4,16 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
@@ -20,6 +25,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import java.text.DecimalFormat;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -28,9 +34,15 @@ public class MainActivity extends AppCompatActivity {
     AlertDialog.Builder builder;
     public static final String TAG = "Main Activity";
 
+    private TextView textViewUVIndex;
+    private ImageView ic_sun;
 
-     Button button;
-     int count = 0;
+    private float uvIndex = 0.00f;
+
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,9 +57,13 @@ public class MainActivity extends AppCompatActivity {
         TextView title = (TextView) findViewById(R.id.activityMain);
         title.setText("Main/Home Activity");
 
+
         SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
         boolean firstStart = prefs.getBoolean("firstStart", true);
 
+        textViewUVIndex = findViewById(R.id.textViewUVIndex);
+
+        textViewUVIndex.setText(String.valueOf(UVSensorData.getUVIntensity()));
 
         if (firstStart) {
             Log.d(TAG,"Enter a Statement");
@@ -83,52 +99,95 @@ public class MainActivity extends AppCompatActivity {
             editor.putBoolean("firstStart", false); // Set to false so that it will only appear once when accepted
             editor.apply();
             this.getSupportActionBar().hide();
+
+
+
         }
 
 
-        button = (Button) findViewById(R.id.button);
-        ImageView ic_sun = (ImageView) findViewById(R.id.ic_sun);
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                count++;
-                        count = count % 5;
-
-                        switch (count) {
-
-                            case 0:
-                                ic_sun.setImageResource(R.drawable.ic_sunlight_default_level1_lightblue);
-                                break;
-                            case 1:
-                                ic_sun.setImageResource(R.drawable.ic_sunlight_level2);
-                                break;
-                            case 2:
-                                ic_sun.setImageResource(R.drawable.ic_sunlight_level3);
-                                break;
-                            case 3:
-                                ic_sun.setImageResource(R.drawable.ic_sunlight_level4);
-                                break;
-                            case 4:
-                                ic_sun.setImageResource(R.drawable.ic_sunlight_level5);
-                                break;
-                        }
-
-                System.out.println("Count = " + count);
-                }
-
-        });
-
-
-
+        ic_sun = (ImageView) findViewById(R.id.ic_sun);
 
         setupBottomNavigationListener();
 
+        startSunUIThread(getCurrentFocus());
+    }
 
 
+    private void startSunUIThread(View view) {
+        RunnableUVIndex runnableUVIndex = new RunnableUVIndex();
+        new Thread(runnableUVIndex).start();
+    }
 
+    private class RunnableUVIndex implements Runnable {
+
+        @Override
+        public void run() {
+            while (true) {
+
+                Log.d(TAG, "startThread: " + uvIndex);
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        updateSunColor();
+                    }
+                });
+
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        }
+    }
+
+    private void updateSunColor() {
+        uvIndex = UVSensorData.getUVIntensity();
+        if (uvIndex < 3)
+            ic_sun.setImageResource(R.drawable.ic_sunlight_default_level1_lightblue);
+        else if (uvIndex >= 3 && uvIndex < 6)
+            ic_sun.setImageResource(R.drawable.ic_sunlight_level2);
+        else if (uvIndex >= 6 && uvIndex < 8)
+            ic_sun.setImageResource(R.drawable.ic_sunlight_level3);
+        else if (uvIndex >= 8 && uvIndex < 11)
+            ic_sun.setImageResource(R.drawable.ic_sunlight_level4);
+        else
+            ic_sun.setImageResource(R.drawable.ic_sunlight_level5);
+    }
+
+
+    private final BroadcastReceiver mGattUpdateReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            final String action = intent.getAction();
+            if (BluetoothLeService.ACTION_DATA_AVAILABLE.equals(action))
+                displayUVSensorData(intent.getStringExtra(BluetoothLeService.EXTRA_DATA_VALUE_UV_INDEX));
+            }
+    };
+
+    private void displayUVSensorData(String uvIndex) {
+        textViewUVIndex.setText(uvIndex);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
 
     }
+    private static IntentFilter makeGattUpdateIntentFilter() {
+        final IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(BluetoothLeService.ACTION_GATT_CONNECTED);
+        intentFilter.addAction(BluetoothLeService.ACTION_GATT_DISCONNECTED);
+        intentFilter.addAction(BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED);
+        intentFilter.addAction(BluetoothLeService.ACTION_DATA_AVAILABLE);
+        return intentFilter;
+    }
+
 
     private void setupBottomNavigationListener() {
 

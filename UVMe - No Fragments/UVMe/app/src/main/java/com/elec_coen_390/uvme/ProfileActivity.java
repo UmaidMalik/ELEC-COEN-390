@@ -353,7 +353,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
                 selectedProfileTextView.setText(name); // shows the users edited profile name upon clicking edit
                 noEdits(); // after user saved information it is sent back to the No edit mode.
                 //selectedProfileTextView.setText(name);
-                Toast.makeText(getApplicationContext(),"SAVED",Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),"SAVED",Toast.LENGTH_SHORT).show();
             }
         });
     }

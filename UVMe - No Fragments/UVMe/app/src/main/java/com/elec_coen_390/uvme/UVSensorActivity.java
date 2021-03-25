@@ -24,6 +24,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -39,7 +40,11 @@ public class UVSensorActivity extends AppCompatActivity {
     private boolean mScanning;
     private Handler mHandler;
 
+    private BluetoothLeService mBluetoothLeService;
+
     private ListView listView;
+    private Button buttonDisconnectDevice;
+
 
     private static final int REQUEST_ENABLE_BT = 1;
 
@@ -71,6 +76,8 @@ public class UVSensorActivity extends AppCompatActivity {
         mHandler = new Handler();
 
 
+        disconnectConnectedDeviceButton();
+
         // Use this check to determine whether BLE is supported on the device.
         if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)) {
             Toast.makeText(this, R.string.ble_not_supported, Toast.LENGTH_SHORT).show();
@@ -86,7 +93,7 @@ public class UVSensorActivity extends AppCompatActivity {
         hasPermissions();
 
 
-        // Checks if Bluetooth is supported om the device.
+        // Checks if Bluetooth is supported on the device.
         if (mBluetoothAdapter == null) {
             Toast.makeText(this, R.string.error_bluetooth_not_supported, Toast.LENGTH_SHORT).show();
             finish();
@@ -160,6 +167,22 @@ public class UVSensorActivity extends AppCompatActivity {
         super.onPause();
         scanLeDevice(false);
         mLeDeviceListAdapter.clear();
+    }
+
+    private void disconnectConnectedDeviceButton() {
+        //unbindService(mServiceConnection);
+
+        buttonDisconnectDevice = findViewById(R.id.buttonDisconnect);
+        buttonDisconnectDevice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //mBluetoothLeService = null;
+                Intent BLEService = new Intent(UVSensorActivity.this, BluetoothLeService.class);
+                stopService(BLEService);
+            }
+        });
+
+
     }
 
     /*

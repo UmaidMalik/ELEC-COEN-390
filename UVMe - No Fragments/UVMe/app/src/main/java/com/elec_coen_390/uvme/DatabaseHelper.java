@@ -28,7 +28,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         //CREATE THE TABLES
         String CREATE_TABLE_UV_DATA = "CREATE TABLE " + Config.UV_TABLE_NAME +          /** Defining uv data table */
-                " (" + Config.COLUMN_UV_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                " (" +
                 Config.COLUMN_DATE + " TEXT NOT NULL," +
                 Config.COLUMN_UV_VALUE + " DOUBLE NOT NULL," +
                 Config.COLUMN_UV_TIME + " DOUBLE NOT NULL)";
@@ -66,13 +66,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor = null;
 
         try {
-            cursor = database.query(Config.UV_TABLE_NAME, null, null, null, Config.COLUMN_UV_ID,  Config.COLUMN_DATE + "=" + "'" + date + "'", Config.COLUMN_UV_TIME);
+            cursor = database.query(Config.UV_TABLE_NAME, null, null, null,null,  Config.COLUMN_DATE + "=" + "'" + date + "'", Config.COLUMN_UV_TIME);
             if (cursor != null && cursor.moveToFirst()) {
                 cursor.moveToFirst();
                 List<UvReadings> uvList = new ArrayList<>();
                 do {
                     // We get all the parameters
-                    int id = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_UV_ID));
                     double time = cursor.getDouble(cursor.getColumnIndex(Config.COLUMN_UV_TIME));
                     double value = cursor.getDouble(cursor.getColumnIndex(Config.COLUMN_UV_VALUE));
                     UvReadings uvReadings = new UvReadings(time, value, date);

@@ -232,7 +232,7 @@ public class DeviceControlActivity extends Activity {
                 });
 
                 try {
-                    Thread.sleep(1);
+                    Thread.sleep(500);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

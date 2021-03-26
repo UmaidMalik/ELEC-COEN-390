@@ -43,12 +43,25 @@ public class NotificationsActivity extends AppCompatActivity {
         NotificationsActivity.CustomAdapter customAdapter = new NotificationsActivity.CustomAdapter();
         listView.setAdapter(customAdapter);
 
-        /*listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
+                Intent intent;
+                switch(i) {
+
+                    case 0:
+                        
+                        break;
+                    case 1:
+
+                        break;
+                    case 2:
+                        break;
+                }
+
             }
-        }); */
+        });
     }
 
     private void setupBottomNavigationListener() {

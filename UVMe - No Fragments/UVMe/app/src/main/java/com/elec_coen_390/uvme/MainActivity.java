@@ -40,25 +40,6 @@ public class MainActivity extends AppCompatActivity {
     private TextView textViewUVIndex;
     private ImageView ic_sun;
     private float uvIndex = 0.00f;
-  
-    // Declaring variable for splash screen
-
-    private static int SPLASH_TIME_OUT = 3000;
-
-    // Current location: Initializing the variable
-
-    /*
-
-    // in string.xml
-    <string name="map key" translatable="false">AIzaSyCDhBHjPpQ64TF7NRswV6NnSkTJxU0JVGo</string>
-
-
-    API key generated: AIzaSyCDhBHjPpQ64TF7NRswV6NnSkTJxU0JVGo
-
-    Button btLocation;
-    TextView tvCity, tvUVI, tvTemp;
-    FusedLocationProviderClient fusedLocationProviderClient;
-    */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,78 +47,10 @@ public class MainActivity extends AppCompatActivity {
         this.getSupportActionBar().hide();
         setContentView(R.layout.activity_main);
 
-        // Welcome screen = 3 s
-
-        /*
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-
-                Intent homeIntent = new Intent(MainActivity.this, WelcomeActivity.class);
-                startActivity(homeIntent);
-                finish();
-
-            }
-        }, SPLASH_TIME_OUT);
-        */
-
-
-        /*
-        // Current Location: Assigning variable
-        btLocation = findViewById(R.id.bt_Location);
-        tvCity = findViewById(R.id.tv_City);
-        tvUVI = findViewById(R.id.tv_UVI);
-        tvTemp = findViewById(R.id.tv_Temp);
-
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(MainActivity.this);
-
-        btLocation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Check condition
-
-                if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-
-                    // When permission granted: call method
-
-                    getCurrentLocation();
-
-                } else {
-
-                    // when permission is not granted: Request permission
-
-                    ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 100);
-
-
-                }
-            }
-        });
-
-        @Override
-        public void onRequestPermissionResult ( int requestCode, @NonNull String[] permissions,
-        @NonNull int[] grantResults){
-        if (requestCode == 100 && grantResults.length > 0 && (grantResults[0] + grantResults[1] ==
-
-        PackageManager.PERMISSION_GRANTED)){
-
-    // when permission granted: call method
-
-        getCurrentLocation();
-    } else{
-
-            // when permission is denied: display error
-
-            Toast.makeText(getApplicationContext(), "Permission Denied!", Toast.LENGTH_SHORT).show();
-
-    }
-
-
-    */
-
         builder = new AlertDialog.Builder(this, R.style.AlertDialogStyle);
 
         TextView title = (TextView) findViewById(R.id.activityMain);
-        title.setText("<Message to user>");
+        title.setText("Main");
 
 
         SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
@@ -178,9 +91,6 @@ public class MainActivity extends AppCompatActivity {
             SharedPreferences.Editor editor = prefs.edit();
             editor.putBoolean("firstStart", false); // Set to false so that it will only appear once when accepted
             editor.apply();
-
-
-
 
 
         }

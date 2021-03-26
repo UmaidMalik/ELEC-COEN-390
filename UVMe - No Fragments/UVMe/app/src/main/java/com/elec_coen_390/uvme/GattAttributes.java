@@ -32,6 +32,7 @@ public class GattAttributes {
     public static String SERVICE_CHANGED = "00002a05-0000-1000-8000-00805f9b34fb";
 
     public static String CLIENT_CHARACTERISTIC_CONFIG = "00002902-0000-1000-8000-00805f9b34fb";
+    public static String CLIENT_CHARACTERISTIC_CONFIG2 = "00002902-0000-1000-8000-00805f9b34fc";
 
     public static final int UV_SENSOR_INTENSITY_READ = 1;
 

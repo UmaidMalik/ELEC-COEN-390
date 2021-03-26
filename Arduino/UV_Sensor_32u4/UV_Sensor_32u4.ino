@@ -78,7 +78,10 @@ int count = 0;
  int32_t uvServiceId;
  int32_t uvIntensityCharId;
  int32_t uvIntensityCharIdNotify;
- //int32_t uvTimeCharId;
+
+
+ int32_t batteryServiceId;
+ int32_t batteryLevelCharId;
 
 
  /* Function: error
@@ -133,6 +136,33 @@ void emitUVSensorData(float uvIntensity) {
 }
 
 
+void updateBatteryCharacteristic(String nameOfChar, int characteristic, int32_t charId) {
+  
+  Serial.print("Byte size of ");
+  Serial.print(nameOfChar);
+  Serial.print(" : ");
+  Serial.println(sizeof(characteristic));
+
+  String msg = String(characteristic);
+
+  ble.print( F("AT+GATTCHAR=") );
+  ble.print( charId );
+  ble.print( F(",") );
+  ble.println(msg);
+
+  Serial.print("Actual value of ");
+  Serial.print(nameOfChar);
+  Serial.print(" : ");
+  Serial.println(characteristic);
+  if ( !ble.waitForOK() ) Serial.println(F("Failed to get response!"));
+  Serial.println("");
+  Serial.println("");
+}
+
+void emitBatteryLevel(int batteryLevel) {
+  updateIntCharacteristic("Battery Level", batteryLevel, batteryLevelCharId); 
+}
+
 
 void setup()
 {
@@ -144,6 +174,7 @@ void setup()
 
   pinMode(UVOUT, INPUT);
   pinMode(REF_3V3, INPUT);
+  pinMode(VBATPIN, INPUT);
 
   if ( !ble.begin(false) ) error(F ("Couldn't find Bluefruit, makey sure it is in Command mode"));
 
@@ -166,15 +197,15 @@ void setup()
   success = ble.sendCommandWithIntReply( F("AT+GATTADDCHAR=UUID128=00-00-00-03-A9-A6-4E-69-87-BD-29-12-35-71-61-B3, PROPERTIES=0x10, MIN_LEN=1, MAX_LEN=20,VALUE=0,DATATYPE= 1"), &uvIntensityCharIdNotify);
   if (! success) error(F("Could not add UV Intensity characteristic"));
 
-   //success = ble.sendCommandWithIntReply( F("AT+GATTADDCHAR=UUID=0x0010,PROPERTIES=0x02,MIN_LEN=1,MAX_LEN=20,VALUE=0"), &uvIntensityCharId);
-  //if (! success) error(F("Could not add UV Intensity characteristic"));
 
-  //success = ble.sendCommandWithIntReply( F("AT+GATTADDCHAR=UUID=0x0003,PROPERTIES=0x2,MIN_LEN=1,MAX_LEN=20,VALUE=0"), &uvTimeCharId);
-  //if (! success) error(F("Could not add UV Sensor Time characteristic"));
+  // SETUP BATTERY SERVICE & CHARACTERISTICS
+  success = ble.sendCommandWithIntReply( F("AT+GATTADDSERVICE=UUID128=00-00-00-01-B9-B6-4D-74-87-CE-29-12-35-91-64-2B"), &batteryServiceId);
+  if (!success) error(F("Could not add Battery service"));
 
-  //success = ble.sendCommandWithIntReply( F("AT+GATTADDCHAR=UUID128=00-00-00-03-A9-A6-4E-69-87-BD-29-12-35-71-61-B3, PROPERTIES=0x2, MIN_LEN=1, MAX_LEN=20,VALUE=0,DATATYPE=1"), &uvTimeCharId);
-  //if (! success) error(F("Could not add UV Sensor Time characteristic"));
+  success = ble.sendCommandWithIntReply( F("AT+GATTADDCHAR=UUID128=00-00-00-02-B9-B6-4D-74-87-CE-29-12-35-91-64-2B, PROPERTIES=0x10, MIN_LEN=1, MAX_LEN=20,VALUE=0,DATATYPE= 1"), &batteryLevelCharId);
+  if (! success) error(F("Could not add Battery Level characteristic"));
 
+  
   
   ble.reset();
   
@@ -197,14 +228,17 @@ void loop()
   float outputVoltage = 3.3 / refLevel * uvLevel;
 
   float uvIntensity = mapfloat(outputVoltage, 0.99, 2.8, 0.0, 15.0); //Convert the voltage to a UV intensity level
+  
 
   float measuredvbat = analogRead(VBATPIN);
   measuredvbat *= 2;    // we divided by 2, so multiply back
   measuredvbat *= 3.3;  // Multiply by 3.3V, our reference voltage
   measuredvbat /= 1024; // convert to voltage
+  measuredvbat = mapfloat(measuredvbat, 3.0, 4.2, 0.0, 100.0);
 
 
   emitUVSensorData(uvIntensity);
+  emitBatteryLevel(measuredvbat);
 
   //count++;
 

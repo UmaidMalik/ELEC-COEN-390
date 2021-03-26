@@ -104,7 +104,7 @@ public class DeviceControlActivity extends Activity {
                 displayGattServices(mBluetoothLeService.getSupportedGattServices());
             } else if (BluetoothLeService.ACTION_DATA_AVAILABLE.equals(action)) {
                 displayData(intent.getStringExtra(BluetoothLeService.EXTRA_DATA));
-                displayTestData(intent.getStringExtra(BluetoothLeService.EXTRA_DATA_VALUE_UV_INDEX));
+                displayTestData(intent.getStringExtra(BluetoothLeService.EXTRA_DATA_VALUE_BATTERY_LEVEL));
             }
         }
     };
@@ -159,6 +159,7 @@ public class DeviceControlActivity extends Activity {
         title.setText(mDeviceName);
 
         testDataField = (TextView) findViewById(R.id.textViewTestDataField);
+        testDataField.setText(String.valueOf(BatteryData.getBatteryLevel()));
 
 
         ((TextView) findViewById(R.id.device_address)).setText(mDeviceAddress);
@@ -226,7 +227,7 @@ public class DeviceControlActivity extends Activity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        testDataField.setText(String.valueOf(UVSensorData.getUVIntensity()));
+                        testDataField.setText(String.valueOf(BatteryData.getBatteryLevel()));
                     }
                 });
 

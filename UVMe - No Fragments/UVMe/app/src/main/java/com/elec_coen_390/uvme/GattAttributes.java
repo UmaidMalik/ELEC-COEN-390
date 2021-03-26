@@ -15,6 +15,9 @@ public class GattAttributes {
     public static String UV_SENSOR_INTENSITY_MEASUREMENT = "00000002-a9a6-4e69-87bd-2912357161b3";
     public static String UV_SENSOR_INTENSITY_MEASUREMENT_NOTIFY = "00000003-a9a6-4e69-87bd-2912357161b3";
 
+    public static String BATTERY_SERVICE = "00000001-b9b6-4d74-87ce-29123591642b";
+    public static String BATTERY_LEVEL_CHARACTERISTIC = "00000002-b9b6-4d74-87ce-29123591642b";
+
     public static String DEVICE_NAME = "00002a00-0000-1000-8000-00805f9b34fb";
     public static String APPEARANCE = "00002a01-0000-1000-8000-00805f9b34fb";
     public static String PERIPHERAL_PREFERRED_CONNECTION_PARAMETERS = "00002a04-0000-1000-8000-00805f9b34fb";
@@ -35,6 +38,7 @@ public class GattAttributes {
     static {
         // Services
         attributes.put(UV_SENSOR_SERVICE, "UV Sensor Service");
+        attributes.put(BATTERY_SERVICE, "Battery Service");
         attributes.put(GENERIC_ACCESS, "Generic Access");
         attributes.put(DEVICE_INFORMATION_SERVICE, "Device Information Service");
         attributes.put(GENERIC_ATTRIBUTE, "Generic Attribute");
@@ -43,6 +47,8 @@ public class GattAttributes {
         // Characteristics
         attributes.put(UV_SENSOR_INTENSITY_MEASUREMENT, "UV Intensity Measurement READ");
         attributes.put(UV_SENSOR_INTENSITY_MEASUREMENT_NOTIFY, "UV Intensity Measurement NOTIFY");
+        attributes.put(BATTERY_LEVEL_CHARACTERISTIC, "Battery Level");
+
 
         attributes.put(DEVICE_NAME, "Device Name");
         attributes.put(APPEARANCE, "Appearance");

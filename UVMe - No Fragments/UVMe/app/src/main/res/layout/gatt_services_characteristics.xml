@@ -18,6 +18,7 @@
         android:id="@+id/textViewTestDataField"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
         android:textSize="30sp"
         android:textColor="@color/light_blue"
         android:fontFamily="@font/roboto_thin"

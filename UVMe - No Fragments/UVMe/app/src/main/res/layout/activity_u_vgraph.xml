@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/midnight_blue"
-    tools:context=".dayGraph">
+    tools:context=".DayGraph">
 
 
 <TextView
@@ -50,14 +50,13 @@
     android:id="@+id/graph"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="100dp"
-    android:layout_marginBottom="100dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="140dp"
     android:layout_marginRight="15dp"
     android:layout_marginLeft="1dp">
 
 
 </com.jjoe64.graphview.GraphView>
-
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
@@ -69,8 +68,6 @@
         app:itemBackground="@color/secondary_blue"
         app:itemIconTint="@animator/nav_selector"
         app:itemTextColor="@animator/nav_selector"/>
-
-
 
 
 </RelativeLayout>

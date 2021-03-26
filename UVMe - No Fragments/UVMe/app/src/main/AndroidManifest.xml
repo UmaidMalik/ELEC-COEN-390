@@ -28,7 +28,7 @@
             android:screenOrientation="locked"/>
         <activity android:name=".weekGraph"
             android:screenOrientation="locked" />
-        <activity android:name=".dayGraph"
+        <activity android:name=".DayGraph"
             android:screenOrientation="locked"/>
         <activity android:name=".ThemesActivity"
             android:screenOrientation="locked" />

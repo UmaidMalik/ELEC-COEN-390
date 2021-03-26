@@ -104,7 +104,7 @@ Button showMonthGraphButton;
         finish();
     }
     protected void goToGraphActivity() {
-        Intent intentGraph = new Intent(this, dayGraph.class);
+        Intent intentGraph = new Intent(this, DayGraph.class);
         startActivity(intentGraph);
         finish();
     }

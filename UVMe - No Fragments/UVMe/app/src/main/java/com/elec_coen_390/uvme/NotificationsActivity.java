@@ -19,6 +19,7 @@ import android.widget.ToggleButton;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 //test test
+//test test
 
 public class NotificationsActivity extends AppCompatActivity {
 

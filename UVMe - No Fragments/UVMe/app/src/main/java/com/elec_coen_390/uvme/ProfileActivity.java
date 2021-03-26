@@ -31,7 +31,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class ProfileActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
-
     private ArrayList<eyeColor> meyeColor;
     private eyeAdapter meyeAdapter;
     private ArrayList<skinTone> mskinColor;
@@ -53,13 +52,6 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
     private  final String prefNameGender ="spinner_value_gender";
     int id_gender,id_eye,id_skin=0;
     final String TAG = "ProfileActivity";
-
-
-
-
-
-
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,8 +63,6 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         selectedProfileTextView=findViewById(R.id.selectedProfileTextView);
         noEdits(); // Default mode sends to NoEdits, Once edit is selected user can change informaiton
         Intent intent = getIntent(); // lets us go back and forth from app to app
-
-
     }
     @Override
     protected void onResume() {
@@ -353,7 +343,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
                 selectedProfileTextView.setText(name); // shows the users edited profile name upon clicking edit
                 noEdits(); // after user saved information it is sent back to the No edit mode.
                 //selectedProfileTextView.setText(name);
-                Toast.makeText(getApplicationContext(),"SAVED",Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),"SAVED",Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -404,15 +394,9 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         mskinColor.add(new skinTone("Medium",R.drawable.ic_medium));
         mskinColor.add(new skinTone("Olive",R.drawable.ic_olive));
         mskinColor.add(new skinTone("Brown",R.drawable.ic_brown));
-        mskinColor.add(new skinTone("Black",R.drawable.ic_black));
-    }
-
+        mskinColor.add(new skinTone("Black",R.drawable.ic_black)); }
     protected void goToMoreActivity() {
         Intent intentMore = new Intent(this, MoreActivity.class);
         startActivity(intentMore);
-        finish();
-    }
-
-
-
+        finish(); }
 }

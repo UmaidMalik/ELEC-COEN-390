@@ -1,6 +1,7 @@
 package com.elec_coen_390.uvme;
 
 import android.app.Activity;
+import android.app.Application;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattService;
 import android.content.BroadcastReceiver;
@@ -19,6 +20,8 @@ import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import android.widget.SimpleExpandableListAdapter;
 import android.widget.TextView;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,6 +42,8 @@ public class DeviceControlActivity extends Activity {
     public static final String EXTRAS_DEVICE_NAME = "DEVICE_NAME";
     public static final String EXTRAS_DEVICE_ADDRESS = "DEVICE_ADDRESS";
 
+    private TextView testDataField;
+
     private TextView mConnectionState;
     private TextView mDataField;
     private String mDeviceName;
@@ -54,6 +59,8 @@ public class DeviceControlActivity extends Activity {
     private final String LIST_UUID = "UUID";
 
     TextView title;
+
+
 
     // Service lifecycle management.
     private final ServiceConnection mServiceConnection = new ServiceConnection() {
@@ -97,6 +104,7 @@ public class DeviceControlActivity extends Activity {
                 displayGattServices(mBluetoothLeService.getSupportedGattServices());
             } else if (BluetoothLeService.ACTION_DATA_AVAILABLE.equals(action)) {
                 displayData(intent.getStringExtra(BluetoothLeService.EXTRA_DATA));
+                displayTestData(intent.getStringExtra(BluetoothLeService.EXTRA_DATA_VALUE_UV_INDEX));
             }
         }
     };
@@ -127,6 +135,8 @@ public class DeviceControlActivity extends Activity {
                 }
             };
 
+
+
     private void clearUI() {
         mGattServicesList.setAdapter((SimpleExpandableListAdapter) null);
         mDataField.setText(R.string.no_data);
@@ -146,7 +156,10 @@ public class DeviceControlActivity extends Activity {
 
         title = (TextView) findViewById(R.id.activityUVSensor);
 
-        title.setText("UV Sensor");
+        title.setText(mDeviceName);
+
+        testDataField = (TextView) findViewById(R.id.textViewTestDataField);
+
 
         ((TextView) findViewById(R.id.device_address)).setText(mDeviceAddress);
         mGattServicesList = (ExpandableListView) findViewById(R.id.gatt_services_list);
@@ -154,10 +167,14 @@ public class DeviceControlActivity extends Activity {
         mConnectionState = (TextView) findViewById(R.id.connection_state);
         mDataField = (TextView) findViewById(R.id.data_value);
 
+        setupBottomNavigationListener();
+
         //getActionBar().setTitle(mDeviceName);
         //getActionBar().setDisplayHomeAsUpEnabled(true);
         Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
         bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
+
+        //startUIThread(getCurrentFocus());
     }
 
     @Override
@@ -173,14 +190,55 @@ public class DeviceControlActivity extends Activity {
     @Override
     protected void onPause() {
         super.onPause();
-       // unregisterReceiver(mGattUpdateReceiver);
+       //unregisterReceiver(mGattUpdateReceiver);
+        registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
+        if (mBluetoothLeService != null) {
+            final boolean result = mBluetoothLeService.connect(mDeviceAddress);
+            Log.d(TAG, "Connect request result=" + result);
+        }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-       // unbindService(mServiceConnection);
-       // mBluetoothLeService = null;
+       //unbindService(mServiceConnection);
+       //mBluetoothLeService = null;
+        registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
+        if (mBluetoothLeService != null) {
+            final boolean result = mBluetoothLeService.connect(mDeviceAddress);
+            Log.d(TAG, "Connect request result=" + result);
+        }
+    }
+
+    private void startUIThread(View view) {
+        DeviceControlActivity.RunnableUVIndex runnableUVIndex = new DeviceControlActivity.RunnableUVIndex();
+        new Thread(runnableUVIndex).start();
+    }
+
+    private class RunnableUVIndex implements Runnable {
+
+        @Override
+        public void run() {
+            while (true) {
+
+
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        testDataField.setText(String.valueOf(UVSensorData.getUVIntensity()));
+                    }
+                });
+
+                try {
+                    Thread.sleep(1);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        }
     }
 
     @Override
@@ -227,6 +285,10 @@ public class DeviceControlActivity extends Activity {
         }
     }
 
+    private void displayTestData(String data) {
+        testDataField.setText(data);
+    }
+
     private void displayGattServices(List<BluetoothGattService> gattServices) {
         if (gattServices == null) return;
         String uuid = null;
@@ -242,6 +304,7 @@ public class DeviceControlActivity extends Activity {
         // Loops through available GATT Services.
         for (BluetoothGattService gattService : gattServices) {
             HashMap<String, String> currentServiceData = new HashMap<String, String>();
+
             uuid = gattService.getUuid().toString();
             currentServiceData.put(
                     LIST_NAME, GattAttributes.lookup(uuid, unknownServiceString));
@@ -310,5 +373,67 @@ public class DeviceControlActivity extends Activity {
         intentFilter.addAction(BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED);
         intentFilter.addAction(BluetoothLeService.ACTION_DATA_AVAILABLE);
         return intentFilter;
+    }
+
+    private void setupBottomNavigationListener() {
+
+        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+
+        // Menu items are left unselected
+        bottomNavigationView.getMenu().getItem(0).setCheckable(false);
+        bottomNavigationView.getMenu().getItem(1).setCheckable(false);
+        bottomNavigationView.getMenu().getItem(2).setCheckable(false);
+
+
+
+
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                switch (item.getItemId()) {
+
+                    case R.id.action_profile:
+                        item.setCheckable(true);
+                        goToProfileActivity();
+                        return true;
+                    //break;
+
+                    case R.id.action_more:
+                        item.setCheckable(true);
+                        goToMoreActivity();
+                        return true;
+                    //break;
+
+                    case R.id.action_home:
+                        item.setCheckable(true);
+                        goToMainActivity();
+                        return true;
+                    //break;
+
+                    default:
+
+                }
+                return false;
+            }
+        });
+    }
+
+    protected void goToProfileActivity() {
+        Intent intentProfile = new Intent(this, ProfileActivity.class);
+        startActivity(intentProfile);
+        //finish();
+    }
+
+    protected void goToMoreActivity() {
+        Intent intentMore = new Intent(this, MoreActivity.class);
+        startActivity(intentMore);
+        //finish();
+    }
+    protected void goToMainActivity() {
+        Intent intentMain = new Intent(this, MainActivity.class);
+        startActivity(intentMain);
+        //finish();
     }
 }

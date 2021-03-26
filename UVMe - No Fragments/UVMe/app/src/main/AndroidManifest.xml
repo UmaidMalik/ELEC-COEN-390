@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.elec_coen_390.uvme"
     android:versionCode="1"
-    android:versionName="1.0">
+    android:versionName="1.2">
 
     <uses-feature
         android:name="android.hardware.bluetooth_le"
@@ -11,6 +11,7 @@
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -20,15 +21,30 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
+        android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/Theme.UVMe">
-        <activity android:name=".UVgraph"></activity>
-        <activity android:name=".ThemesActivity" />
-        <activity android:name=".InfoActivity" />
-        <activity android:name=".UVSensorActivity" />
-        <activity android:name=".UVHistoryActivity" />
-        <activity android:name=".NotificationsActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".monthGraph"
+            android:screenOrientation="locked"/>
+        <activity android:name=".weekGraph"
+            android:screenOrientation="locked" />
+        <activity android:name=".dayGraph"
+            android:screenOrientation="locked"/>
+        <activity android:name=".ThemesActivity"
+            android:screenOrientation="locked" />
+        <activity android:name=".InfoActivity"
+            android:screenOrientation="locked" />
+        <activity android:name=".UVSensorActivity"
+            android:screenOrientation="locked" />
+        <activity android:name=".UVHistoryActivity"
+            android:screenOrientation="locked" />
+        <activity android:name=".NotificationsActivity"
+            android:screenOrientation="locked" />
+        <activity android:name=".HelpActivity"
+            android:screenOrientation="locked" />
+
+        <activity android:name=".MainActivity"
+            android:screenOrientation="locked" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -37,15 +53,21 @@
         </activity>
         <activity
             android:name=".ProfileActivity"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="locked" />
         <activity
             android:name=".MoreActivity"
-            android:parentActivityName=".MainActivity" />
-        <activity android:name=".DeviceControlActivity" />
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="locked" />
+        <activity
+            android:name=".DeviceControlActivity"
+            android:screenOrientation="locked" />
 
         <service
             android:name=".BluetoothLeService"
             android:enabled="true" />
     </application>
+
+    
 
 </manifest>

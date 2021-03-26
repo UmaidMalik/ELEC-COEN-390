@@ -30,7 +30,7 @@ public class InfoActivity extends AppCompatActivity {
                                             "when the sun’s rays are most intense",
                                             "Apply SPF 30+ sunscreen every 2 hours; limit time outdoors",
                                             "Apply SPF 30+ sunscreen every 2 hours; limit time outdoors; be careful outside"};
-    private int[] colorImages = {R.drawable.low, R.drawable.moderate, R.drawable.high, R.drawable.veryhigh, R.drawable.extreme};
+    private int[] colorImages = {R.drawable.ic_low, R.drawable.ic_moderate, R.drawable.ic_high, R.drawable.ic_veryhigh, R.drawable.ic_extreme};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

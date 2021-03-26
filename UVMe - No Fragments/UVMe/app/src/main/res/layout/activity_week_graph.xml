@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/midnight_blue"
-    tools:context=".dayGraph">
+    tools:context=".weekGraph">
 
 
-<TextView
-    android:text="AVERAGE UV EXPOSURE"
-    android:textColor="@android:color/holo_red_dark"
-    android:layout_width="100dp"
-    android:layout_height="20dp"
-    android:textSize="15dp"
-    android:layout_marginLeft="25dp"
-    android:layout_marginBottom="10dp"
-    android:layout_marginTop="625dp"/>
+    <TextView
+        android:text="AVERAGE UV EXPOSURE"
+        android:textColor="@android:color/holo_red_dark"
+        android:layout_width="100dp"
+        android:layout_height="20dp"
+        android:textSize="15dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="625dp"/>
     <TextView
         android:text="MAX UV LEVEL"
         android:textColor="@android:color/holo_red_dark"
@@ -47,16 +48,16 @@
         android:layout_marginTop="660dp"/>
 
     <com.jjoe64.graphview.GraphView
-    android:id="@+id/graph"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginTop="100dp"
-    android:layout_marginBottom="100dp"
-    android:layout_marginRight="15dp"
-    android:layout_marginLeft="1dp">
+        android:id="@+id/graph"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="150dp"
+        android:layout_marginRight="1dp"
+        android:layout_marginLeft="1dp">
 
 
-</com.jjoe64.graphview.GraphView>
+    </com.jjoe64.graphview.GraphView>
 
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -69,7 +70,6 @@
         app:itemBackground="@color/secondary_blue"
         app:itemIconTint="@animator/nav_selector"
         app:itemTextColor="@animator/nav_selector"/>
-
 
 
 

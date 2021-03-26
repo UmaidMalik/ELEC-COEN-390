@@ -31,6 +31,8 @@ public class BluetoothLeService extends Service {
     private BluetoothGatt mBluetoothGatt;
     private int mConnectionState = STATE_DISCONNECTED;
 
+    BluetoothGattCharacteristic UVIntensityCharacteristic;
+
     private static final int STATE_DISCONNECTED = 0;
     private static final int STATE_CONNECTING = 1;
     private static final int STATE_CONNECTED = 2;
@@ -46,8 +48,23 @@ public class BluetoothLeService extends Service {
     public final static String EXTRA_DATA =
             "com.example.bluetooth.le.EXTRA_DATA";
 
+    public final static String EXTRA_DATA_VALUE =
+            "com.example.bluetooth.le.EXTRA_DATA_VALUE";
+
+    public final static String EXTRA_DATA_VALUE_UV_INDEX =
+            "com.example.bluetooth.le.EXTRA_DATA_VALUE_UV_INDEX";
+
+    public final static String EXTRA_DATA_VALUE_BATTERY_LEVEL =
+            "com.example.bluetooth.le.EXTRA_DATA_VALUE_UV_INDEX";
+
     public final static UUID UUID_UV_INTENSITY_MEASUREMENT =
             UUID.fromString(GattAttributes.UV_SENSOR_INTENSITY_MEASUREMENT);
+
+    public final static UUID UUID_CLIENT_CHARACTERISTIC_CONFIG =
+            UUID.fromString(GattAttributes.CLIENT_CHARACTERISTIC_CONFIG);
+
+    public final static UUID UUID_UV_INTENSITY_MEASUREMENT_NOTIFY =
+            UUID.fromString(GattAttributes.UV_SENSOR_INTENSITY_MEASUREMENT_NOTIFY);
 
     // Implements callback methods for GATT events that the app cares about.  For example,
     // connection change and services discovered.
@@ -76,6 +93,24 @@ public class BluetoothLeService extends Service {
         public void onServicesDiscovered(BluetoothGatt gatt, int status) {
             if (status == BluetoothGatt.GATT_SUCCESS) {
                 broadcastUpdate(ACTION_GATT_SERVICES_DISCOVERED);
+
+                List<BluetoothGattService> services = gatt.getServices();
+
+                // Loops through available GATT Services.
+                for (BluetoothGattService gattService : services) {
+                    List<BluetoothGattCharacteristic> gattCharacteristicsList = gattService.getCharacteristics();
+
+                    // Loops through available Characteristics.
+                    for (BluetoothGattCharacteristic gattCharacteristic : gattCharacteristicsList) {
+                        if (UUID_UV_INTENSITY_MEASUREMENT_NOTIFY.equals(gattCharacteristic.getUuid())) {
+                            UVIntensityCharacteristic = gattCharacteristic;
+                            Log.w(TAG, "UV Intensity characteristic found");
+                            broadcastUpdate(ACTION_DATA_AVAILABLE, UVIntensityCharacteristic);
+                        }
+                    }
+                }
+
+
             } else {
                 Log.w(TAG, "onServicesDiscovered received: " + status);
             }
@@ -93,6 +128,8 @@ public class BluetoothLeService extends Service {
         public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
             broadcastUpdate(ACTION_DATA_AVAILABLE, characteristic);
         }
+
+
     };
 
     private void broadcastUpdate(final String action) {
@@ -104,14 +141,33 @@ public class BluetoothLeService extends Service {
 
         final Intent intent = new Intent(action);
 
-        // For all other profiles, writes the data formatted in HEX.
-        final byte[] data = characteristic.getValue();
-        if (data != null && data.length > 0) {
-            final StringBuilder stringBuilder = new StringBuilder(data.length);
-            for (byte byteChar : data)
-                stringBuilder.append(String.format("%02X", byteChar));
-            intent.putExtra(EXTRA_DATA, new String(data) + "\n" + stringBuilder.toString());
+
+        if (UUID_UV_INTENSITY_MEASUREMENT_NOTIFY.equals(characteristic.getUuid())) {
+            setCharacteristicNotification(characteristic, true);
+            final byte[] data = characteristic.getValue();
+            if (data != null && data.length > 0) {
+                final StringBuilder stringBuilder = new StringBuilder(data.length);
+                for (byte byteChar : data)
+                    stringBuilder.append(String.format("%02X", byteChar));
+                //intent.putExtra(EXTRA_DATA, new String(data) + "\n" + stringBuilder.toString());
+                intent.putExtra(EXTRA_DATA_VALUE_UV_INDEX, new String(data));
+                //if (characteristic.getUuid() == UUID_UV_INTENSITY_MEASUREMENT_NOTIFY)
+                UVSensorData.setUVIntensity(Float.parseFloat(new String(data)));
+            }
+        } else {
+            // For all other profiles, writes the data formatted in HEX.
+            final byte[] data = characteristic.getValue();
+            if (data != null && data.length > 0) {
+                final StringBuilder stringBuilder = new StringBuilder(data.length);
+                for (byte byteChar : data)
+                    stringBuilder.append(String.format("%02X", byteChar));
+                intent.putExtra(EXTRA_DATA, new String(data) + "\n" + stringBuilder.toString());
+                intent.putExtra(EXTRA_DATA_VALUE, new String(data));
+                //if (characteristic.getUuid() == UUID_UV_INTENSITY_MEASUREMENT_NOTIFY)
+                UVSensorData.setUVIntensity(Float.parseFloat(new String(data)));
+            }
         }
+
         sendBroadcast(intent);
     }
 
@@ -245,6 +301,8 @@ public class BluetoothLeService extends Service {
         mBluetoothGatt.readCharacteristic(characteristic);
     }
 
+
+
     /**
      * Enables or disables notification on a give characteristic.
      *
@@ -259,16 +317,19 @@ public class BluetoothLeService extends Service {
         }
         mBluetoothGatt.setCharacteristicNotification(characteristic, enabled);
 
-        /*
-        if (UUID_UV_INTENSITY_MEASUREMENT.equals(characteristic.getUuid())) {
+
+        if (UUID_UV_INTENSITY_MEASUREMENT_NOTIFY.equals(characteristic.getUuid())) {
             BluetoothGattDescriptor descriptor = characteristic.getDescriptor(
-                    UUID.fromString(GattAttributes.CLIENT_CHARACTERISTIC_CONFIG));
+                    UUID_CLIENT_CHARACTERISTIC_CONFIG);
             descriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
+            //descriptor.setValue(enabled ? BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE : new byte[]{0x00, 0x00, 0x00, 0x00});
             mBluetoothGatt.writeDescriptor(descriptor);
         }
-        */
-    }
 
+
+
+    }
+    
     /**
      * Retrieves a list of supported GATT services on the connected device. This should be
      * invoked only after {@code BluetoothGatt#discoverServices()} completes successfully.
@@ -280,5 +341,12 @@ public class BluetoothLeService extends Service {
 
         return mBluetoothGatt.getServices();
     }
+
+    @Override
+    public boolean stopService(Intent name) {
+        disconnect();
+        return super.stopService(name);
+    }
+
 
 }

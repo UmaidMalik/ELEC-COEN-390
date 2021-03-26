@@ -2,17 +2,17 @@ package com.elec_coen_390.uvme;
 
 public class BatteryData {
 
-    private static int batteryLevel = 0;
+    private static float batteryLevel = 0;
 
-    public BatteryData(int battery_level) {
+    public BatteryData(float battery_level) {
         batteryLevel = battery_level;
     }
 
-    public static int getBatteryLevel() {
+    public static float getBatteryLevel() {
         return batteryLevel;
     }
 
-    public static void setBatteryLevel(int battery_level) {
+    public static void setBatteryLevel(float battery_level) {
         batteryLevel = battery_level;
     }
 }

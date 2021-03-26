@@ -32,6 +32,7 @@ public class BluetoothLeService extends Service {
     private int mConnectionState = STATE_DISCONNECTED;
 
     BluetoothGattCharacteristic UVIntensityCharacteristic;
+    BluetoothGattCharacteristic batteryLevelCharacteristic;
 
     private static final int STATE_DISCONNECTED = 0;
     private static final int STATE_CONNECTING = 1;
@@ -55,13 +56,15 @@ public class BluetoothLeService extends Service {
             "com.example.bluetooth.le.EXTRA_DATA_VALUE_UV_INDEX";
 
     public final static String EXTRA_DATA_VALUE_BATTERY_LEVEL =
-            "com.example.bluetooth.le.EXTRA_DATA_VALUE_UV_INDEX";
+            "com.example.bluetooth.le.EXTRA_DATA_VALUE_BATTERY_LEVEL";
 
-    public final static UUID UUID_UV_INTENSITY_MEASUREMENT =
-            UUID.fromString(GattAttributes.UV_SENSOR_INTENSITY_MEASUREMENT);
+
 
     public final static UUID UUID_CLIENT_CHARACTERISTIC_CONFIG =
             UUID.fromString(GattAttributes.CLIENT_CHARACTERISTIC_CONFIG);
+
+    public final static UUID UUID_CLIENT_CHARACTERISTIC_CONFIG2 =
+            UUID.fromString(GattAttributes.CLIENT_CHARACTERISTIC_CONFIG2);
 
     public final static UUID UUID_UV_INTENSITY_MEASUREMENT_NOTIFY =
             UUID.fromString(GattAttributes.UV_SENSOR_INTENSITY_MEASUREMENT_NOTIFY);
@@ -109,6 +112,11 @@ public class BluetoothLeService extends Service {
                             UVIntensityCharacteristic = gattCharacteristic;
                             Log.w(TAG, "UV Intensity characteristic found");
                             broadcastUpdate(ACTION_DATA_AVAILABLE, UVIntensityCharacteristic);
+                        }
+                        if (UUID_BATTERY_LEVEL.equals(gattCharacteristic.getUuid())) {
+                            batteryLevelCharacteristic = gattCharacteristic;
+                            Log.w(TAG, "Battery Level characteristic found");
+                            broadcastUpdate(ACTION_DATA_AVAILABLE, batteryLevelCharacteristic);
                         }
                     }
                 }
@@ -158,20 +166,21 @@ public class BluetoothLeService extends Service {
                 UVSensorData.setUVIntensity(Float.parseFloat(new String(data)));
             }
         }
-        /*
+
         if (UUID_BATTERY_LEVEL.equals(characteristic.getUuid())) {
             setCharacteristicNotification(characteristic, true);
-            final byte[] data = characteristic.getValue();
-            if (data != null && data.length > 0) {
-                final StringBuilder stringBuilder = new StringBuilder(data.length);
-                for (byte byteChar : data)
-                    stringBuilder.append(String.format("%02X", byteChar));
-                intent.putExtra(EXTRA_DATA_VALUE_BATTERY_LEVEL, new String(data));
-                BatteryData.setBatteryLevel(Integer.parseInt(new String(data)));
-            }
+            //final byte[] data = characteristic.getValue();
+            //if (data != null && data.length > 0) {
+                //final StringBuilder stringBuilder = new StringBuilder(data.length);
+                //for (byte byteChar : data)
+                  //  stringBuilder.append(String.format("%02X", byteChar));
+            int batteryLevel = characteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_UINT8,0);
+                intent.putExtra(EXTRA_DATA_VALUE_BATTERY_LEVEL, String.valueOf(batteryLevel));
+                BatteryData.setBatteryLevel(batteryLevel);
+            //}
         }
 
-         */
+
 
             // For all other profiles, writes the data formatted in HEX.
             final byte[] data = characteristic.getValue();
@@ -181,9 +190,10 @@ public class BluetoothLeService extends Service {
                     stringBuilder.append(String.format("%02X", byteChar));
                 intent.putExtra(EXTRA_DATA, new String(data) + "\n" + stringBuilder.toString());
                 intent.putExtra(EXTRA_DATA_VALUE, new String(data));
-                //if (characteristic.getUuid() == UUID_UV_INTENSITY_MEASUREMENT_NOTIFY)
-                UVSensorData.setUVIntensity(Float.parseFloat(new String(data)));
-            }
+
+
+        }
+
 
 
         sendBroadcast(intent);
@@ -343,8 +353,7 @@ public class BluetoothLeService extends Service {
             //descriptor.setValue(enabled ? BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE : new byte[]{0x00, 0x00, 0x00, 0x00});
             mBluetoothGatt.writeDescriptor(descriptor);
         }
-
-        if (UUID_BATTERY_LEVEL.equals(characteristic.getUuid())) {
+        else if (UUID_BATTERY_LEVEL.equals(characteristic.getUuid())) {
             BluetoothGattDescriptor descriptor = characteristic.getDescriptor(
                     UUID_CLIENT_CHARACTERISTIC_CONFIG);
             descriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);

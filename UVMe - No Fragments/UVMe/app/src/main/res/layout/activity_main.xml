@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -31,20 +32,57 @@
         app:itemIconTint="@animator/nav_selector"
         app:itemTextColor="@animator/nav_selector"/>
 
+    <RelativeLayout
+        android:id="@+id/layout_sun"
+        android:layout_width="350dp"
+        android:layout_height="500dp"
+        android:layout_marginTop="151dp"
+        android:layout_marginBottom="204dp"
+        android:layout_centerInParent="true">
+
+
+
+
+
     <ImageView
         android:id="@+id/ic_sun"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/bottom_navigation"
-        android:layout_below="@+id/activityMain"
         android:layout_centerInParent="true"
-        android:layout_marginTop="151dp"
-        android:layout_marginBottom="204dp"
-        android:scaleX="1.5"
-        android:scaleY="1.5"
+        android:scaleX="1.6"
+        android:scaleY="1.6"
         app:srcCompat="@drawable/ic_sunlight_default_level1_lightblue"
-        tools:ignore="VectorDrawableCompat"
-         />
+        tools:ignore="VectorDrawableCompat" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
+
+    <TextView
+        android:id="@+id/textViewUVI"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="UVI"
+        android:textSize="30sp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
+        android:fontFamily="@font/roboto_thin"
+        android:textColor="@color/light_blue" />
+
+        <TextView
+            android:id="@+id/textViewUVIndex"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0.00"
+            android:textSize="40sp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="0dp"
+            android:fontFamily="@font/roboto_thin"
+            android:textColor="@color/light_blue" />
+        </RelativeLayout>
+    </RelativeLayout>
+
 
     <ImageView
         android:id="@+id/ic_cloud"
@@ -56,12 +94,8 @@
         app:srcCompat="@drawable/ic_cloud"
         tools:ignore="VectorDrawableCompat" />
 
-   <Button
-        android:id="@+id/button"
-        android:layout_centerInParent="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button" />
+  
+
 
     <Button
         android:id="@+id/button2"
@@ -80,7 +114,7 @@
         android:textAlignment="center"
         android:textColor="@color/light_blue"
         android:layout_marginLeft="120dp"
-        android:layout_marginTop="80dp" />
+        android:layout_marginTop="80dp"/>
 
 
     <TextView
@@ -91,7 +125,7 @@
         android:textAlignment="center"
         android:textColor="@color/light_blue"
         android:layout_marginLeft="25dp"
-        android:layout_marginTop="100dp" />
+        android:layout_marginTop="100dp"/>
 
 
     <TextView
@@ -102,7 +136,7 @@
         android:textAlignment="center"
         android:textColor="@color/light_blue"
         android:layout_marginLeft="70dp"
-        android:layout_marginTop="100dp" />
+        android:layout_marginTop="100dp"/>
 
 
 </RelativeLayout>

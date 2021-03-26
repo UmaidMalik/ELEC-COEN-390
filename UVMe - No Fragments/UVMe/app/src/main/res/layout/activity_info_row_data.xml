@@ -48,7 +48,7 @@
             android:layout_centerInParent="true"
             android:layout_centerVertical="true"
 
-            android:src="@drawable/low" />
+            android:src="@drawable/ic_low" />
 
 
 

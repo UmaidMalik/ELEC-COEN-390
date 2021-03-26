@@ -8,20 +8,21 @@ import java.util.Date;
 
 public class UVSensorData {
 
-    private float UVIntensity;
+    private static float UVIntensity = 0.0f;
 
-    public UVSensorData(float UVIntensity) {
-        this.UVIntensity = UVIntensity;
+    public UVSensorData(float UV_Intensity) {
+        UVIntensity = UV_Intensity;
     }
 
-    public float getUVIntensity() {
+    public static float getUVIntensity() {
 
         return UVIntensity;
     }
 
-    public void setUVIntensity(float UVIntensity) {
+    public static void setUVIntensity(float UV_Intensity) {
 
-        this.UVIntensity = UVIntensity;
+        UVIntensity = UV_Intensity;
     }
+
 
 }

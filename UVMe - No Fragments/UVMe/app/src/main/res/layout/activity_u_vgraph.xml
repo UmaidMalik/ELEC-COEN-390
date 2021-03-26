@@ -50,9 +50,9 @@
     android:id="@+id/graph"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="5dp"
-    android:layout_marginBottom="150dp"
-    android:layout_marginRight="1dp"
+    android:layout_marginTop="100dp"
+    android:layout_marginBottom="100dp"
+    android:layout_marginRight="15dp"
     android:layout_marginLeft="1dp">
 
 

@@ -38,12 +38,11 @@ public class dayGraph extends AppCompatActivity {
     TextView avgUV;
     TextView maxUV;
     TextView condition;
-     TextView conditionResult;
+    TextView conditionResult;
     DatePickerDialog datePicker;
     String date2 = "";
     DatabaseHelper db;
     SimpleDateFormat format = new SimpleDateFormat("h:mm a");
-
     Button dayButton, weekButton;
     private Context activity;
 
@@ -271,7 +270,6 @@ public class dayGraph extends AppCompatActivity {
                         break;
 
                     case R.id.action_more:
-
                         break;
                 }
                 return false;
@@ -293,8 +291,7 @@ public class dayGraph extends AppCompatActivity {
                         if (monthAdjusted < 10) {
                             zeroMonth = "0"+String.valueOf(monthAdjusted);
                         } else {
-                            zeroMonth = String.valueOf(monthAdjusted);
-                        }
+                            zeroMonth = String.valueOf(monthAdjusted); }
                         if (dayOfMonth < 10) {
                             zeroDay = "0"+String.valueOf(dayOfMonth);
                         } else {
@@ -326,8 +323,6 @@ public class dayGraph extends AppCompatActivity {
         }
         date2 = date;
         }
-
-
 
 }
 

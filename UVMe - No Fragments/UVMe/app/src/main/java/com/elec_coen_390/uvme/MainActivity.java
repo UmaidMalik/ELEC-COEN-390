@@ -5,19 +5,17 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
-import android.Manifest;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
-import android.location.Location;
-import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
-import android.provider.Settings;
 import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
@@ -29,14 +27,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import java.text.DecimalFormat;
 
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationResult;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -44,20 +37,21 @@ public class MainActivity extends AppCompatActivity {
     AlertDialog.Builder builder;
     public static final String TAG = "Main Activity";
 
-    Button button;
-    int count = 0;
-
+    private TextView textViewUVIndex;
+    private ImageView ic_sun;
+    private float uvIndex = 0.00f;
+  
     // Declaring variable for splash screen
 
     private static int SPLASH_TIME_OUT = 3000;
 
-
-    /*
     // Current location: Initializing the variable
 
-    // in string.xml
+    /*
 
+    // in string.xml
     <string name="map key" translatable="false">AIzaSyCDhBHjPpQ64TF7NRswV6NnSkTJxU0JVGo</string>
+
 
     API key generated: AIzaSyCDhBHjPpQ64TF7NRswV6NnSkTJxU0JVGo
 
@@ -74,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Welcome screen = 3 s
 
+        /*
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -84,6 +79,8 @@ public class MainActivity extends AppCompatActivity {
 
             }
         }, SPLASH_TIME_OUT);
+        */
+
 
         /*
         // Current Location: Assigning variable
@@ -146,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
         boolean firstStart = prefs.getBoolean("firstStart", true);
 
+
         if (firstStart) {
             Log.d(TAG, "Enter a Statement");
             builder.setTitle(R.string.terms_of_services);
@@ -180,154 +178,104 @@ public class MainActivity extends AppCompatActivity {
             SharedPreferences.Editor editor = prefs.edit();
             editor.putBoolean("firstStart", false); // Set to false so that it will only appear once when accepted
             editor.apply();
-            this.getSupportActionBar().hide();
+
+
+
+
+
         }
-
-
-        button = (Button) findViewById(R.id.button);
-        ImageView ic_sun = (ImageView) findViewById(R.id.ic_sun);
-
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                count++;
-                count = count % 5;
-
-                switch (count) {
-
-                    case 0:
-                        ic_sun.setImageResource(R.drawable.ic_sunlight_default_level1_lightblue);
-                        break;
-                    case 1:
-                        ic_sun.setImageResource(R.drawable.ic_sunlight_level2);
-                        break;
-                    case 2:
-                        ic_sun.setImageResource(R.drawable.ic_sunlight_level3);
-                        break;
-                    case 3:
-                        ic_sun.setImageResource(R.drawable.ic_sunlight_level4);
-                        break;
-                    case 4:
-                        ic_sun.setImageResource(R.drawable.ic_sunlight_level5);
-                        break;
-                }
-
-                System.out.println("Count = " + count);
-            }
-
-        });
-
+        this.getSupportActionBar().hide();
 
         setupBottomNavigationListener();
 
+        textViewUVIndex = (TextView) findViewById(R.id.textViewUVIndex);
+        ic_sun = (ImageView) findViewById(R.id.ic_sun);
 
+        textViewUVIndex.setText(String.valueOf(UVSensorData.getUVIntensity()));
+
+
+
+        startSunUIThread(getCurrentFocus());
     }
 
-    
-    /*
-    private void getCurrentLocation() {
-        // Initialize location manager
+    private void updateSunColor() {
+        uvIndex = UVSensorData.getUVIntensity();
+        if (uvIndex < 3)
+            ic_sun.setImageResource(R.drawable.ic_sunlight_default_level1_lightblue);
+        else if (uvIndex >= 3 && uvIndex < 6)
+            ic_sun.setImageResource(R.drawable.ic_sunlight_level2);
+        else if (uvIndex >= 6 && uvIndex < 8)
+            ic_sun.setImageResource(R.drawable.ic_sunlight_level3);
+        else if (uvIndex >= 8 && uvIndex < 11)
+            ic_sun.setImageResource(R.drawable.ic_sunlight_level4);
+        else
+            ic_sun.setImageResource(R.drawable.ic_sunlight_level5);
+    }
 
-        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-        // Check Condition
+    private void displayUVSensorData(String uvIndex) {
+        textViewUVIndex.setText(uvIndex);
+    }
 
-        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(locationManager.NETWORK_PROVIDER)) {
 
-            // When location service is enabled: Get last location
+    private void startSunUIThread(View view) {
+        RunnableUVIndex runnableUVIndex = new RunnableUVIndex();
+        new Thread(runnableUVIndex).start();
+    }
 
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
-                return;
-            }
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
-                return;
-            }
-            fusedLocationProviderClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
-                @Override
-                public void onComplete(@NonNull Task<Location> task) {
+    private class RunnableUVIndex implements Runnable {
 
-                    // Initialize Location
 
-                    Location location = task.getResult();
+        @Override
+        public void run() {
+            while (true) {
 
-                    // Check Condition
+                Log.d(TAG, "startThread: " + uvIndex);
 
-                    if (location != null) {
-
-                        // when location result is not null: set City - cannot find get City
-
-                        tvCity.setText(string.valueof(location.getLatitude()));
-                    } else {
-
-                        // when location is null: initialize location request
-
-                        LocationRequest locationRequest = new LocationRequest()
-                                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-                                .setInterval(10000)
-                                .setFastestInterval(1000)
-                                .setNumUpdates(1);
-
-                        // initialize location call back
-
-                        LocationCallback locationCallback = new LocationCallback() {
-
-                            @Override
-
-                            public void onLocationResult(LocationResult locationResult) {
-
-                                // initialize location
-
-                                Location location1 = locationResult.getLastLocation();
-                            }
-                        };
-
-                        // Request Location updates
-
-                        if ((ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) && (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
-                            // TODO: Consider calling
-                            //    ActivityCompat#requestPermissions
-                            // here to request the missing permissions, and then overriding
-                            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                            //                                          int[] grantResults)
-                            // to handle the case where the user grants the permission. See the documentation
-                            // for ActivityCompat#requestPermissions for more details.
-                            return;
-                        }
-                        fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper());
-
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        updateSunColor();
                     }
+                });
 
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
 
-            });
 
-        }else{
-
-            // when location service is not enabled: Open location setting
-
-            startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-
-
-            .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+            }
         }
+
 
     }
 
-    */
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
+
+    }
+
+    private final BroadcastReceiver mGattUpdateReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            final String action = intent.getAction();
+            if (BluetoothLeService.ACTION_DATA_AVAILABLE.equals(action))
+                displayUVSensorData(intent.getStringExtra(BluetoothLeService.EXTRA_DATA_VALUE_UV_INDEX));
+        }
+    };
+
+    private static IntentFilter makeGattUpdateIntentFilter() {
+        final IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(BluetoothLeService.ACTION_GATT_CONNECTED);
+        intentFilter.addAction(BluetoothLeService.ACTION_GATT_DISCONNECTED);
+        intentFilter.addAction(BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED);
+        intentFilter.addAction(BluetoothLeService.ACTION_DATA_AVAILABLE);
+        return intentFilter;
+    }
 
     private void setupBottomNavigationListener() {
 
@@ -359,10 +307,8 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-    }
+
+
 
     protected void goToProfileActivity() {
         Intent intentProfile = new Intent(this, ProfileActivity.class);

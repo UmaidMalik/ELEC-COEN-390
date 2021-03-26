@@ -27,11 +27,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         //CREATE THE TABLES
-        String CREATE_TABLE_UV_DATA = "CREATE TABLE " + Config.UV_TABLE_NAME +          /** Defining uv data table */
-                " (" + Config.COLUMN_UV_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+        String CREATE_TABLE_UV_DATA = "CREATE TABLE " + Config.UV_TABLE_NAME +
+                " (" +
+                Config.COLUMN_UV_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 Config.COLUMN_DATE + " TEXT NOT NULL," +
                 Config.COLUMN_UV_VALUE + " DOUBLE NOT NULL," +
-                Config.COLUMN_UV_TIME + " DOUBLE NOT NULL)";
+                Config.COLUMN_UV_TIME + " DOUBLE NOT NULL) ";
 
         sqLiteDatabase.execSQL(CREATE_TABLE_UV_DATA);
     }
@@ -41,14 +42,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public long insertUV(UvReadings uv){
-
         long id = -1;
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(Config.COLUMN_DATE, uv.getDate() );
         contentValues.put(Config.COLUMN_UV_VALUE, uv.getUv() );
         contentValues.put(Config.COLUMN_UV_TIME, uv.getUvTime() );
-
         try {
             id = db.insertOrThrow(Config.UV_TABLE_NAME, null, contentValues);
         } catch (SQLException ex) {
@@ -59,7 +58,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         return id;
     }
-
 
     public List<UvReadings> getAllUVData(String date) {
         SQLiteDatabase database = this.getReadableDatabase();
@@ -72,7 +70,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 List<UvReadings> uvList = new ArrayList<>();
                 do {
                     // We get all the parameters
-                    int id = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_UV_ID));
                     double time = cursor.getDouble(cursor.getColumnIndex(Config.COLUMN_UV_TIME));
                     double value = cursor.getDouble(cursor.getColumnIndex(Config.COLUMN_UV_VALUE));
                     UvReadings uvReadings = new UvReadings(time, value, date);

@@ -48,6 +48,7 @@ public class DayGraph extends AppCompatActivity {
     SimpleDateFormat format = new SimpleDateFormat("h:mm a");
     Button dayButton, weekButton;
     private Context activity;
+    private float uvIndex = 0.00f;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -311,21 +312,22 @@ public class DayGraph extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void getUVReadingFromDate(final String date) {
     List<UvReadings> uvReadings;
+
     DatabaseHelper databaseHelper = new DatabaseHelper(DayGraph.this);
             uvReadings = databaseHelper.getAllUVData(date); // fetch all UV values by date
-                   // series3.resetData(new DataPoint[]{}); // Reset previous series
-                    //series1.resetData(new DataPoint[]{}); // Reset previous series
+                   series3.resetData(new DataPoint[]{}); // Reset previous series
+        series1.resetData(new DataPoint[]{}); // Reset previous series
                     DataPoint[] points = new DataPoint[500];
                     int newCounter = 0;
                     for (int i = 0; i < uvReadings.size(); i++) {
                         double x = uvReadings.get(i).getUvTime();
-                        double y = uvReadings.get(i).getUv();
-                        DataPoint point = new DataPoint(x, y);
+                        uvIndex  = (float) uvReadings.get(i).getUv(); // try this tomorrow!!!!!!!
+                        DataPoint point = new DataPoint(x, uvIndex);
                         points[newCounter] = point;
                         series3.appendData(new DataPoint(point.getX(), point.getY()), true, 500);
                         series1.appendData(new DataPoint(point.getX(), point.getY()), true, 500);
                         newCounter = newCounter + 1;
-                        addUVValuesToDataBase(x,y,LocalDate.now());
+                        addUVValuesToDataBase(x,uvIndex,LocalDate.now());
                     }
         date2 = date;
         }
@@ -334,11 +336,7 @@ public class DayGraph extends AppCompatActivity {
             DatabaseHelper databaseHelper = new DatabaseHelper(DayGraph.this);
             UvReadings uv = new UvReadings( dataX, dataY, date.toString());
             databaseHelper.insertUV(uv);    // Add the current UV value to the database
-
         }
-
-
-
 }
 
 

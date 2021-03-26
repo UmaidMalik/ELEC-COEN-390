@@ -20,12 +20,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = Config.DATABASE_NAME;
     private static final int DATABASE_VERSION = 1;
     private Context context;
-    public DatabaseHelper(Context context)
-    {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION );
-        this.context = context;
 
-    }
+    public DatabaseHelper(Context context)
+    { super(context, DATABASE_NAME, null, DATABASE_VERSION );
+    this.context = context;}
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         //CREATE THE TABLES
@@ -79,7 +77,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 List<UvReadings> uvList = new ArrayList<>();
                 do {
                     // We get all the parameters
-
                     int id = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_ID));
                     double time = cursor.getDouble(cursor.getColumnIndex(Config.COLUMN_UV_TIME));
                     double value = cursor.getDouble(cursor.getColumnIndex(Config.COLUMN_UV_VALUE));

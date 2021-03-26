@@ -68,6 +68,7 @@ public class monthGraph extends AppCompatActivity {
         double []yArray=new double[]{1,2,5.33}; // this needs to be swapped out for database info
         double maxUVI = yArray[0];
         int n=yArray.length;
+
         final double average = average(yArray, n); // USED TO FIND AVERAGE UVI LEVEL FROM DATABASE ( SOON )
         NumberFormat nm = NumberFormat.getNumberInstance();
         avgUV.setText(nm.format(average(yArray,n)));
@@ -77,10 +78,12 @@ public class monthGraph extends AppCompatActivity {
                 new DataPoint(d1,  uvIndex = UVSensorData.getUVIntensity()),
                 new DataPoint(d2, uvIndex = UVSensorData.getUVIntensity()),
                 new DataPoint(d3, uvIndex = UVSensorData.getUVIntensity())});
+
         dataPointPointsGraphSeries =new PointsGraphSeries<>(new DataPoint[]{
                 new DataPoint(d1,  uvIndex = UVSensorData.getUVIntensity()),
                 new DataPoint(d2, uvIndex = UVSensorData.getUVIntensity()),
                 new DataPoint(d3, uvIndex = UVSensorData.getUVIntensity())});
+
         graph.addSeries(lineGraphSeries);
         graph.addSeries(dataPointPointsGraphSeries);
         graph.setTitle("MONTH OVERVIEW");

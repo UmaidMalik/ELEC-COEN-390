@@ -32,6 +32,7 @@
         android:layout_width="123dp"
         android:layout_height="58dp"
         android:layout_marginStart="180dp"
+        android:hint="ENTER NAME"
         android:layout_marginLeft="280dp"
         android:layout_marginTop="240dp"
         android:layout_toEndOf="@+id/textView2"
@@ -63,7 +64,7 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:maxLength="2"
-        android:text="00"
+        android:hint="ENTER AGE"
         android:textColor="#B1D4E0"
         />
 

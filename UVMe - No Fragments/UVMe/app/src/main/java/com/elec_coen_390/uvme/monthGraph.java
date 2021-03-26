@@ -30,6 +30,7 @@ public class monthGraph extends AppCompatActivity {
     public PointsGraphSeries<DataPoint> dataPointPointsGraphSeries;
     private Context activity;
     TextView avgUV,maxUV;
+    private float uvIndex = 0.00f;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,14 +74,13 @@ public class monthGraph extends AppCompatActivity {
         max(yArray);
         maxUV.setText(String.valueOf(max(yArray)));
         lineGraphSeries = new LineGraphSeries<>(new DataPoint[] {
-                new DataPoint(d1, yArray[0]),
-                new DataPoint(d2, yArray[1]),
-                new DataPoint(d3, yArray[2]),});
+                new DataPoint(d1,  uvIndex = UVSensorData.getUVIntensity()),
+                new DataPoint(d2, uvIndex = UVSensorData.getUVIntensity()),
+                new DataPoint(d3, uvIndex = UVSensorData.getUVIntensity())});
         dataPointPointsGraphSeries =new PointsGraphSeries<>(new DataPoint[]{
-                new DataPoint(d1, yArray[0]),
-                new DataPoint(d2, yArray[1]),
-                new DataPoint(d3, yArray[2]),});
-
+                new DataPoint(d1,  uvIndex = UVSensorData.getUVIntensity()),
+                new DataPoint(d2, uvIndex = UVSensorData.getUVIntensity()),
+                new DataPoint(d3, uvIndex = UVSensorData.getUVIntensity())});
         graph.addSeries(lineGraphSeries);
         graph.addSeries(dataPointPointsGraphSeries);
         graph.setTitle("MONTH OVERVIEW");

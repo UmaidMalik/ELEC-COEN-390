@@ -1,12 +1,14 @@
 package com.elec_coen_390.uvme;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,11 +29,12 @@ import com.jjoe64.graphview.series.Series;
 
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class dayGraph extends AppCompatActivity {
+public class DayGraph extends AppCompatActivity {
 /////////////ok
     public LineGraphSeries<DataPoint> series1, series2;
     public PointsGraphSeries<DataPoint> series3;
@@ -71,8 +74,8 @@ public class dayGraph extends AppCompatActivity {
 
         // CREATES X AXIS
         for (int i = 0; i < xArray.length; i++) {
-            xArray[i] = i;
-        }
+            xArray[i] = i;}
+
         graph.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter(){
             @Override
             public String formatLabel(double value, boolean isValueX){
@@ -186,6 +189,7 @@ public class dayGraph extends AppCompatActivity {
         graph.getGridLabelRenderer().setHumanRounding(false);
         GridLabelRenderer gridLabel = graph.getGridLabelRenderer();
         // SETTING BOUNDS
+
         graph.getViewport().setMinY(0);
         graph.getViewport().setMaxY(11);
         graph.getViewport().setMinX(0);
@@ -282,18 +286,19 @@ public class dayGraph extends AppCompatActivity {
                 int day = calendar.get(Calendar.DAY_OF_MONTH);
                 int month = calendar.get(Calendar.MONTH);
                 int year = calendar.get(Calendar.YEAR);
-                datePicker = new DatePickerDialog(dayGraph.this, new DatePickerDialog.OnDateSetListener() {
+                datePicker = new DatePickerDialog(DayGraph.this, new DatePickerDialog.OnDateSetListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.O)
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         int monthAdjusted = monthOfYear + 1;
                         String zeroMonth = "";
                         String zeroDay = "";
                         if (monthAdjusted < 10) {
-                            zeroMonth = "0"+String.valueOf(monthAdjusted);
+                            zeroMonth = "0"+ String.valueOf(monthAdjusted);
                         } else {
                             zeroMonth = String.valueOf(monthAdjusted); }
                         if (dayOfMonth < 10) {
-                            zeroDay = "0"+String.valueOf(dayOfMonth);
+                            zeroDay = "0"+ String.valueOf(dayOfMonth);
                         } else {
                             zeroDay = String.valueOf(dayOfMonth);
                         }
@@ -301,12 +306,12 @@ public class dayGraph extends AppCompatActivity {
                         getUVReadingFromDate(dateChosen); // send the format to the database (year - month - day)
                     }
                 }, year, month, day);
-                datePicker.show();
-            }
+                datePicker.show();}
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void getUVReadingFromDate(final String date) {
     List<UvReadings> uvReadings;
-    DatabaseHelper databaseHelper = new DatabaseHelper(dayGraph.this);
+    DatabaseHelper databaseHelper = new DatabaseHelper(DayGraph.this);
             uvReadings = databaseHelper.getAllUVData(date); // fetch all UV values by date
                    // series3.resetData(new DataPoint[]{}); // Reset previous series
                     //series1.resetData(new DataPoint[]{}); // Reset previous series
@@ -320,9 +325,19 @@ public class dayGraph extends AppCompatActivity {
                         series3.appendData(new DataPoint(point.getX(), point.getY()), true, 500);
                         series1.appendData(new DataPoint(point.getX(), point.getY()), true, 500);
                         newCounter = newCounter + 1;
-        }
+                        addUVValuesToDataBase(x,y,LocalDate.now());
+                    }
         date2 = date;
         }
+
+    protected void addUVValuesToDataBase(final double dataX, final double dataY, final LocalDate date){
+            DatabaseHelper databaseHelper = new DatabaseHelper(DayGraph.this);
+            UvReadings uv = new UvReadings( dataX, dataY, date.toString());
+            databaseHelper.insertUV(uv);    // Add the current UV value to the database
+
+        }
+
+
 
 }
 

@@ -288,9 +288,7 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
                 switch (item.getItemId()) {
-
                     case R.id.action_profile:
                         goToProfileActivity();
                         break;
@@ -306,9 +304,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
-
-
 
     protected void goToProfileActivity() {
         Intent intentProfile = new Intent(this, ProfileActivity.class);

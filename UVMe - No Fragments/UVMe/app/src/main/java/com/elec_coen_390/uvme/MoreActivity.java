@@ -66,9 +66,9 @@ public class MoreActivity extends AppCompatActivity {
 
             TextView iconTitle = moreView.findViewById(R.id.textViewIconTitle);
             ImageView iconImage = moreView.findViewById(R.id.imageViewIconImage);
+            iconImage.setImageResource(iconImages[i]);
 
             iconTitle.setText(iconNames[i]);
-            iconImage.setImageResource(iconImages[i]);
 
             return moreView;
         }

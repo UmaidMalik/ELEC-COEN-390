@@ -8,9 +8,9 @@ public class UvReadings {
     private int uvId;
 
     private double uv_time;
-    private double uv_value;
+    private float uv_value;
     private String date;
-    public UvReadings ( double uv_time, double uv_value, String date) {
+    public UvReadings ( double uv_time, float uv_value, String date) {
         this.uv_time = uv_time;
         this.uv_value = uv_value;
         this.date = date;
@@ -27,6 +27,7 @@ public class UvReadings {
 
     /*set UV time value */
     public void setUvTime(double time) {
+
         this.uv_time = time;
     }
 
@@ -36,13 +37,13 @@ public class UvReadings {
     }
 
     /*set UV value */
-    public void setUv(double uv) {
+    public void setUv(float uv) {
         this.uv_value = uv;
 
     }
 
     /*get UV value*/
-    public double getUv() {
+    public float getUv() {
         return uv_value;
     }
 

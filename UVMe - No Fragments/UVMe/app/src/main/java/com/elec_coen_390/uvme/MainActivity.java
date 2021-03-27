@@ -52,11 +52,14 @@ public class MainActivity extends AppCompatActivity {
 
     private NotificationManagerCompat notificationManagerCompat;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.getSupportActionBar().hide();
         setContentView(R.layout.activity_main);
+
+        notificationFunction(uvIndex);
 
         builder = new AlertDialog.Builder(this, R.style.AlertDialogStyle);
 
@@ -117,6 +120,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         startSunUIThread(getCurrentFocus());
+
+
     }
 
     private void updateSunColor() {
@@ -248,6 +253,7 @@ public class MainActivity extends AppCompatActivity {
         notificationManagerCompat.notify(1,notifications);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void channel2Notif() { // for eyes
         Notification notifications = new NotificationCompat.Builder(this,NotificationsActivity.CHANNELID_2)
                 .setContentTitle("Hey Blue eyes")

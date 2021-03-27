@@ -9,8 +9,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
@@ -44,13 +46,31 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // ALTER THE DESIGN FOR AN UPDATE
     }
 
-    public long insertUV(UvReadings uvReadings){
+    public long insertUV(float uvIntensity, Calendar currentDateTime){
         long id =-1;
+
+        currentDateTime = Calendar.getInstance();
+        int day = currentDateTime.get(Calendar.DAY_OF_MONTH);
+        int month = currentDateTime.get(Calendar.MONTH);
+        int year = currentDateTime.get(Calendar.YEAR);
+
+
+        int second = currentDateTime.get(Calendar.SECOND);
+        int minute = currentDateTime.get(Calendar.MINUTE);
+        int hour = currentDateTime.get(Calendar.HOUR);
+
+        //StringBuilder stringBuilder = new StringBuilder(second + " " )
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd:mm:yyyy");
+        SimpleDateFormat simpleHourFormat = new SimpleDateFormat("hh:mm:ss");
+
+        simpleDateFormat.applyPattern(String.valueOf(day) + String.valueOf(month) + String.valueOf(year));
+        simpleHourFormat.applyPattern(String.valueOf(hour) + String.valueOf(minute) + String.valueOf(second));
+
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(Config.COLUMN_DATE, uvReadings.getDate() );
-        contentValues.put(Config.COLUMN_UV_VALUE, uvReadings.getUv() );
-        contentValues.put(Config.COLUMN_UV_TIME, uvReadings.getUvTime() );
+        contentValues.put(Config.COLUMN_DATE, String.valueOf(simpleDateFormat));
+        contentValues.put(Config.COLUMN_UV_VALUE, UVSensorData.getUVIntensity() );
+        contentValues.put(Config.COLUMN_UV_TIME, String.valueOf(simpleHourFormat));
         try {
             id = db.insertOrThrow(Config.UV_TABLE_NAME, null, contentValues);
         }
@@ -68,7 +88,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public List<UvReadings> getAllUVData(String date) {
         SQLiteDatabase database = this.getReadableDatabase();
         Cursor cursor = null;
-        uvIndex = UVSensorData.getUVIntensity();
+        //uvIndex = UVSensorData.getUVIntensity();
         try {
             cursor = database.query(Config.UV_TABLE_NAME, null, null, null, Config.COLUMN_ID,  Config.COLUMN_DATE + "=" + "'" + date + "'", Config.COLUMN_UV_TIME);
             if (cursor != null && cursor.moveToFirst())
@@ -79,10 +99,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     // We get all the parameters
                     int id = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_ID));
                     double time = cursor.getDouble(cursor.getColumnIndex(Config.COLUMN_UV_TIME));
-                    double value = cursor.getDouble(cursor.getColumnIndex(Config.COLUMN_UV_VALUE));
-                    //  value  = UVSensorData.getUVIntensity();
-                    UvReadings uvReadings = new UvReadings(time, value, date);
-                    uvList.add(uvReadings);
+                    float value =  cursor.getFloat(cursor.getColumnIndex(Config.COLUMN_UV_VALUE));
+                     // value  = UVSensorData.getUVIntensity();
+                    //UvReadings uvReadings = new UvReadings(time, value, date);
+                    //uvList.add(uvReadings);
                 } while (cursor.moveToNext());
                 return uvList;
             }

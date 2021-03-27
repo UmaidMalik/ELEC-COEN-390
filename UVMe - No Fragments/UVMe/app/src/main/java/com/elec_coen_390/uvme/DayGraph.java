@@ -10,8 +10,10 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
@@ -309,6 +311,7 @@ public class DayGraph extends AppCompatActivity {
                 }, year, month, day);
                 datePicker.show();}
 
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void getUVReadingFromDate(final String date) {
     List<UvReadings> uvReadings;
@@ -327,16 +330,56 @@ public class DayGraph extends AppCompatActivity {
                         series3.appendData(new DataPoint(point.getX(), point.getY()), true, 500);
                         series1.appendData(new DataPoint(point.getX(), point.getY()), true, 500);
                         newCounter = newCounter + 1;
-                        addUVValuesToDataBase(x,uvIndex,LocalDate.now());
+                        //addUVValuesToDataBase(x,uvIndex,LocalDate.now());
                     }
         date2 = date;
         }
 
-    protected void addUVValuesToDataBase(final double dataX, final double dataY, final LocalDate date){
+        /*
+    protected void addUVValuesToDataBase(final double dataX, final float dataY, final LocalDate date){
             DatabaseHelper databaseHelper = new DatabaseHelper(DayGraph.this);
             UvReadings uv = new UvReadings( dataX, dataY, date.toString());
-            databaseHelper.insertUV(uv);    // Add the current UV value to the database
+            databaseHelper.insertUV(uv,);    // Add the current UV value to the database
         }
+
+
+         */
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void startUVReadThread(View view) {
+        DayGraph.RunnableUVIndex runnableUVIndex = new DayGraph.RunnableUVIndex();
+        new Thread(runnableUVIndex).start();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private class RunnableUVIndex implements Runnable {
+
+
+        DatabaseHelper databaseHelper = new DatabaseHelper(DayGraph.this);
+
+        Calendar calendar;
+
+        @Override
+        public void run() {
+            while (true) {
+
+
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        databaseHelper.insertUV(UVSensorData.getUVIntensity(), calendar);
+                    }
+                });
+
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 }
 
 

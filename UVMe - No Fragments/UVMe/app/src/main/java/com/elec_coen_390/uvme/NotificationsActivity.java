@@ -2,8 +2,13 @@ package com.elec_coen_390.uvme;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationManagerCompat;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,11 +19,17 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
 import android.widget.ToggleButton;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class NotificationsActivity extends AppCompatActivity {
+    ProfileActivity p;
+    /////*****************************
+    public static final String CHANNELID_1 = "channel1";
+    private SharedPreferences prefseye;
+    /////*****************************
 
     private ListView listView;
     public String[] notificationNames = {"Burn Risk Alert", "UVI Level Alert", "Sunglasses Alert"};
@@ -28,15 +39,31 @@ public class NotificationsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         this.getSupportActionBar().hide();
         setContentView(R.layout.activity_notifications);
-
         setupListView();
-
         setupBottomNavigationListener();
-
         TextView title = findViewById(R.id.textViewNotificationsActivity);
         title.setText("Notifications");
-
+        /////*****************************
+        createChannels();
+        /////*****************************
     }
+    /////*****************************
+    private NotificationManagerCompat notificationManagerCompat;
+
+    public void createChannels () {
+        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.O) {
+            NotificationChannel channel1 = new NotificationChannel(CHANNELID_1,"channel 1", NotificationManager.IMPORTANCE_DEFAULT);
+            channel1.setDescription("HIGH UV EXPOSURE");
+           // NotificationChannel channel2 = new NotificationChannel(CHANNELID_2,"channel 2", NotificationManager.IMPORTANCE_DEFAULT);
+            //channel2.setDescription("Apply Sunscreen");
+
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(channel1);
+           // manager.createNotificationChannel(channel2);
+        }
+    }
+    /////*****************************
+
     private void setupListView() {
         listView = findViewById(R.id.listViewNotificationsActivity);
 
@@ -155,6 +182,17 @@ public class NotificationsActivity extends AppCompatActivity {
         finish();
     }
 
+    void checkUser(){
+  // eye
+        /*
+        blue
+        green
+        hazel
+        brown
+
+        if (
+         */
+    }
 
 }
 

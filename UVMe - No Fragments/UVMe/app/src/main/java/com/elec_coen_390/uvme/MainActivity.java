@@ -1,10 +1,15 @@
 package com.elec_coen_390.uvme;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
+import android.app.Notification;
+import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -14,6 +19,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Html;
@@ -34,12 +40,17 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
+
+
     AlertDialog.Builder builder;
     public static final String TAG = "Main Activity";
 
     private TextView textViewUVIndex;
     private ImageView ic_sun;
     private float uvIndex = 0.00f;
+
+
+    private NotificationManagerCompat notificationManagerCompat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,6 +131,8 @@ public class MainActivity extends AppCompatActivity {
             ic_sun.setImageResource(R.drawable.ic_sunlight_level4);
         else
             ic_sun.setImageResource(R.drawable.ic_sunlight_level5);
+
+
     }
 
 
@@ -154,18 +167,18 @@ public class MainActivity extends AppCompatActivity {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-
-
             }
         }
-
-
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onResume() {
         super.onResume();
         registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
+
+        //***********************************
+        notificationFunction(uvIndex);
 
     }
 
@@ -179,6 +192,7 @@ public class MainActivity extends AppCompatActivity {
     };
 
     private static IntentFilter makeGattUpdateIntentFilter() {
+
         final IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(BluetoothLeService.ACTION_GATT_CONNECTED);
         intentFilter.addAction(BluetoothLeService.ACTION_GATT_DISCONNECTED);
@@ -190,7 +204,6 @@ public class MainActivity extends AppCompatActivity {
     private void setupBottomNavigationListener() {
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
-
         Menu menu = bottomNavigationView.getMenu();
         MenuItem menuItem = menu.getItem(1); // bottom navigation menu index item {0(Profile),1(Home),2(More)}
         menuItem.setChecked(true);
@@ -227,4 +240,21 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 
+    //***********************************
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void channel1Notif() {
+        Notification notifications = new NotificationCompat.Builder(this,NotificationsActivity.CHANNELID_1)
+                .setContentTitle("TEST TEST ")
+                .setContentText("Oh god please work")
+                .build();
+        notificationManagerCompat.notify(1,notifications);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void notificationFunction(double data){
+        if(uvIndex>1) {
+            channel1Notif();
+        }
+    }
+    /////*****************************
 }

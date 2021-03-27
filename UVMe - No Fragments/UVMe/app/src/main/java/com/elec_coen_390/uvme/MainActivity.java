@@ -176,7 +176,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
-
         //***********************************
         notificationFunction(uvIndex);
 
@@ -192,7 +191,6 @@ public class MainActivity extends AppCompatActivity {
     };
 
     private static IntentFilter makeGattUpdateIntentFilter() {
-
         final IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(BluetoothLeService.ACTION_GATT_CONNECTED);
         intentFilter.addAction(BluetoothLeService.ACTION_GATT_DISCONNECTED);
@@ -242,7 +240,7 @@ public class MainActivity extends AppCompatActivity {
 
     //***********************************
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void channel1Notif() {
+    public void channel1Notif() { // test
         Notification notifications = new NotificationCompat.Builder(this,NotificationsActivity.CHANNELID_1)
                 .setContentTitle("TEST TEST ")
                 .setContentText("Oh god please work")
@@ -250,11 +248,25 @@ public class MainActivity extends AppCompatActivity {
         notificationManagerCompat.notify(1,notifications);
     }
 
+    public void channel2Notif() { // for eyes
+        Notification notifications = new NotificationCompat.Builder(this,NotificationsActivity.CHANNELID_2)
+                .setContentTitle("Hey Blue eyes")
+                .setContentText("Youre gonna need some sunglasses soon!")
+                .build();
+        notificationManagerCompat.notify(2,notifications);
+    }
+
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void notificationFunction(double data){
         if(uvIndex>1) {
             channel1Notif();
         }
+        else if (uvIndex>3){
+            channel2Notif();
+        }
+
     }
+
     /////*****************************
 }

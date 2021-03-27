@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationManagerCompat;
 
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Intent;
@@ -28,6 +29,7 @@ public class NotificationsActivity extends AppCompatActivity {
     ProfileActivity p;
     /////*****************************
     public static final String CHANNELID_1 = "channel1";
+    public static final String CHANNELID_2 = "channel2";
     private SharedPreferences prefseye;
     /////*****************************
 
@@ -53,9 +55,9 @@ public class NotificationsActivity extends AppCompatActivity {
     public void createChannels () {
         if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.O) {
             NotificationChannel channel1 = new NotificationChannel(CHANNELID_1,"channel 1", NotificationManager.IMPORTANCE_DEFAULT);
-            channel1.setDescription("HIGH UV EXPOSURE");
-           // NotificationChannel channel2 = new NotificationChannel(CHANNELID_2,"channel 2", NotificationManager.IMPORTANCE_DEFAULT);
-            //channel2.setDescription("Apply Sunscreen");
+            channel1.setDescription("TEST");
+            NotificationChannel channel2 = new NotificationChannel(CHANNELID_2,"channel 2", NotificationManager.IMPORTANCE_DEFAULT);
+            channel2.setDescription("Sun Glasses Reminder!");
 
             NotificationManager manager = getSystemService(NotificationManager.class);
             manager.createNotificationChannel(channel1);
@@ -182,15 +184,50 @@ public class NotificationsActivity extends AppCompatActivity {
         finish();
     }
 
-    void checkUser(){
-  // eye
+    void checkUserEyeValue(){
+
         /*
         blue
         green
         hazel
         brown
 
-        if (
+        if (blue)
+        // send notification if UVI is greater than 2.5
+          Notification notifications = new NotificationCompat.Builder(this,CHANNELID_1)
+                .setContentTitle("Hey Blue eyes")
+                .setContentText("Youre gonna need some sunglasses soon!")
+                .build();
+        notificationManagerCompat.notify(2,notifications);
+
+
+        if ( green)
+        // send notif if UVI greater than 3
+         Notification notifications = new NotificationCompat.Builder(this,CHANNELID_1)
+                .setContentTitle("Hey Green eyes")
+                .setContentText("Youre gonna need some sunglasses soon!")
+                .build();
+        notificationManagerCompat.notify(2,notifications);
+
+
+
+        if ( hazel )
+        // send notif if UVI greater than 4
+         Notification notifications = new NotificationCompat.Builder(this,CHANNELID_1)
+                .setContentTitle("Hey Hazel eyes")
+                .setContentText("Youre gonna need some sunglasses soon!")
+                .build();
+        notificationManagerCompat.notify(2,notifications);
+
+
+        if ( brown )
+        // send notif if UVI greater than 4
+         Notification notifications = new NotificationCompat.Builder(this,CHANNELID_1)
+                .setContentTitle("Hey Brown eyes")
+                .setContentText("Youre gonna need some sunglasses soon!")
+                .build();
+        notificationManagerCompat.notify(2,notifications);
+
          */
     }
 

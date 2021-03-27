@@ -12,12 +12,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:layout_centerHorizontal="false"
-        android:layout_alignParentRight="true"
+        android:layout_centerHorizontal="true"
         android:layout_marginEnd="25dp"
-        android:textSize="30sp"
-        android:textColor="@color/light_blue"
-        android:fontFamily="@font/roboto_thin"
+        android:textSize="40sp"
+        android:textColor="@color/font_lightblue"
+        android:fontFamily="@font/roboto_light"
         android:id="@+id/activityMain"
         android:textAlignment="center" />
 
@@ -56,7 +55,6 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true">
 
-
         <TextView
             android:id="@+id/textViewUVIndex"
             android:layout_width="wrap_content"
@@ -68,8 +66,27 @@
             android:fontFamily="@font/roboto_thin"
             android:textColor="@color/light_blue" />
         </RelativeLayout>
+
     </RelativeLayout>
 
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="325dp"
+        app:srcCompat="@drawable/ic_cloud"
+        tools:ignore="VectorDrawableCompat"/>
 
+
+    <TextView
+        android:id="@+id/temp_max"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="290dp"
+        android:layout_marginTop="50dp"
+        android:text="Temp:"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp" />
 
 </RelativeLayout>

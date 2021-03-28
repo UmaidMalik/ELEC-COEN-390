@@ -30,6 +30,7 @@ public class NotificationsActivity extends AppCompatActivity {
     /////*****************************
     public static final String CHANNELID_1 = "channel1";
     public static final String CHANNELID_2 = "channel2";
+    private NotificationManagerCompat notificationManagerCompat;
     private SharedPreferences prefseye;
     /////*****************************
 
@@ -50,7 +51,7 @@ public class NotificationsActivity extends AppCompatActivity {
         /////*****************************
     }
     /////*****************************
-    private NotificationManagerCompat notificationManagerCompat;
+
 
     public void createChannels () {
         if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.O) {

@@ -1,6 +1,7 @@
 package com.elec_coen_390.uvme;
 
 import android.app.Notification;
+import android.app.NotificationManager;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattService;
@@ -25,6 +26,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
@@ -34,10 +36,12 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+
+import java.util.Calendar;
 public class MainActivity extends AppCompatActivity {
 
 
-
+    DatabaseHelper db;
     AlertDialog.Builder builder;
     public static final String TAG = "Main Activity";
 
@@ -56,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
     private NotificationManagerCompat notificationManagerCompat;
 
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +68,18 @@ public class MainActivity extends AppCompatActivity {
         this.getSupportActionBar().hide();
         setContentView(R.layout.activity_main);
 
+        //*************
+/*
+        db = new DatabaseHelper(this);
+        db.insertUV(uvIndex, Calendar.getInstance());
+
+ */
+        //*************
+
+        notificationManagerCompat = NotificationManagerCompat.from(this);
+
         notificationFunction(uvIndex);
+
 
         builder = new AlertDialog.Builder(this, R.style.AlertDialogStyle);
 
@@ -113,9 +129,7 @@ public class MainActivity extends AppCompatActivity {
 
         }
         this.getSupportActionBar().hide();
-
         setupBottomNavigationListener();
-
         textViewUVIndex = (TextView) findViewById(R.id.textViewUVIndex);
         ic_sun = (ImageView) findViewById(R.id.ic_sun);
 
@@ -149,10 +163,7 @@ public class MainActivity extends AppCompatActivity {
             ic_sun.setImageResource(R.drawable.ic_sunlight_level4);
         else
             ic_sun.setImageResource(R.drawable.ic_sunlight_level5);
-
-
     }
-
 
     private void displayUVSensorData(String uvIndex) {
         textViewUVIndex.setText(uvIndex);
@@ -178,13 +189,14 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void run() {
             while (true) {
-
                 Log.d(TAG, "startThread: " + uvIndex);
-
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         updateSunColor();
+                        //*************
+                       // db.insertUV(uvIndex, Calendar.getInstance());
+                        //*************
                     }
                 });
 
@@ -234,7 +246,7 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
         //***********************************
-        notificationFunction(UVSensorData.getUVIntensity());
+        notificationFunction(uvIndex);
 
     }
 
@@ -307,36 +319,37 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 
-    //***********************************
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public void channel1Notif() { // test
-        Notification notifications = new NotificationCompat.Builder(this,NotificationsActivity.CHANNELID_1)
-                .setContentTitle("TEST TEST ")
-                .setContentText("Oh god please work")
-                .build();
-        notificationManagerCompat.notify(1,notifications);
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public void channel2Notif() { // for eyes
-        Notification notifications = new NotificationCompat.Builder(this,NotificationsActivity.CHANNELID_2)
-                .setContentTitle("Hey Blue eyes")
-                .setContentText("Youre gonna need some sunglasses soon!")
-                .build();
-        notificationManagerCompat.notify(2,notifications);
-    }
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void notificationFunction(double data){
-        uvIndex = UVSensorData.getUVIntensity();
-        if(uvIndex>1) {
-            channel1Notif();
+    public void notificationFunction(Float data){
+        View view = null;
+        if(uvIndex>3) {
+            sendChannel1(view);
         }
-        else if (uvIndex>3){
-            channel2Notif();
+        else if (uvIndex>5){
+            sendChannel2(view);
         }
-
     }
 
+    public void sendChannel1(View view){
+Notification notification=new NotificationCompat.Builder(this,NotificationChannelsClass.CHANNEL_1_ID).setSmallIcon(R.drawable.ic_smile)
+        .setContentTitle("Channel 1 Test")
+        .setContentText("Please work")
+        .setPriority(NotificationCompat.PRIORITY_HIGH)
+        .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+        .build();
+notificationManagerCompat.notify(1,notification);
+    }
+
+    public void sendChannel2(View view){
+        Notification notification=new NotificationCompat.Builder(this,NotificationChannelsClass.CHANNEL_2_ID)
+                .setSmallIcon(R.drawable.ic_sad)
+                .setContentTitle("Channel 1 Test")
+                .setContentText("Please work")
+                .setPriority(NotificationCompat.PRIORITY_LOW)
+
+                .build();
+        notificationManagerCompat.notify(2,notification);
+    }
 }

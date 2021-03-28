@@ -31,16 +31,11 @@ import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
 
-
-
     AlertDialog.Builder builder;
     public static final String TAG = "Main Activity";
-
     private TextView textViewUVIndex;
     private ImageView ic_sun;
     private float uvIndex = 0.00f;
-
-
     private NotificationManagerCompat notificationManagerCompat;
 
     @RequiresApi(api = Build.VERSION_CODES.O)

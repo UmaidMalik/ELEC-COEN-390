@@ -71,12 +71,12 @@ public class MainActivity extends AppCompatActivity {
 
     private NotificationManagerCompat notificationManagerCompat;
 
-    EditText editTextCitySearch;
-    Button buttonCitySearch;
-    ImageView imageViewWeather;
-    TextView textViewTemperature, textViewCity, textViewCountry;
+    private EditText editTextCitySearch;
+    private Button buttonCitySearch;
+    private ImageView imageViewWeather;
+    private TextView textViewTemperature, textViewCity, textViewCountry;
 
-
+    private ImageView imageViewSensor;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -102,6 +102,8 @@ public class MainActivity extends AppCompatActivity {
         textViewTemperature = (TextView) findViewById(R.id.textViewTemperature);
         textViewCity = (TextView) findViewById(R.id.textViewCity);
         textViewCountry = (TextView) findViewById(R.id.textViewCountry);
+
+        imageViewSensor = (ImageView) findViewById(R.id.imageViewSensor);
 
         buttonCitySearch.setOnClickListener(new View.OnClickListener()
         {
@@ -316,14 +318,14 @@ public class MainActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             final String action = intent.getAction();
             if (BluetoothLeService.ACTION_GATT_CONNECTED.equals(action)) {
-
+                imageViewSensor.setImageResource(R.drawable.ic_sensor_on);
             }
             else if (BluetoothLeService.ACTION_GATT_DISCONNECTED.equals(action)) {
-
+                imageViewSensor.setImageResource(R.drawable.ic_sensor_off);
             }
             else if (BluetoothLeService.ACTION_DATA_AVAILABLE.equals(action)) {
                 //displayUVSensorData(intent.getStringExtra(BluetoothLeService.EXTRA_DATA_VALUE_UV_INDEX));
-                displayBatteryLevel(intent.getStringExtra(BluetoothLeService.EXTRA_DATA_VALUE_BATTERY_LEVEL));
+                displayBatteryLevel(intent.getStringExtra(BluetoothLeService.EXTRA_DATA_VALUE_BATTERY_LEVEL) + "%");
             }
         }
     };

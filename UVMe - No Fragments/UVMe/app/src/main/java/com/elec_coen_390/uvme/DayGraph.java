@@ -316,8 +316,8 @@ public class DayGraph extends AppCompatActivity {
         List<UvReadings> uvReadings;
         DatabaseHelper databaseHelper = new DatabaseHelper(DayGraph.this);
         uvReadings = databaseHelper.getAllUVData(date); // fetch all UV values by date
-        series3.resetData(new DataPoint[]{}); // Reset previous series
-        series1.resetData(new DataPoint[]{}); // Reset previous series
+         // series3.resetData(new DataPoint[]{}); // Reset previous series
+        // series1.resetData(new DataPoint[]{}); // Reset previous series
         DataPoint[] points = new DataPoint[500];
         int newCounter = 0;
         for (int i = 0; i < uvReadings.size(); i++) {

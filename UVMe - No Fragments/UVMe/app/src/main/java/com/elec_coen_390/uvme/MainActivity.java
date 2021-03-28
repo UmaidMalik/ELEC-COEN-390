@@ -18,8 +18,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,17 +30,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.squareup.picasso.Picasso;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -71,12 +60,6 @@ public class MainActivity extends AppCompatActivity {
 
     private NotificationManagerCompat notificationManagerCompat;
 
-    private EditText editTextCitySearch;
-    private Button buttonCitySearch;
-    private ImageView imageViewWeather;
-    private TextView textViewTemperature, textViewCity, textViewCountry;
-
-    private ImageView imageViewSensor;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -84,37 +67,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         this.getSupportActionBar().hide();
         setContentView(R.layout.activity_main);
-
-        //*************
-/*
-        db = new DatabaseHelper(this);
-        db.insertUV(uvIndex, Calendar.getInstance());
-
- */
-        //*************
-
         notificationManagerCompat = NotificationManagerCompat.from(this);
-
-
-        editTextCitySearch = (EditText) findViewById(R.id.editTextCitySearch);
-        buttonCitySearch = (Button) findViewById(R.id.buttonCitySearch);
-        imageViewWeather = (ImageView) findViewById(R.id.imageViewWeather);
-        textViewTemperature = (TextView) findViewById(R.id.textViewTemperature);
-        textViewCity = (TextView) findViewById(R.id.textViewCity);
-        textViewCountry = (TextView) findViewById(R.id.textViewCountry);
-
-        imageViewSensor = (ImageView) findViewById(R.id.imageViewSensor);
-
-        buttonCitySearch.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                FindWeather();
-            }
-        });
-
-
 
         builder = new AlertDialog.Builder(this, R.style.AlertDialogStyle);
 
@@ -229,7 +182,7 @@ public class MainActivity extends AppCompatActivity {
                     @RequiresApi(api = Build.VERSION_CODES.O)
                     @Override
                     public void run() {
-                        notificationFunction(UVSensorData.getUVIntensity());
+                        reduceRiskOFBurnNotification(UVSensorData.getUVIntensity());
 
                     }
                 });
@@ -309,7 +262,7 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
         //***********************************
-        notificationFunction(uvIndex);
+
 
     }
 
@@ -318,14 +271,14 @@ public class MainActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             final String action = intent.getAction();
             if (BluetoothLeService.ACTION_GATT_CONNECTED.equals(action)) {
-                imageViewSensor.setImageResource(R.drawable.ic_sensor_on);
+
             }
             else if (BluetoothLeService.ACTION_GATT_DISCONNECTED.equals(action)) {
-                imageViewSensor.setImageResource(R.drawable.ic_sensor_off);
+
             }
             else if (BluetoothLeService.ACTION_DATA_AVAILABLE.equals(action)) {
                 //displayUVSensorData(intent.getStringExtra(BluetoothLeService.EXTRA_DATA_VALUE_UV_INDEX));
-                displayBatteryLevel(intent.getStringExtra(BluetoothLeService.EXTRA_DATA_VALUE_BATTERY_LEVEL) + "%");
+                displayBatteryLevel(intent.getStringExtra(BluetoothLeService.EXTRA_DATA_VALUE_BATTERY_LEVEL));
             }
         }
     };
@@ -383,88 +336,73 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
+    // this function is used to alert user if they are exposed to a high level of UVI!
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void notificationFunction(Float data){
+    public void reduceRiskOFBurnNotification(Float data){
 
-
-        if(data >= 6 && data < 9) {
-            sendChannel1();
+        if(data >=5&& data < 8) {
+            sendChannel1LevelLow();
         }
-        else if (data >= 9){
-            sendChannel2();
+        else if (data >= 8 && data<10){
+            sendChannel1LevelHigh();
         }
     }
-
-    public void sendChannel1(){
-        Notification notification=new NotificationCompat.Builder(this,NotificationChannelsClass.CHANNEL_1_ID).setSmallIcon(R.drawable.ic_smile)
-        .setContentTitle("Channel 1 Test")
-        .setContentText("Please work")
-        .setPriority(NotificationCompat.PRIORITY_HIGH)
-        .setCategory(NotificationCompat.CATEGORY_MESSAGE)
-        .build();
+    // Notification sent once user is exposed to value of 5->8UVI!
+    public void sendChannel1LevelLow(){
+        Notification notification=new NotificationCompat.Builder(this,NotificationChannelsClass.CHANNEL_1_ID).setSmallIcon(R.drawable.ic_sunlight_level2)
+                .setContentTitle("SUNBURN ALERT!")
+                .setContentText("You Are Exposed To: "+UVSensorData.getUVIntensity()+"\n Long Exposure Term May Affect Health")
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                .build();
+        notificationManagerCompat.notify(1,notification);
+    }
+    // Notification sent once user is exposed to a very high UVI
+    public void sendChannel1LevelHigh(){
+        Notification notification=new NotificationCompat.Builder(this,NotificationChannelsClass.CHANNEL_1_ID).setSmallIcon(R.drawable.ic_sunlight_level5)
+                .setContentTitle("SUNBURN ALERT!!!")
+                .setContentText("You are exposed to a DANGEROUS level of UV Radiation\n"+"Stay out of sunlight!")
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                .build();
         notificationManagerCompat.notify(1,notification);
     }
 
-    public void sendChannel2(){
-        Notification notification=new NotificationCompat.Builder(this,NotificationChannelsClass.CHANNEL_2_ID)
-                .setSmallIcon(R.drawable.ic_sad)
-                .setContentTitle("Channel 2 Test")
-                .setContentText("Please work")
-                .setPriority(NotificationCompat.PRIORITY_LOW)
 
+    public void sendChannel2EyeColorBlue(){
+        Notification notification=new NotificationCompat.Builder(this,NotificationChannelsClass.CHANNEL_2_ID)
+                .setSmallIcon(R.drawable.ic_sunglasses)
+                .setContentTitle("Hey Blue Eyes")
+                .setContentText("UV is Moderate, get your shades on!")
+                .setPriority(NotificationCompat.PRIORITY_LOW)
                 .build();
         notificationManagerCompat.notify(2,notification);
     }
-
-    public void FindWeather()
-    {
-        final String city = editTextCitySearch.getText().toString();
-        String url ="http://api.openweathermap.org/data/2.5/weather?q="+city+"&appid=462f445106adc1d21494341838c10019&units=metric";
-        StringRequest stringRequest = new StringRequest(Request.Method.GET,url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-
-                        try {
-                            //find temperature
-                            JSONObject jsonObject = new JSONObject(response);
-                            JSONObject object = jsonObject.getJSONObject("main");
-                            double temp = object.getDouble("temp");
-                            textViewTemperature.setText("Temp\n"+temp+"°C");
-
-                            //find country
-                            JSONObject object8 = jsonObject.getJSONObject("sys");
-                            String count = object8.getString("country");
-                            textViewCountry.setText(count+"  :");
-
-                            //find city
-                            String city = jsonObject.getString("name");
-                            textViewCity.setText(city);
-
-                            //find icon
-                            JSONArray jsonArray = jsonObject.getJSONArray("weather");
-                            JSONObject obj = jsonArray.getJSONObject(0);
-                            String icon = obj.getString("icon");
-                            Picasso.get().load("http://openweathermap.org/img/wn/"+icon+"@2x.png").into(imageViewWeather);
-
-
-
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(MainActivity.this, error.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
-        requestQueue.add(stringRequest);
+    public void sendChannel2EyeColorGreen(){
+        Notification notification=new NotificationCompat.Builder(this,NotificationChannelsClass.CHANNEL_2_ID)
+                .setSmallIcon(R.drawable.ic_sunglasses)
+                .setContentTitle("Hey Green Eyes")
+                .setContentText("UV is Moderate, get your shades on!")
+                .setPriority(NotificationCompat.PRIORITY_LOW)
+                .build();
+        notificationManagerCompat.notify(2,notification);
     }
-
+    public void sendChannel2EyeColorBrown(){
+        Notification notification=new NotificationCompat.Builder(this,NotificationChannelsClass.CHANNEL_2_ID)
+                .setSmallIcon(R.drawable.ic_sunglasses)
+                .setContentTitle("Hey Brown Eyes")
+                .setContentText("UV is Moderate, get your shades on!")
+                .setPriority(NotificationCompat.PRIORITY_LOW)
+                .build();
+        notificationManagerCompat.notify(2,notification);
+    }
+    public void sendChannel2EyeColorHazel(){
+        Notification notification=new NotificationCompat.Builder(this,NotificationChannelsClass.CHANNEL_2_ID)
+                .setSmallIcon(R.drawable.ic_sunglasses)
+                .setContentTitle("Hey Hazel Eyes")
+                .setContentText("UV is Moderate, get your shades on!")
+                .setPriority(NotificationCompat.PRIORITY_LOW)
+                .build();
+        notificationManagerCompat.notify(2,notification);
+    }
 }

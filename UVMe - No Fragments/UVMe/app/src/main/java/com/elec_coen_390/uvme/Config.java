@@ -6,6 +6,9 @@ public class Config {
     public static String COLUMN_ID = "uv_id";
     public static final String UV_TABLE_NAME = "uv_data";                        /** UV Data Table */
     public static String COLUMN_DATE = "date";
+    public static String COLUMN_HOUR = "hour";
+    public static String COLUMN_MIN = "min";
+    public static String COLUMN_SEC = "sec";
     public static String COLUMN_UV_VALUE = "uv_value";
     public static String COLUMN_UV_TIME = "uv_time";
 

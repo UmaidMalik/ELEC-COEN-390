@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.method.LinkMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,15 +23,26 @@ public class InfoActivity extends AppCompatActivity {
     private ListView listView;
     private String[] indexLevels = {"0-2", "3-5", "6-7", "8-10", "11+"};
     private String[] indexColorMeanings = {"Low", "Moderate", "High", "Very High", "Extreme"};
-    private String[] listOfProtections = {"Apply SPF 30+ sunscreen; wear sunglasses on bright days"
-                                            , "Apply SPF 30+ sunscreen every 2 hours; wear a hat and sunglasses; " +
-                                            "seek shade during midday hours (10 a.m. to 4 p.m.), when the sun’s rays are most intense"
-                                            , "Apply SPF 30+ sunscreen every 2 hours; wear a wide-brimmed hat, sunglasses, and a long-sleeved shirt and pants if practical; " +
-                                            "seek shade during midday hours (10 a.m. to 4 p.m.), " +
-                                            "when the sun’s rays are most intense",
-                                            "Apply SPF 30+ sunscreen every 2 hours; limit time outdoors",
-                                            "Apply SPF 30+ sunscreen every 2 hours; limit time outdoors; be careful outside"};
+    private String[] listOfProtections = {"Minimal sun protection required for normal activity." +
+                                            "Wear sunglasses on bright days. If outside for more than one hour, cover up and use sunscreen." +
+                                            "Reflection off snow can nearly double UV strength, so wear sunglasses and apply sunscreen on your face.",
+
+
+                                            "Take precaution by covering up, and wearing a hat, sunglasses and sunscreen, especially if you will be outside for 30 minutes or more." +
+                                            "Look for shade near midday when the sun is strongest.",
+
+                                            "Protection required - UV damages the skin and can cause sunburn." +
+                                                    "Reduce time in the sun between 11 a.m. and 3 p.m. and take full precaution by seeking shade, covering up exposed skin, wearing a hat and sunglasses, and applying sunscreen.",
+
+                                            "Extra precaution required - unprotected skin will be damaged and can burn quickly." +
+                                                    "Avoid the sun between 11 a.m. and 3 p.m. and seek shade, cover up, and wear a hat, sunglasses and sunscreen.",
+
+                                            "Values of 11 or more are very rare in Canada. However, the UV Index can reach 14 or higher in the tropics and southern U.S." +
+                                                    "Take full precaution. Unprotected skin will be damaged and can burn in minutes. Avoid the sun between 11 a.m. and 3 p.m., cover up, and wear a hat, sunglasses and sunscreen." +
+                                                    "Don’t forget that white sand and other bright surfaces reflect UV and increase UV exposure." };
     private int[] colorImages = {R.drawable.ic_low, R.drawable.ic_moderate, R.drawable.ic_high, R.drawable.ic_veryhigh, R.drawable.ic_extreme};
+
+    private TextView textViewInfoURL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,10 +56,14 @@ public class InfoActivity extends AppCompatActivity {
 
         setupBottomNavigationListener();
 
+        setupInfoURL();
 
 
+    }
 
-
+    private void setupInfoURL() {
+        textViewInfoURL = (TextView) findViewById(R.id.textViewInfoURL);
+        textViewInfoURL.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
     private void setupListView() {

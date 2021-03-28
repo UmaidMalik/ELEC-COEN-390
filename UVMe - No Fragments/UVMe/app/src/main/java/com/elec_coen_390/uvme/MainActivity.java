@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
 
         textViewBatteryLevel.setText(String.valueOf(BatteryData.getBatteryLevel()));
 
-       textViewUVI = (TextView) findViewById(R.id.textViewUVI);
+        //textViewUVI = (TextView) findViewById(R.id.textViewUVI);
 
         //textViewUVI.setText(String.valueOf(batteryLevel));
 
@@ -242,7 +242,7 @@ public class MainActivity extends AppCompatActivity {
                         //stringBatteryLevel = textViewBatteryLevel.getText();
                         //batteryLevel = Integer.parseInt((String) stringBatteryLevel);
                         //textViewUVI.setText(String.valueOf(batteryLevel));
-                        textViewUVI.setText(String.valueOf(BatteryData.getBatteryLevel()));
+                        //textViewUVI.setText(String.valueOf(BatteryData.getBatteryLevel()));
 
                     }
                 });
@@ -271,17 +271,32 @@ public class MainActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             final String action = intent.getAction();
             if (BluetoothLeService.ACTION_GATT_CONNECTED.equals(action)) {
-
+                updateSensorConnectionState(true);
             }
             else if (BluetoothLeService.ACTION_GATT_DISCONNECTED.equals(action)) {
-
+                updateSensorConnectionState(false);
             }
             else if (BluetoothLeService.ACTION_DATA_AVAILABLE.equals(action)) {
                 //displayUVSensorData(intent.getStringExtra(BluetoothLeService.EXTRA_DATA_VALUE_UV_INDEX));
-                displayBatteryLevel(intent.getStringExtra(BluetoothLeService.EXTRA_DATA_VALUE_BATTERY_LEVEL));
+                updateSensorConnectionState(true);
+                displayBatteryLevel(intent.getStringExtra(BluetoothLeService.EXTRA_DATA_VALUE_BATTERY_LEVEL) + "%");
             }
         }
     };
+
+    private void updateSensorConnectionState(boolean condition) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (condition) {
+                    imageViewSensor.setImageResource(R.drawable.ic_sensor_on);
+                }
+                else {
+                    imageViewSensor.setImageResource(R.drawable.ic_sensor_off);
+                }
+            }
+        });
+    }
 
     private void displayBatteryLevel(String stringExtra) {
         textViewBatteryLevel.setText(stringExtra);

@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
 
         notificationManagerCompat = NotificationManagerCompat.from(this);
 
-        notificationFunction(uvIndex);
+
 
 
         builder = new AlertDialog.Builder(this, R.style.AlertDialogStyle);
@@ -145,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
 
         startSunUIThread(getCurrentFocus());
         startUVIndexThread(getCurrentFocus());
-
+        startNotificationsThread(getCurrentFocus());
 
     }
 
@@ -178,6 +178,34 @@ public class MainActivity extends AppCompatActivity {
     private void startUVIndexThread(View view) {
         RunnableUVIndex runnableUVIndex = new RunnableUVIndex();
         new Thread(runnableUVIndex).start();
+    }
+
+    private void startNotificationsThread(View v) {
+        RunnableNotification runnableNotification = new RunnableNotification();
+        new Thread(runnableNotification).start();
+    }
+
+    private class RunnableNotification implements Runnable {
+        @Override
+        public void run() {
+            while (true) {
+
+                runOnUiThread(new Runnable() {
+                    @RequiresApi(api = Build.VERSION_CODES.O)
+                    @Override
+                    public void run() {
+                        notificationFunction(UVSensorData.getUVIntensity());
+
+                    }
+                });
+
+                try {
+                    Thread.sleep(200);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     private class RunnableSunColor implements Runnable {
@@ -323,16 +351,17 @@ public class MainActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void notificationFunction(Float data){
-        View view = null;
-        if(uvIndex>3) {
-            sendChannel1(view);
+
+
+        if(data >= 6 && data < 9) {
+            sendChannel1();
         }
-        else if (uvIndex>5){
-            sendChannel2(view);
+        else if (data >= 9){
+            sendChannel2();
         }
     }
 
-    public void sendChannel1(View view){
+    public void sendChannel1(){
 Notification notification=new NotificationCompat.Builder(this,NotificationChannelsClass.CHANNEL_1_ID).setSmallIcon(R.drawable.ic_smile)
         .setContentTitle("Channel 1 Test")
         .setContentText("Please work")
@@ -342,10 +371,10 @@ Notification notification=new NotificationCompat.Builder(this,NotificationChanne
 notificationManagerCompat.notify(1,notification);
     }
 
-    public void sendChannel2(View view){
+    public void sendChannel2(){
         Notification notification=new NotificationCompat.Builder(this,NotificationChannelsClass.CHANNEL_2_ID)
                 .setSmallIcon(R.drawable.ic_sad)
-                .setContentTitle("Channel 1 Test")
+                .setContentTitle("Channel 2 Test")
                 .setContentText("Please work")
                 .setPriority(NotificationCompat.PRIORITY_LOW)
 

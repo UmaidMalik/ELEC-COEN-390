@@ -94,7 +94,7 @@ public class DeviceControlActivity extends Activity {
                 mConnected = true;
                 updateConnectionState(R.string.connected);
                 invalidateOptionsMenu();
-            } else if (BluetoothLeService.ACTION_GATT_CONNECTED.equals(action)) {
+            } else if (BluetoothLeService.ACTION_GATT_DISCONNECTED.equals(action)) {
                 mConnected = false;
                 updateConnectionState(R.string.disconnected);
                 invalidateOptionsMenu();
@@ -104,7 +104,7 @@ public class DeviceControlActivity extends Activity {
                 displayGattServices(mBluetoothLeService.getSupportedGattServices());
             } else if (BluetoothLeService.ACTION_DATA_AVAILABLE.equals(action)) {
                 displayData(intent.getStringExtra(BluetoothLeService.EXTRA_DATA));
-                displayTestData(intent.getStringExtra(BluetoothLeService.EXTRA_DATA_VALUE_BATTERY_LEVEL));
+               // displayTestData(intent.getStringExtra(BluetoothLeService.EXTRA_DATA_VALUE_BATTERY_LEVEL));
             }
         }
     };
@@ -350,17 +350,7 @@ public class DeviceControlActivity extends Activity {
             public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
 
 
-                // Here you would do your convertView initialization
-                // ...
-                /*
-                TextView textView = (TextView) convertView.findViewById(R.id.text1);
-                if(isExpanded)
-                    textView.setTextColor(gatt_services_list);
-                else
-                    textView.setTextColor();
-                // Do the rest of your view binding
-                */
-                //...
+
                 return super.getGroupView(groupPosition, isExpanded, convertView, parent);
             }
         };

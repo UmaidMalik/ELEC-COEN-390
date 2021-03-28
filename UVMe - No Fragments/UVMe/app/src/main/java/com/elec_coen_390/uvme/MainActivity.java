@@ -1,6 +1,9 @@
 package com.elec_coen_390.uvme;
 
 import android.app.Notification;
+import android.bluetooth.BluetoothGatt;
+import android.bluetooth.BluetoothGattCharacteristic;
+import android.bluetooth.BluetoothGattService;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -29,6 +32,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
 
 
@@ -37,8 +42,16 @@ public class MainActivity extends AppCompatActivity {
     public static final String TAG = "Main Activity";
 
     private TextView textViewUVIndex;
+    private TextView textViewUVI;
     private ImageView ic_sun;
     private float uvIndex = 0.00f;
+
+    private int batteryLevel = 17;
+    private TextView textViewBatteryLevel;
+
+    private BluetoothLeService mBluetoothLeService;
+    private ArrayList<BluetoothGattService> mBluetoothGattServices = new ArrayList<BluetoothGattService>() ;
+
 
 
     private NotificationManagerCompat notificationManagerCompat;
@@ -106,14 +119,23 @@ public class MainActivity extends AppCompatActivity {
         textViewUVIndex = (TextView) findViewById(R.id.textViewUVIndex);
         ic_sun = (ImageView) findViewById(R.id.ic_sun);
 
+        textViewBatteryLevel = (TextView) findViewById(R.id.textViewBatteryLevel);
+
         textViewUVIndex.setText(String.valueOf(UVSensorData.getUVIntensity()));
 
+        textViewBatteryLevel.setText(String.valueOf(BatteryData.getBatteryLevel()));
 
+       textViewUVI = (TextView) findViewById(R.id.textViewUVI);
+
+        //textViewUVI.setText(String.valueOf(batteryLevel));
 
         startSunUIThread(getCurrentFocus());
+        startUVIndexThread(getCurrentFocus());
 
 
     }
+
+
 
     private void updateSunColor() {
         uvIndex = UVSensorData.getUVIntensity();
@@ -138,11 +160,19 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void startSunUIThread(View view) {
+        RunnableSunColor runnableSunColor = new RunnableSunColor();
+        new Thread(runnableSunColor).start();
+    }
+
+    private void startUVIndexThread(View view) {
         RunnableUVIndex runnableUVIndex = new RunnableUVIndex();
         new Thread(runnableUVIndex).start();
     }
 
-    private class RunnableUVIndex implements Runnable {
+    private class RunnableSunColor implements Runnable {
+
+
+
 
 
         @Override
@@ -159,7 +189,38 @@ public class MainActivity extends AppCompatActivity {
                 });
 
                 try {
-                    Thread.sleep(500);
+                    Thread.sleep(1500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    private class RunnableUVIndex implements Runnable {
+
+
+        @Override
+        public void run() {
+            while (true) {
+
+
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        textViewUVIndex.setText(String.valueOf(UVSensorData.getUVIntensity()));
+                        //displayBatteryLevel(String.valueOf(BatteryData.getBatteryLevel()));
+                        //stringBatteryLevel = textViewBatteryLevel.getText();
+                        //batteryLevel = Integer.parseInt((String) stringBatteryLevel);
+                        //textViewUVI.setText(String.valueOf(batteryLevel));
+                        textViewUVI.setText(String.valueOf(BatteryData.getBatteryLevel()));
+
+                    }
+                });
+
+                try {
+                    Thread.sleep(5);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -173,7 +234,7 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
         //***********************************
-        notificationFunction(uvIndex);
+        notificationFunction(UVSensorData.getUVIntensity());
 
     }
 
@@ -181,10 +242,22 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             final String action = intent.getAction();
-            if (BluetoothLeService.ACTION_DATA_AVAILABLE.equals(action))
-                displayUVSensorData(intent.getStringExtra(BluetoothLeService.EXTRA_DATA_VALUE_UV_INDEX));
+            if (BluetoothLeService.ACTION_GATT_CONNECTED.equals(action)) {
+
+            }
+            else if (BluetoothLeService.ACTION_GATT_DISCONNECTED.equals(action)) {
+
+            }
+            else if (BluetoothLeService.ACTION_DATA_AVAILABLE.equals(action)) {
+                //displayUVSensorData(intent.getStringExtra(BluetoothLeService.EXTRA_DATA_VALUE_UV_INDEX));
+                displayBatteryLevel(intent.getStringExtra(BluetoothLeService.EXTRA_DATA_VALUE_BATTERY_LEVEL));
+            }
         }
     };
+
+    private void displayBatteryLevel(String stringExtra) {
+        textViewBatteryLevel.setText(stringExtra);
+    }
 
     private static IntentFilter makeGattUpdateIntentFilter() {
         final IntentFilter intentFilter = new IntentFilter();
@@ -256,6 +329,7 @@ public class MainActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void notificationFunction(double data){
+        uvIndex = UVSensorData.getUVIntensity();
         if(uvIndex>1) {
             channel1Notif();
         }

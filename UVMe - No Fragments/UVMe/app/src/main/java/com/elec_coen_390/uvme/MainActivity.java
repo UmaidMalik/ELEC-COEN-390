@@ -60,6 +60,8 @@ public class MainActivity extends AppCompatActivity {
 
     private NotificationManagerCompat notificationManagerCompat;
 
+    private ImageView imageViewSensor;
+
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -127,9 +129,8 @@ public class MainActivity extends AppCompatActivity {
 
         textViewBatteryLevel.setText(String.valueOf(BatteryData.getBatteryLevel()));
 
-        //textViewUVI = (TextView) findViewById(R.id.textViewUVI);
-
-        //textViewUVI.setText(String.valueOf(batteryLevel));
+        imageViewSensor = (ImageView) findViewById(R.id.imageViewSensor);
+        
 
         startSunUIThread(getCurrentFocus());
         startUVIndexThread(getCurrentFocus());

@@ -230,7 +230,7 @@ void loop()
   float uvIntensity = mapfloat(outputVoltage, 0.99, 2.8, 0.0, 15.0); //Convert the voltage to a UV intensity level
   
 
-  float measuredvbat = analogRead(VBATPIN);
+  float measuredvbat = averageAnalogRead(VBATPIN);
   measuredvbat *= 2;    // we divided by 2, so multiply back
   measuredvbat *= 3.3;  // Multiply by 3.3V, our reference voltage
   measuredvbat /= 1024; // convert to voltage
@@ -238,7 +238,7 @@ void loop()
 
 
   emitUVSensorData(uvIntensity);
-  emitBatteryLevel(measuredvbat);
+  emitBatteryLevel((int)measuredvbat);
 
   //count++;
 

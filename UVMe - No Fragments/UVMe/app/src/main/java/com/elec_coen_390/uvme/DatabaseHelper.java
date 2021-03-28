@@ -25,7 +25,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public DatabaseHelper(Context context)
     { super(context, DATABASE_NAME, null, DATABASE_VERSION );
-    this.context = context;}
+        this.context = context;}
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         //CREATE THE TABLES
@@ -33,6 +33,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 " (" +
                 Config.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 Config.COLUMN_DATE + " TEXT NOT NULL," +
+                Config.COLUMN_HOUR + " TEXT NOT NULL," +
                 Config.COLUMN_UV_VALUE + " REAL NOT NULL," +
                 Config.COLUMN_UV_TIME + " REAL NOT NULL) ";
         Log.d(TAG,"table created with this qurery "+ CREATE_TABLE_UV_DATA);
@@ -53,12 +54,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         int day = currentDateTime.get(Calendar.DAY_OF_MONTH);
         int month = currentDateTime.get(Calendar.MONTH);
         int year = currentDateTime.get(Calendar.YEAR);
-
-
         int second = currentDateTime.get(Calendar.SECOND);
         int minute = currentDateTime.get(Calendar.MINUTE);
         int hour = currentDateTime.get(Calendar.HOUR);
-
         //StringBuilder stringBuilder = new StringBuilder(second + " " )
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd:mm:yyyy");
         SimpleDateFormat simpleHourFormat = new SimpleDateFormat("hh:mm:ss");
@@ -69,8 +67,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(Config.COLUMN_DATE, String.valueOf(simpleDateFormat));
-        contentValues.put(Config.COLUMN_UV_VALUE, UVSensorData.getUVIntensity() );
+        contentValues.put(Config.COLUMN_HOUR, String.valueOf(simpleHourFormat)); //added
+        contentValues.put(Config.COLUMN_UV_VALUE, UVSensorData.getUVIntensity());
         contentValues.put(Config.COLUMN_UV_TIME, String.valueOf(simpleHourFormat));
+
         try {
             id = db.insertOrThrow(Config.UV_TABLE_NAME, null, contentValues);
         }
@@ -98,17 +98,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 do {
                     // We get all the parameters
                     int id = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_ID));
+
+                  /*
                     double time = cursor.getDouble(cursor.getColumnIndex(Config.COLUMN_UV_TIME));
                     float value =  cursor.getFloat(cursor.getColumnIndex(Config.COLUMN_UV_VALUE));
-                     // value  = UVSensorData.getUVIntensity();
-                    //UvReadings uvReadings = new UvReadings(time, value, date);
-                    //uvList.add(uvReadings);
+                   */
+
+                    int day = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_DATE));
+                    int hour = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_HOUR));
+                    float value =  cursor.getFloat(cursor.getColumnIndex(Config.COLUMN_UV_VALUE));
+                    UvReadings uvReadings = new UvReadings(day, hour, value);
+                    uvList.add(uvReadings);
+
+
                 } while (cursor.moveToNext());
                 return uvList;
             }
         }
         catch (SQLException exception) { Log.d(TAG, "EXCEPTION: " + exception);}
-            finally {
+        finally {
             if (cursor != null)
                 cursor.close();
             database.close();

@@ -1,43 +1,42 @@
-package com.elec_coen_390.uvme;
+ package com.elec_coen_390.uvme;
+        import androidx.annotation.NonNull;
+        import androidx.annotation.RequiresApi;
+        import androidx.appcompat.app.AppCompatActivity;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
+        import android.app.DatePickerDialog;
+        import android.content.Context;
+        import android.content.Intent;
+        import android.graphics.Color;
+        import android.os.Build;
+        import android.os.Bundle;
+        import android.util.Log;
+        import android.view.Menu;
+        import android.view.MenuItem;
+        import android.view.View;
+        import android.widget.Button;
+        import android.widget.DatePicker;
+        import android.widget.TextView;
+        import android.widget.Toast;
+        import com.google.android.material.bottomnavigation.BottomNavigationView;
+        import com.jjoe64.graphview.DefaultLabelFormatter;
+        import com.jjoe64.graphview.GraphView;
+        import com.jjoe64.graphview.GridLabelRenderer;
+        import com.jjoe64.graphview.series.DataPoint;
+        import com.jjoe64.graphview.series.DataPointInterface;
+        import com.jjoe64.graphview.series.LineGraphSeries;
+        import com.jjoe64.graphview.series.OnDataPointTapListener;
+        import com.jjoe64.graphview.series.PointsGraphSeries;
+        import com.jjoe64.graphview.series.Series;
 
-import android.app.DatePickerDialog;
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
-import android.os.Build;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.TextView;
-import android.widget.Toast;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.jjoe64.graphview.DefaultLabelFormatter;
-import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.GridLabelRenderer;
-import com.jjoe64.graphview.series.DataPoint;
-import com.jjoe64.graphview.series.DataPointInterface;
-import com.jjoe64.graphview.series.LineGraphSeries;
-import com.jjoe64.graphview.series.OnDataPointTapListener;
-import com.jjoe64.graphview.series.PointsGraphSeries;
-import com.jjoe64.graphview.series.Series;
-
-import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+        import java.text.NumberFormat;
+        import java.text.SimpleDateFormat;
+        import java.time.LocalDate;
+        import java.util.Calendar;
+        import java.util.Date;
+        import java.util.List;
 
 public class DayGraph extends AppCompatActivity {
-/////////////ok
+    /////////////ok
     public LineGraphSeries<DataPoint> series1, series2;
     public PointsGraphSeries<DataPoint> series3;
     TextView avgUV;
@@ -197,7 +196,7 @@ public class DayGraph extends AppCompatActivity {
         graph.getViewport().setMaxY(11);
         graph.getViewport().setMinX(0);
         graph.getViewport().setMaxX(24);
-       graph.getGridLabelRenderer().setNumHorizontalLabels(24);
+        graph.getGridLabelRenderer().setNumHorizontalLabels(24);
     }
 
     static double average(double[] a, int n) // FUNCTION RETURNS AVERAGE VALUE
@@ -285,65 +284,64 @@ public class DayGraph extends AppCompatActivity {
     }
 
     protected void setDate() { // Used to date the date with calendar
-                final Calendar calendar = Calendar.getInstance();
-                int day = calendar.get(Calendar.DAY_OF_MONTH);
-                int month = calendar.get(Calendar.MONTH);
-                int year = calendar.get(Calendar.YEAR);
-                datePicker = new DatePickerDialog(DayGraph.this, new DatePickerDialog.OnDateSetListener() {
-                    @RequiresApi(api = Build.VERSION_CODES.O)
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        int monthAdjusted = monthOfYear + 1;
-                        String zeroMonth = "";
-                        String zeroDay = "";
-                        if (monthAdjusted < 10) {
-                            zeroMonth = "0"+ String.valueOf(monthAdjusted);
-                        } else {
-                            zeroMonth = String.valueOf(monthAdjusted); }
-                        if (dayOfMonth < 10) {
-                            zeroDay = "0"+ String.valueOf(dayOfMonth);
-                        } else {
-                            zeroDay = String.valueOf(dayOfMonth);
-                        }
-                        String dateChosen = year + "-" + zeroMonth + "-" + zeroDay;
-                        getUVReadingFromDate(dateChosen); // send the format to the database (year - month - day)
-                    }
-                }, year, month, day);
-                datePicker.show();}
+        final Calendar calendar = Calendar.getInstance();
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        int month = calendar.get(Calendar.MONTH);
+        int year = calendar.get(Calendar.YEAR);
+        datePicker = new DatePickerDialog(DayGraph.this, new DatePickerDialog.OnDateSetListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                int monthAdjusted = monthOfYear + 1;
+                String zeroMonth = "";
+                String zeroDay = "";
+                if (monthAdjusted < 10) {
+                    zeroMonth = "0"+ String.valueOf(monthAdjusted);
+                } else {
+                    zeroMonth = String.valueOf(monthAdjusted); }
+                if (dayOfMonth < 10) {
+                    zeroDay = "0"+ String.valueOf(dayOfMonth);
+                } else {
+                    zeroDay = String.valueOf(dayOfMonth);
+                }
+                String dateChosen = year + "-" + zeroMonth + "-" + zeroDay;
+                getUVReadingFromDate(dateChosen); // send the format to the database (year - month - day)
+            }
+        }, year, month, day);
+        datePicker.show();}
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void getUVReadingFromDate(final String date) {
-    List<UvReadings> uvReadings;
-
-            DatabaseHelper databaseHelper = new DatabaseHelper(DayGraph.this);
-            uvReadings = databaseHelper.getAllUVData(date); // fetch all UV values by date
-                   series3.resetData(new DataPoint[]{}); // Reset previous series
-                   series1.resetData(new DataPoint[]{}); // Reset previous series
-                    DataPoint[] points = new DataPoint[500];
-                    int newCounter = 0;
-                    for (int i = 0; i < uvReadings.size(); i++) {
-                        double x = uvReadings.get(i).getUvTime();
-                        uvIndex  = (float) uvReadings.get(i).getUv(); // try this tomorrow!!!!!!!
-                        DataPoint point = new DataPoint(x, uvIndex);
-                        points[newCounter] = point;
-                        series3.appendData(new DataPoint(point.getX(), point.getY()), true, 500);
-                        series1.appendData(new DataPoint(point.getX(), point.getY()), true, 500);
-                        newCounter = newCounter + 1;
-                        //addUVValuesToDataBase(x,uvIndex,LocalDate.now());
-                    }
-        date2 = date;
+        List<UvReadings> uvReadings;
+        DatabaseHelper databaseHelper = new DatabaseHelper(DayGraph.this);
+        uvReadings = databaseHelper.getAllUVData(date); // fetch all UV values by date
+        series3.resetData(new DataPoint[]{}); // Reset previous series
+        series1.resetData(new DataPoint[]{}); // Reset previous series
+        DataPoint[] points = new DataPoint[500];
+        int newCounter = 0;
+        for (int i = 0; i < uvReadings.size(); i++) {
+            int x = uvReadings.get(i).getUVhour();
+            float y  =  uvReadings.get(i).getUv();
+            DataPoint point = new DataPoint(x, y);
+            points[newCounter] = point;
+            series3.appendData(new DataPoint(point.getX(), point.getY()), true, 500);
+            series1.appendData(new DataPoint(point.getX(), point.getY()), true, 500);
+            newCounter = newCounter + 1;
+            //addUVValuesToDataBase(x,  y,LocalDate.now());
         }
+        date2 = date;
+    }
 
-        /*
-    protected void addUVValuesToDataBase(final double dataX, final float dataY, final LocalDate date){
+    /*
+    protected void addUVValuesToDataBase(final int dataX, final float dataY, final LocalDate date){
             DatabaseHelper databaseHelper = new DatabaseHelper(DayGraph.this);
             UvReadings uv = new UvReadings( dataX, dataY, date.toString());
             databaseHelper.insertUV(uv,);    // Add the current UV value to the database
         }
 
 
-         */
+
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void startUVReadThread(View view) {
@@ -353,25 +351,17 @@ public class DayGraph extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private class RunnableUVIndex implements Runnable {
-
-
         DatabaseHelper databaseHelper = new DatabaseHelper(DayGraph.this);
-
         Calendar calendar;
-
         @Override
         public void run() {
             while (true) {
-
-
-
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         databaseHelper.insertUV(UVSensorData.getUVIntensity(), calendar);
                     }
                 });
-
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
@@ -380,7 +370,7 @@ public class DayGraph extends AppCompatActivity {
             }
         }
     }
+         */
 }
-
 
 

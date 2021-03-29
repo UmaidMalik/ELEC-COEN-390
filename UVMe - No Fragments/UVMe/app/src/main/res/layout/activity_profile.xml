@@ -122,11 +122,12 @@
 
     <TextView
         android:id="@+id/selectedProfileTextView"
-        android:layout_width="4dp"
-        android:layout_height="25dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="80dp"
-        android:textColor="#B1D4E0"
+        android:textColor="@color/light_blue"
+        android:fontFamily="@font/roboto_thin"
         android:textSize="30sp" />
 
 

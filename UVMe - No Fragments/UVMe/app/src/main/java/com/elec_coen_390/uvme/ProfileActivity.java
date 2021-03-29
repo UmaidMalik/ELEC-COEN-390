@@ -31,6 +31,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class ProfileActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+
     private ArrayList<eyeColor> meyeColor;
     private eyeAdapter meyeAdapter;
     private ArrayList<skinTone> mskinColor;
@@ -343,7 +344,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
                 selectedProfileTextView.setText(name); // shows the users edited profile name upon clicking edit
                 noEdits(); // after user saved information it is sent back to the No edit mode.
                 //selectedProfileTextView.setText(name);
-                Toast.makeText(getApplicationContext(),"SAVED",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"SAVED",Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -394,80 +395,12 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         mskinColor.add(new skinTone("Medium",R.drawable.ic_medium));
         mskinColor.add(new skinTone("Olive",R.drawable.ic_olive));
         mskinColor.add(new skinTone("Brown",R.drawable.ic_brown));
-        mskinColor.add(new skinTone("Black",R.drawable.ic_black)); }
+        mskinColor.add(new skinTone("Black",R.drawable.ic_black));
+    }
     protected void goToMoreActivity() {
         Intent intentMore = new Intent(this, MoreActivity.class);
         startActivity(intentMore);
-        finish(); }
+        finish();
+    }
+
 }
-
-/*
-
-*** Skin tone **** == x
-Pale = 6
-fair = 5
-Medium = 4
-olive = 3
-brown = 2
-black = 1
-
--------------
-*** Eye Color *** ==y
-Blue = 4
-Green = 3
-Hazel =2
-Brown=1
-
-x & y,
-x=6 worst
-y=4 worst
-x=1 best
-y=1 best
-
-  Switch(score)
-       case:10
-      if (x==6 && y ==4 )
-      {
-      Skin tone Al
-      Sunglasses
-      }
-       Case 9:
-       if (x==6 && y ==3 )
-       if (x==5 && y ==4 )
-
-       Case 8:
-       if (x==6 && y ==2 )
-       if (x==5 && y ==3 )
-       if (x==4 && y ==4 )
-
-       case 7
-       if (x==6 && y ==1 )
-       if (x==5 && y ==2 )
-       if (x==4 && y ==3 )
-       if (x==3 && y ==4 )
-
-       case 6:
-        if(x==5 && y ==1 )
-       if (x==4 && y ==2 )
-       if (x==3 && y ==3 )
-       if (x==2 && y ==4 )
-
-       case 5:
-       if (x==4 && y ==1 )
-       if (x==3 && y ==2 )
-       if (x==2 && y ==3 )
-       if (x==1 && y ==4 )
-
-       case 4:
-       if (x==3 && y ==1 )
-       if (x==2 && y ==2 )
-       if (x==1 && y ==3 )
-
-       case 3:
-       if (x==2 && y ==1 )
-       if (x==1 && y ==2 )
-
-       case 2:
-       if (x==1 && y ==1 )
-
- */

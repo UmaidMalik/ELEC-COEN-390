@@ -77,5 +77,9 @@
         <item>Year</item>
     </string-array>
 
+    <string name="info_activity_url">
+        <a href="https://www.canada.ca/en/environment-climate-change/services/weather-health/uv-index-sun-safety/how-to-use.html">UV index and sun safety</a>
+    </string>
+
 </resources>
 

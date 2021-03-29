@@ -27,7 +27,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class MoreActivity extends AppCompatActivity {
 
     private ListView listView;
-    String[] iconNames = {"Notifications", "UV History", "UV Sensor", "Info", "Themes", "Help" };
+    String[] iconNames = {"Notifications", "UV History", "UV Sensor", "UV Index Info", "Themes", "Help" };
     int[] iconImages = {R.drawable.ic_notifications, R.drawable.ic_uv_history, R.drawable.ic_uv_sensor, R.drawable.ic_info, R.drawable.ic_themes, R.drawable.ic_help};
 
     @Override

@@ -76,10 +76,19 @@
                 android:layout_alignParentBottom="true"
                 android:layout_marginTop="160dp"
                 android:layout_centerHorizontal="true"
-                >
+                android:layout_marginBottom="30dp">
 
             </ListView>
 
+            <TextView
+                android:id="@+id/textViewInfoURL"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/light_blue"
+                android:textSize="20dp"
+                android:fontFamily="@font/roboto_thin"
+                android:text="@string/info_activity_url"
+                android:layout_alignParentBottom="true"/>
 
 
         </RelativeLayout>

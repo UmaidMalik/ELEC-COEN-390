@@ -18,4 +18,13 @@
         android:textColor="@color/light_blue"
         android:textSize="45sp" />
 
+    <Button
+        android:id="@+id/buttonOpenURL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="go to app webpage"
+        android:layout_centerInParent="true"/>
+
+
+
 </RelativeLayout>

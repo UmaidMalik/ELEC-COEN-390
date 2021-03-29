@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -27,9 +28,11 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class NotificationsActivity extends AppCompatActivity {
 
+   public static boolean toggleState = true;
 
     private ListView listView;
     public String[] notificationNames = {"Burn Risk Alert", "UVI Level Alert", "Sunglasses Alert"};
+    ToggleButton simpleToggleButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +44,11 @@ public class NotificationsActivity extends AppCompatActivity {
         TextView title = findViewById(R.id.textViewNotificationsActivity);
         title.setText("Notifications");
 
+        simpleToggleButton=findViewById(R.id.simpleToggleButton);
+        simpleToggleButton.setChecked(toggleState);
+
     }
+
 
     private void setupListView() {
         listView = findViewById(R.id.listViewNotificationsActivity);
@@ -136,6 +143,8 @@ public class NotificationsActivity extends AppCompatActivity {
             return moreView;
         }
     }
+
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -158,9 +167,5 @@ public class NotificationsActivity extends AppCompatActivity {
         startActivity(intentMain);
         finish();
     }
-
-
-
-
 }
 

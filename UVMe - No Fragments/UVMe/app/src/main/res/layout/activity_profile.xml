@@ -38,6 +38,8 @@
         android:digits=" abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
         android:ems="10"
         android:inputType="textPersonName"
+        android:hint="ENTER NAME"
+        android:textColorHint="@color/light_blue"
         android:textColor="#B1D4E0" />
 
     <TextView
@@ -63,7 +65,7 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:maxLength="2"
-
+        android:hint="ENTER AGE"
         android:textColorHint="@color/font_lightblue"
         android:textColor="#B1D4E0"
         />
@@ -122,12 +124,11 @@
 
     <TextView
         android:id="@+id/selectedProfileTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="4dp"
+        android:layout_height="25dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="80dp"
-        android:textColor="@color/light_blue"
-        android:fontFamily="@font/roboto_thin"
+        android:textColor="#B1D4E0"
         android:textSize="30sp" />
 
 

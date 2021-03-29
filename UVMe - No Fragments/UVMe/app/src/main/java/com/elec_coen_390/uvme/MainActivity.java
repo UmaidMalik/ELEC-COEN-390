@@ -388,13 +388,13 @@ public class MainActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void reduceRiskOFBurnNotification(Float data){
 
-        if(data >=5&& data < 8) {
-            sendChannel1LevelLow();
+            if (data >= 5 && data < 8) {
+                sendChannel1LevelLow();
+            } else if (data >= 8 && data < 10) {
+                sendChannel1LevelHigh();
+            }
         }
-        else if (data >= 8 && data<10){
-            sendChannel1LevelHigh();
-        }
-    }
+
     // Notification sent once user is exposed to value of 5->8UVI!
     public void sendChannel1LevelLow(){
         Notification notification=new NotificationCompat.Builder(this,NotificationChannelsClass.CHANNEL_1_ID).setSmallIcon(R.drawable.ic_sunlight_level2)

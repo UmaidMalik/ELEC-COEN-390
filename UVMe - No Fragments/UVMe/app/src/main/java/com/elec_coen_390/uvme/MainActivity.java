@@ -14,6 +14,7 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -78,13 +79,13 @@ public class MainActivity extends AppCompatActivity {
 
     private ImageView imageViewSensor;
 
-
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.getSupportActionBar().hide();
         setContentView(R.layout.activity_main);
+
         notificationManagerCompat = NotificationManagerCompat.from(this);
 
         editTextCitySearch = (EditText) findViewById(R.id.editTextCitySearch);
@@ -170,6 +171,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private void hide() {
+
+    }
 
 
     private void updateSunColor() {
@@ -232,9 +236,6 @@ public class MainActivity extends AppCompatActivity {
     private class RunnableSunColor implements Runnable {
 
 
-
-
-
         @Override
         public void run() {
             while (true) {
@@ -294,7 +295,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
-        //***********************************
 
 
     }

@@ -25,13 +25,14 @@ public class NotificationChannelsClass extends Application {
             ); // we can look into importance levels for notifications.
             channel1.setDescription("High UVI Reading ");
 
-
+            // Notification channel 2 used for sunglasses reminder
             NotificationChannel channel2 = new NotificationChannel(
                     CHANNEL_2_ID,
                     "Channel 2",
                     NotificationManager.IMPORTANCE_LOW
             ); // we can look into importance levels for notifications.
             channel1.setDescription("Sunglasses Reminder ");
+
             NotificationManager manager = getSystemService(NotificationManager.class);
             manager.createNotificationChannel(channel1);
             manager.createNotificationChannel(channel2);

@@ -28,6 +28,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class NotificationsActivity extends AppCompatActivity {
 
+   public static boolean toggleState = true;
 
     private ToggleButton toggleButtonUVILevelAlert, toggleButtonBurnRiskAlert, toggleButtonSunglassesAlert;
 
@@ -203,9 +204,5 @@ public class NotificationsActivity extends AppCompatActivity {
         startActivity(intentMain);
         finish();
     }
-
-
-
-
 }
 

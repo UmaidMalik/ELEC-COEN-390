@@ -80,6 +80,11 @@
     <string name="info_activity_url">
         <a href="https://www.canada.ca/en/environment-climate-change/services/weather-health/uv-index-sun-safety/how-to-use.html">UV index and sun safety</a>
     </string>
+    <string name="you_are_safe">You\'re safe.</string>
+    <string name="take_precaution">Take precaution</string>
+    <string name="protection_required">Protection required</string>
+    <string name="extra_protection_required">Extra protection required</string>
+    <string name="take_full_precaution">Take full precaution</string>
 
 </resources>
 

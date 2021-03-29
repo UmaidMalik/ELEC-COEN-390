@@ -149,17 +149,16 @@
         android:layout_marginStart="150dp"
         android:layout_marginLeft="280dp"
         android:layout_marginTop="425dp"
-        android:layout_toEndOf="@+id/textView8"
-
-        />
+        android:layout_toEndOf="@+id/textView8" />
 
     <TextView
         android:id="@+id/textMain"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:text="PROFILE"
-        android:textColor="#B95D63"
+        android:text="Profile"
+        android:fontFamily="@font/roboto_light"
+        android:textColor="@color/light_blue"
         android:textSize="36sp" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -172,7 +171,5 @@
         app:itemBackground="@color/secondary_blue"
         app:itemIconTint="@animator/nav_selector"
         app:itemTextColor="@animator/nav_selector"/>
-
-
 
 </RelativeLayout>

@@ -7,16 +7,12 @@
     android:layout_height="match_parent">
 
 <ScrollView
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginBottom="58dp">
 
 
 <RelativeLayout
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/midnight_blue"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -45,7 +41,7 @@
         android:textSize="20sp"
         android:fontFamily="@font/roboto_light" />
 
-    <Button
+    <ToggleButton
         android:id="@+id/buttonCitySearch"
         android:layout_width="45dp"
         android:layout_height="wrap_content"
@@ -53,8 +49,9 @@
         android:layout_marginEnd="25dp"
         android:layout_alignParentRight="true"
         android:background="@drawable/ic_city_search"
-        android:drawableTint="@color/light_blue"
-        />
+        android:textOn=""
+        android:textOff=""
+        android:drawableTint="@color/light_blue" />
 
     </RelativeLayout>
 
@@ -105,13 +102,12 @@
 
         <ImageView
             android:id="@+id/imageViewWeather"
-            android:layout_width="150dp"
+            android:layout_width="80dp"
             android:layout_height="match_parent"
             android:layout_marginTop="0dp"
             android:layout_marginEnd="25dp"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
-
             android:src="@drawable/ic_cloud"/>
 
 
@@ -124,17 +120,17 @@
         android:layout_marginTop="170dp"
         android:layout_centerHorizontal="true"
         android:layout_marginEnd="25dp"
-        android:textSize="40sp"
+        android:textSize="25sp"
         android:textColor="@color/font_lightblue"
-        android:fontFamily="@font/roboto_light"
-        android:id="@+id/activityMain"
+        android:fontFamily="@font/roboto_thin"
+        android:id="@+id/uvIndexStatusMessage"
         android:textAlignment="center" />
 
 
 
     <RelativeLayout
         android:id="@+id/layout_sun"
-        android:layout_width="350dp"
+        android:layout_width="match_parent"
         android:layout_height="550dp"
         android:layout_marginBottom="0dp"
         android:layout_marginTop="120dp"
@@ -164,7 +160,7 @@
             android:textSize="40sp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="0dp"
-            android:fontFamily="@font/roboto_thin"
+            android:fontFamily="@font/roboto_light"
             android:textColor="@color/light_blue" />
 
             <TextView
@@ -179,33 +175,53 @@
                 android:textColor="@color/light_blue" />
         </RelativeLayout>
 
-        <ImageView
-            android:id="@+id/imageViewSensor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_sensor_off"
-            android:layout_alignParentBottom="true"/>
 
+        <RelativeLayout
+            android:layout_width="125dp"
+            android:layout_height="100dp"
+            android:layout_marginBottom="60dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true">
 
+            <ImageView
+                android:id="@+id/imageViewSensor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="20dp"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/ic_sensor_off" />
 
+            <TextView
+                android:id="@+id/textViewSensorState"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:text="Sensor OFF"
+                android:fontFamily="@font/roboto_light"
+                android:textColor="@color/light_blue"/>
+
+        </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="125dp"
             android:layout_height="100dp"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="0dp"
+            android:layout_marginBottom="60dp"
             android:layout_marginRight="0dp"
             android:layout_alignParentRight="true">
-
-
 
 
             <ImageView
                 android:id="@+id/imageViewSensorBattery"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_battery_level_5"
-                android:layout_alignParentBottom="true" />
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="20dp"
+                android:rotation="0"
+                android:src="@drawable/ic_battery_level_5" />
 
 
 
@@ -214,9 +230,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0"
-                android:textSize="20sp"
-                android:layout_alignParentRight="true"
-                android:layout_marginEnd="50dp"
+                android:layout_centerHorizontal="true"
                 android:layout_alignParentBottom="true"
                 android:fontFamily="@font/roboto_thin"
                 android:textColor="@color/light_blue"
@@ -224,7 +238,10 @@
                 />
         </RelativeLayout>
 
+
+
     </RelativeLayout>
+
 
 
 

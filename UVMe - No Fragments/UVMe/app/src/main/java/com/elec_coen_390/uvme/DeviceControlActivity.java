@@ -42,7 +42,7 @@ public class DeviceControlActivity extends Activity {
     public static final String EXTRAS_DEVICE_NAME = "DEVICE_NAME";
     public static final String EXTRAS_DEVICE_ADDRESS = "DEVICE_ADDRESS";
 
-    private TextView testDataField;
+
 
     private TextView mConnectionState;
     private TextView mDataField;
@@ -158,8 +158,7 @@ public class DeviceControlActivity extends Activity {
 
         title.setText(mDeviceName);
 
-        testDataField = (TextView) findViewById(R.id.textViewTestDataField);
-        testDataField.setText(String.valueOf(BatteryData.getBatteryLevel()));
+
 
 
         ((TextView) findViewById(R.id.device_address)).setText(mDeviceAddress);
@@ -227,7 +226,7 @@ public class DeviceControlActivity extends Activity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        testDataField.setText(String.valueOf(BatteryData.getBatteryLevel()));
+
                     }
                 });
 
@@ -286,9 +285,6 @@ public class DeviceControlActivity extends Activity {
         }
     }
 
-    private void displayTestData(String data) {
-        testDataField.setText(data);
-    }
 
     private void displayGattServices(List<BluetoothGattService> gattServices) {
         if (gattServices == null) return;

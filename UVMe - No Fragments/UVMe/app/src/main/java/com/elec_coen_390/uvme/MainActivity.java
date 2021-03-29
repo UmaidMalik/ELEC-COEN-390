@@ -18,11 +18,14 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -69,15 +72,21 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
     private NotificationManagerCompat notificationManagerCompat;
 
+    private String city;
     EditText editTextCitySearch;
-    Button buttonCitySearch;
+    ToggleButton buttonCitySearch;
     ImageView imageViewWeather;
     TextView textViewTemperature, textViewCity, textViewCountry;
 
     private ImageView imageViewSensor;
 
+    private TextView uvIndexStatusMessage;
+    private TextView textViewSensorState;
+
+    SharedPreferences prefs;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -85,33 +94,34 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         this.getSupportActionBar().hide();
         setContentView(R.layout.activity_main);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN); // this is to prevent the keyboard from opening on startup since there is a EditText in this activity;)
         notificationManagerCompat = NotificationManagerCompat.from(this);
 
         editTextCitySearch = (EditText) findViewById(R.id.editTextCitySearch);
-        buttonCitySearch = (Button) findViewById(R.id.buttonCitySearch);
+        buttonCitySearch = (ToggleButton) findViewById(R.id.buttonCitySearch);
         imageViewWeather = (ImageView) findViewById(R.id.imageViewWeather);
         textViewTemperature = (TextView) findViewById(R.id.textViewTemperature);
         textViewCity = (TextView) findViewById(R.id.textViewCity);
         textViewCountry = (TextView) findViewById(R.id.textViewCountry);
 
-        buttonCitySearch.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                FindWeather();
-            }
-        });
+        textViewSensorState = (TextView) findViewById(R.id.textViewSensorState);
+
+        setupCitySearchButton();
+
+
 
         builder = new AlertDialog.Builder(this, R.style.AlertDialogStyle);
 
-        TextView title = (TextView) findViewById(R.id.activityMain);
-        title.setText("Message");
+        uvIndexStatusMessage = (TextView) findViewById(R.id.uvIndexStatusMessage);
+        uvIndexStatusMessage.setText("");
 
 
-        SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
+        prefs = getSharedPreferences("prefs", MODE_PRIVATE);
         boolean firstStart = prefs.getBoolean("firstStart", true);
-
+        String location = prefs.getString("CITY", "");
+        editTextCitySearch.setText(location);
+        editTextCitySearch.setVisibility(View.INVISIBLE);
+        FindWeather(); // initial call on startup
 
         if (firstStart) {
             Log.d(TAG, "Enter a Statement");
@@ -170,20 +180,65 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private void setupCitySearchButton() {
+        editTextCitySearch.setEnabled(false);
+
+        buttonCitySearch.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                FindWeather();
+            }
+        });
+
+        buttonCitySearch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                editTextCitySearch.setEnabled(isChecked);
+                if(isChecked) {
+                    editTextCitySearch.setVisibility(View.VISIBLE);
+                }
+                else {
+                    editTextCitySearch.setVisibility(View.INVISIBLE);
+
+                    city = editTextCitySearch.getText().toString();
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putString("CITY", city);
+                    editor.apply();
+                }
+            }
+        });
+    }
+
 
 
     private void updateSunColor() {
         uvIndex = UVSensorData.getUVIntensity();
-        if (uvIndex < 3)
+        if (uvIndex < 1) {
             ic_sun.setImageResource(R.drawable.ic_sunlight_default_level1_lightblue);
-        else if (uvIndex >= 3 && uvIndex < 6)
+            uvIndexStatusMessage.setText("");
+        }
+        else if (uvIndex >= 1 && uvIndex < 3) {
+            ic_sun.setImageResource(R.drawable.ic_sunlight_default_level1_lightblue);
+            uvIndexStatusMessage.setText(R.string.you_are_safe);
+        }
+        else if (uvIndex >= 3 && uvIndex < 6) {
             ic_sun.setImageResource(R.drawable.ic_sunlight_level2);
-        else if (uvIndex >= 6 && uvIndex < 8)
+            uvIndexStatusMessage.setText(R.string.take_precaution);
+        }
+        else if (uvIndex >= 6 && uvIndex < 8) {
             ic_sun.setImageResource(R.drawable.ic_sunlight_level3);
-        else if (uvIndex >= 8 && uvIndex < 11)
+            uvIndexStatusMessage.setText(R.string.protection_required);
+        }
+        else if (uvIndex >= 8 && uvIndex < 11) {
             ic_sun.setImageResource(R.drawable.ic_sunlight_level4);
-        else
+            uvIndexStatusMessage.setText(R.string.extra_protection_required);
+        }
+        else if (uvIndex > 11){
             ic_sun.setImageResource(R.drawable.ic_sunlight_level5);
+            uvIndexStatusMessage.setText(R.string.take_full_precaution);
+        }
     }
 
     private void displayUVSensorData(String uvIndex) {
@@ -323,9 +378,11 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 if (condition) {
                     imageViewSensor.setImageResource(R.drawable.ic_sensor_on);
+                    textViewSensorState.setText("Sensor ON");
                 }
                 else {
                     imageViewSensor.setImageResource(R.drawable.ic_sensor_off);
+                    textViewSensorState.setText("Sensor OFF");
                 }
             }
         });
@@ -388,32 +445,31 @@ public class MainActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void reduceRiskOFBurnNotification(Float data){
 
-        if(data >=5&& data < 8) {
-            sendChannel1LevelLow();
-        }
-        else if (data >= 8 && data<10){
-            sendChannel1LevelHigh();
-        }
+            if (data >= 5 && data < 8 && NotificationsActivity.UVI_LEVEL_ALERT_STATE) {
+                sendToChannel(R.drawable.ic_sunlight_level3,
+                        "SUNBURN ALERT!",
+                        "You Are Exposed To: " + UVSensorData.getUVIntensity() + "\n Long Exposure Term May Affect Health",
+                                NotificationChannelsClass.CHANNEL_1_ID, 1);
+
+            } if (data >= 8 && data < 20 && NotificationsActivity.BURN_RISK_ALERT_STATE) {
+                sendToChannel(R.drawable.ic_sunlight_level5,
+                        "SUNBURN ALERT!!!",
+                        "You are exposed to a DANGEROUS level of UV Radiation:" + UVSensorData.getUVIntensity() + "\nStay out of sunlight!",
+                        NotificationChannelsClass.CHANNEL_1_ID, 1);
+            }
+
     }
-    // Notification sent once user is exposed to value of 5->8UVI!
-    public void sendChannel1LevelLow(){
-        Notification notification=new NotificationCompat.Builder(this,NotificationChannelsClass.CHANNEL_1_ID).setSmallIcon(R.drawable.ic_sunlight_level2)
-                .setContentTitle("SUNBURN ALERT!")
-                .setContentText("You Are Exposed To: "+UVSensorData.getUVIntensity()+"\n Long Exposure Term May Affect Health")
+
+
+
+    public void sendToChannel(int drawableID, String contentTitle, String contentText, final String notificationChannel , int id) {
+        Notification notification=new NotificationCompat.Builder(this, notificationChannel).setSmallIcon(drawableID)
+                .setContentTitle(contentTitle)
+                .setContentText(contentText)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setCategory(NotificationCompat.CATEGORY_MESSAGE)
                 .build();
-        notificationManagerCompat.notify(1,notification);
-    }
-    // Notification sent once user is exposed to a very high UVI
-    public void sendChannel1LevelHigh(){
-        Notification notification=new NotificationCompat.Builder(this,NotificationChannelsClass.CHANNEL_1_ID).setSmallIcon(R.drawable.ic_sunlight_level5)
-                .setContentTitle("SUNBURN ALERT!!!")
-                .setContentText("You are exposed to a DANGEROUS level of UV Radiation\n"+"Stay out of sunlight!")
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
-                .build();
-        notificationManagerCompat.notify(1,notification);
+        notificationManagerCompat.notify( id, notification);
     }
 
 
@@ -456,7 +512,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void FindWeather()
     {
-        final String city = editTextCitySearch.getText().toString();
+        city = prefs.getString("CITY", "Enter City Name");
+        //city = editTextCitySearch.getText().toString();
         String url ="http://api.openweathermap.org/data/2.5/weather?q="+city+"&appid=462f445106adc1d21494341838c10019&units=metric";
         StringRequest stringRequest = new StringRequest(Request.Method.GET,url,
                 new Response.Listener<String>() {
@@ -502,5 +559,6 @@ public class MainActivity extends AppCompatActivity {
 
         RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
         requestQueue.add(stringRequest);
+
     }
 }

@@ -163,13 +163,13 @@ public class MoreActivity extends AppCompatActivity {
     protected void goToProfileActivity() {
         Intent intentProfile = new Intent(this, ProfileActivity.class);
         startActivity(intentProfile);
-        finish();
+        //finish();
     }
 
     protected void goToMainActivity() {
         Intent intentMain = new Intent(this, MainActivity.class);
         startActivity(intentMain);
-        finish();
+        //finish();
     }
 
 }

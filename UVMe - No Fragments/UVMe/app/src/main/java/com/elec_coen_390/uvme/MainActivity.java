@@ -127,12 +127,15 @@ public class MainActivity extends AppCompatActivity {
             Log.d(TAG, "Enter a Statement");
             builder.setTitle(R.string.terms_of_services);
             builder.setMessage(R.string.warning_label)
-                    .setCancelable(true)
+                    .setCancelable(false)
                     .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             dialog.cancel();
                             Toast.makeText(getApplicationContext(), R.string.ok_terms_of_service,
                                     Toast.LENGTH_SHORT).show();
+                            SharedPreferences.Editor editor = prefs.edit();
+                            editor.putBoolean("firstStart", false); // Set to false so that it will only appear once when accepted
+                            editor.apply();
                         }
                     })
                     .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {

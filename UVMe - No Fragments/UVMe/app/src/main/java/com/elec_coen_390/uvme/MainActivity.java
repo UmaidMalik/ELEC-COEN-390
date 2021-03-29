@@ -448,19 +448,19 @@ public class MainActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void reduceRiskOFBurnNotification(Float data){
 
-            if (data >= 5 && data < 8 && NotificationsActivity.UVI_LEVEL_ALERT_STATE) {
-                        "SUNBURN ALERT!",
-                sendToChannel(R.drawable.ic_sunlight_level3,
-                        "You Are Exposed To: " + UVSensorData.getUVIntensity() + "\n Long Exposure Term May Affect Health",
+        if (data >= 5 && data < 8 && NotificationsActivity.UVI_LEVEL_ALERT_STATE) {
+            sendToChannel(R.drawable.ic_sunlight_level3,
+                    "SUNBURN ALERT!",
+                    "You Are Exposed To: " + UVSensorData.getUVIntensity() + "\n Long Exposure Term May Affect Health",
+                    NotificationChannelsClass.CHANNEL_1_ID, 1);
 
-            } if (data >= 8 && data < 20 && NotificationsActivity.BURN_RISK_ALERT_STATE) {
-                sendToChannel(R.drawable.ic_sunlight_level5,
-                        "SUNBURN ALERT!!!",
-                        "You are exposed to a DANGEROUS level of UV Radiation:" + UVSensorData.getUVIntensity() + "\nStay out of sunlight!",
-                        NotificationChannelsClass.CHANNEL_1_ID, 1);
-
+        } if (data >= 8 && data < 20 && NotificationsActivity.BURN_RISK_ALERT_STATE) {
+            sendToChannel(R.drawable.ic_sunlight_level5,
+                    "SUNBURN ALERT!!!",
+                    "You are exposed to a DANGEROUS level of UV Radiation:" + UVSensorData.getUVIntensity() + "\nStay out of sunlight!",
+                    NotificationChannelsClass.CHANNEL_1_ID, 1);
+        }
     }
-            }
 
 
     public void sendToChannel(int drawableID, String contentTitle, String contentText, final String notificationChannel , int id) {
@@ -468,7 +468,6 @@ public class MainActivity extends AppCompatActivity {
         Notification notification=new NotificationCompat.Builder(this, notificationChannel).setSmallIcon(drawableID)
                 .setContentTitle(contentTitle)
                 .setContentText(contentText)
-                                NotificationChannelsClass.CHANNEL_1_ID, 1);
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setCategory(NotificationCompat.CATEGORY_MESSAGE)
                 .build();

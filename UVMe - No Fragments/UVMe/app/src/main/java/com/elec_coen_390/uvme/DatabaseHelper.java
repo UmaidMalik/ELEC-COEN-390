@@ -65,10 +65,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(Config.COLUMN_DATE, String.valueOf(simpleDateFormat));
-        contentValues.put(Config.COLUMN_HOUR, String.valueOf(simpleHourFormat)); //added
-        contentValues.put(Config.COLUMN_UV_VALUE, UVSensorData.getUVIntensity());
-        contentValues.put(Config.COLUMN_UV_TIME, String.valueOf(simpleHourFormat));
+        contentValues.put(Config.COLUMN_DATE, simpleDateFormat.toPattern());
+        contentValues.put(Config.COLUMN_HOUR, simpleHourFormat.toPattern()); //added
+        contentValues.put(Config.COLUMN_UV_VALUE, uvIntensity);
+        contentValues.put(Config.COLUMN_UV_TIME, simpleHourFormat.toPattern());
 
         try {
             id = db.insertOrThrow(Config.UV_TABLE_NAME, null, contentValues);

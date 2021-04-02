@@ -42,6 +42,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.squareup.picasso.Picasso;
 
@@ -81,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
     EditText editTextCitySearch;
     ToggleButton buttonCitySearch;
     ImageView imageViewWeather;
-    TextView textViewTemperature, textViewCity, textViewCountry;
+    TextView textViewTemperature, textViewCity, textViewCountry, textViewWind, textViewFeelsLike, textViewHumidity, textViewPressure;
 
     private ImageView imageViewSensor;
     private ImageView imageViewSensorBattery;
@@ -121,9 +122,13 @@ public class MainActivity extends AppCompatActivity {
         textViewTemperature = (TextView) findViewById(R.id.textViewTemperature);
         textViewCity = (TextView) findViewById(R.id.textViewCity);
         textViewCountry = (TextView) findViewById(R.id.textViewCountry);
+        textViewFeelsLike = (TextView) findViewById(R.id.textViewFeelsLike);
 
         textViewSensorState = (TextView) findViewById(R.id.textViewSensorState);
         imageViewSensorBattery = (ImageView) findViewById(R.id.imageViewSensorBattery);
+        textViewWind = (TextView) findViewById(R.id.textViewWind);
+        textViewHumidity = (TextView) findViewById(R.id.textViewHumidity);
+        textViewPressure = (TextView) findViewById(R.id.textViewPressure);
 
         setupCitySearchButton();
 
@@ -347,7 +352,7 @@ public class MainActivity extends AppCompatActivity {
                     public void run() {
                         updateSunColor();
                         //*************
-                        db.insertUV(uvIndex);
+                        db.insertUV(UVSensorData.getUVIntensity());
                         //*************
                         updateBatteryLevelIcon();
                     }
@@ -608,7 +613,8 @@ public class MainActivity extends AppCompatActivity {
                             JSONObject jsonObject = new JSONObject(response);
                             JSONObject object = jsonObject.getJSONObject("main");
                             double temp = object.getDouble("temp");
-                            textViewTemperature.setText("Temp\n"+temp+"°C");
+                            textViewTemperature.setText(temp+"°C");
+                            textViewTemperature.setTextSize(48);
 
                             //find country
                             JSONObject object8 = jsonObject.getJSONObject("sys");
@@ -625,7 +631,25 @@ public class MainActivity extends AppCompatActivity {
                             String icon = obj.getString("icon");
                             Picasso.get().load("http://openweathermap.org/img/wn/"+icon+"@2x.png").into(imageViewWeather);
 
+                            //find wind speed
+                            JSONObject object9 = jsonObject.getJSONObject("wind");
+                            String wind_find = object9.getString("speed");
+                            textViewWind.setText(wind_find+" km/h");
 
+                            //find feels
+                            JSONObject object13 = jsonObject.getJSONObject("main");
+                            double feels_find = object13.getDouble("feels_like");
+                            textViewFeelsLike.setText("Feels Like " + feels_find+" °C");
+
+                            //find pressure
+                            JSONObject object7 = jsonObject.getJSONObject("main");
+                            String pressure_find = object7.getString("pressure");
+                            textViewPressure.setText(pressure_find+"  hPa");
+
+                            //find humidity
+                            JSONObject object4 = jsonObject.getJSONObject("main");
+                            int humidity_find = object4.getInt("humidity");
+                            textViewHumidity.setText(humidity_find+"  %");
 
 
                         } catch (JSONException e) {

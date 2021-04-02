@@ -28,20 +28,20 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class NotificationsActivity extends AppCompatActivity {
 
-   public static boolean toggleState = true;
+
 
     private ToggleButton toggleButtonUVILevelAlert, toggleButtonBurnRiskAlert, toggleButtonSunglassesAlert;
 
     public static boolean UVI_LEVEL_ALERT_STATE = true, BURN_RISK_ALERT_STATE = true, SUNGLASSES_ALERT = true;
 
-    private static String PREFS = "toggle_prefs";
-    private static String UVI_LEVEL_ALERT_STATUS = "uvi_level_alert_on";
-    private static String BURN_RISK_ALERT_STATUS = "burn_risk_alert_on";
+    public static String PREFS = "toggle_prefs";
+    public static String UVI_LEVEL_ALERT_STATUS = "uvi_level_alert_on";
+    public static String BURN_RISK_ALERT_STATUS = "burn_risk_alert_on";
 
     boolean uvi_level_alert_status, burn_risk_alert_status;
 
-    static SharedPreferences togglePreferences;
-    static SharedPreferences.Editor editor;
+    public static SharedPreferences togglePreferences;
+    public static SharedPreferences.Editor editor;
 
 
     @Override

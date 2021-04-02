@@ -14,6 +14,7 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -63,8 +64,9 @@ public class MainActivity extends AppCompatActivity {
     private TextView textViewUVI;
     private ImageView ic_sun;
     private float uvIndex = 0.00f;
+    float maxUV = 0.00f;
 
-    private int batteryLevel = 17;
+    private float batteryLevel = 0;
     private TextView textViewBatteryLevel;
 
     private BluetoothLeService mBluetoothLeService;
@@ -82,11 +84,27 @@ public class MainActivity extends AppCompatActivity {
     TextView textViewTemperature, textViewCity, textViewCountry;
 
     private ImageView imageViewSensor;
+    private ImageView imageViewSensorBattery;
 
     private TextView uvIndexStatusMessage;
     private TextView textViewSensorState;
 
+    //SharedPreferences togglePreferences = getSharedPreferences(NotificationsActivity.PREFS, 0);
+    //boolean uvi_level_alert_status, burn_risk_alert_status;
+
     SharedPreferences prefs;
+
+    public static void setDefaults(String key, String value, Context context) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(key, value);
+        editor.commit();
+    }
+
+    public static Boolean getDefaults(String key, Context context) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return preferences.getBoolean(key, true);
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -105,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
         textViewCountry = (TextView) findViewById(R.id.textViewCountry);
 
         textViewSensorState = (TextView) findViewById(R.id.textViewSensorState);
+        imageViewSensorBattery = (ImageView) findViewById(R.id.imageViewSensorBattery);
 
         setupCitySearchButton();
 
@@ -115,6 +134,8 @@ public class MainActivity extends AppCompatActivity {
         uvIndexStatusMessage = (TextView) findViewById(R.id.uvIndexStatusMessage);
         uvIndexStatusMessage.setText("");
 
+        db = new DatabaseHelper(this);
+        db.getWritableDatabase();
 
         prefs = getSharedPreferences("prefs", MODE_PRIVATE);
         boolean firstStart = prefs.getBoolean("firstStart", true);
@@ -175,11 +196,13 @@ public class MainActivity extends AppCompatActivity {
         textViewBatteryLevel.setText(String.valueOf(BatteryData.getBatteryLevel()));
 
         imageViewSensor = (ImageView) findViewById(R.id.imageViewSensor);
-        
+
+
 
         startSunUIThread(getCurrentFocus());
         startUVIndexThread(getCurrentFocus());
         startNotificationsThread(getCurrentFocus());
+        startResetMaxUVThread(getCurrentFocus());
 
     }
 
@@ -217,7 +240,12 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void updateSunColor() {
-        uvIndex = UVSensorData.getUVIntensity();
+        //TODO implement sharePreferences for the two modes
+        if (false)
+            uvIndex = UVSensorData.getUVIntensity();
+        else
+            uvIndex = maxUV;
+
         if (uvIndex < 1) {
             ic_sun.setImageResource(R.drawable.ic_sunlight_default_level1_lightblue);
             uvIndexStatusMessage.setText("");
@@ -244,8 +272,22 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void displayUVSensorData(String uvIndex) {
-        textViewUVIndex.setText(uvIndex);
+    private void updateBatteryLevelIcon() {
+        batteryLevel = BatteryData.getBatteryLevel();
+        if (batteryLevel > 80f)
+            imageViewSensorBattery.setImageResource(R.drawable.ic_battery_level_5);
+        else if (batteryLevel <= 80 && batteryLevel > 55)
+            imageViewSensorBattery.setImageResource(R.drawable.ic_battery_level_4);
+        else if (batteryLevel <= 55 && batteryLevel >= 40)
+            imageViewSensorBattery.setImageResource(R.drawable.ic_battery_level_3);
+        else if (batteryLevel < 40 && batteryLevel >= 15)
+            imageViewSensorBattery.setImageResource(R.drawable.ic_battery_level_2);
+        else if (batteryLevel < 15)
+            imageViewSensorBattery.setImageResource(R.drawable.ic_battery_level_1);
+    }
+
+    private void displayUVSensorData(float uvIndex) {
+        textViewUVIndex.setText(String.valueOf(uvIndex));
     }
 
 
@@ -263,6 +305,13 @@ public class MainActivity extends AppCompatActivity {
         RunnableNotification runnableNotification = new RunnableNotification();
         new Thread(runnableNotification).start();
     }
+
+    private void startResetMaxUVThread(View view) {
+        RunnableResetMaxUV runnableResetMaxUV = new RunnableResetMaxUV();
+        new Thread(runnableResetMaxUV).start();
+    }
+
+
 
     private class RunnableNotification implements Runnable {
         @Override
@@ -289,10 +338,6 @@ public class MainActivity extends AppCompatActivity {
 
     private class RunnableSunColor implements Runnable {
 
-
-
-
-
         @Override
         public void run() {
             while (true) {
@@ -302,8 +347,9 @@ public class MainActivity extends AppCompatActivity {
                     public void run() {
                         updateSunColor();
                         //*************
-                       // db.insertUV(uvIndex, Calendar.getInstance());
+                        db.insertUV(uvIndex);
                         //*************
+                        updateBatteryLevelIcon();
                     }
                 });
 
@@ -323,18 +369,18 @@ public class MainActivity extends AppCompatActivity {
         public void run() {
             while (true) {
 
-
-
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        textViewUVIndex.setText(String.valueOf(UVSensorData.getUVIntensity()));
+                        //TODO implement sharePreferences for the two modes
+                        if(false) {
+                            displayUVSensorData(UVSensorData.getUVIntensity());
+                        }
+                        else displayUVMaxMode();
                         //displayBatteryLevel(String.valueOf(BatteryData.getBatteryLevel()));
                         //stringBatteryLevel = textViewBatteryLevel.getText();
                         //batteryLevel = Integer.parseInt((String) stringBatteryLevel);
-                        //textViewUVI.setText(String.valueOf(batteryLevel));
-                        //textViewUVI.setText(String.valueOf(BatteryData.getBatteryLevel()));
-
+                        textViewBatteryLevel.setText(String.valueOf((int)BatteryData.getBatteryLevel()) + "%");
                     }
                 });
 
@@ -345,6 +391,40 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    private class RunnableResetMaxUV implements Runnable {
+
+
+        @Override
+        public void run() {
+            while (true) {
+
+
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                       maxUV = 0;
+                    }
+                });
+
+                try {
+                    Thread.sleep(60000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+
+    protected void displayUVMaxMode() {
+        if (maxUV < UVSensorData.getUVIntensity()) {
+            maxUV = UVSensorData.getUVIntensity();
+        }
+        textViewUVIndex.setText(String.valueOf(maxUV));
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -370,10 +450,12 @@ public class MainActivity extends AppCompatActivity {
             else if (BluetoothLeService.ACTION_DATA_AVAILABLE.equals(action)) {
                 //displayUVSensorData(intent.getStringExtra(BluetoothLeService.EXTRA_DATA_VALUE_UV_INDEX));
                 updateSensorConnectionState(true);
-                displayBatteryLevel(intent.getStringExtra(BluetoothLeService.EXTRA_DATA_VALUE_BATTERY_LEVEL) + "%");
+                //displayBatteryLevel(intent.getStringExtra(BluetoothLeService.EXTRA_DATA_VALUE_BATTERY_LEVEL) + "%");
+
             }
         }
     };
+
 
     private void updateSensorConnectionState(boolean condition) {
         runOnUiThread(new Runnable() {
@@ -461,7 +543,6 @@ public class MainActivity extends AppCompatActivity {
                     NotificationChannelsClass.CHANNEL_1_ID, 1);
         }
     }
-
 
     public void sendToChannel(int drawableID, String contentTitle, String contentText, final String notificationChannel , int id) {
 

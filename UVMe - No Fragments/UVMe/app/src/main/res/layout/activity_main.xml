@@ -9,14 +9,13 @@
 <ScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/midnight_blue"
     android:layout_marginBottom="58dp">
 
 
 <RelativeLayout
-    android:background="@color/midnight_blue"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="wrap_content">
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -35,7 +34,7 @@
         android:ems="10"
         android:hint="Enter City Name"
         android:inputType="textPersonName"
-        android:paddingLeft="15dp"
+        android:paddingStart="15dp"
         android:textColor="@color/light_blue"
         android:textColorHint="@color/light_blue"
         android:textSize="20sp"
@@ -47,11 +46,10 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginEnd="25dp"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:background="@drawable/ic_city_search"
         android:textOn=""
-        android:textOff=""
-        android:drawableTint="@color/light_blue" />
+        android:textOff=""/>
 
     </RelativeLayout>
 
@@ -219,9 +217,9 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="25dp"
                 android:rotation="0"
-                android:src="@drawable/ic_battery_level_5" />
+                android:src="@drawable/ic_battery_level_1" />
 
 
 

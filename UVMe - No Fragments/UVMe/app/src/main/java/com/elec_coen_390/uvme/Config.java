@@ -5,7 +5,10 @@ public class Config {
     public static final String DATABASE_NAME =  "uv-reading-db";
     public static String COLUMN_ID = "uv_id";
     public static final String UV_TABLE_NAME = "uv_data";                        /** UV Data Table */
-    public static String COLUMN_DATE = "date";
+    public static String COLUMN_DAY = "day";
+    public static String COLUMN_MONTH = "month";
+    public static String COLUMN_YEAR = "year";
+
     public static String COLUMN_HOUR = "hour";
     public static String COLUMN_MIN = "min";
     public static String COLUMN_SEC = "sec";

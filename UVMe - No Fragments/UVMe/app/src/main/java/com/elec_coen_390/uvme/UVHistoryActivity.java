@@ -8,16 +8,24 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 public class UVHistoryActivity extends AppCompatActivity {
 Button showGraphButton;
 Button showWeekGraphButton;
 Button showMonthGraphButton;
-
+ListView sensorDataListView;
+DatabaseHelper dbHelper;
+private float uvIndex = 0.00f;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +37,24 @@ Button showMonthGraphButton;
         showMonthGraphButton=findViewById(R.id.showMonthGraphButton);
         showGraphButton=findViewById(R.id.showGraphButton);
         showWeekGraphButton=findViewById(R.id.showWeekGraphButton);
+        sensorDataListView=(ListView)findViewById(R.id.sensorDataListView);
+
+       // UVSensorData.getUVIntensity();
+        Calendar currentDateTime = Calendar.getInstance();
+        int day = currentDateTime.get(Calendar.DAY_OF_MONTH);
+        int month = currentDateTime.get(Calendar.MONTH);
+        int year = currentDateTime.get(Calendar.YEAR);
+        int second = currentDateTime.get(Calendar.SECOND);
+        int minute = currentDateTime.get(Calendar.MINUTE);
+        int hour = currentDateTime.get(Calendar.HOUR);
+
+        /*
+        dbHelper= new DatabaseHelper(this);
+        UvReadings uv = new UvReadings(-1,year,month,day,hour,minute,second,UVSensorData.getUVIntensity());
+        dbHelper.insertUV(uv);
+        //loadTime();
+         */
+
 
         showWeekGraphButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,7 +76,18 @@ Button showMonthGraphButton;
         });
 
     }
+   /* void loadTime() {
+        List<UvReadings> times = dbHelper.getAllUVData(); // creates a list of time soted in database
+        List<String> timeStringList = new ArrayList<>();
+        for (int i = 0; i < 10 ; i++) {
+            timeStringList.add(times.get(i).toString());
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, timeStringList);
+        sensorDataListView.setAdapter(adapter);
+    }
 
+
+    */
     @Override
     public void onBackPressed() {
         super.onBackPressed();

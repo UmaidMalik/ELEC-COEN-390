@@ -305,11 +305,11 @@ public class DayGraph extends AppCompatActivity {
                     zeroDay = String.valueOf(dayOfMonth);
                 }
                 String dateChosen = year + "-" + zeroMonth + "-" + zeroDay;
-                getUVReadingFromDate(dateChosen); // send the format to the database (year - month - day)
+               // getUVReadingFromDate(dateChosen); // send the format to the database (year - month - day)
             }
         }, year, month, day);
         datePicker.show();}
-
+/*
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void getUVReadingFromDate(final String date) {
@@ -332,6 +332,8 @@ public class DayGraph extends AppCompatActivity {
         }
         date2 = date;
     }
+
+ */
 
     /*
     protected void addUVValuesToDataBase(final int dataX, final float dataY, final LocalDate date){

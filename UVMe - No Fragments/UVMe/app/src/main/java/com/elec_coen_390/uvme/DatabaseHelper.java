@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
+import java.text.DecimalFormat;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TAG = "DatabaseHelper";
@@ -31,12 +32,29 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String CREATE_TABLE_UV_DATA = "CREATE TABLE " + Config.UV_TABLE_NAME +
                 " (" +
                 Config.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                Config.COLUMN_DATE + " TEXT NOT NULL," +
-                Config.COLUMN_HOUR + " TEXT NOT NULL," +
                 Config.COLUMN_UV_VALUE + " REAL NOT NULL," +
-                Config.COLUMN_UV_TIME + " REAL NOT NULL) ";
+                Config.COLUMN_HOUR + " INTEGER NOT NULL," +
+                Config.COLUMN_MIN + " INTEGER NOT NULL," +
+                Config.COLUMN_SEC + " INTEGER NOT NULL," +
+                Config.COLUMN_DAY + " INTEGER NOT NULL," +
+                Config.COLUMN_MONTH + " INTEGER NOT NULL," +
+                Config.COLUMN_YEAR + " INTEGER NOT NULL) ";
         Log.d(TAG,"table created with this query "+ CREATE_TABLE_UV_DATA);
         sqLiteDatabase.execSQL(CREATE_TABLE_UV_DATA);
+        Log.d(TAG,"Course table Created");
+
+        String CREATE_TABLE_UV_MAX_DATA = "CREATE TABLE " + Config.UV_TABLE_NAME_MAX +
+                " (" +
+                Config.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                Config.COLUMN_UV_MAX_VALUE + " REAL NOT NULL," +
+                Config.COLUMN_HOUR + " INTEGER NOT NULL," +
+                Config.COLUMN_MIN + " INTEGER NOT NULL," +
+                Config.COLUMN_SEC + " INTEGER NOT NULL," +
+                Config.COLUMN_DAY + " INTEGER NOT NULL," +
+                Config.COLUMN_MONTH + " INTEGER NOT NULL," +
+                Config.COLUMN_YEAR + " INTEGER NOT NULL) ";
+        Log.d(TAG,"table created with this query "+ CREATE_TABLE_UV_MAX_DATA);
+        sqLiteDatabase.execSQL(CREATE_TABLE_UV_MAX_DATA);
         Log.d(TAG,"Course table Created");
 
     }
@@ -46,34 +64,72 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // ALTER THE DESIGN FOR AN UPDATE
     }
 
-    public long insertUV(float uvIntensity){
+    public long insertUV(float uvIntensity, Calendar currentDateTime){
         long id =-1;
 
-        Calendar currentDateTime = Calendar.getInstance();
+        DecimalFormat df = new DecimalFormat("#,###,##0.00");
+        //currentDateTime = Calendar.getInstance();
         int day = currentDateTime.get(Calendar.DAY_OF_MONTH);
         int month = currentDateTime.get(Calendar.MONTH);
         int year = currentDateTime.get(Calendar.YEAR);
         int second = currentDateTime.get(Calendar.SECOND);
         int minute = currentDateTime.get(Calendar.MINUTE);
         int hour = currentDateTime.get(Calendar.HOUR);
-        //StringBuilder stringBuilder = new StringBuilder(second + " " )
 
-
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd:mm:yyyy");
-        SimpleDateFormat simpleHourFormat = new SimpleDateFormat("hh:mm:ss");
-
-        simpleDateFormat.applyPattern(String.valueOf(day) + String.valueOf(month) + String.valueOf(year));
-        simpleHourFormat.applyPattern(String.valueOf(hour) + String.valueOf(minute) + String.valueOf(second));
 
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(Config.COLUMN_DATE, simpleDateFormat.toPattern());
-        contentValues.put(Config.COLUMN_HOUR, simpleHourFormat.toPattern()); //added
-        contentValues.put(Config.COLUMN_UV_VALUE, uvIntensity);
-        contentValues.put(Config.COLUMN_UV_TIME, simpleHourFormat.toPattern());
+        contentValues.put(Config.COLUMN_UV_VALUE, df.format(uvIntensity));
+        contentValues.put(Config.COLUMN_HOUR, hour); //added
+        contentValues.put(Config.COLUMN_MIN, minute);
+        contentValues.put(Config.COLUMN_SEC, second);
+        contentValues.put(Config.COLUMN_DAY, day); //added
+        contentValues.put(Config.COLUMN_MONTH, month);
+        contentValues.put(Config.COLUMN_YEAR, year);
+
+
 
         try {
             id = db.insertOrThrow(Config.UV_TABLE_NAME, null, contentValues);
+        }
+
+        catch (SQLiteException e){
+            Log.d(TAG,"Exception"+ e.getMessage());
+            Toast.makeText(context, "Operation Failed", Toast.LENGTH_SHORT).show();
+        }
+
+        finally { // if nothing goes wrong, it will go to db.close() if there was an error it wont go
+            db.close(); }
+        return id;
+    }
+
+    public long insertUVMax(float uvIntensity, Calendar currentDateTime){
+        long id =-1;
+
+        DecimalFormat df = new DecimalFormat("#,###,##0.00");
+        //currentDateTime = Calendar.getInstance();
+        int day = currentDateTime.get(Calendar.DAY_OF_MONTH);
+        int month = currentDateTime.get(Calendar.MONTH);
+        int year = currentDateTime.get(Calendar.YEAR);
+        int second = currentDateTime.get(Calendar.SECOND);
+        int minute = currentDateTime.get(Calendar.MINUTE);
+        int hour = currentDateTime.get(Calendar.HOUR);
+
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(Config.COLUMN_UV_MAX_VALUE, df.format(uvIntensity));
+        contentValues.put(Config.COLUMN_HOUR, hour); //added
+        contentValues.put(Config.COLUMN_MIN, minute);
+        contentValues.put(Config.COLUMN_SEC, second);
+        contentValues.put(Config.COLUMN_DAY, day); //added
+        contentValues.put(Config.COLUMN_MONTH, month);
+        contentValues.put(Config.COLUMN_YEAR, year);
+
+
+
+        try {
+            id = db.insertOrThrow(Config.UV_TABLE_NAME_MAX, null, contentValues);
         }
 
         catch (SQLiteException e){
@@ -91,7 +147,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor = null;
         //uvIndex = UVSensorData.getUVIntensity();
         try {
-            cursor = database.query(Config.UV_TABLE_NAME, null, null, null, Config.COLUMN_ID,  Config.COLUMN_DATE + "=" + "'" + date + "'", Config.COLUMN_UV_TIME);
+            cursor = database.query(Config.UV_TABLE_NAME, null, null, null, Config.COLUMN_ID,  Config.COLUMN_DAY + "=" + "'" + date + "'", Config.COLUMN_UV_VALUE);
             if (cursor != null && cursor.moveToFirst())
             {
                 cursor.moveToFirst();
@@ -105,7 +161,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     float value =  cursor.getFloat(cursor.getColumnIndex(Config.COLUMN_UV_VALUE));
                    */
 
-                    int day = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_DATE));
+                    int day = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_DAY));
                     int hour = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_HOUR));
                     float value =  cursor.getFloat(cursor.getColumnIndex(Config.COLUMN_UV_VALUE));
                     UvReadings uvReadings = new UvReadings(day, hour, value);

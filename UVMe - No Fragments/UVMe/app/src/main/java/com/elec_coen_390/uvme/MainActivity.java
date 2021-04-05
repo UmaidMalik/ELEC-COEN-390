@@ -14,6 +14,7 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
@@ -64,8 +65,12 @@ public class MainActivity extends AppCompatActivity {
     private TextView textViewUVIndex;
     private TextView textViewUVI;
     private ImageView ic_sun;
-    private float uvIndex = 0.00f;
-    float maxUV = 0.00f;
+    private float uvIndex = 0;
+    float maxUV = 0;
+
+    float maxUVDatabase = 0;
+    Calendar calendar;
+    int minute = 0;
 
     private float batteryLevel = 0;
     private TextView textViewBatteryLevel;
@@ -98,8 +103,12 @@ public class MainActivity extends AppCompatActivity {
     SharedPreferences toggleUVModePreferences;
     boolean uv_mode_status = false;
     ToggleButton toggleButtonRefresh;
+    TextView textViewRefresh;
 
     ToggleButton buttonMoreInfo;
+
+
+    final Handler handler = new Handler();
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -125,6 +134,7 @@ public class MainActivity extends AppCompatActivity {
         textViewHumidity = (TextView) findViewById(R.id.textViewHumidity);
         textViewPressure = (TextView) findViewById(R.id.textViewPressure);
         toggleButtonRefresh = (ToggleButton) findViewById(R.id.toggleButtonRefresh);
+        textViewRefresh = (TextView) findViewById(R.id.textViewRefresh);
         buttonMoreInfo = (ToggleButton) findViewById(R.id.buttonMoreInfo);
 
         setupCitySearchButton();
@@ -202,11 +212,11 @@ public class MainActivity extends AppCompatActivity {
         imageViewSensor = (ImageView) findViewById(R.id.imageViewSensor);
 
 
-
         startSunUIThread(getCurrentFocus());
         startUVIndexThread(getCurrentFocus());
         startNotificationsThread(getCurrentFocus());
         startResetMaxUVThread(getCurrentFocus());
+        startDatabaseThread(getCurrentFocus());
 
         setupRefreshButton();
         setupMoreButton();
@@ -244,6 +254,39 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void startDatabaseThread(View view) {
+        new Thread(runnableDatabase).start();
+    }
+
+    Runnable runnableDatabase = new Runnable() {
+
+
+
+        public void run() {
+
+            calendar = Calendar.getInstance();
+            minute = calendar.get(Calendar.SECOND);
+
+            if (UVSensorData.getUVIntensity() > 0.5  /** && min % 5 == 0) **/ ) {
+
+                db.insertUV(UVSensorData.getUVIntensity(), calendar);
+                if (minute % 5 == 0) {
+                    db.insertUVMax(maxUVDatabase, calendar);
+                    maxUVDatabase = 0;
+                }
+
+            }
+            handler.postDelayed(this, 1000);
+        }
+    };
+
+    protected void databaseUVMax() {
+        if (maxUVDatabase < UVSensorData.getUVIntensity()) {
+            maxUVDatabase = UVSensorData.getUVIntensity();
+        }
+    }
+
+
     private void setupRefreshButton() {
         toggleButtonRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -273,26 +316,32 @@ public class MainActivity extends AppCompatActivity {
 
         if (uvIndex < 1) {
             ic_sun.setImageResource(R.drawable.ic_sunlight_default_level1_lightblue);
+            buttonMoreInfo.setVisibility(View.INVISIBLE);
             uvIndexStatusMessage.setText("");
         }
         else if (uvIndex >= 1 && uvIndex < 3) {
             ic_sun.setImageResource(R.drawable.ic_sunlight_default_level1_lightblue);
+            buttonMoreInfo.setVisibility(View.VISIBLE);
             uvIndexStatusMessage.setText(R.string.you_are_safe);
         }
         else if (uvIndex >= 3 && uvIndex < 6) {
             ic_sun.setImageResource(R.drawable.ic_sunlight_level2);
+            buttonMoreInfo.setVisibility(View.VISIBLE);
             uvIndexStatusMessage.setText(R.string.take_precaution);
         }
         else if (uvIndex >= 6 && uvIndex < 8) {
             ic_sun.setImageResource(R.drawable.ic_sunlight_level3);
+            buttonMoreInfo.setVisibility(View.VISIBLE);
             uvIndexStatusMessage.setText(R.string.protection_required);
         }
         else if (uvIndex >= 8 && uvIndex < 11) {
             ic_sun.setImageResource(R.drawable.ic_sunlight_level4);
+            buttonMoreInfo.setVisibility(View.VISIBLE);
             uvIndexStatusMessage.setText(R.string.extra_protection_required);
         }
         else if (uvIndex > 11){
             ic_sun.setImageResource(R.drawable.ic_sunlight_level5);
+            buttonMoreInfo.setVisibility(View.VISIBLE);
             uvIndexStatusMessage.setText(R.string.take_full_precaution);
         }
     }
@@ -336,6 +385,17 @@ public class MainActivity extends AppCompatActivity {
         new Thread(runnableResetMaxUV).start();
     }
 
+    private void setRefreshButtonVisibility(boolean condition) {
+        if (condition) {
+            toggleButtonRefresh.setVisibility(View.VISIBLE);
+            textViewRefresh.setVisibility(View.VISIBLE);
+        }
+        else {
+            toggleButtonRefresh.setVisibility(View.INVISIBLE);
+            textViewRefresh.setVisibility(View.INVISIBLE);
+        }
+    }
+
 
 
     private class RunnableNotification implements Runnable {
@@ -363,6 +423,7 @@ public class MainActivity extends AppCompatActivity {
 
     private class RunnableSunColor implements Runnable {
 
+
         @Override
         public void run() {
             while (true) {
@@ -371,15 +432,12 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         updateSunColor();
-                        //*************
-                        db.insertUV(UVSensorData.getUVIntensity());
-                        //*************
                         updateBatteryLevelIcon();
                     }
                 });
 
                 try {
-                    Thread.sleep(1500);
+                    Thread.sleep(2000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -402,10 +460,13 @@ public class MainActivity extends AppCompatActivity {
                             displayUVMaxMode();
                         }
                         else displayUVSensorData(UVSensorData.getUVIntensity());
+
+                        setRefreshButtonVisibility(uv_mode_status);
                         //displayBatteryLevel(String.valueOf(BatteryData.getBatteryLevel()));
                         //stringBatteryLevel = textViewBatteryLevel.getText();
                         //batteryLevel = Integer.parseInt((String) stringBatteryLevel);
                         textViewBatteryLevel.setText(String.valueOf((int)BatteryData.getBatteryLevel()) + "%");
+                        databaseUVMax();
                     }
                 });
 

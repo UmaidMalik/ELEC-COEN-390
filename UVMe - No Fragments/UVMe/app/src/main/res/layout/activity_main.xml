@@ -191,6 +191,7 @@
         android:layout_alignBaseline="@id/uvIndexStatusMessage"
         android:textOn=""
         android:textOff=""
+        android:visibility="invisible"
         android:layout_toEndOf="@id/uvIndexStatusMessage"/>
 
 
@@ -287,6 +288,7 @@
                 android:layout_marginBottom="20dp"
                 android:textOn=""
                 android:textOff=""
+                android:visibility="invisible"
                 android:background="@drawable/ic_refresh" />
 
             <TextView
@@ -297,6 +299,7 @@
                 android:layout_centerHorizontal="true"
                 android:fontFamily="@font/roboto_light"
                 android:text="Refresh"
+                android:visibility="invisible"
                 android:textColor="@color/light_blue" />
 
         </RelativeLayout>

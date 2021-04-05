@@ -35,7 +35,7 @@ public class BluetoothLeService extends Service {
     private BluetoothManager mBluetoothManager;
     private BluetoothAdapter mBluetoothAdapter;
     private String mBluetoothDeviceAddress;
-    private BluetoothGatt mBluetoothGatt;
+    static public BluetoothGatt mBluetoothGatt;
     private int mConnectionState = STATE_DISCONNECTED;
 
     BluetoothGattCharacteristic UVIntensityCharacteristic;
@@ -45,6 +45,8 @@ public class BluetoothLeService extends Service {
     private static final int STATE_DISCONNECTED = 0;
     private static final int STATE_CONNECTING = 1;
     private static final int STATE_CONNECTED = 2;
+
+    private BluetoothGattCharacteristic mNotifyCharacteristic;
 
     public final static String ACTION_GATT_CONNECTED =
             "com.example.bluetooth.le.ACTION_GATT_CONNECTED";
@@ -217,9 +219,6 @@ public class BluetoothLeService extends Service {
 
             case BATTERY_LEVEL_READ:
                 //setCharacteristicNotification(characteristic, true);
-                if ((characteristic.getProperties() | BluetoothGattCharacteristic.PROPERTY_NOTIFY) > 0) {
-                    setCharacteristicNotification(characteristic, true);
-                }
                 final byte[] dataBattery = characteristic.getValue();
                 if (dataBattery  != null && dataBattery .length > 0) {
                     final StringBuilder stringBuilder = new StringBuilder(dataBattery.length);

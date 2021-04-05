@@ -32,8 +32,6 @@ public class NotificationsActivity extends AppCompatActivity {
 
     private ToggleButton toggleButtonUVILevelAlert, toggleButtonBurnRiskAlert, toggleButtonSunglassesAlert;
 
-    public static boolean UVI_LEVEL_ALERT_STATE = true, BURN_RISK_ALERT_STATE = true, SUNGLASSES_ALERT = true;
-
     public static String PREFS = "toggle_prefs";
     public static String UVI_LEVEL_ALERT_STATUS = "uvi_level_alert_on";
     public static String BURN_RISK_ALERT_STATUS = "burn_risk_alert_on";
@@ -71,6 +69,11 @@ public class NotificationsActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
     private void setupToggleButtons() {
 
 
@@ -79,21 +82,16 @@ public class NotificationsActivity extends AppCompatActivity {
         toggleButtonUVILevelAlert.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                UVI_LEVEL_ALERT_STATE = isChecked;
                 editor.putBoolean(UVI_LEVEL_ALERT_STATUS, isChecked);
                 editor.apply();
-                toggleButtonUVILevelAlert.setChecked(isChecked);
-
             }
         });
 
         toggleButtonBurnRiskAlert.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                BURN_RISK_ALERT_STATE = isChecked;
                 editor.putBoolean(BURN_RISK_ALERT_STATUS, isChecked);
                 editor.apply();
-                toggleButtonBurnRiskAlert.setChecked(isChecked);
             }
         });
 
@@ -101,9 +99,9 @@ public class NotificationsActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    SUNGLASSES_ALERT = true;
+                    //SUNGLASSES_ALERT = true;
                 } else {
-                    SUNGLASSES_ALERT = false;
+                   // SUNGLASSES_ALERT = false;
                 }
 
             }
@@ -146,63 +144,28 @@ public class NotificationsActivity extends AppCompatActivity {
 
     }
 
-    /*
-    private class CustomAdapter extends BaseAdapter {
 
-
-
-        @Override
-        public int getCount() {
-            return notificationNames.length;
-        }
-
-        @Override
-        public Object getItem(int i) {
-            return null;
-        }
-
-        @Override
-        public long getItemId(int i) {
-            return 0;
-        }
-
-        @Override
-        public View getView(int i, View view, ViewGroup viewGroup) {
-            View moreView = getLayoutInflater().inflate(R.layout.activity_notifications_row_data, null);
-
-            TextView iconTitle = moreView.findViewById(R.id.textViewIconTitle);
-            ToggleButton toggleButton = moreView.findViewById(R.id.simpleToggleButton);
-            //ImageView iconImage = moreView.findViewById(R.id.imageViewIconImage);
-
-            iconTitle.setText(notificationNames[i]);
-            //iconImage.setImageResource(iconImages[i]);
-
-            return moreView;
-        }
-    }
-
-     */
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        //super.onBackPressed();
         goToMoreActivity();
     }
 
     protected void goToProfileActivity() {
         Intent intentProfile = new Intent(this, ProfileActivity.class);
+        intentProfile.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intentProfile);
-        finish();
     }
 
     protected void goToMoreActivity() {
         Intent intentMore = new Intent(this, MoreActivity.class);
+        intentMore.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intentMore);
-        finish();
     }
     protected void goToMainActivity() {
         Intent intentMain = new Intent(this, MainActivity.class);
+        intentMain.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intentMain);
-        finish();
     }
 }
 

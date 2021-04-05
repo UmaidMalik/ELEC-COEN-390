@@ -18,6 +18,7 @@
 
     <application
         android:name=".NotificationChannelsClass"
+        android:launchMode="singleTask"
         android:allowBackup="true"
         android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher"
@@ -37,8 +38,9 @@
         <activity android:name=".UVSensorActivity"
             android:screenOrientation="locked" />
         <activity android:name=".UVHistoryActivity" />
-        <activity android:name=".NotificationsActivity" />
-        <activity android:name=".HelpActivity" />
+        <activity android:name=".NotificationsActivity"/>
+        <activity android:name=".AboutActivity" />
+        <activity android:name=".UVDisplayModeActivity"/>
 
         <activity android:name=".MainActivity">
             <intent-filter>

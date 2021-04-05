@@ -90,22 +90,17 @@ public class MainActivity extends AppCompatActivity {
     private TextView uvIndexStatusMessage;
     private TextView textViewSensorState;
 
-    //SharedPreferences togglePreferences = getSharedPreferences(NotificationsActivity.PREFS, 0);
-    //boolean uvi_level_alert_status, burn_risk_alert_status;
+    SharedPreferences togglePreferences;
+    boolean uvi_level_alert_status = false, burn_risk_alert_status = false;
 
     SharedPreferences prefs;
 
-    public static void setDefaults(String key, String value, Context context) {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString(key, value);
-        editor.commit();
-    }
+    SharedPreferences toggleUVModePreferences;
+    boolean uv_mode_status = false;
+    ToggleButton toggleButtonRefresh;
 
-    public static Boolean getDefaults(String key, Context context) {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        return preferences.getBoolean(key, true);
-    }
+    ToggleButton buttonMoreInfo;
+
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -129,6 +124,8 @@ public class MainActivity extends AppCompatActivity {
         textViewWind = (TextView) findViewById(R.id.textViewWind);
         textViewHumidity = (TextView) findViewById(R.id.textViewHumidity);
         textViewPressure = (TextView) findViewById(R.id.textViewPressure);
+        toggleButtonRefresh = (ToggleButton) findViewById(R.id.toggleButtonRefresh);
+        buttonMoreInfo = (ToggleButton) findViewById(R.id.buttonMoreInfo);
 
         setupCitySearchButton();
 
@@ -148,6 +145,8 @@ public class MainActivity extends AppCompatActivity {
         editTextCitySearch.setText(location);
         editTextCitySearch.setVisibility(View.INVISIBLE);
         FindWeather(); // initial call on startup
+
+
 
         if (firstStart) {
             Log.d(TAG, "Enter a Statement");
@@ -209,6 +208,9 @@ public class MainActivity extends AppCompatActivity {
         startNotificationsThread(getCurrentFocus());
         startResetMaxUVThread(getCurrentFocus());
 
+        setupRefreshButton();
+        setupMoreButton();
+
     }
 
     private void setupCitySearchButton() {
@@ -242,14 +244,32 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void setupRefreshButton() {
+        toggleButtonRefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                maxUV = 0;
+            }
+        });
+    }
 
+    private void setupMoreButton() {
+        buttonMoreInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), InfoActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(intent);
+            }
+        });
+    }
 
     private void updateSunColor() {
-        //TODO implement sharePreferences for the two modes
-        if (false)
-            uvIndex = UVSensorData.getUVIntensity();
-        else
+        uv_mode_status = toggleUVModePreferences.getBoolean(UVDisplayModeActivity.UV_MODE_STATUS, false);
+        if (uv_mode_status)
             uvIndex = maxUV;
+        else
+            uvIndex = UVSensorData.getUVIntensity();
 
         if (uvIndex < 1) {
             ic_sun.setImageResource(R.drawable.ic_sunlight_default_level1_lightblue);
@@ -377,11 +397,11 @@ public class MainActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        //TODO implement sharePreferences for the two modes
-                        if(false) {
-                            displayUVSensorData(UVSensorData.getUVIntensity());
+                        uv_mode_status = toggleUVModePreferences.getBoolean(UVDisplayModeActivity.UV_MODE_STATUS, false);
+                        if(uv_mode_status) {
+                            displayUVMaxMode();
                         }
-                        else displayUVMaxMode();
+                        else displayUVSensorData(UVSensorData.getUVIntensity());
                         //displayBatteryLevel(String.valueOf(BatteryData.getBatteryLevel()));
                         //stringBatteryLevel = textViewBatteryLevel.getText();
                         //batteryLevel = Integer.parseInt((String) stringBatteryLevel);
@@ -438,7 +458,12 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
         //***********************************
+        togglePreferences = getSharedPreferences(NotificationsActivity.PREFS, MODE_PRIVATE);
+        uvi_level_alert_status = togglePreferences.getBoolean(NotificationsActivity.UVI_LEVEL_ALERT_STATUS, true);
+        burn_risk_alert_status = togglePreferences.getBoolean(NotificationsActivity.BURN_RISK_ALERT_STATUS, true);
 
+        toggleUVModePreferences = getSharedPreferences(UVDisplayModeActivity.UV_MODE_PREFS, MODE_PRIVATE);
+        uv_mode_status = toggleUVModePreferences.getBoolean(UVDisplayModeActivity.UV_MODE_STATUS, false);
 
     }
 
@@ -473,6 +498,8 @@ public class MainActivity extends AppCompatActivity {
                 else {
                     imageViewSensor.setImageResource(R.drawable.ic_sensor_off);
                     textViewSensorState.setText("Sensor OFF");
+                    BluetoothLeService.mBluetoothGatt.close();
+                    BluetoothLeService.mBluetoothGatt = null;
                 }
             }
         });
@@ -520,14 +547,19 @@ public class MainActivity extends AppCompatActivity {
 
     protected void goToProfileActivity() {
         Intent intentProfile = new Intent(this, ProfileActivity.class);
+        intentProfile.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intentProfile);
-        finish();
     }
 
     protected void goToMoreActivity() {
         Intent intentMore = new Intent(this, MoreActivity.class);
+        intentMore.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intentMore);
-        finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
     }
 
 
@@ -535,13 +567,15 @@ public class MainActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void reduceRiskOFBurnNotification(Float data){
 
-        if (data >= 5 && data < 8 && NotificationsActivity.UVI_LEVEL_ALERT_STATE) {
+        uvi_level_alert_status = togglePreferences.getBoolean(NotificationsActivity.UVI_LEVEL_ALERT_STATUS, true);
+        burn_risk_alert_status = togglePreferences.getBoolean(NotificationsActivity.BURN_RISK_ALERT_STATUS, true);
+        if (data >= 5 && data < 8 && uvi_level_alert_status) {
             sendToChannel(R.drawable.ic_sunlight_level3,
                     "SUNBURN ALERT!",
                     "You Are Exposed To: " + UVSensorData.getUVIntensity() + "\n Long Exposure Term May Affect Health",
                     NotificationChannelsClass.CHANNEL_1_ID, 1);
 
-        } if (data >= 8 && data < 20 && NotificationsActivity.BURN_RISK_ALERT_STATE) {
+        } if (data >= 8 && data < 20 && burn_risk_alert_status) {
             sendToChannel(R.drawable.ic_sunlight_level5,
                     "SUNBURN ALERT!!!",
                     "You are exposed to a DANGEROUS level of UV Radiation:" + UVSensorData.getUVIntensity() + "\nStay out of sunlight!",
@@ -619,11 +653,11 @@ public class MainActivity extends AppCompatActivity {
                             //find country
                             JSONObject object8 = jsonObject.getJSONObject("sys");
                             String count = object8.getString("country");
-                            textViewCountry.setText(count+"  :");
+                            textViewCountry.setText(count);
 
                             //find city
                             String city = jsonObject.getString("name");
-                            textViewCity.setText(city);
+                            textViewCity.setText(city+",");
 
                             //find icon
                             JSONArray jsonArray = jsonObject.getJSONArray("weather");
@@ -639,7 +673,7 @@ public class MainActivity extends AppCompatActivity {
                             //find feels
                             JSONObject object13 = jsonObject.getJSONObject("main");
                             double feels_find = object13.getDouble("feels_like");
-                            textViewFeelsLike.setText("Feels Like " + feels_find+" °C");
+                            textViewFeelsLike.setText("feels like " + feels_find+" °C");
 
                             //find pressure
                             JSONObject object7 = jsonObject.getJSONObject("main");

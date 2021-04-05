@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/midnight_blue">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="60dp"
+        android:background="@color/midnight_blue">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/midnight_blue">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:layout_centerHorizontal="true"
+                android:textSize="30sp"
+                android:text="UV Display Mode"
+                android:fontFamily="@font/roboto_thin"
+                android:textColor="@color/light_blue"
+                android:id="@+id/textViewUVDisplayMode"
+                android:textAlignment="center" />
+
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="120dp">
+
+            <RelativeLayout
+                android:id="@+id/UVDisplayModeLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:padding="25dp">
+
+
+                <TextView
+                    android:id="@+id/textViewUVDisplayModeName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="10dp"
+                    android:text="Display max UV intensity"
+                    android:fontFamily="@font/roboto_light"
+                    android:textColor="@color/light_blue"
+                    android:textSize="20sp"/>
+                <ToggleButton
+                    android:id="@+id/toggleButtonUVDisplayMode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:textColor="@color/light_blue"
+                    android:backgroundTint="@color/secondary_blue"/>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayoutA"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/UVDisplayModeLayout"
+                android:paddingLeft="32dp"
+                android:paddingRight="32dp"
+                android:paddingBottom="16dp"
+                android:paddingTop="16dp"
+                android:orientation="horizontal"
+                android:gravity="center">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/light_blue"
+                android:fontFamily="@font/roboto_thin"
+                android:textSize="18sp"
+                android:text="You can set the home page to display only max UV intensity data received."/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/linearLayoutA"
+                android:paddingLeft="32dp"
+                android:paddingRight="32dp"
+                android:paddingBottom="16dp"
+                android:paddingTop="16dp"
+                android:orientation="horizontal"
+                android:gravity="center">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/light_blue"
+                    android:fontFamily="@font/roboto_thin"
+                    android:textSize="18sp"
+                    android:text="You can set the time for when the max UV intensity displayed will refresh."/>
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+
+
+        </RelativeLayout>
+
+
+</ScrollView>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:menu="@menu/bottom_nav_menu"
+        android:background="@color/secondary_blue"
+        app:itemBackground="@color/secondary_blue"
+        app:itemIconTint="@animator/nav_selector"
+        app:itemTextColor="@animator/nav_selector"/>
+
+</RelativeLayout>

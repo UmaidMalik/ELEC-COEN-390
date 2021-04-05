@@ -6,19 +6,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
-import org.w3c.dom.Text;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,8 +21,8 @@ import androidx.appcompat.app.AppCompatActivity;
 public class MoreActivity extends AppCompatActivity {
 
     private ListView listView;
-    String[] iconNames = {"Notifications", "UV History", "UV Sensor", "UV Index Info", "Themes", "Help" };
-    int[] iconImages = {R.drawable.ic_notifications, R.drawable.ic_uv_history, R.drawable.ic_uv_sensor, R.drawable.ic_info, R.drawable.ic_themes, R.drawable.ic_help};
+    String[] iconNames = {"Notifications", "UV History", "UV Sensor", "UV Index Info", "Themes", "UV Display Mode", "About"};
+    int[] iconImages = {R.drawable.ic_notifications, R.drawable.ic_uv_history, R.drawable.ic_uv_sensor, R.drawable.ic_info, R.drawable.ic_themes, R.drawable.ic_mode, R.drawable.ic_about};
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -89,33 +83,38 @@ public class MoreActivity extends AppCompatActivity {
 
                     case 0:
                         intent = new Intent(getApplicationContext(), NotificationsActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                         startActivity(intent);
-                        finish();
                         break;
                     case 1:
                         intent = new Intent(getApplicationContext(), UVHistoryActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                         startActivity(intent);
-                        finish();
                         break;
                     case 2:
                         intent = new Intent(getApplicationContext(), UVSensorActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                         startActivity(intent);
-                        finish();
                         break;
                     case 3:
                         intent = new Intent(getApplicationContext(), InfoActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                         startActivity(intent);
-                        finish();
                         break;
                     case 4:
                         intent = new Intent(getApplicationContext(), ThemesActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                         startActivity(intent);
-                        finish();
                         break;
                     case 5:
-                        intent = new Intent(getApplicationContext(), HelpActivity.class);
+                        intent = new Intent(getApplicationContext(), UVDisplayModeActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                         startActivity(intent);
-                        finish();
+                        break;
+                    case 6:
+                        intent = new Intent(getApplicationContext(), AboutActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                        startActivity(intent);
                         break;
                 }
             }
@@ -156,18 +155,20 @@ public class MoreActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        //super.onBackPressed();
         goToMainActivity();
     }
 
     protected void goToProfileActivity() {
         Intent intentProfile = new Intent(this, ProfileActivity.class);
+        intentProfile.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intentProfile);
         //finish();
     }
 
     protected void goToMainActivity() {
         Intent intentMain = new Intent(this, MainActivity.class);
+        intentMain.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intentMain);
         //finish();
     }

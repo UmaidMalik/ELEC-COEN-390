@@ -57,6 +57,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         int minute = currentDateTime.get(Calendar.MINUTE);
         int hour = currentDateTime.get(Calendar.HOUR);
         //StringBuilder stringBuilder = new StringBuilder(second + " " )
+
+
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd:mm:yyyy");
         SimpleDateFormat simpleHourFormat = new SimpleDateFormat("hh:mm:ss");
 

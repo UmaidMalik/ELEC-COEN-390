@@ -25,6 +25,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -48,7 +49,9 @@ public class UVSensorActivity extends AppCompatActivity {
     private Button buttonDisconnectDevice;
     private Button buttonGoToDevice;
 
-    private BluetoothDevice device;
+    private FrameLayout frameLayoutProgress;
+
+    public static BluetoothDevice device;
 
 
     private static final int REQUEST_ENABLE_BT = 1;
@@ -113,16 +116,19 @@ public class UVSensorActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        frameLayoutProgress = (FrameLayout) findViewById(R.id.frameLayoutProgress);
         getMenuInflater().inflate(R.menu.main, menu);
         if (!mScanning) {
             menu.findItem(R.id.menu_stop).setVisible(false);
             menu.findItem(R.id.menu_scan).setVisible(true);
             menu.findItem(R.id.menu_refresh).setActionView(null);
+            frameLayoutProgress.setVisibility(View.INVISIBLE);
         } else {
             menu.findItem(R.id.menu_stop).setVisible(true);
             menu.findItem(R.id.menu_scan).setVisible(false);
             menu.findItem(R.id.menu_refresh).setActionView(
                     R.layout.activity_uv_sensor);
+            frameLayoutProgress.setVisibility(View.VISIBLE);
         }
         return true;
     }
@@ -185,6 +191,13 @@ public class UVSensorActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //mBluetoothLeService = null;
+
+                if (BluetoothLeService.mBluetoothGatt == null) {
+                    return;
+                }
+                BluetoothLeService.mBluetoothGatt.close();
+                BluetoothLeService.mBluetoothGatt = null;
+
                 Intent BLEService = new Intent(UVSensorActivity.this, BluetoothLeService.class);
                 stopService(BLEService);
             }
@@ -230,6 +243,7 @@ public class UVSensorActivity extends AppCompatActivity {
                     mBluetoothAdapter.stopLeScan(mLeScanCallback);
                     mScanning = false;
                 }
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
             }
         });
@@ -244,6 +258,7 @@ public class UVSensorActivity extends AppCompatActivity {
             mBluetoothAdapter.stopLeScan(mLeScanCallback);
             mScanning = false;
         }
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
     }
 
@@ -357,24 +372,27 @@ public class UVSensorActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        //super.onBackPressed();
         goToMoreActivity();
     }
 
     protected void goToProfileActivity() {
         Intent intentProfile = new Intent(this, ProfileActivity.class);
+        intentProfile.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intentProfile);
         //finish();
     }
 
     protected void goToMoreActivity() {
         Intent intentMore = new Intent(this, MoreActivity.class);
+        intentMore.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intentMore);
         //finish();
     }
 
     protected void goToMainActivity() {
         Intent intentMain = new Intent(this, MainActivity.class);
+        intentMain.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intentMain);
        // finish();
     }

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -6,6 +7,19 @@
     android:layout_height="match_parent"
     android:background="@color/midnight_blue"
     tools:context=".UVHistoryActivity">
+
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/midnight_blue"
+    android:layout_marginBottom="60dp">
+
+
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="670dp"
+    android:background="@color/midnight_blue">
 
     <TextView
         android:layout_width="wrap_content"
@@ -21,42 +35,67 @@
     <ListView
         android:id="@+id/sensorDataListView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="180dp"
-        android:layout_marginBottom="170dp"
-        android:outlineAmbientShadowColor="@color/light_blue" />
-    <Button
-        android:id="@+id/showWeekGraphButton"
-        android:text="Show Week"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="615dp"
-  android:layout_marginLeft="140dp"/>
-    <Button
-        android:id="@+id/showGraphButton"
-        android:text="Show Day"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="615dp"
-        android:layout_marginLeft="20dp"
-        />
-    <Button
-        android:id="@+id/showMonthGraphButton"
-        android:layout_width="100dp"
-        android:text="Show Month"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="615dp"
-        android:layout_marginLeft="265dp"
-        />
-    <Button
-        android:id="@+id/showOverallGraphButton"
-        android:layout_width="wrap_content"
-        android:text="Show Overall Exposure"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="555dp"
-        android:layout_centerHorizontal="true"
+        android:layout_height="500dp"
+        android:layout_marginBottom="120dp"
+        android:layout_alignParentBottom="true" />
 
-        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="110dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="60dp">
+
+        <Button
+            android:id="@+id/showWeekGraphButton"
+            android:text="Show Week"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:textSize="10sp"
+            android:textColor="@color/light_blue"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"/>
+        <Button
+            android:id="@+id/showGraphButton"
+            android:text="Show Day"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_toStartOf="@+id/showWeekGraphButton"
+            android:layout_marginEnd="45dp"
+            android:textColor="@color/light_blue"
+            android:textSize="10sp"
+            />
+        <Button
+            android:id="@+id/showMonthGraphButton"
+            android:layout_width="80dp"
+            android:text="Show Month"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/showWeekGraphButton"
+            android:textColor="@color/light_blue"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="45dp"
+            android:textSize="10sp"
+            />
+        <Button
+            android:id="@+id/showOverallGraphButton"
+            android:layout_width="wrap_content"
+            android:text="Show Overall Exposure"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:textColor="@color/light_blue"
+            android:layout_centerHorizontal="true"
+
+            />
+
+
+    </RelativeLayout>
+
+
+</RelativeLayout>
+
+</ScrollView>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"

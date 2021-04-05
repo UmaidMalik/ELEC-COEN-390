@@ -8,7 +8,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class HelpActivity extends AppCompatActivity {
+import static com.elec_coen_390.uvme.R.layout.activity_about;
+
+public class AboutActivity extends AppCompatActivity {
 
     Button buttonOpenURL;
 
@@ -16,7 +18,7 @@ public class HelpActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.getSupportActionBar().hide();
-        setContentView(R.layout.activity_help);
+        setContentView(activity_about);
 
         buttonOpenURL = (Button) findViewById(R.id.buttonOpenURL);
 
@@ -37,5 +39,16 @@ public class HelpActivity extends AppCompatActivity {
         startActivity(new Intent(Intent.ACTION_VIEW, uri));
     }
 
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        goToMoreActivity();
+    }
+
+    protected void goToMoreActivity() {
+        Intent intentMore = new Intent(this, MoreActivity.class);
+        intentMore.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intentMore);
+    }
 
 }

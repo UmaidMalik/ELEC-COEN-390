@@ -11,7 +11,6 @@ import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
@@ -36,7 +35,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 Config.COLUMN_HOUR + " TEXT NOT NULL," +
                 Config.COLUMN_UV_VALUE + " REAL NOT NULL," +
                 Config.COLUMN_UV_TIME + " REAL NOT NULL) ";
-        Log.d(TAG,"table created with this qurery "+ CREATE_TABLE_UV_DATA);
+        Log.d(TAG,"table created with this query "+ CREATE_TABLE_UV_DATA);
         sqLiteDatabase.execSQL(CREATE_TABLE_UV_DATA);
         Log.d(TAG,"Course table Created");
 
@@ -47,10 +46,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // ALTER THE DESIGN FOR AN UPDATE
     }
 
-    public long insertUV(float uvIntensity, Calendar currentDateTime){
+    public long insertUV(float uvIntensity){
         long id =-1;
 
-        currentDateTime = Calendar.getInstance();
+        Calendar currentDateTime = Calendar.getInstance();
         int day = currentDateTime.get(Calendar.DAY_OF_MONTH);
         int month = currentDateTime.get(Calendar.MONTH);
         int year = currentDateTime.get(Calendar.YEAR);
@@ -58,6 +57,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         int minute = currentDateTime.get(Calendar.MINUTE);
         int hour = currentDateTime.get(Calendar.HOUR);
         //StringBuilder stringBuilder = new StringBuilder(second + " " )
+
+
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd:mm:yyyy");
         SimpleDateFormat simpleHourFormat = new SimpleDateFormat("hh:mm:ss");
 
@@ -66,10 +67,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(Config.COLUMN_DATE, String.valueOf(simpleDateFormat));
-        contentValues.put(Config.COLUMN_HOUR, String.valueOf(simpleHourFormat)); //added
-        contentValues.put(Config.COLUMN_UV_VALUE, UVSensorData.getUVIntensity());
-        contentValues.put(Config.COLUMN_UV_TIME, String.valueOf(simpleHourFormat));
+        contentValues.put(Config.COLUMN_DATE, simpleDateFormat.toPattern());
+        contentValues.put(Config.COLUMN_HOUR, simpleHourFormat.toPattern()); //added
+        contentValues.put(Config.COLUMN_UV_VALUE, uvIntensity);
+        contentValues.put(Config.COLUMN_UV_TIME, simpleHourFormat.toPattern());
 
         try {
             id = db.insertOrThrow(Config.UV_TABLE_NAME, null, contentValues);

@@ -1,61 +1,67 @@
 package com.elec_coen_390.uvme;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
+import android.widget.CompoundButton;
+import android.widget.ToggleButton;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class UVHistoryActivity extends AppCompatActivity {
-Button showGraphButton;
-Button showWeekGraphButton;
-Button showMonthGraphButton;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
+import static com.elec_coen_390.uvme.R.layout.activity_uv_display_mode;
+
+public class UVDisplayModeActivity extends AppCompatActivity {
+
+
+    private ToggleButton toggleButtonUVDisplayMode;
+
+    public static String UV_MODE_PREFS = "uv_mode_prefs";
+    public static String UV_MODE_STATUS = "uvi_level_alert_on";
+
+    boolean uv_mode_status;
+
+    public static SharedPreferences toggleUVModePreferences;
+    public static SharedPreferences.Editor editor;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.getSupportActionBar().hide();
-        setContentView(R.layout.activity_uv_history);
-        TextView title = (TextView) findViewById(R.id.activityUVHistory);
-        title.setText("UV History");
+        setContentView(activity_uv_display_mode);
+
+        toggleButtonUVDisplayMode = (ToggleButton) findViewById(R.id.toggleButtonUVDisplayMode);
+
+
+        toggleUVModePreferences = getSharedPreferences(UV_MODE_PREFS, MODE_PRIVATE);
+        editor = getSharedPreferences(UV_MODE_PREFS, MODE_PRIVATE).edit();
+
+        uv_mode_status = toggleUVModePreferences.getBoolean(UV_MODE_STATUS, true);
+
+
+        toggleButtonUVDisplayMode.setChecked(uv_mode_status);
+
+
+        toggleButton();
         setupBottomNavigationListener();
-        showMonthGraphButton=findViewById(R.id.showMonthGraphButton);
-        showGraphButton=findViewById(R.id.showGraphButton);
-        showWeekGraphButton=findViewById(R.id.showWeekGraphButton);
-
-        showWeekGraphButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                goToWeekGraph();
-            }
-        });
-        showGraphButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                goToGraphActivity();
-            }
-        });
-        showMonthGraphButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                goToMonthGraph();
-            }
-        });
-
     }
 
-    @Override
-    public void onBackPressed() {
-        //super.onBackPressed();
-        goToMoreActivity();
+    private void toggleButton() {
+        toggleButtonUVDisplayMode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                editor.putBoolean(UV_MODE_STATUS, isChecked);
+                editor.apply();
+            }
+        });
     }
+
     private void setupBottomNavigationListener() {
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
@@ -88,6 +94,13 @@ Button showMonthGraphButton;
         });
 
     }
+
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        goToMoreActivity();
+    }
+
     protected void goToProfileActivity() {
         Intent intentProfile = new Intent(this, ProfileActivity.class);
         intentProfile.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
@@ -99,24 +112,10 @@ Button showMonthGraphButton;
         intentMore.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intentMore);
     }
+
     protected void goToMainActivity() {
         Intent intentMain = new Intent(this, MainActivity.class);
         intentMain.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intentMain);
-    }
-    protected void goToGraphActivity() {
-        Intent intentGraph = new Intent(this, DayGraph.class);
-        intentGraph.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        startActivity(intentGraph);
-    }
-    protected  void goToWeekGraph(){
-        Intent intentGraphWeek = new Intent(this, weekGraph.class);
-        intentGraphWeek.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        startActivity(intentGraphWeek);
-    }
-    protected  void goToMonthGraph(){
-        Intent intentGraphMonth = new Intent(this, monthGraph.class);
-        intentGraphMonth.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        startActivity(intentGraphMonth);
     }
 }

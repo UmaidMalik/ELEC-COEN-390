@@ -25,10 +25,13 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 
@@ -44,6 +47,11 @@ public class UVSensorActivity extends AppCompatActivity {
 
     private ListView listView;
     private Button buttonDisconnectDevice;
+    private Button buttonGoToDevice;
+
+    private FrameLayout frameLayoutProgress;
+
+    public static BluetoothDevice device;
 
 
     private static final int REQUEST_ENABLE_BT = 1;
@@ -100,21 +108,27 @@ public class UVSensorActivity extends AppCompatActivity {
             return;
         }
 
+        setGoToDeviceButton();
+
+        setupBottomNavigationListener();
 
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        frameLayoutProgress = (FrameLayout) findViewById(R.id.frameLayoutProgress);
         getMenuInflater().inflate(R.menu.main, menu);
         if (!mScanning) {
             menu.findItem(R.id.menu_stop).setVisible(false);
             menu.findItem(R.id.menu_scan).setVisible(true);
             menu.findItem(R.id.menu_refresh).setActionView(null);
+            frameLayoutProgress.setVisibility(View.INVISIBLE);
         } else {
             menu.findItem(R.id.menu_stop).setVisible(true);
             menu.findItem(R.id.menu_scan).setVisible(false);
             menu.findItem(R.id.menu_refresh).setActionView(
                     R.layout.activity_uv_sensor);
+            frameLayoutProgress.setVisibility(View.VISIBLE);
         }
         return true;
     }
@@ -177,6 +191,13 @@ public class UVSensorActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //mBluetoothLeService = null;
+
+                if (BluetoothLeService.mBluetoothGatt == null) {
+                    return;
+                }
+                BluetoothLeService.mBluetoothGatt.close();
+                BluetoothLeService.mBluetoothGatt = null;
+
                 Intent BLEService = new Intent(UVSensorActivity.this, BluetoothLeService.class);
                 stopService(BLEService);
             }
@@ -213,7 +234,7 @@ public class UVSensorActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                final BluetoothDevice device = mLeDeviceListAdapter.getDevice(position);
+                /*final BluetoothDevice*/ device = mLeDeviceListAdapter.getDevice(position);
                 if (device == null) return;
                 final Intent intent = new Intent(getApplicationContext(), DeviceControlActivity.class);
                 intent.putExtra(DeviceControlActivity.EXTRAS_DEVICE_NAME, device.getName());
@@ -222,7 +243,31 @@ public class UVSensorActivity extends AppCompatActivity {
                     mBluetoothAdapter.stopLeScan(mLeScanCallback);
                     mScanning = false;
                 }
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
+            }
+        });
+    }
+
+    public void GoToDevice() {
+        if (device == null) return;
+        final Intent intent = new Intent(getApplicationContext(), DeviceControlActivity.class);
+        intent.putExtra(DeviceControlActivity.EXTRAS_DEVICE_NAME, device.getName());
+        intent.putExtra(DeviceControlActivity.EXTRAS_DEVICE_ADDRESS, device.getAddress());
+        if (mScanning) {
+            mBluetoothAdapter.stopLeScan(mLeScanCallback);
+            mScanning = false;
+        }
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent);
+    }
+
+    public void setGoToDeviceButton() {
+        buttonGoToDevice = (Button) findViewById(R.id.buttonGoToDevice);
+        buttonGoToDevice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                GoToDevice();
             }
         });
     }
@@ -327,24 +372,73 @@ public class UVSensorActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        //super.onBackPressed();
         goToMoreActivity();
     }
 
     protected void goToProfileActivity() {
         Intent intentProfile = new Intent(this, ProfileActivity.class);
+        intentProfile.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intentProfile);
         //finish();
     }
 
     protected void goToMoreActivity() {
         Intent intentMore = new Intent(this, MoreActivity.class);
+        intentMore.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intentMore);
         //finish();
     }
+
     protected void goToMainActivity() {
         Intent intentMain = new Intent(this, MainActivity.class);
+        intentMain.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intentMain);
        // finish();
+    }
+
+    private void setupBottomNavigationListener() {
+
+        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+
+        // Menu items are left unselected
+        bottomNavigationView.getMenu().getItem(0).setCheckable(false);
+        bottomNavigationView.getMenu().getItem(1).setCheckable(false);
+        bottomNavigationView.getMenu().getItem(2).setCheckable(false);
+
+
+
+
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                switch (item.getItemId()) {
+
+                    case R.id.action_profile:
+                        item.setCheckable(true);
+                        goToProfileActivity();
+                        return true;
+                    //break;
+
+                    case R.id.action_more:
+                        item.setCheckable(true);
+                        goToMoreActivity();
+                        return true;
+                    //break;
+
+                    case R.id.action_home:
+                        item.setCheckable(true);
+                        goToMainActivity();
+                        return true;
+                    //break;
+
+                    default:
+
+                }
+                return false;
+            }
+        });
     }
 }

@@ -42,7 +42,7 @@ public class DeviceControlActivity extends Activity {
     public static final String EXTRAS_DEVICE_NAME = "DEVICE_NAME";
     public static final String EXTRAS_DEVICE_ADDRESS = "DEVICE_ADDRESS";
 
-    private TextView testDataField;
+
 
     private TextView mConnectionState;
     private TextView mDataField;
@@ -158,8 +158,7 @@ public class DeviceControlActivity extends Activity {
 
         title.setText(mDeviceName);
 
-        testDataField = (TextView) findViewById(R.id.textViewTestDataField);
-        testDataField.setText(String.valueOf(BatteryData.getBatteryLevel()));
+
 
 
         ((TextView) findViewById(R.id.device_address)).setText(mDeviceAddress);
@@ -227,7 +226,7 @@ public class DeviceControlActivity extends Activity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        testDataField.setText(String.valueOf(BatteryData.getBatteryLevel()));
+
                     }
                 });
 
@@ -286,9 +285,6 @@ public class DeviceControlActivity extends Activity {
         }
     }
 
-    private void displayTestData(String data) {
-        testDataField.setText(data);
-    }
 
     private void displayGattServices(List<BluetoothGattService> gattServices) {
         if (gattServices == null) return;
@@ -386,19 +382,16 @@ public class DeviceControlActivity extends Activity {
                 switch (item.getItemId()) {
 
                     case R.id.action_profile:
-                        item.setCheckable(true);
                         goToProfileActivity();
                         return true;
                     //break;
 
                     case R.id.action_more:
-                        item.setCheckable(true);
                         goToMoreActivity();
                         return true;
                     //break;
 
                     case R.id.action_home:
-                        item.setCheckable(true);
                         goToMainActivity();
                         return true;
                     //break;
@@ -413,18 +406,29 @@ public class DeviceControlActivity extends Activity {
 
     protected void goToProfileActivity() {
         Intent intentProfile = new Intent(this, ProfileActivity.class);
+        intentProfile.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intentProfile);
         //finish();
     }
 
     protected void goToMoreActivity() {
         Intent intentMore = new Intent(this, MoreActivity.class);
+        intentMore.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intentMore);
         //finish();
     }
     protected void goToMainActivity() {
         Intent intentMain = new Intent(this, MainActivity.class);
+        intentMain.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intentMain);
         //finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        Intent intent = new Intent(this, UVSensorActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent);
     }
 }

@@ -13,7 +13,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
         android:fontFamily="@font/roboto_thin"
-        android:text="Help"
+        android:text="About"
         android:textAlignment="center"
         android:textColor="@color/light_blue"
         android:textSize="45sp" />
@@ -24,7 +24,16 @@
         android:layout_height="wrap_content"
         android:text="go to app webpage"
         android:layout_centerInParent="true"/>
-
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:menu="@menu/bottom_nav_menu"
+        android:background="@color/secondary_blue"
+        app:itemBackground="@color/secondary_blue"
+        app:itemIconTint="@animator/nav_selector"
+        app:itemTextColor="@animator/nav_selector"/>
 
 
 </RelativeLayout>

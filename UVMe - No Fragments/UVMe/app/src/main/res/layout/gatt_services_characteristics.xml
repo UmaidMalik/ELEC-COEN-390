@@ -14,15 +14,7 @@
     android:layout_height="match_parent"
     android:background="@color/midnight_blue"
     >
-    <TextView
-        android:id="@+id/textViewTestDataField"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
-        android:textSize="30sp"
-        android:textColor="@color/light_blue"
-        android:fontFamily="@font/roboto_thin"
-        android:text="0.00" />
+
 
     <TextView
         android:layout_width="match_parent"
@@ -39,8 +31,8 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
         android:layout_marginBottom="58dp"
         android:layout_marginTop="40dp"
         android:background="@color/secondary_blue"

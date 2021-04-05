@@ -18,6 +18,7 @@
 
     <application
         android:name=".NotificationChannelsClass"
+        android:launchMode="singleTask"
         android:allowBackup="true"
         android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher"
@@ -32,21 +33,16 @@
             android:screenOrientation="locked" />
         <activity android:name=".DayGraph"
             android:screenOrientation="locked"/>
-        <activity android:name=".ThemesActivity"
-            android:screenOrientation="locked" />
-        <activity android:name=".InfoActivity"
-            android:screenOrientation="locked" />
+        <activity android:name=".ThemesActivity" />
+        <activity android:name=".InfoActivity" />
         <activity android:name=".UVSensorActivity"
             android:screenOrientation="locked" />
-        <activity android:name=".UVHistoryActivity"
-            android:screenOrientation="locked" />
-        <activity android:name=".NotificationsActivity"
-            android:screenOrientation="locked" />
-        <activity android:name=".HelpActivity"
-            android:screenOrientation="locked" />
+        <activity android:name=".UVHistoryActivity" />
+        <activity android:name=".NotificationsActivity"/>
+        <activity android:name=".AboutActivity" />
+        <activity android:name=".UVDisplayModeActivity"/>
 
-        <activity android:name=".MainActivity"
-            android:screenOrientation="locked" >
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -59,8 +55,7 @@
             android:screenOrientation="locked" />
         <activity
             android:name=".MoreActivity"
-            android:parentActivityName=".MainActivity"
-            android:screenOrientation="locked" />
+            android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".DeviceControlActivity"
             android:screenOrientation="locked" />

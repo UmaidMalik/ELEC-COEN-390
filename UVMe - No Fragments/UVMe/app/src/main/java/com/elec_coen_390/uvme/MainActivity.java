@@ -102,6 +102,8 @@ public class MainActivity extends AppCompatActivity {
 
     SharedPreferences toggleUVModePreferences;
     boolean uv_mode_status = false;
+    int refresh_cycle_time = 60;
+    boolean isRefreshSetToNever = false;
     ToggleButton toggleButtonRefresh;
     TextView textViewRefresh;
 
@@ -462,9 +464,6 @@ public class MainActivity extends AppCompatActivity {
                         else displayUVSensorData(UVSensorData.getUVIntensity());
 
                         setRefreshButtonVisibility(uv_mode_status);
-                        //displayBatteryLevel(String.valueOf(BatteryData.getBatteryLevel()));
-                        //stringBatteryLevel = textViewBatteryLevel.getText();
-                        //batteryLevel = Integer.parseInt((String) stringBatteryLevel);
                         textViewBatteryLevel.setText(String.valueOf((int)BatteryData.getBatteryLevel()) + "%");
                         databaseUVMax();
                     }
@@ -482,6 +481,7 @@ public class MainActivity extends AppCompatActivity {
     private class RunnableResetMaxUV implements Runnable {
 
 
+
         @Override
         public void run() {
             while (true) {
@@ -491,12 +491,16 @@ public class MainActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                       maxUV = 0;
+                        refresh_cycle_time = toggleUVModePreferences.getInt(UVDisplayModeActivity.UV_MODE_REFRESH_SETTING, 60);
+                        isRefreshSetToNever = toggleUVModePreferences.getBoolean(UVDisplayModeActivity.UV_MODE_REFRESH_NEVER, false);
+                        if (!isRefreshSetToNever) {
+                            maxUV = 0;
+                        }
                     }
                 });
 
                 try {
-                    Thread.sleep(60000);
+                    Thread.sleep(refresh_cycle_time * 1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -525,6 +529,8 @@ public class MainActivity extends AppCompatActivity {
 
         toggleUVModePreferences = getSharedPreferences(UVDisplayModeActivity.UV_MODE_PREFS, MODE_PRIVATE);
         uv_mode_status = toggleUVModePreferences.getBoolean(UVDisplayModeActivity.UV_MODE_STATUS, false);
+        refresh_cycle_time = toggleUVModePreferences.getInt(UVDisplayModeActivity.UV_MODE_REFRESH_SETTING, 60);
+        isRefreshSetToNever = toggleUVModePreferences.getBoolean(UVDisplayModeActivity.UV_MODE_REFRESH_NEVER, false);
 
     }
 

@@ -86,5 +86,15 @@
     <string name="extra_protection_required">Extra protection required</string>
     <string name="take_full_precaution">Take full precaution</string>
 
+    <string-array name="spinnerRefreshTimes">
+        <item>15 seconds</item>
+        <item>30 seconds</item>
+        <item>1 minutes</item>
+        <item>5 minutes</item>
+        <item>15 minutes</item>
+        <item>30 minutes</item>
+        <item>Never</item>
+    </string-array>
+    
 </resources>
 

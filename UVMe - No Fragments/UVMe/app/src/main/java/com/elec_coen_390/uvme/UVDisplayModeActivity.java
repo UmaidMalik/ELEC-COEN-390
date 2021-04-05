@@ -5,7 +5,12 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -23,11 +28,26 @@ public class UVDisplayModeActivity extends AppCompatActivity {
 
     public static String UV_MODE_PREFS = "uv_mode_prefs";
     public static String UV_MODE_STATUS = "uvi_level_alert_on";
+    public static String UV_MODE_REFRESH_SETTING = "uv_mode_refresh_setting";
+    public static String UV_MODE_REFRESH_NEVER = "uv_mode_refresh_never";
 
     boolean uv_mode_status;
+    int refresh_cycle_time;
+    boolean isRefreshSetToNever;
 
     public static SharedPreferences toggleUVModePreferences;
     public static SharedPreferences.Editor editor;
+
+    private Spinner spinnerUVRefresh;
+
+    private int t_15_seconds = 15;
+    private int t_30_seconds = 30;
+    private int t_1_minute = 60;
+    private int t_5_minutes = 300;
+    private int t_15_minutes = 900;
+    private int t_30_minutes = 1800;
+
+
 
 
     @Override
@@ -37,18 +57,22 @@ public class UVDisplayModeActivity extends AppCompatActivity {
         setContentView(activity_uv_display_mode);
 
         toggleButtonUVDisplayMode = (ToggleButton) findViewById(R.id.toggleButtonUVDisplayMode);
+        spinnerUVRefresh = (Spinner) findViewById(R.id.spinnerUVRefresh);
 
 
         toggleUVModePreferences = getSharedPreferences(UV_MODE_PREFS, MODE_PRIVATE);
         editor = getSharedPreferences(UV_MODE_PREFS, MODE_PRIVATE).edit();
 
         uv_mode_status = toggleUVModePreferences.getBoolean(UV_MODE_STATUS, true);
-
-
         toggleButtonUVDisplayMode.setChecked(uv_mode_status);
 
 
+        //refresh_cycle_time = toggleUVModePreferences.getInt(UV_MODE_REFRESH_SETTING, 60); // default 60 seconds / 1 minute
+
+        //isRefreshSetToNever = toggleUVModePreferences.getBoolean(UV_MODE_REFRESH_NEVER, false);
+
         toggleButton();
+        setupUVRefreshSpinner();
         setupBottomNavigationListener();
     }
 
@@ -58,6 +82,65 @@ public class UVDisplayModeActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 editor.putBoolean(UV_MODE_STATUS, isChecked);
                 editor.apply();
+            }
+        });
+    }
+
+    private void setupUVRefreshSpinner() {
+        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.spinnerRefreshTimes, android.R.layout.simple_spinner_item);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerUVRefresh.setAdapter(spinnerAdapter);
+        spinnerUVRefresh.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                ((TextView) adapterView.getChildAt(0)).setTextColor(getResources().getColor(R.color.light_blue));
+
+
+                switch (i) {
+                    case 0:
+                        editor.putInt(UV_MODE_REFRESH_SETTING, t_15_seconds);
+                        editor.putBoolean(UV_MODE_REFRESH_NEVER, false);
+                        editor.apply();
+                        break;
+                    case 1:
+                        editor.putInt(UV_MODE_REFRESH_SETTING, t_30_seconds);
+                        editor.putBoolean(UV_MODE_REFRESH_NEVER, false);
+                        editor.apply();
+                        break;
+                    case 2:
+                        editor.putInt(UV_MODE_REFRESH_SETTING, t_1_minute);
+                        editor.putBoolean(UV_MODE_REFRESH_NEVER, false);
+                        editor.apply();
+                        break;
+                    case 3:
+                        editor.putInt(UV_MODE_REFRESH_SETTING, t_5_minutes);
+                        editor.putBoolean(UV_MODE_REFRESH_NEVER, false);
+                        editor.apply();
+                        break;
+                    case 4:
+                        editor.putInt(UV_MODE_REFRESH_SETTING, t_15_minutes);
+                        editor.putBoolean(UV_MODE_REFRESH_NEVER, false);
+                        editor.apply();
+                        break;
+                    case 5:
+                        editor.putInt(UV_MODE_REFRESH_SETTING, t_30_minutes);
+                        editor.putBoolean(UV_MODE_REFRESH_NEVER, false);
+                        editor.apply();
+                        break;
+                    case 6:
+                        editor.putBoolean(UV_MODE_REFRESH_NEVER, true);
+                        editor.apply();
+                        break;
+                    default:
+                        break;
+                }
+
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
             }
         });
     }

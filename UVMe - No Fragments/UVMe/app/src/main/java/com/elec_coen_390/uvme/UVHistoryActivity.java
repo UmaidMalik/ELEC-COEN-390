@@ -8,15 +8,27 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class UVHistoryActivity extends AppCompatActivity {
-Button showGraphButton;
-Button showWeekGraphButton;
-Button showMonthGraphButton;
+    Button showGraphButton;
+    Button showWeekGraphButton;
+    Button showMonthGraphButton;
+    ListView listViewUVHistory;
+
+    DatabaseHelper db;
+    List<UVReadings> uvList;
+    int selection = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,11 +57,90 @@ Button showMonthGraphButton;
         showMonthGraphButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                goToMonthGraph();
+                //goToMonthGraph();
+                //listViewUVHistory.smoothScrollToPosition(0);
+                listViewUVHistory.setSelectionAfterHeaderView();
             }
         });
 
+        uvList = new ArrayList<>();
+        db = new DatabaseHelper(this);
+        db.getReadableDatabase();
+
+        uvList = db.getAllUVData();
+
+        setupListView();
     }
+
+
+    private void setupListView() {
+        listViewUVHistory = (ListView) findViewById(R.id.sensorDataListView);
+
+        UVHistoryActivity.CustomAdapter customAdapter = new UVHistoryActivity.CustomAdapter();
+        listViewUVHistory.setAdapter(customAdapter);
+    }
+
+    private class CustomAdapter extends BaseAdapter {
+
+        @Override
+        public int getCount() {
+            return uvList.size();
+        }
+
+        @Override
+        public Object getItem(int i) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int i, View view, ViewGroup viewGroup) {
+            View moreView = getLayoutInflater().inflate(R.layout.activity_history_row_data, null);
+
+            TextView uvIndex = moreView.findViewById(R.id.textViewHistoryUVIndex);
+            TextView timeStamp = moreView.findViewById(R.id.textViewHistoryTimeStamp);
+            ImageView colorImage = moreView.findViewById(R.id.imageViewSunIcon);
+
+            uvIndex.setText(uvList.get(i).uvToString());
+            timeStamp.setText(uvList.get(i).timeStampToString());
+
+
+
+
+
+
+            float uvIndexValue = uvList.get(i).getUv_value();
+
+            if (uvIndexValue  < 1) {
+                colorImage.setImageResource(R.drawable.ic_sunlight_default_level1_lightblue);
+            }
+            else if (uvIndexValue  >= 1 && uvIndexValue  < 3) {
+                colorImage.setImageResource(R.drawable.ic_sunlight_default_level1_lightblue);
+            }
+            else if (uvIndexValue  >= 3 && uvIndexValue  < 6) {
+                colorImage.setImageResource(R.drawable.ic_sunlight_level2);
+            }
+            else if (uvIndexValue  >= 6 && uvIndexValue  < 8) {
+                colorImage.setImageResource(R.drawable.ic_sunlight_level3);
+            }
+            else if (uvIndexValue  >= 8 && uvIndexValue  < 11) {
+                colorImage.setImageResource(R.drawable.ic_sunlight_level4);
+            }
+            else if (uvIndexValue  > 11){
+                colorImage.setImageResource(R.drawable.ic_sunlight_level5);
+            }
+
+
+            return moreView;
+        }
+    }
+
+
+
 
     @Override
     public void onBackPressed() {

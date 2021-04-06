@@ -9,7 +9,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 import android.widget.Toast;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -142,31 +141,34 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return id;
     }
 
-    public List<UvReadings> getAllUVData(String date) {
+    public List<UVReadings> getAllUVData() {
         SQLiteDatabase database = this.getReadableDatabase();
         Cursor cursor = null;
-        //uvIndex = UVSensorData.getUVIntensity();
+
         try {
-            cursor = database.query(Config.UV_TABLE_NAME, null, null, null, Config.COLUMN_ID,  Config.COLUMN_DAY + "=" + "'" + date + "'", Config.COLUMN_UV_VALUE);
+            cursor = database.query(Config.UV_TABLE_NAME, null, null, null, null,  null, null);
             if (cursor != null && cursor.moveToFirst())
             {
                 cursor.moveToFirst();
-                List<UvReadings> uvList = new ArrayList<>();
+                List<UVReadings> uvList = new ArrayList<>();
                 do {
                     // We get all the parameters
-                    int id = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_ID));
+                    long id = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_ID));
 
-                  /*
-                    double time = cursor.getDouble(cursor.getColumnIndex(Config.COLUMN_UV_TIME));
-                    float value =  cursor.getFloat(cursor.getColumnIndex(Config.COLUMN_UV_VALUE));
-                   */
+
+                    float uvIndexValue =  cursor.getFloat(cursor.getColumnIndex(Config.COLUMN_UV_VALUE));
+
+                    int hour = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_HOUR));
+                    int minute = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_MIN));
+                    int second = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_SEC));
 
                     int day = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_DAY));
-                    int hour = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_HOUR));
-                    float value =  cursor.getFloat(cursor.getColumnIndex(Config.COLUMN_UV_VALUE));
-                    UvReadings uvReadings = new UvReadings(day, hour, value);
-                    uvList.add(uvReadings);
+                    int month = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_MONTH));
+                    int year = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_YEAR));
 
+
+                    UVReadings uvReadings = new UVReadings(id, uvIndexValue, hour, minute, second, day, month, year);
+                    uvList.add(uvReadings);
 
                 } while (cursor.moveToNext());
                 return uvList;

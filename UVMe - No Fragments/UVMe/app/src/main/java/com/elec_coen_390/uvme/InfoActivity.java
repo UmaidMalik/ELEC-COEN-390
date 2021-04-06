@@ -102,6 +102,7 @@ public class InfoActivity extends AppCompatActivity {
             uvIndex.setText(indexLevels[i]);
             colorMeaning.setText(indexColorMeanings[i]);
             recommendedProtections.setText(listOfProtections[i]);
+
             colorImage.setImageResource(colorImages[i]);
 
             return moreView;

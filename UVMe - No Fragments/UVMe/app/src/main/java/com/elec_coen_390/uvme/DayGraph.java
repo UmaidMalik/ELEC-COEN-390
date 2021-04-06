@@ -9,10 +9,8 @@
         import android.graphics.Color;
         import android.os.Build;
         import android.os.Bundle;
-        import android.util.Log;
         import android.view.Menu;
         import android.view.MenuItem;
-        import android.view.View;
         import android.widget.Button;
         import android.widget.DatePicker;
         import android.widget.TextView;
@@ -30,7 +28,6 @@
 
         import java.text.NumberFormat;
         import java.text.SimpleDateFormat;
-        import java.time.LocalDate;
         import java.util.Calendar;
         import java.util.Date;
         import java.util.List;
@@ -313,7 +310,8 @@ public class DayGraph extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void getUVReadingFromDate(final String date) {
-        List<UvReadings> uvReadings;
+        /*
+        List<UVReadings> uvReadings;
         DatabaseHelper databaseHelper = new DatabaseHelper(DayGraph.this);
         uvReadings = databaseHelper.getAllUVData(date); // fetch all UV values by date
          // series3.resetData(new DataPoint[]{}); // Reset previous series
@@ -331,6 +329,8 @@ public class DayGraph extends AppCompatActivity {
             //addUVValuesToDataBase(x,  y,LocalDate.now());
         }
         date2 = date;
+
+         */
     }
 
     /*

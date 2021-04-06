@@ -111,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     final Handler handler = new Handler();
+    final Handler handler2 = new Handler();
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -496,15 +497,17 @@ public class MainActivity extends AppCompatActivity {
                         if (!isRefreshSetToNever) {
                             maxUV = 0;
                         }
+
                     }
                 });
+
 
                 try {
                     Thread.sleep(refresh_cycle_time * 1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-            }
+           }
         }
     }
 

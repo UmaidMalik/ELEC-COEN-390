@@ -1,5 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/midnight_blue">
+
+    <RelativeLayout
+        android:id="@+id/historyActivityListViewData"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true">
+
+        <TextView
+            android:id="@+id/textViewHistoryUVIndex"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:textSize="20dp"
+            android:textColor="@color/light_blue"
+            android:fontFamily="@font/roboto_light"
+            android:text="00.00" />
+
+        <TextView
+            android:id="@+id/textViewHistoryTimeStamp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/relativeViewHistoryColorImage"
+            android:layout_marginStart="15dp"
+            android:text="hh:mm:ss dd:mm:yyyy"
+            android:textColor="@color/light_blue"
+            android:fontFamily="@font/roboto_thin"
+            android:textSize="20sp" />
+
+        <RelativeLayout
+            android:id="@+id/relativeViewHistoryColorImage"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_toRightOf="@+id/textViewHistoryUVIndex"
+            android:layout_marginStart="15dp">
+
+
+            <ImageView
+                android:id="@+id/imageViewSunIcon"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_centerInParent="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_sunlight_default_level1_lightblue" />
+
+
+
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    </RelativeLayout>
 
 </RelativeLayout>

@@ -2,95 +2,99 @@ package com.elec_coen_390.uvme;
 
 import java.util.Calendar;
 
-public class UvReadings {
-    private int uvId;
-    Calendar currentDateTime =Calendar.getInstance();
-    int day = currentDateTime.get(Calendar.DAY_OF_MONTH);
-    int month = currentDateTime.get(Calendar.MONTH);
-    int year = currentDateTime.get(Calendar.YEAR);
-    int second = currentDateTime.get(Calendar.SECOND);
-    int minute = currentDateTime.get(Calendar.MINUTE);
-    int hour = currentDateTime.get(Calendar.HOUR);
-    private double uv_time;
+public class UVReadings {
+    private long uvId;
+
+    private int day;
+    private int month;
+    private int year;
+    private int second;
+    private int minute;
+    private int hour;
+
     private float uv_value;
-    private String date;
-    /*
-    public UvReadings ( double uv_time, float uv_value, String date) {
-        this.uv_time = uv_time;
-        this.uv_value = uv_value;
-        this.date = date;
+
+    public String timeStampToString(){
+        return hour + ":" + minute + ":" + second + " " + day + "/" + month + "/" + year;
     }
 
-     */
-    public UvReadings ( int uv_d,int uv_hr, float uv_value) {
-        this.day = uv_d;
-        this.hour = uv_hr;
-        this.uv_value = uv_value;
-    }
-    public void setUVDay(int uvDay) {
-        this.day = uvDay;
-    }
-    public int getUVDay() {
-      return day;
-    }
-    public void setUVhour(int hr) {
-        this.hour = hr;
-    }
-    public int getUVhour() {
-        return hour;
-    }
-    public void setUv(float uv) {
-        this.uv_value = uv;
-
-    }
-    public float getUv() {
-        return uv_value;
+    public String uvToString() {
+        return String.valueOf(uv_value);
     }
 
-
-/*
-    public void setUvId(int uvId) {
+    public UVReadings(long uvId, float uv_value, int hour, int minute, int second, int day, int month, int year) {
         this.uvId = uvId;
+        this.day = day;
+        this.month = month;
+        this.year = year;
+        this.second = second;
+        this.minute = minute;
+        this.hour = hour;
+        this.uv_value = uv_value;
     }
 
-
-    public int getUvId() {
+    public long getUvId() {
         return uvId;
     }
 
-
-    public void setUvTime(double time) {
-
-        this.uv_time = time;
+    public void setUvId(long uvId) {
+        this.uvId = uvId;
     }
 
-
-    public double getUvTime() {
-        return uv_time;
+    public int getDay() {
+        return day;
     }
 
-
-    public void setUv(float uv) {
-        this.uv_value = uv;
-
+    public void setDay(int day) {
+        this.day = day;
     }
 
+    public int getMonth() {
+        return month;
+    }
 
-    public float getUv() {
+    public void setMonth(int month) {
+        this.month = month;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public int getSecond() {
+        return second;
+    }
+
+    public void setSecond(int second) {
+        this.second = second;
+    }
+
+    public int getMinute() {
+        return minute;
+    }
+
+    public void setMinute(int minute) {
+        this.minute = minute;
+    }
+
+    public int getHour() {
+        return hour;
+    }
+
+    public void setHour(int hour) {
+        this.hour = hour;
+    }
+
+    public float getUv_value() {
         return uv_value;
     }
 
-
-    public void setDate(String date) {
-        this.date = date;
+    public void setUv_value(float uv_value) {
+        this.uv_value = uv_value;
     }
-
-
-    public String getDate() {
-        return date;
-    }
-
-
- */
 }
 

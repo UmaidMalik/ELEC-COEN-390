@@ -147,6 +147,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         try {
             cursor = database.query(Config.UV_TABLE_NAME, null, null, null, null,  null, null);
+
             if (cursor != null && cursor.moveToFirst())
             {
                 cursor.moveToFirst();
@@ -182,5 +183,49 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         return Collections.emptyList(); // Nothing to display
     }
+
+    public List<UVReadings> getUVGraphInfo(String date) {
+        SQLiteDatabase database = this.getReadableDatabase();
+        Cursor cursor = null;
+
+        try {
+            cursor = database.query(Config.UV_TABLE_NAME_MAX, null, null, null, null,  null, null);
+
+            if (cursor != null && cursor.moveToFirst())
+            {
+                cursor.moveToFirst();
+                List<UVReadings> uvList = new ArrayList<>();
+                do {
+                    // We get all the parameters
+                    long id = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_ID));
+
+
+                    float uvIndexValue =  cursor.getFloat(cursor.getColumnIndex(Config.COLUMN_UV_VALUE));
+
+                    int hour = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_HOUR));
+                    int minute = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_MIN));
+                    int second = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_SEC));
+
+                    int day = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_DAY));
+                    int month = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_MONTH));
+                    int year = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_YEAR));
+
+
+                    UVReadings uvReadings = new UVReadings(id, uvIndexValue, hour, minute, second, day, month, year);
+                    uvList.add(uvReadings);
+
+                } while (cursor.moveToNext());
+                return uvList;
+            }
+        }
+        catch (SQLException exception) { Log.d(TAG, "EXCEPTION: " + exception);}
+        finally {
+            if (cursor != null)
+                cursor.close();
+            database.close();
+        }
+        return Collections.emptyList(); // Nothing to display
+    }
+
 
 }

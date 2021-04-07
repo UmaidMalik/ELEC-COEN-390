@@ -257,6 +257,8 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    // function that reads values from database and saves it.
+    // taking in UV sensor data and time.
     private void startDatabaseThread(View view) {
         new Thread(runnableDatabase).start();
     }
@@ -283,6 +285,7 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    // find the max UV and saves in database.
     protected void databaseUVMax() {
         if (maxUVDatabase < UVSensorData.getUVIntensity()) {
             maxUVDatabase = UVSensorData.getUVIntensity();
@@ -310,6 +313,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    // function that updates the SunColor depending on the level of UV
     private void updateSunColor() {
         uv_mode_status = toggleUVModePreferences.getBoolean(UVDisplayModeActivity.UV_MODE_STATUS, false);
         if (uv_mode_status)

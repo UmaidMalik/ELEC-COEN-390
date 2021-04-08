@@ -78,9 +78,6 @@ public class MainActivity extends AppCompatActivity {
     private BluetoothLeService mBluetoothLeService;
     private ArrayList<BluetoothGattService> mBluetoothGattServices = new ArrayList<BluetoothGattService>() ;
 
-
-
-
     private NotificationManagerCompat notificationManagerCompat;
 
     private String city;
@@ -141,7 +138,6 @@ public class MainActivity extends AppCompatActivity {
         buttonMoreInfo = (ToggleButton) findViewById(R.id.buttonMoreInfo);
 
         setupCitySearchButton();
-
 
 
         builder = new AlertDialog.Builder(this, R.style.AlertDialogStyle);
@@ -705,6 +701,8 @@ public class MainActivity extends AppCompatActivity {
                 .build();
         notificationManagerCompat.notify(2,notification);
     }
+
+    // Weather Method
 
     public void FindWeather()
     {

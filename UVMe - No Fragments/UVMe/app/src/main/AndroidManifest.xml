@@ -42,6 +42,14 @@
         <activity android:name=".AboutActivity" />
         <activity android:name=".UVDisplayModeActivity"/>
 
+
+        <activity android:name=".WelcomeActivity">
+
+        </activity>
+
+
+
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -53,12 +61,6 @@
             android:name=".ProfileActivity"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="locked" />
-
-
-
-        <activity android:name=".WelcomeActivity">
-
-        </activity>
 
 
 

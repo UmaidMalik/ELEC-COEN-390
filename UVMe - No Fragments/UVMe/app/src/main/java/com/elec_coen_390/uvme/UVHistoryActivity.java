@@ -66,9 +66,7 @@ public class UVHistoryActivity extends AppCompatActivity {
         uvList = new ArrayList<>();
         db = new DatabaseHelper(this);
         db.getReadableDatabase();
-
         uvList = db.getAllUVData();
-
         setupListView();
     }
 
@@ -107,10 +105,6 @@ public class UVHistoryActivity extends AppCompatActivity {
 
             uvIndex.setText(uvList.get(i).uvToString());
             timeStamp.setText(uvList.get(i).timeStampToString());
-
-
-
-
 
 
             float uvIndexValue = uvList.get(i).getUv_value();

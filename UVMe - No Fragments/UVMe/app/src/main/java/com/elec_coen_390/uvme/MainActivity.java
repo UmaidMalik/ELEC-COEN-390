@@ -78,9 +78,6 @@ public class MainActivity extends AppCompatActivity {
     private BluetoothLeService mBluetoothLeService;
     private ArrayList<BluetoothGattService> mBluetoothGattServices = new ArrayList<BluetoothGattService>() ;
 
-
-
-
     private NotificationManagerCompat notificationManagerCompat;
 
     private String city;
@@ -141,7 +138,6 @@ public class MainActivity extends AppCompatActivity {
         buttonMoreInfo = (ToggleButton) findViewById(R.id.buttonMoreInfo);
 
         setupCitySearchButton();
-
 
 
         builder = new AlertDialog.Builder(this, R.style.AlertDialogStyle);
@@ -257,6 +253,8 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    // function that reads values from database and saves it.
+    // taking in UV sensor data and time.
     private void startDatabaseThread(View view) {
         new Thread(runnableDatabase).start();
     }
@@ -283,6 +281,7 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    // find the max UV and saves in database.
     protected void databaseUVMax() {
         if (maxUVDatabase < UVSensorData.getUVIntensity()) {
             maxUVDatabase = UVSensorData.getUVIntensity();
@@ -310,6 +309,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    // function that updates the SunColor depending on the level of UV
     private void updateSunColor() {
         uv_mode_status = toggleUVModePreferences.getBoolean(UVDisplayModeActivity.UV_MODE_STATUS, false);
         if (uv_mode_status)
@@ -702,6 +702,8 @@ public class MainActivity extends AppCompatActivity {
         notificationManagerCompat.notify(2,notification);
     }
 
+    // Weather Method
+
     public void FindWeather()
     {
         city = prefs.getString("CITY", "Enter City Name");
@@ -718,7 +720,7 @@ public class MainActivity extends AppCompatActivity {
                             JSONObject object = jsonObject.getJSONObject("main");
                             double temp = object.getDouble("temp");
                             textViewTemperature.setText(temp+"°C");
-                            textViewTemperature.setTextSize(48);
+                            textViewTemperature.setTextSize(44);
 
                             //find country
                             JSONObject object8 = jsonObject.getJSONObject("sys");
@@ -748,12 +750,12 @@ public class MainActivity extends AppCompatActivity {
                             //find pressure
                             JSONObject object7 = jsonObject.getJSONObject("main");
                             String pressure_find = object7.getString("pressure");
-                            textViewPressure.setText(pressure_find+"  hPa");
+                            textViewPressure.setText(pressure_find+" hPa");
 
                             //find humidity
                             JSONObject object4 = jsonObject.getJSONObject("main");
                             int humidity_find = object4.getInt("humidity");
-                            textViewHumidity.setText(humidity_find+"  %");
+                            textViewHumidity.setText(humidity_find+"%");
 
 
                         } catch (JSONException e) {

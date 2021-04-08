@@ -28,26 +28,26 @@
 
         import java.text.NumberFormat;
         import java.text.SimpleDateFormat;
+        import java.util.ArrayList;
         import java.util.Calendar;
         import java.util.Date;
         import java.util.List;
 
 public class DayGraph extends AppCompatActivity {
-    /////////////ok
+
     public LineGraphSeries<DataPoint> series1, series2;
     public PointsGraphSeries<DataPoint> series3;
     TextView avgUV;
     TextView maxUV;
-    TextView condition;
-    TextView conditionResult;
     DatePickerDialog datePicker;
     String date2 = "";
-    DatabaseHelper db;
-    SimpleDateFormat format = new SimpleDateFormat("h:mm a");
-    Button dayButton, weekButton;
+    DatabaseHelper dbGraph;
+    List<UVReadings> uvList;
+    SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a");
     private Context activity;
     private float uvIndex = 0.00f;
 
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,98 +57,35 @@ public class DayGraph extends AppCompatActivity {
         avgUV = findViewById(R.id.avgUV);
         maxUV = findViewById(R.id.maxUV);
         Intent intent = getIntent(); // lets us go back and forth from app to app
-        showDay();
+        graphSetup();
         setDate();
     }
 
-    protected void showDay() {
+    protected void graphSetup() {
         // styling series
         GraphView graph = (GraphView) findViewById(R.id.graph);
 
         int[] xArray = new int[24]; // X AXIS
-        double[] yArray = new double[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 3, 2, 3.23, 4.33, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}; // this needs to be swapped out for database info
+        double[] yArray = new double[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}; // this needs to be swapped out for database info
         int n = yArray.length;
         final double average = average(yArray, n); // USED TO FIND AVERAGE UVI LEVEL FROM DATABASE ( SOON )
         NumberFormat nm = NumberFormat.getNumberInstance();
 
-        // CREATES X AXIS
-        for (int i = 0; i < xArray.length; i++) {
-            xArray[i] = i;}
+        // created X axis this can be deleted after
+        for (int i = 0; i < n; i++) {
+            xArray[i] = i;
+        }
 
-        graph.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter(){
-            @Override
-            public String formatLabel(double value, boolean isValueX){
-                if(isValueX)
-                {
-                    return format.format(new Date((long) value));
-                }
-                else
-                {
-                    return super.formatLabel(value, isValueX);
-                }}
-        });
-        graph.getGridLabelRenderer().setHumanRounding(false);
+       series1 = new LineGraphSeries<>(new DataPoint[]{ // SERIES ONE SHOWS USER A LINE GRAPH
+                new DataPoint(xArray[0], (yArray[0]))});
 
+        series3 = new PointsGraphSeries<>(new DataPoint[]{ // SERIES 3 SHOWS THE USER A DOT GRAPH FROM SERIES 1
+                new DataPoint(xArray[0], yArray[0])});
         max(yArray);
         avgUV.setText(nm.format(average(yArray, n)));
         maxUV.setText(String.valueOf(max(yArray)));
 
-        // function will be deleted after database is implemented
-        series1 = new LineGraphSeries<>(new DataPoint[]{ // SERIES ONE SHOWS USER A LINE GRAPH
-                new DataPoint(xArray[0], yArray[0]),
-                new DataPoint(xArray[1], yArray[1]),
-                new DataPoint(xArray[2], yArray[2]),
-                new DataPoint(xArray[3], yArray[3]),
-                new DataPoint(xArray[4], yArray[4]),
-                new DataPoint(xArray[5], yArray[5]),
-                new DataPoint(xArray[6], yArray[6]),
-                new DataPoint(xArray[7], yArray[7]),
-                new DataPoint(xArray[8], yArray[8]),
-                new DataPoint(xArray[9], yArray[9]),
-                new DataPoint(xArray[10], yArray[10]),
-                new DataPoint(xArray[11], yArray[11]),
-                new DataPoint(xArray[12], yArray[12]),
-                new DataPoint(xArray[13], yArray[13]),
-                new DataPoint(xArray[14], yArray[14]),
-                new DataPoint(xArray[15], yArray[15]),
-                new DataPoint(xArray[16], yArray[16]),
-                new DataPoint(xArray[17], yArray[17]),
-                new DataPoint(xArray[18], yArray[18]),
-                new DataPoint(xArray[19], yArray[19]),
-                new DataPoint(xArray[20], yArray[20]),
-                new DataPoint(xArray[21], yArray[21]),
-                new DataPoint(xArray[22], yArray[22]),
-                new DataPoint(xArray[23], yArray[23])});
-        // function will be deleted after database is implemented
-        series3 = new PointsGraphSeries<>(new DataPoint[]{ // SERIES 3 SHOWS THE USER A DOT GRAPH FROM SERIES 1
-                new DataPoint(xArray[0], yArray[0]),
-                new DataPoint(xArray[1], yArray[1]),
-                new DataPoint(xArray[2], yArray[2]),
-                new DataPoint(xArray[3], yArray[3]),
-                new DataPoint(xArray[4], yArray[4]),
-                new DataPoint(xArray[5], yArray[5]),
-                new DataPoint(xArray[6], yArray[6]),
-                new DataPoint(xArray[7], yArray[7]),
-                new DataPoint(xArray[8], yArray[8]),
-                new DataPoint(xArray[9], yArray[9]),
-                new DataPoint(xArray[10], yArray[10]),
-                new DataPoint(xArray[11], yArray[11]),
-                new DataPoint(xArray[12], yArray[12]),
-                new DataPoint(xArray[13], yArray[13]),
-                new DataPoint(xArray[14], yArray[14]),
-                new DataPoint(xArray[15], yArray[15]),
-                new DataPoint(xArray[16], yArray[16]),
-                new DataPoint(xArray[17], yArray[17]),
-                new DataPoint(xArray[18], yArray[18]),
-                new DataPoint(xArray[19], yArray[19]),
-                new DataPoint(xArray[20], yArray[20]),
-                new DataPoint(xArray[21], yArray[21]),
-                new DataPoint(xArray[22], yArray[22]),
-                new DataPoint(xArray[23], yArray[23])
-        });
-
-
-        graph.addSeries(series1);
+        graph.addSeries(series1); // adds the graph to the UI
         graph.addSeries(series3);
 
         series3.setOnDataPointTapListener(new OnDataPointTapListener() { // ALLOWS USER TO SEE NODES
@@ -157,6 +94,8 @@ public class DayGraph extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "\t\t\t  UV Intensity \n [HOUR,INTENSITY] \n" +"\t\t\t\t\t"+ dataPoint, Toast.LENGTH_LONG).show();
             }
         });
+
+        graph.getGridLabelRenderer().setHumanRounding(false);
         graph.setTitle("DAY OVERVIEW"); // TITLE
         graph.setTitleTextSize(100);
         graph.setTitleColor(Color.WHITE);
@@ -177,18 +116,19 @@ public class DayGraph extends AppCompatActivity {
             public String formatLabel(double value, boolean isValueX){
                 if(isValueX)
                 {
-                    Date d = new Date((long) (value));
-                    return (format.format(d));
+                    return timeFormat
+                            .format(new Date((long) value));
                 }
                 else
                 {
                     return super.formatLabel(value, isValueX);
                 }}
         });
+
+
         graph.getGridLabelRenderer().setHumanRounding(false);
         GridLabelRenderer gridLabel = graph.getGridLabelRenderer();
         // SETTING BOUNDS
-
         graph.getViewport().setMinY(0);
         graph.getViewport().setMaxY(11);
         graph.getViewport().setMinX(0);
@@ -282,9 +222,11 @@ public class DayGraph extends AppCompatActivity {
 
     protected void setDate() { // Used to date the date with calendar
         final Calendar calendar = Calendar.getInstance();
+
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         int month = calendar.get(Calendar.MONTH);
         int year = calendar.get(Calendar.YEAR);
+
         datePicker = new DatePickerDialog(DayGraph.this, new DatePickerDialog.OnDateSetListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
@@ -302,7 +244,8 @@ public class DayGraph extends AppCompatActivity {
                     zeroDay = String.valueOf(dayOfMonth);
                 }
                 String dateChosen = year + "-" + zeroMonth + "-" + zeroDay;
-                getUVReadingFromDate(dateChosen); // send the format to the database (year - month - day)
+
+                getUVReadingFromDate(dateChosen); // this function SHOULD associate the chosen day with UV values in database
             }
         }, year, month, day);
         datePicker.show();}
@@ -310,67 +253,40 @@ public class DayGraph extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void getUVReadingFromDate(final String date) {
+        uvList = new ArrayList<>();
+        dbGraph = new DatabaseHelper(this);
+        dbGraph.getReadableDatabase();
+        uvList = dbGraph.getUVGraphInfo(date); // taking from MAX table
+
         /*
-        List<UVReadings> uvReadings;
-        DatabaseHelper databaseHelper = new DatabaseHelper(DayGraph.this);
-        uvReadings = databaseHelper.getAllUVData(date); // fetch all UV values by date
-         // series3.resetData(new DataPoint[]{}); // Reset previous series
-        // series1.resetData(new DataPoint[]{}); // Reset previous series
+        float []yAxis={};
+        float[]xAxis={};
+        for (int i = 0; i < uvList.size(); i++) {
+            yAxis[i] = uvList.get(i).getUv_value();
+        }
+        // CREATES X AXIS
+        for (int i = 0; i < uvList.size(); i++) {
+            xAxis[i] = uvList.get(i).getHour();
+        }
+
+         */
+          series3.resetData(new DataPoint[]{}); // Reset previous series
+          series1.resetData(new DataPoint[]{}); // Reset previous series
         DataPoint[] points = new DataPoint[500];
         int newCounter = 0;
-        for (int i = 0; i < uvReadings.size(); i++) {
-            int x = uvReadings.get(i).getUVhour();
-            float y  =  uvReadings.get(i).getUv();
+        for (int i = 0; i < uvList.size(); i++) {
+            int x = uvList.get(i).getHour();
+            float y  =  uvList.get(i).getUv_value();
+
             DataPoint point = new DataPoint(x, y);
             points[newCounter] = point;
             series3.appendData(new DataPoint(point.getX(), point.getY()), true, 500);
             series1.appendData(new DataPoint(point.getX(), point.getY()), true, 500);
             newCounter = newCounter + 1;
-            //addUVValuesToDataBase(x,  y,LocalDate.now());
+
         }
         date2 = date;
-
-         */
     }
-
-    /*
-    protected void addUVValuesToDataBase(final int dataX, final float dataY, final LocalDate date){
-            DatabaseHelper databaseHelper = new DatabaseHelper(DayGraph.this);
-            UvReadings uv = new UvReadings( dataX, dataY, date.toString());
-            databaseHelper.insertUV(uv,);    // Add the current UV value to the database
-        }
-
-
-
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private void startUVReadThread(View view) {
-        DayGraph.RunnableUVIndex runnableUVIndex = new DayGraph.RunnableUVIndex();
-        new Thread(runnableUVIndex).start();
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private class RunnableUVIndex implements Runnable {
-        DatabaseHelper databaseHelper = new DatabaseHelper(DayGraph.this);
-        Calendar calendar;
-        @Override
-        public void run() {
-            while (true) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        databaseHelper.insertUV(UVSensorData.getUVIntensity(), calendar);
-                    }
-                });
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-         */
 }
 
 

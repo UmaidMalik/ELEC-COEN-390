@@ -53,6 +53,16 @@
             android:name=".ProfileActivity"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="locked" />
+
+
+
+        <activity android:name=".WelcomeActivity">
+
+        </activity>
+
+
+
+
         <activity
             android:name=".MoreActivity"
             android:parentActivityName=".MainActivity"/>

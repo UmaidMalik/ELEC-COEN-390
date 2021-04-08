@@ -18,7 +18,7 @@ public class WelcomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        this.getSupportActionBar().hide();
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_welcome);
@@ -27,8 +27,8 @@ public class WelcomeActivity extends AppCompatActivity {
         fadeout.setInterpolator(new AccelerateInterpolator());
         fadeout.setStartOffset(500);
         fadeout.setDuration(2900);
-        ImageView image = findViewById(R.id.ic_sun);
-        image.setAnimation(fadeout);
+        //ImageView image = findViewById(R.id.ic_sun);
+        //image.setAnimation(fadeout);
 
 
         new Handler().postDelayed(new Runnable() {

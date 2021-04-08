@@ -174,7 +174,7 @@ public class DeviceControlActivity extends Activity {
         Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
         bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
 
-        //startUIThread(getCurrentFocus());
+
     }
 
     @Override

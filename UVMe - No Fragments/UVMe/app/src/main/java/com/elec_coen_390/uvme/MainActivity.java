@@ -722,7 +722,7 @@ public class MainActivity extends AppCompatActivity {
                             JSONObject object = jsonObject.getJSONObject("main");
                             double temp = object.getDouble("temp");
                             textViewTemperature.setText(temp+"°C");
-                            textViewTemperature.setTextSize(48);
+                            textViewTemperature.setTextSize(44);
 
                             //find country
                             JSONObject object8 = jsonObject.getJSONObject("sys");
@@ -752,12 +752,12 @@ public class MainActivity extends AppCompatActivity {
                             //find pressure
                             JSONObject object7 = jsonObject.getJSONObject("main");
                             String pressure_find = object7.getString("pressure");
-                            textViewPressure.setText(pressure_find+"  hPa");
+                            textViewPressure.setText(pressure_find+" hPa");
 
                             //find humidity
                             JSONObject object4 = jsonObject.getJSONObject("main");
                             int humidity_find = object4.getInt("humidity");
-                            textViewHumidity.setText(humidity_find+"  %");
+                            textViewHumidity.setText(humidity_find+"%");
 
 
                         } catch (JSONException e) {

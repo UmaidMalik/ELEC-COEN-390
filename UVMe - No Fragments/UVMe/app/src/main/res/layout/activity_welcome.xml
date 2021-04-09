@@ -1,8 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".WelcomeActivity"
-    tools:ignore="ExtraText"
-    android:background="@drawable/ic_welcome_screen" />
+    android:background="@color/midnight_blue">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:textSize="60sp"
+        android:text="UVMe"
+        android:fontFamily="@font/roboto_light"
+        android:layout_alignBottom="@id/layout_welcome_sun"
+        android:layout_marginBottom="560dp"
+        android:textColor="@color/light_blue"
+        android:textAlignment="center" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:textSize="30sp"
+        android:text="welcome"
+        android:fontFamily="@font/roboto_light"
+        android:textColor="@color/light_blue"
+        android:layout_alignBottom="@id/layout_welcome_sun"
+        android:layout_marginBottom="500dp"
+        android:textAlignment="center" />
+
+
+    <RelativeLayout
+        android:id="@+id/layout_welcome_sun"
+        android:layout_width="match_parent"
+        android:layout_height="550dp"
+        android:layout_centerInParent="true"
+
+        >
+
+        <ImageView
+            android:id="@+id/ic_uvme_sun"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:scaleX="1.6"
+            android:scaleY="1.6"
+            app:srcCompat="@drawable/ic_uvme_sun"
+            tools:ignore="VectorDrawableCompat" />
+
+    </RelativeLayout>
+</RelativeLayout>

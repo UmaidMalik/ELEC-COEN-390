@@ -13,7 +13,7 @@ import android.widget.ImageView;
 
 public class WelcomeActivity extends AppCompatActivity {
 
-    private static int splash = 3000;
+    private static int splash = 1800;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,8 +26,8 @@ public class WelcomeActivity extends AppCompatActivity {
         Animation fadeout = new AlphaAnimation(1,0);
         fadeout.setInterpolator(new AccelerateInterpolator());
         fadeout.setStartOffset(500);
-        fadeout.setDuration(2900);
-        //ImageView image = findViewById(R.id.ic_sun);
+        fadeout.setDuration(1700);
+        //ImageView image = findViewById(R.id.ic_uvme_sun);
         //image.setAnimation(fadeout);
 
 

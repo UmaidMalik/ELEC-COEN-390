@@ -106,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
 
     ToggleButton buttonMoreInfo;
 
+    boolean isBatteryConnected = false;
 
     final Handler handler = new Handler();
 
@@ -205,7 +206,8 @@ public class MainActivity extends AppCompatActivity {
 
         textViewUVIndex.setText(String.valueOf(UVSensorData.getUVIntensity()));
 
-        textViewBatteryLevel.setText(String.valueOf(BatteryData.getBatteryLevel()));
+        //textViewBatteryLevel.setText(String.valueOf(BatteryData.getBatteryLevel()));
+        displayBatteryLevel(String.valueOf(BatteryData.getBatteryLevel()));
 
         imageViewSensor = (ImageView) findViewById(R.id.imageViewSensor);
 
@@ -320,16 +322,21 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateBatteryLevelIcon() {
         batteryLevel = BatteryData.getBatteryLevel();
-        if (batteryLevel > 80f)
-            imageViewSensorBattery.setImageResource(R.drawable.ic_battery_level_5);
-        else if (batteryLevel <= 80 && batteryLevel > 55)
-            imageViewSensorBattery.setImageResource(R.drawable.ic_battery_level_4);
-        else if (batteryLevel <= 55 && batteryLevel >= 40)
-            imageViewSensorBattery.setImageResource(R.drawable.ic_battery_level_3);
-        else if (batteryLevel < 40 && batteryLevel >= 15)
-            imageViewSensorBattery.setImageResource(R.drawable.ic_battery_level_2);
-        else if (batteryLevel < 15)
+        if (!isBatteryConnected) {
             imageViewSensorBattery.setImageResource(R.drawable.ic_battery_level_1);
+            displayBatteryLevel("0");
+        } else {
+            if (batteryLevel > 80f)
+                imageViewSensorBattery.setImageResource(R.drawable.ic_battery_level_5);
+            else if (batteryLevel <= 80 && batteryLevel > 55)
+                imageViewSensorBattery.setImageResource(R.drawable.ic_battery_level_4);
+            else if (batteryLevel <= 55 && batteryLevel >= 40)
+                imageViewSensorBattery.setImageResource(R.drawable.ic_battery_level_3);
+            else if (batteryLevel < 40 && batteryLevel >= 15)
+                imageViewSensorBattery.setImageResource(R.drawable.ic_battery_level_2);
+            else if (batteryLevel < 15)
+                imageViewSensorBattery.setImageResource(R.drawable.ic_battery_level_1);
+        }
     }
 
     private void displayUVSensorData(float uvIndex) {
@@ -433,7 +440,10 @@ public class MainActivity extends AppCompatActivity {
                         else displayUVSensorData(UVSensorData.getUVIntensity());
 
                         setRefreshButtonVisibility(uv_mode_status);
-                        textViewBatteryLevel.setText(String.valueOf((int)BatteryData.getBatteryLevel()) + "%");
+
+                        if (isBatteryConnected) {
+                            displayBatteryLevel((int) BatteryData.getBatteryLevel() + "%");
+                        }
                     }
                 });
 
@@ -517,9 +527,7 @@ public class MainActivity extends AppCompatActivity {
                 updateSensorConnectionState(false);
             }
             else if (BluetoothLeService.ACTION_DATA_AVAILABLE.equals(action)) {
-                //displayUVSensorData(intent.getStringExtra(BluetoothLeService.EXTRA_DATA_VALUE_UV_INDEX));
                 updateSensorConnectionState(true);
-                //displayBatteryLevel(intent.getStringExtra(BluetoothLeService.EXTRA_DATA_VALUE_BATTERY_LEVEL) + "%");
 
             }
         }
@@ -533,12 +541,15 @@ public class MainActivity extends AppCompatActivity {
                 if (condition) {
                     imageViewSensor.setImageResource(R.drawable.ic_sensor_on);
                     textViewSensorState.setText("Sensor ON");
+                    isBatteryConnected = true;
+
                 }
                 else {
                     imageViewSensor.setImageResource(R.drawable.ic_sensor_off);
                     textViewSensorState.setText("Sensor OFF");
                     BluetoothLeService.mBluetoothGatt.close();
                     BluetoothLeService.mBluetoothGatt = null;
+                    isBatteryConnected = false;
                 }
             }
         });

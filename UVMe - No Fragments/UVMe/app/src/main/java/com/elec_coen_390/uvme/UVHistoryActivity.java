@@ -32,7 +32,8 @@ public class UVHistoryActivity extends AppCompatActivity {
 
     DatabaseHelper db;
     List<UVReadings> uvList;
-    int selection = 0;
+    int index = 0;
+    UVHistoryActivity.CustomAdapter customAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,7 +98,8 @@ public class UVHistoryActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-
+                        uvList = db.getAllUVData();
+                        customAdapter.notifyDataSetChanged();
                     }
                 });
 
@@ -113,7 +115,7 @@ public class UVHistoryActivity extends AppCompatActivity {
     private void setupListView() {
         listViewUVHistory = (ListView) findViewById(R.id.sensorDataListView);
 
-        UVHistoryActivity.CustomAdapter customAdapter = new UVHistoryActivity.CustomAdapter();
+        customAdapter = new UVHistoryActivity.CustomAdapter();
         listViewUVHistory.setAdapter(customAdapter);
     }
 

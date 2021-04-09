@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView textViewSensorState;
 
     SharedPreferences togglePreferences;
-    boolean uvi_level_alert_status = false, burn_risk_alert_status = false;
+    boolean uvi_level_alert_status = false, sunglasses_alert_status = false, sunburn_alert_status = false;
 
     SharedPreferences prefs;
 
@@ -108,7 +108,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     final Handler handler = new Handler();
-    final Handler handler2 = new Handler();
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -215,11 +214,17 @@ public class MainActivity extends AppCompatActivity {
         startUVIndexThread(getCurrentFocus());
         startNotificationsThread(getCurrentFocus());
         startResetMaxUVThread(getCurrentFocus());
-        startDatabaseThread(getCurrentFocus());
+
+        startDatabaseService();
 
         setupRefreshButton();
         setupMoreButton();
 
+    }
+
+    private void startDatabaseService() {
+        Intent startIntent = new Intent(MainActivity.this, DatabaseService.class);
+        startService(startIntent);
     }
 
     private void setupCitySearchButton() {
@@ -252,42 +257,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
-    // function that reads values from database and saves it.
-    // taking in UV sensor data and time.
-    private void startDatabaseThread(View view) {
-        new Thread(runnableDatabase).start();
-    }
-
-    Runnable runnableDatabase = new Runnable() {
-
-
-
-        public void run() {
-
-            calendar = Calendar.getInstance();
-            minute = calendar.get(Calendar.SECOND);
-
-            if (UVSensorData.getUVIntensity() > 0.5  /** && min % 5 == 0) **/ ) {
-
-                db.insertUV(UVSensorData.getUVIntensity(), calendar);
-                if (minute % 5 == 0) {
-                    db.insertUVMax(maxUVDatabase, calendar);
-                    maxUVDatabase = 0;
-                }
-
-            }
-            handler.postDelayed(this, 1000);
-        }
-    };
-
-    // find the max UV and saves in database.
-    protected void databaseUVMax() {
-        if (maxUVDatabase < UVSensorData.getUVIntensity()) {
-            maxUVDatabase = UVSensorData.getUVIntensity();
-        }
-    }
-
 
     private void setupRefreshButton() {
         toggleButtonRefresh.setOnClickListener(new View.OnClickListener() {
@@ -373,6 +342,7 @@ public class MainActivity extends AppCompatActivity {
         new Thread(runnableSunColor).start();
     }
 
+
     private void startUVIndexThread(View view) {
         RunnableUVIndex runnableUVIndex = new RunnableUVIndex();
         new Thread(runnableUVIndex).start();
@@ -398,8 +368,6 @@ public class MainActivity extends AppCompatActivity {
             textViewRefresh.setVisibility(View.INVISIBLE);
         }
     }
-
-
 
     private class RunnableNotification implements Runnable {
         @Override
@@ -466,7 +434,6 @@ public class MainActivity extends AppCompatActivity {
 
                         setRefreshButtonVisibility(uv_mode_status);
                         textViewBatteryLevel.setText(String.valueOf((int)BatteryData.getBatteryLevel()) + "%");
-                        databaseUVMax();
                     }
                 });
 
@@ -478,6 +445,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
 
     private class RunnableResetMaxUV implements Runnable {
 
@@ -528,7 +496,8 @@ public class MainActivity extends AppCompatActivity {
         //***********************************
         togglePreferences = getSharedPreferences(NotificationsActivity.PREFS, MODE_PRIVATE);
         uvi_level_alert_status = togglePreferences.getBoolean(NotificationsActivity.UVI_LEVEL_ALERT_STATUS, true);
-        burn_risk_alert_status = togglePreferences.getBoolean(NotificationsActivity.BURN_RISK_ALERT_STATUS, true);
+        sunglasses_alert_status = togglePreferences.getBoolean(NotificationsActivity.SUNGLASSES_ALERT_STATUS, true);
+        sunburn_alert_status = togglePreferences.getBoolean(NotificationsActivity.SUNBURN_ALERT_STATUS, true);
 
         toggleUVModePreferences = getSharedPreferences(UVDisplayModeActivity.UV_MODE_PREFS, MODE_PRIVATE);
         uv_mode_status = toggleUVModePreferences.getBoolean(UVDisplayModeActivity.UV_MODE_STATUS, false);
@@ -638,14 +607,16 @@ public class MainActivity extends AppCompatActivity {
     public void reduceRiskOFBurnNotification(Float data){
 
         uvi_level_alert_status = togglePreferences.getBoolean(NotificationsActivity.UVI_LEVEL_ALERT_STATUS, true);
-        burn_risk_alert_status = togglePreferences.getBoolean(NotificationsActivity.BURN_RISK_ALERT_STATUS, true);
+        sunglasses_alert_status = togglePreferences.getBoolean(NotificationsActivity.SUNGLASSES_ALERT_STATUS, true);
+        sunburn_alert_status = togglePreferences.getBoolean(NotificationsActivity.SUNBURN_ALERT_STATUS, true);
+
         if (data >= 5 && data < 8 && uvi_level_alert_status) {
             sendToChannel(R.drawable.ic_sunlight_level3,
                     "SUNBURN ALERT!",
                     "You Are Exposed To: " + UVSensorData.getUVIntensity() + "\n Long Exposure Term May Affect Health",
                     NotificationChannelsClass.CHANNEL_1_ID, 1);
 
-        } if (data >= 8 && data < 20 && burn_risk_alert_status) {
+        } if (data >= 8 && data < 20 && uvi_level_alert_status) {
             sendToChannel(R.drawable.ic_sunlight_level5,
                     "SUNBURN ALERT!!!",
                     "You are exposed to a DANGEROUS level of UV Radiation:" + UVSensorData.getUVIntensity() + "\nStay out of sunlight!",

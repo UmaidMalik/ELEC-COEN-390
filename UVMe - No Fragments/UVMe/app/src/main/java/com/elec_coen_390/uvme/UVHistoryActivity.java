@@ -1,9 +1,11 @@
 package com.elec_coen_390.uvme;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,6 +27,8 @@ public class UVHistoryActivity extends AppCompatActivity {
     Button showWeekGraphButton;
     Button showMonthGraphButton;
     ListView listViewUVHistory;
+
+    View moreView;
 
     DatabaseHelper db;
     List<UVReadings> uvList;
@@ -66,10 +70,45 @@ public class UVHistoryActivity extends AppCompatActivity {
         uvList = new ArrayList<>();
         db = new DatabaseHelper(this);
         db.getReadableDatabase();
+
+
+        startNotificationsThread(getCurrentFocus());
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         uvList = db.getAllUVData();
         setupListView();
     }
 
+    private void startNotificationsThread(View v) {
+        UVHistoryActivity.RunnableList runnableList = new UVHistoryActivity.RunnableList();
+        new Thread(runnableList).start();
+    }
+
+
+    private class RunnableList implements Runnable {
+        @Override
+        public void run() {
+            while (true) {
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                    }
+                });
+
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 
     private void setupListView() {
         listViewUVHistory = (ListView) findViewById(R.id.sensorDataListView);
@@ -97,41 +136,48 @@ public class UVHistoryActivity extends AppCompatActivity {
 
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
-            View moreView = getLayoutInflater().inflate(R.layout.activity_history_row_data, null);
+            moreView = getLayoutInflater().inflate(R.layout.activity_history_row_data, null);
 
             TextView uvIndex = moreView.findViewById(R.id.textViewHistoryUVIndex);
             TextView timeStamp = moreView.findViewById(R.id.textViewHistoryTimeStamp);
-            ImageView colorImage = moreView.findViewById(R.id.imageViewSunIcon);
+
 
             uvIndex.setText(uvList.get(i).uvToString());
             timeStamp.setText(uvList.get(i).timeStampToString());
 
+            setListViewIcons(i);
 
-            float uvIndexValue = uvList.get(i).getUv_value();
 
-            if (uvIndexValue  < 1) {
-                colorImage.setImageResource(R.drawable.ic_sunlight_default_level1_lightblue);
-            }
-            else if (uvIndexValue  >= 1 && uvIndexValue  < 3) {
-                colorImage.setImageResource(R.drawable.ic_sunlight_default_level1_lightblue);
-            }
-            else if (uvIndexValue  >= 3 && uvIndexValue  < 6) {
-                colorImage.setImageResource(R.drawable.ic_sunlight_level2);
-            }
-            else if (uvIndexValue  >= 6 && uvIndexValue  < 8) {
-                colorImage.setImageResource(R.drawable.ic_sunlight_level3);
-            }
-            else if (uvIndexValue  >= 8 && uvIndexValue  < 11) {
-                colorImage.setImageResource(R.drawable.ic_sunlight_level4);
-            }
-            else if (uvIndexValue  > 11){
-                colorImage.setImageResource(R.drawable.ic_sunlight_level5);
-            }
 
 
             return moreView;
         }
     }
+
+    private void setListViewIcons(int position) {
+        ImageView colorImage = moreView.findViewById(R.id.imageViewSunIcon);
+        float uvIndexValue = uvList.get(position).getUv_value();
+
+        if (uvIndexValue  < 1) {
+            colorImage.setImageResource(R.drawable.ic_sunlight_default_level1_lightblue);
+        }
+        else if (uvIndexValue  >= 1 && uvIndexValue  < 3) {
+            colorImage.setImageResource(R.drawable.ic_sunlight_default_level1_lightblue);
+        }
+        else if (uvIndexValue  >= 3 && uvIndexValue  < 6) {
+            colorImage.setImageResource(R.drawable.ic_sunlight_level2);
+        }
+        else if (uvIndexValue  >= 6 && uvIndexValue  < 8) {
+            colorImage.setImageResource(R.drawable.ic_sunlight_level3);
+        }
+        else if (uvIndexValue  >= 8 && uvIndexValue  < 11) {
+            colorImage.setImageResource(R.drawable.ic_sunlight_level4);
+        }
+        else if (uvIndexValue  > 11){
+            colorImage.setImageResource(R.drawable.ic_sunlight_level5);
+        }
+    }
+
 
 
 

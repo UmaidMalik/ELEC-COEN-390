@@ -83,7 +83,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(Config.COLUMN_MIN, minute);
         contentValues.put(Config.COLUMN_SEC, second);
         contentValues.put(Config.COLUMN_DAY, day); //added
-        contentValues.put(Config.COLUMN_MONTH, month);
+        contentValues.put(Config.COLUMN_MONTH, month + 1);
         contentValues.put(Config.COLUMN_YEAR, year);
 
 
@@ -122,7 +122,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(Config.COLUMN_MIN, minute);
         contentValues.put(Config.COLUMN_SEC, second);
         contentValues.put(Config.COLUMN_DAY, day); //added
-        contentValues.put(Config.COLUMN_MONTH, month);
+        contentValues.put(Config.COLUMN_MONTH, month + 1);
         contentValues.put(Config.COLUMN_YEAR, year);
 
 
@@ -146,18 +146,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor = null;
 
         try {
-            cursor = database.query(Config.UV_TABLE_NAME, null, null, null, null,  null, null);
+            cursor = database.query(Config.UV_TABLE_NAME_MAX, null, null, null, null,  null, null);
 
-            if (cursor != null && cursor.moveToFirst())
+            if (cursor != null && cursor.moveToLast())
             {
-                cursor.moveToFirst();
+                cursor.moveToLast();
                 List<UVReadings> uvList = new ArrayList<>();
                 do {
                     // We get all the parameters
                     long id = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_ID));
 
 
-                    float uvIndexValue =  cursor.getFloat(cursor.getColumnIndex(Config.COLUMN_UV_VALUE));
+                    float uvIndexValue =  cursor.getFloat(cursor.getColumnIndex(Config.COLUMN_UV_MAX_VALUE));
 
                     int hour = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_HOUR));
                     int minute = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_MIN));
@@ -171,7 +171,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     UVReadings uvReadings = new UVReadings(id, uvIndexValue, hour, minute, second, day, month, year);
                     uvList.add(uvReadings);
 
-                } while (cursor.moveToNext());
+                } while (cursor.moveToPrevious());
                 return uvList;
             }
         }

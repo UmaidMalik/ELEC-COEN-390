@@ -30,13 +30,14 @@ public class NotificationsActivity extends AppCompatActivity {
 
 
 
-    private ToggleButton toggleButtonUVILevelAlert, toggleButtonBurnRiskAlert, toggleButtonSunglassesAlert;
+    private ToggleButton toggleButtonUVILevelAlert, toggleButtonSunglassesAlert, toggleButtonSunburnAlert;
 
     public static String PREFS = "toggle_prefs";
     public static String UVI_LEVEL_ALERT_STATUS = "uvi_level_alert_on";
-    public static String BURN_RISK_ALERT_STATUS = "burn_risk_alert_on";
+    public static String SUNGLASSES_ALERT_STATUS = "sunglasses_alert_on";
+    public static String SUNBURN_ALERT_STATUS = "sunburn_alert_on";
 
-    boolean uvi_level_alert_status, burn_risk_alert_status;
+    boolean uvi_level_alert_status, sunglasses_alert_status, sunburn_alert_status;
 
     public static SharedPreferences togglePreferences;
     public static SharedPreferences.Editor editor;
@@ -49,19 +50,20 @@ public class NotificationsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_notifications);
 
         toggleButtonUVILevelAlert = (ToggleButton) findViewById(R.id.toggleButtonUVILevelAlert);
-        toggleButtonBurnRiskAlert = (ToggleButton) findViewById(R.id.toggleButtonBurnRiskAlert);
         toggleButtonSunglassesAlert = (ToggleButton) findViewById(R.id.toggleButtonSunglassesAlert);
+        toggleButtonSunburnAlert = (ToggleButton) findViewById(R.id.toggleButtonSunburnAlert);
 
         togglePreferences = getSharedPreferences(PREFS, MODE_PRIVATE);
         editor = getSharedPreferences(PREFS, MODE_PRIVATE).edit();
 
         uvi_level_alert_status = togglePreferences.getBoolean(UVI_LEVEL_ALERT_STATUS, true);
-        burn_risk_alert_status = togglePreferences.getBoolean(BURN_RISK_ALERT_STATUS, true);
+        sunglasses_alert_status = togglePreferences.getBoolean(SUNGLASSES_ALERT_STATUS, true);
+        sunburn_alert_status = togglePreferences.getBoolean(SUNBURN_ALERT_STATUS, true);
 
 
         toggleButtonUVILevelAlert.setChecked(uvi_level_alert_status);
-        toggleButtonBurnRiskAlert.setChecked(burn_risk_alert_status);
-
+        toggleButtonSunglassesAlert.setChecked(sunglasses_alert_status);
+        toggleButtonSunburnAlert.setChecked(sunburn_alert_status);
 
         setupBottomNavigationListener();
 
@@ -87,23 +89,19 @@ public class NotificationsActivity extends AppCompatActivity {
             }
         });
 
-        toggleButtonBurnRiskAlert.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        toggleButtonSunglassesAlert.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                editor.putBoolean(BURN_RISK_ALERT_STATUS, isChecked);
+                editor.putBoolean(SUNGLASSES_ALERT_STATUS, isChecked);
                 editor.apply();
             }
         });
 
-        toggleButtonSunglassesAlert.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        toggleButtonSunburnAlert.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    //SUNGLASSES_ALERT = true;
-                } else {
-                   // SUNGLASSES_ALERT = false;
-                }
-
+                editor.putBoolean(SUNBURN_ALERT_STATUS, isChecked);
+                editor.apply();
             }
         });
 

@@ -62,6 +62,11 @@
         <service
             android:name=".BluetoothLeService"
             android:enabled="true" />
+
+        <service
+            android:name=".DatabaseService"
+            android:enabled="true"
+            android:stopWithTask="false"/>
     </application>
 
     

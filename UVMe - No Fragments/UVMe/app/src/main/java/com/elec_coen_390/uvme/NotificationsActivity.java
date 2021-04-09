@@ -29,7 +29,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class NotificationsActivity extends AppCompatActivity {
 
 
-
     private ToggleButton toggleButtonUVILevelAlert, toggleButtonSunglassesAlert, toggleButtonSunburnAlert;
 
     public static String PREFS = "toggle_prefs";

@@ -26,10 +26,7 @@ public class WelcomeActivity extends AppCompatActivity {
         Animation fadeout = new AlphaAnimation(1,0);
         fadeout.setInterpolator(new AccelerateInterpolator());
         fadeout.setStartOffset(500);
-        fadeout.setDuration(1700);
-        //ImageView image = findViewById(R.id.ic_uvme_sun);
-        //image.setAnimation(fadeout);
-
+        fadeout.setDuration(1500);
 
         new Handler().postDelayed(new Runnable() {
             @Override

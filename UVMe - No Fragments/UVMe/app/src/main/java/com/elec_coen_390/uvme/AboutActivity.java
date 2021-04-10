@@ -7,12 +7,15 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import static com.elec_coen_390.uvme.R.layout.activity_about;
 
 public class AboutActivity extends AppCompatActivity {
 
     Button buttonOpenURL;
+    TextView textViewQ1;
+    TextView textViewA1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +23,7 @@ public class AboutActivity extends AppCompatActivity {
         this.getSupportActionBar().hide();
         setContentView(activity_about);
 
+        /*
         buttonOpenURL = (Button) findViewById(R.id.buttonOpenURL);
 
 
@@ -29,6 +33,19 @@ public class AboutActivity extends AppCompatActivity {
                 goToURL("https://umaidmalik.github.io/OneHealth/");
             }
         });
+
+         */
+
+        // start of FAQ
+        textViewQ1 = (TextView) findViewById(R.id.textViewAbout_Q1);
+
+
+            textViewQ1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    textViewA1.setVisibility(View.VISIBLE);
+                }
+            });
 
     }
 
@@ -51,4 +68,18 @@ public class AboutActivity extends AppCompatActivity {
         startActivity(intentMore);
     }
 
+
+    /*
+     <Button
+    android:id="@+id/buttonOpenURL"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="go to app webpage"
+    android:layout_alignParentBottom="true"
+    android:layout_marginBottom="60dp"
+    android:fontFamily="@font/roboto_light"
+    android:textColor="@color/light_blue"
+    android:layout_centerInParent="true"/>
+
+     */
 }

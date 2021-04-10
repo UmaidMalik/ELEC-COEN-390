@@ -1,7 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/midnight_blue"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/midnight_blue"
+    android:layout_marginBottom="58dp">
+
+<RelativeLayout
+
     android:background="@color/midnight_blue"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -11,19 +23,65 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
-        android:fontFamily="@font/roboto_thin"
+        android:layout_marginTop="30dp"
+        android:fontFamily="@font/roboto_light"
         android:text="About"
         android:textAlignment="center"
         android:textColor="@color/light_blue"
         android:textSize="45sp" />
 
-    <Button
-        android:id="@+id/buttonOpenURL"
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/textViewAbout_FAQ"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="go to app webpage"
-        android:layout_centerInParent="true"/>
+        android:fontFamily="@font/roboto_light"
+        android:textColor="@color/light_blue"
+        android:paddingStart="15dp"
+        android:layout_below="@+id/activityHelp"
+        android:textSize="36sp"
+        android:text="FAQs"/>
+
+    <TextView
+        android:id="@+id/textViewAbout_Q1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_light"
+        android:textColor="@color/light_blue"
+        android:paddingStart="15dp"
+        android:layout_below="@+id/textViewAbout_FAQ"
+        android:text="@string/q_1"/>
+
+    <TextView
+        android:id="@+id/textViewAbout_A1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_thin"
+        android:textColor="@color/light_blue"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
+        android:layout_below="@+id/textViewAbout_Q1"
+        android:text="@string/ans_1"
+        android:visibility="invisible"/>
+
+    <TextView
+        android:id="@+id/textViewAbout_Q2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_light"
+        android:textColor="@color/light_blue"
+        android:paddingStart="15dp"
+        android:layout_below="@+id/textViewAbout_A1"
+        android:text="@string/q_2"/>
+
+
+
+
+</RelativeLayout>
+
+</ScrollView>
+
+
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
@@ -37,3 +95,4 @@
 
 
 </RelativeLayout>
+

@@ -85,6 +85,9 @@
     <string name="protection_required">Protection required</string>
     <string name="extra_protection_required">Extra protection required</string>
     <string name="take_full_precaution">Take full precaution</string>
+    <string name="q_1">How does UVMe work?</string>
+    <string name="ans_1">UVMe is an android app that helps you stay safe in the sun by providing you real time UV intensity through a UV sensor. It uses forecast models that power many weather services. UVMe is very easy to understand and use wherever you are in the world. Moreover, UVMe helps you understand the effect of UV on your skin. For instance, to most people, a UV index of 8 doesn\'t mean much. Understanding that you could burn in as little as 15 minutes is a lot more practical in terms of knowing the precautions you need to take to protect yourself.</string>
+    <string name="q_2">The sun has not set but the app says there\'s no/little UV. Is something wrong?</string>
 
     <string-array name="spinnerRefreshTimes">
         <item>15 seconds</item>

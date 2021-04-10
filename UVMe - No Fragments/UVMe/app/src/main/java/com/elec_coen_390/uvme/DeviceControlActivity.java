@@ -173,7 +173,7 @@ public class DeviceControlActivity extends Activity {
         //getActionBar().setDisplayHomeAsUpEnabled(true);
         Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
         bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
-
+        startService(gattServiceIntent); // @TODO try to find out if BLE service will stop or not
 
     }
 

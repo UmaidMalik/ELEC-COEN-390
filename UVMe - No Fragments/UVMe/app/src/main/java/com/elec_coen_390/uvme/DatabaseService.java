@@ -82,7 +82,7 @@ public class DatabaseService extends Service {
             calendar = Calendar.getInstance();
             minute = calendar.get(Calendar.SECOND);
 
-            if (UVSensorData.getUVIntensity() > 0.5 ) {
+            if (maxUVDatabase > 0.5 ) {
 
                 db.insertUV(UVSensorData.getUVIntensity(), calendar);
                 if (minute % 5 == 0) {

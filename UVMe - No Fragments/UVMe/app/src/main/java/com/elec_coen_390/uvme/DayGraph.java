@@ -48,6 +48,7 @@ public class DayGraph extends AppCompatActivity {
     private float uvIndex = 0.00f;
 
     GraphView graph;
+    DataPoint[] dataPoints;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +74,7 @@ public class DayGraph extends AppCompatActivity {
         uvList = dbGraph.getUVGraphInfo(9, 4, 2021); // taking from MAX table
 
 
+        /*
        series1 = new LineGraphSeries<>(new DataPoint[] { // SERIES ONE SHOWS USER A LINE GRAPH
                new DataPoint(0, 0)
                 });
@@ -81,16 +83,29 @@ public class DayGraph extends AppCompatActivity {
                 new DataPoint(0, 0)
             });
 
-        for (int i = 0; i < uvList.size(); i++) {
+         */
+
+
+        dataPoints = new DataPoint[uvList.size() - 2];
+
+        for (int i = 2; i < uvList.size(); i++) {
             //if (selectedDay == uvList.get(i).getDay() && selectedMonth == uvList.get(i).getMonth() && selectedYear == uvList.get(i).getYear()) {
                 //int x = uvList.get(i).getHour();
                 int x = uvList.get(i).getMinute(); //@TODO change to hour remember
+                    /** @sal  one thing we forgot to consider, was the minutes have to be in ascending order that's why 'i' starts at 2 **/
                 float y  =  uvList.get(i).getUv_max();
-                DataPoint point = new DataPoint(x, (int) y);
-                series3.appendData(new DataPoint(point.getX(), point.getY()), true, 500);
-                series1.appendData(new DataPoint(point.getX(), point.getY()), true, 500);
+                //DataPoint point = new DataPoint(x, y);
+                //series3.appendData(new DataPoint(point.getX(), point.getY()), true, 12 ); @TODO this was causing problems but i dont know why :(
+                //series1.appendData(new DataPoint(point.getX(), point.getY()), true, 500, true);
+                DataPoint point = new DataPoint(x, y);
+                dataPoints[i-2] = point;
           //  }
         }
+
+
+        series3 = new PointsGraphSeries<>(dataPoints);
+        series1 = new LineGraphSeries<>(dataPoints);
+
 
 
 
@@ -100,18 +115,20 @@ public class DayGraph extends AppCompatActivity {
         //maxUV.setText(String.valueOf(max(yArray)));
 
 
-        graph.addSeries(series1); // adds the graph to the UI
-        graph.addSeries(series3);
+        graph.addSeries(series3); // adds the graph to the UI
+        graph.addSeries(series1);
 
 
 
-
+        /*
         series3.setOnDataPointTapListener(new OnDataPointTapListener() { // ALLOWS USER TO SEE NODES
             @Override
             public void onTap(Series series, DataPointInterface dataPoint) {
                 Toast.makeText(getApplicationContext(), "\t\t\t  UV Intensity \n [HOUR,INTENSITY] \n" +"\t\t\t\t\t"+ dataPoint, Toast.LENGTH_LONG).show();
             }
         });
+
+         */
 
 
 
@@ -146,15 +163,14 @@ public class DayGraph extends AppCompatActivity {
                 }}
         });
          */
-
         graph.getGridLabelRenderer().setHumanRounding(false);
         GridLabelRenderer gridLabel = graph.getGridLabelRenderer();
         // SETTING BOUNDS
         graph.getViewport().setMinY(0);
-        graph.getViewport().setMaxY(11);
+        graph.getViewport().setMaxY(20);
         graph.getViewport().setMinX(0);
-        graph.getViewport().setMaxX(24);
-        graph.getGridLabelRenderer().setNumHorizontalLabels(24);
+        graph.getViewport().setMaxX(60);
+        graph.getGridLabelRenderer().setNumHorizontalLabels(12);
     }
 
     static double average(double[] a, int n) // FUNCTION RETURNS AVERAGE VALUE

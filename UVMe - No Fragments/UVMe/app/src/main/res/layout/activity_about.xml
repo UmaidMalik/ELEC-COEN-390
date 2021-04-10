@@ -61,7 +61,7 @@
         android:paddingEnd="15dp"
         android:layout_below="@+id/textViewAbout_Q1"
         android:text="@string/ans_1"
-        android:visibility="invisible"/>
+        android:visibility="visible"/>
 
     <TextView
         android:id="@+id/textViewAbout_Q2"
@@ -73,7 +73,315 @@
         android:layout_below="@+id/textViewAbout_A1"
         android:text="@string/q_2"/>
 
+    <TextView
+        android:id="@+id/textViewAbout_A2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_thin"
+        android:textColor="@color/light_blue"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
+        android:layout_below="@+id/textViewAbout_Q2"
+        android:text="@string/ans_2"
+        android:visibility="visible"/>
 
+    <TextView
+        android:id="@+id/textViewAbout_Q3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_light"
+        android:textColor="@color/light_blue"
+        android:paddingStart="15dp"
+        android:layout_below="@+id/textViewAbout_A2"
+        android:text="@string/q_3"/>
+
+    <TextView
+        android:id="@+id/textViewAbout_A3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_thin"
+        android:textColor="@color/light_blue"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
+        android:layout_below="@+id/textViewAbout_Q3"
+        android:text="@string/ans_3"
+        android:visibility="visible"/>
+
+    <TextView
+        android:id="@+id/textViewAbout_Q4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_light"
+        android:textColor="@color/light_blue"
+        android:paddingStart="15dp"
+        android:layout_below="@+id/textViewAbout_A3"
+        android:text="@string/q_4"/>
+
+    <TextView
+        android:id="@+id/textViewAbout_A4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_thin"
+        android:textColor="@color/light_blue"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
+        android:layout_below="@+id/textViewAbout_Q4"
+        android:text="@string/ans_4"
+        android:visibility="visible"/>
+
+    <TextView
+        android:id="@+id/textViewAbout_Q5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_light"
+        android:textColor="@color/light_blue"
+        android:paddingStart="15dp"
+        android:layout_below="@+id/textViewAbout_A4"
+        android:text="@string/q_5"/>
+
+    <TextView
+        android:id="@+id/textViewAbout_A5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_thin"
+        android:textColor="@color/light_blue"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
+        android:layout_below="@+id/textViewAbout_Q5"
+        android:text="@string/ans_5"
+        android:visibility="visible"/>
+
+    <TextView
+        android:id="@+id/textViewAbout_Q6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_light"
+        android:textColor="@color/light_blue"
+        android:paddingStart="15dp"
+        android:layout_below="@+id/textViewAbout_A5"
+        android:text="@string/q_6"/>
+
+
+    <TextView
+        android:id="@+id/textViewAbout_A6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_thin"
+        android:textColor="@color/light_blue"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
+        android:layout_below="@+id/textViewAbout_Q6"
+        android:text="@string/ans_6"
+        android:visibility="visible"/>
+
+    <TextView
+        android:id="@+id/textViewAbout_Q7"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_light"
+        android:textColor="@color/light_blue"
+        android:paddingStart="15dp"
+        android:layout_below="@+id/textViewAbout_A6"
+        android:text="@string/q_7"/>
+
+    <TextView
+        android:id="@+id/textViewAbout_A7"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_thin"
+        android:textColor="@color/light_blue"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
+        android:layout_below="@+id/textViewAbout_Q7"
+        android:text="@string/ans_7"
+        android:visibility="visible"/>
+
+    <TextView
+        android:id="@+id/textViewAbout_Q8"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_light"
+        android:textColor="@color/light_blue"
+        android:paddingStart="15dp"
+        android:layout_below="@+id/textViewAbout_A7"
+        android:text="@string/q_8"/>
+
+    <TextView
+        android:id="@+id/textViewAbout_A8"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_thin"
+        android:textColor="@color/light_blue"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
+        android:layout_below="@+id/textViewAbout_Q8"
+        android:text="@string/ans_8"
+        android:visibility="visible"/>
+
+
+    <TextView
+        android:id="@+id/textViewAbout_Q9"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_light"
+        android:textColor="@color/light_blue"
+        android:paddingStart="15dp"
+        android:layout_below="@+id/textViewAbout_A8"
+        android:text="@string/q_9"/>
+
+    <TextView
+        android:id="@+id/textViewAbout_A9"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_thin"
+        android:textColor="@color/light_blue"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
+        android:layout_below="@+id/textViewAbout_Q9"
+        android:text="@string/ans_9"
+        android:visibility="visible"/>
+
+    <TextView
+        android:id="@+id/textViewAbout_Q10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_light"
+        android:textColor="@color/light_blue"
+        android:paddingStart="15dp"
+        android:layout_below="@+id/textViewAbout_A9"
+        android:text="@string/q_10"/>
+
+    <TextView
+        android:id="@+id/textViewAbout_A10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_thin"
+        android:textColor="@color/light_blue"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
+        android:layout_below="@+id/textViewAbout_Q10"
+        android:text="@string/ans_10"
+        android:visibility="visible"/>
+
+    <TextView
+        android:id="@+id/textViewAbout_Q11"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_light"
+        android:textColor="@color/light_blue"
+        android:paddingStart="15dp"
+        android:layout_below="@+id/textViewAbout_A10"
+        android:text="@string/q_11"/>
+
+    <TextView
+        android:id="@+id/textViewAbout_A11"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_thin"
+        android:textColor="@color/light_blue"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
+        android:layout_below="@+id/textViewAbout_Q11"
+        android:text="@string/ans_11"
+        android:visibility="visible"/>
+
+    <TextView
+        android:id="@+id/textViewAbout_Q12"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_light"
+        android:textColor="@color/light_blue"
+        android:paddingStart="15dp"
+        android:layout_below="@+id/textViewAbout_A11"
+        android:text="@string/q_12"/>
+
+    <TextView
+        android:id="@+id/textViewAbout_A12"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_thin"
+        android:textColor="@color/light_blue"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
+        android:layout_below="@+id/textViewAbout_Q12"
+        android:text="@string/ans_12"
+        android:visibility="visible"/>
+
+    <TextView
+        android:id="@+id/textViewAbout_Q13"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_light"
+        android:textColor="@color/light_blue"
+        android:paddingStart="15dp"
+        android:layout_below="@+id/textViewAbout_A12"
+        android:text="@string/q_13"/>
+
+    <TextView
+        android:id="@+id/textViewAbout_A13"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_thin"
+        android:textColor="@color/light_blue"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
+        android:layout_below="@+id/textViewAbout_Q13"
+        android:text="@string/ans_13"
+        android:visibility="visible"/>
+
+    <TextView
+        android:id="@+id/textViewAbout_AboutUVMe"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_light"
+        android:textColor="@color/light_blue"
+        android:paddingStart="15dp"
+        android:layout_below="@+id/textViewAbout_A13"
+        android:textSize="36sp"
+        android:text="About UVMe"/>
+
+
+    <TextView
+        android:id="@+id/textViewAbout_AboutUVMe_Info1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_light"
+        android:textColor="@color/light_blue"
+        android:paddingStart="15dp"
+        android:layout_below="@+id/textViewAbout_AboutUVMe"
+        android:text="@string/AboutUVMe1"/>
+
+    <TextView
+        android:id="@+id/textViewAbout_AboutUVMe_Info2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_light"
+        android:textColor="@color/light_blue"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
+        android:layout_below="@+id/textViewAbout_AboutUVMe_Info1"
+        android:text="@string/AboutUVMe"/>
+
+    <TextView
+        android:id="@+id/textViewAbout_ContactUs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_light"
+        android:textColor="@color/light_blue"
+        android:paddingStart="15dp"
+        android:layout_below="@+id/textViewAbout_AboutUVMe_Info2"
+        android:textSize="36sp"
+        android:text="Contact Us"/>
+
+    <TextView
+        android:id="@+id/textViewAbout_AboutUVMe_ContactInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_light"
+        android:textColor="@color/light_blue"
+        android:paddingStart="15dp"
+        android:layout_below="@+id/textViewAbout_ContactUs"
+        android:text="@string/ContactUs"/>
 
 
 </RelativeLayout>

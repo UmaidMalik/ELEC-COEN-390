@@ -15,7 +15,6 @@ public class ThemesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_themes);
 
 
-
         TextView title = (TextView) findViewById(R.id.activityThemes);
         title.setText("Themes");
 

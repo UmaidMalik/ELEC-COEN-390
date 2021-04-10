@@ -78,8 +78,6 @@ public class NotificationsActivity extends AppCompatActivity {
     private void setupToggleButtons() {
 
 
-
-
         toggleButtonUVILevelAlert.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -105,8 +103,6 @@ public class NotificationsActivity extends AppCompatActivity {
         });
 
     }
-
-
 
     private void setupBottomNavigationListener() {
 
@@ -140,7 +136,6 @@ public class NotificationsActivity extends AppCompatActivity {
         });
 
     }
-
 
     @Override
     public void onBackPressed() {

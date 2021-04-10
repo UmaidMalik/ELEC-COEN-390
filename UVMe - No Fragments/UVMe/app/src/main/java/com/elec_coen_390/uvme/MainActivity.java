@@ -612,7 +612,6 @@ public class MainActivity extends AppCompatActivity {
         //super.onBackPressed();
     }
 
-
     // this function is used to alert user if they are exposed to a high level of UVI!
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void reduceRiskOFBurnNotification(Float data){

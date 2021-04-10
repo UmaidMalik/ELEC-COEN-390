@@ -56,6 +56,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(CREATE_TABLE_UV_MAX_DATA);
         Log.d(TAG,"Course table Created");
 
+        String CREATE_TABLE_UV_GRAPH_DATA = "CREATE TABLE " + Config.UV_TABLE_NAME_GRAPH +
+                " (" +
+                Config.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                Config.COLUMN_UV_MAX_VALUE_GRAPH + " REAL NOT NULL," +
+                Config.COLUMN_UV_AVERAGE_VALUE_GRAPH + " REAL NOT NULL," +
+                Config.COLUMN_HOUR + " INTEGER NOT NULL," +
+                Config.COLUMN_MIN + " INTEGER NOT NULL," +
+                Config.COLUMN_SEC + " INTEGER NOT NULL," +
+                Config.COLUMN_DAY + " INTEGER NOT NULL," +
+                Config.COLUMN_MONTH + " INTEGER NOT NULL," +
+                Config.COLUMN_YEAR + " INTEGER NOT NULL) ";
+        Log.d(TAG,"table created with this query "+ CREATE_TABLE_UV_GRAPH_DATA);
+        sqLiteDatabase.execSQL(CREATE_TABLE_UV_GRAPH_DATA);
+        Log.d(TAG,"Course table Created");
+
+
     }
 
     @Override
@@ -141,6 +157,46 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return id;
     }
 
+    public long insertUVGraph(float uvMAX, float uvAVG, Calendar currentDateTime){
+        long id =-1;
+
+        DecimalFormat df = new DecimalFormat("#,###,##0.00");
+
+        int day = currentDateTime.get(Calendar.DAY_OF_MONTH);
+        int month = currentDateTime.get(Calendar.MONTH);
+        int year = currentDateTime.get(Calendar.YEAR);
+        int second = currentDateTime.get(Calendar.SECOND);
+        int minute = currentDateTime.get(Calendar.MINUTE);
+        int hour = currentDateTime.get(Calendar.HOUR);
+
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(Config.COLUMN_UV_MAX_VALUE_GRAPH, df.format(uvMAX));
+        contentValues.put(Config.COLUMN_UV_AVERAGE_VALUE_GRAPH, df.format(uvAVG));
+        contentValues.put(Config.COLUMN_HOUR, hour);
+        contentValues.put(Config.COLUMN_MIN, minute);
+        contentValues.put(Config.COLUMN_SEC, second);
+        contentValues.put(Config.COLUMN_DAY, day);
+        contentValues.put(Config.COLUMN_MONTH, month + 1);
+        contentValues.put(Config.COLUMN_YEAR, year);
+
+
+
+        try {
+            id = db.insertOrThrow(Config.UV_TABLE_NAME_GRAPH, null, contentValues);
+        }
+
+        catch (SQLiteException e){
+            Log.d(TAG,"Exception"+ e.getMessage());
+            Toast.makeText(context, "Operation Failed", Toast.LENGTH_SHORT).show();
+        }
+
+        finally { // if nothing goes wrong, it will go to db.close() if there was an error it wont go
+            db.close(); }
+        return id;
+    }
+
     public List<UVReadings> getAllUVData() {
         SQLiteDatabase database = this.getReadableDatabase();
         Cursor cursor = null;
@@ -184,13 +240,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return Collections.emptyList(); // Nothing to display
     }
 
-    public List<UVReadings> getUVGraphInfo(String date) {
+    public List<UVReadings> getUVGraphInfo(int calenderDay, int calenderMonth, int calenderYear) {
         SQLiteDatabase database = this.getReadableDatabase();
         Cursor cursor = null;
 
         try {
-            cursor = database.query(Config.UV_TABLE_NAME_MAX, null, null, null, null,  null, null);
-
+            //cursor = database.query(Config.UV_TABLE_NAME_GRAPH, null, null, null, Config.COLUMN_ID,  Config.COLUMN_DAY + "=" + "'" + calenderDay + "'" + "' AND " + Config.COLUMN_MONTH + "=" + "'" + calenderMonth + "'" + "' AND " + Config.COLUMN_YEAR + "=" + "'" + calenderYear + "'", Config.COLUMN_HOUR + "' AND " + Config.COLUMN_MIN);
+            cursor = database.query(Config.UV_TABLE_NAME_GRAPH, null, null, null, null, null, null);
             if (cursor != null && cursor.moveToFirst())
             {
                 cursor.moveToFirst();
@@ -200,10 +256,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     long id = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_ID));
 
 
-                    float uvIndexValue =  cursor.getFloat(cursor.getColumnIndex(Config.COLUMN_UV_VALUE));
+                    float uvIndexMAX =  cursor.getFloat(cursor.getColumnIndex(Config.COLUMN_UV_MAX_VALUE_GRAPH));
+                    float uvIndexAVG =  cursor.getFloat(cursor.getColumnIndex(Config.COLUMN_UV_AVERAGE_VALUE_GRAPH));
 
-                    int hour = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_HOUR));
                     int minute = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_MIN));
+                    int hour = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_HOUR));
                     int second = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_SEC));
 
                     int day = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_DAY));
@@ -211,7 +268,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     int year = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_YEAR));
 
 
-                    UVReadings uvReadings = new UVReadings(id, uvIndexValue, hour, minute, second, day, month, year);
+                    UVReadings uvReadings = new UVReadings(id, uvIndexMAX, uvIndexAVG, hour, minute, second, day, month, year);
                     uvList.add(uvReadings);
 
                 } while (cursor.moveToNext());
@@ -226,6 +283,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         return Collections.emptyList(); // Nothing to display
     }
+
+
 
 
 }

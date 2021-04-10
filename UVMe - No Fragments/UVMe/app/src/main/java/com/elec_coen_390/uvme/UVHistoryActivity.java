@@ -80,7 +80,8 @@ public class UVHistoryActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        uvList = db.getAllUVData();
+        //uvList = db.getAllUVData();
+        uvList = db.getUVGraphInfo(9, 4, 2021);
         setupListView();
     }
 
@@ -98,7 +99,8 @@ public class UVHistoryActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        uvList = db.getAllUVData();
+                        //uvList = db.getAllUVData();
+                        uvList = db.getUVGraphInfo(9, 4, 2021);
                         customAdapter.notifyDataSetChanged();
                     }
                 });
@@ -144,8 +146,9 @@ public class UVHistoryActivity extends AppCompatActivity {
             TextView timeStamp = moreView.findViewById(R.id.textViewHistoryTimeStamp);
 
 
-            uvIndex.setText(uvList.get(i).uvToString());
+            //uvIndex.setText(uvList.get(i).uvToString());
             timeStamp.setText(uvList.get(i).timeStampToString());
+            uvIndex.setText(String.valueOf("A:"+ uvList.get(i).getUv_avg() + "M:"+ uvList.get(i).getUv_max())); // @TODO remove
 
             setListViewIcons(i);
 
@@ -158,7 +161,8 @@ public class UVHistoryActivity extends AppCompatActivity {
 
     private void setListViewIcons(int position) {
         ImageView colorImage = moreView.findViewById(R.id.imageViewSunIcon);
-        float uvIndexValue = uvList.get(position).getUv_value();
+        //float uvIndexValue = uvList.get(position).getUv_value();
+        float uvIndexValue = uvList.get(position).getUv_max(); // @TODO remove this
 
         if (uvIndexValue  < 1) {
             colorImage.setImageResource(R.drawable.ic_sunlight_default_level1_lightblue);

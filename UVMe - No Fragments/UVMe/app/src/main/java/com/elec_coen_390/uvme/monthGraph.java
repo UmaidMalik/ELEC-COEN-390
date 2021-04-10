@@ -79,6 +79,7 @@ public class monthGraph extends AppCompatActivity {
                 new DataPoint(d2, uvIndex = UVSensorData.getUVIntensity()),
                 new DataPoint(d3, uvIndex = UVSensorData.getUVIntensity())});
 
+
         dataPointPointsGraphSeries =new PointsGraphSeries<>(new DataPoint[]{
                 new DataPoint(d1,  uvIndex = UVSensorData.getUVIntensity()),
                 new DataPoint(d2, uvIndex = UVSensorData.getUVIntensity()),

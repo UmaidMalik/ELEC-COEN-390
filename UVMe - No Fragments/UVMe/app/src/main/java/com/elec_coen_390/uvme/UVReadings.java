@@ -14,6 +14,9 @@ public class UVReadings {
 
     private float uv_value;
 
+    private float uv_max;
+    private float uv_avg;
+
     public String timeStampToString(){
         return hour + ":" + minute + ":" + second + " " + day + "/" + month + "/" + year;
     }
@@ -31,6 +34,34 @@ public class UVReadings {
         this.minute = minute;
         this.hour = hour;
         this.uv_value = uv_value;
+    }
+
+    public UVReadings(long uvId, float uv_max, float uv_avg, int hour, int minute, int second, int day, int month, int year) {
+        this.uvId = uvId;
+        this.day = day;
+        this.month = month;
+        this.year = year;
+        this.second = second;
+        this.minute = minute;
+        this.hour = hour;
+        this.uv_max = uv_max;
+        this.uv_avg = uv_avg;
+    }
+
+    public float getUv_max() {
+        return uv_max;
+    }
+
+    public void setUv_max(float uv_max) {
+        this.uv_max = uv_max;
+    }
+
+    public float getUv_avg() {
+        return uv_avg;
+    }
+
+    public void setUv_avg(float uv_avg) {
+        this.uv_avg = uv_avg;
     }
 
     public long getUvId() {

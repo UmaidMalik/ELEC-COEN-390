@@ -16,8 +16,13 @@ public class DatabaseService extends Service {
     private static final String LOG_TAG = "DatabaseService";
 
     float maxUVDatabase = 0;
+    float maxUVDatabaseHOUR = 0;
     Calendar calendar;
     int minute = 0;
+    int hour = 0;
+    float sum = 0;
+    float avg = 0;
+    int count = 0;
 
     DatabaseHelper db;
 
@@ -81,13 +86,22 @@ public class DatabaseService extends Service {
 
             calendar = Calendar.getInstance();
             minute = calendar.get(Calendar.SECOND);
+            hour = calendar.get(Calendar.MINUTE);
 
             if (maxUVDatabase > 0.5 ) {
 
                 db.insertUV(UVSensorData.getUVIntensity(), calendar);
                 if (minute % 5 == 0) {
                     db.insertUVMax(maxUVDatabase, calendar);
+                    sum += maxUVDatabase;
                     maxUVDatabase = 0;
+                    count++;
+                } // min              sec
+                if (minute % 60 == 0) {
+                    avg = sum/count;
+                    db.insertUVGraph(maxUVDatabaseHOUR, avg, calendar);
+                    sum = 0;
+                    count = 0;
                 }
 
             }
@@ -100,9 +114,12 @@ public class DatabaseService extends Service {
         if (maxUVDatabase < UVSensorData.getUVIntensity()) {
             maxUVDatabase = UVSensorData.getUVIntensity();
         }
+        if (maxUVDatabaseHOUR < UVSensorData.getUVIntensity()) {
+            maxUVDatabaseHOUR = UVSensorData.getUVIntensity();
+        }
     }
 
-    private void startUVIndexThread(/*View view */) {
+    private void startUVIndexThread() {
         new Thread(runnableUVMax).start();
     }
 

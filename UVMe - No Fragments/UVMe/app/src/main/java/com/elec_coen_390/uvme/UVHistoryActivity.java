@@ -26,6 +26,7 @@ public class UVHistoryActivity extends AppCompatActivity {
     Button showGraphButton;
     Button showWeekGraphButton;
     Button showMonthGraphButton;
+    Button showOverallGraphButton;
     ListView listViewUVHistory;
 
     View moreView;
@@ -46,6 +47,7 @@ public class UVHistoryActivity extends AppCompatActivity {
         showMonthGraphButton=findViewById(R.id.showMonthGraphButton);
         showGraphButton=findViewById(R.id.showGraphButton);
         showWeekGraphButton=findViewById(R.id.showWeekGraphButton);
+        showOverallGraphButton=findViewById(R.id.showOverallGraphButton);
 
         showWeekGraphButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,12 +55,21 @@ public class UVHistoryActivity extends AppCompatActivity {
                 goToWeekGraph();
             }
         });
+        showOverallGraphButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToGraphActivity();
+            }
+        });
+/*
         showGraphButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 goToGraphActivity();
             }
         });
+
+ */
         showMonthGraphButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -9,7 +9,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,15 +23,19 @@ import com.jjoe64.graphview.series.PointsGraphSeries;
 import com.jjoe64.graphview.series.Series;
 
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Random;
+import java.util.List;
 
 public class weekGraph extends AppCompatActivity {
-    public LineGraphSeries<DataPoint> lineGraphSeries;
-    public PointsGraphSeries<DataPoint> dataPointPointsGraphSeries;
+    public LineGraphSeries<DataPoint> series1;
+    public PointsGraphSeries<DataPoint> series3;
     private Context activity;
     TextView avgUV,maxUV;
+    DatabaseHelper dbGraph;
+    List<UVReadings> uvList;
+    GraphView graph ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,43 +74,52 @@ public class weekGraph extends AppCompatActivity {
         calendar.add(Calendar.DATE, 1);
         Date d7 = calendar.getTime();
         calendar.add(Calendar.DATE, 1);
-        GraphView graph = (GraphView) findViewById(R.id.graph);
 
+        graph = (GraphView) findViewById(R.id.graph);
+        uvList = new ArrayList<>();
+        dbGraph = new DatabaseHelper(this);
+        dbGraph.getReadableDatabase();
+        uvList = dbGraph.getUVGraphInfo(9, 4, 2021); // taking from MAX table
+        
+
+
+        avgUV.setText("");
+        maxUV.setText("");
         double []yArray=new double[]{1,2,5.33,4.1,1,1,1}; // this needs to be swapped out for database info
+        series1 = new LineGraphSeries<>(new DataPoint[] {
+                new DataPoint(d1, yArray[0]),
+                new DataPoint(d2, yArray[1]),
+                new DataPoint(d3, yArray[2]),
+                new DataPoint(d4, yArray[3]),
+                new DataPoint(d5, yArray[4]),
+                new DataPoint(d6, yArray[5]),
+                new DataPoint(d7, yArray[6])
+        });
+        series3 =new PointsGraphSeries<>(new DataPoint[]{
+                new DataPoint(d1, yArray[0]),
+                new DataPoint(d2, yArray[1]),
+                new DataPoint(d3, yArray[2]),
+                new DataPoint(d4, yArray[3]),
+                new DataPoint(d5, yArray[4]),
+                new DataPoint(d6, yArray[5]),
+                new DataPoint(d7, yArray[6])
+        });
+        graph.addSeries(series1);
+        graph.addSeries(series3);
+        series3.setOnDataPointTapListener(new OnDataPointTapListener() { // ALLOWS USER TO SEE NODES
+            @Override
+            public void onTap(Series series, DataPointInterface dataPoint) {
+                Toast.makeText(getApplicationContext(), "\t\t\t  UV Intensity \n [HOUR,INTENSITY] \n" +"\t\t\t\t\t"+ dataPoint, Toast.LENGTH_LONG).show();
+            }
+        });
 
-        int n=yArray.length;
-        final double average = average(yArray, n); // USED TO FIND AVERAGE UVI LEVEL FROM DATABASE ( SOON )
-        NumberFormat nm = NumberFormat.getNumberInstance();
-        avgUV.setText(nm.format(average(yArray,n)));
-        max(yArray);
-        maxUV.setText(String.valueOf(max(yArray)));
-        lineGraphSeries = new LineGraphSeries<>(new DataPoint[] {
-                new DataPoint(d1, yArray[0]),
-                new DataPoint(d2, yArray[1]),
-                new DataPoint(d3, yArray[2]),
-                new DataPoint(d4, yArray[3]),
-                new DataPoint(d5, yArray[4]),
-                new DataPoint(d6, yArray[5]),
-                new DataPoint(d7, yArray[6])
-        });
-        dataPointPointsGraphSeries =new PointsGraphSeries<>(new DataPoint[]{
-                new DataPoint(d1, yArray[0]),
-                new DataPoint(d2, yArray[1]),
-                new DataPoint(d3, yArray[2]),
-                new DataPoint(d4, yArray[3]),
-                new DataPoint(d5, yArray[4]),
-                new DataPoint(d6, yArray[5]),
-                new DataPoint(d7, yArray[6])
-        });
-        graph.addSeries(lineGraphSeries);
-        graph.addSeries(dataPointPointsGraphSeries);
         graph.setTitle("WEEK OVERVIEW");
         graph.setTitleTextSize(100);
         graph.setTitleColor(Color.WHITE);
         graph.getGridLabelRenderer().setVerticalAxisTitle("UVI");
         graph.getGridLabelRenderer().setVerticalAxisTitleColor(Color.WHITE);
         graph.getGridLabelRenderer().setVerticalAxisTitleTextSize(50);
-// set date label formatter
+        // set date label formatter
         graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getActivity()));
         graph.getGridLabelRenderer().setNumHorizontalLabels(7); // only 4 because of the space
         graph.getGridLabelRenderer().setHorizontalAxisTitleColor(Color.WHITE);
@@ -129,21 +141,7 @@ public class weekGraph extends AppCompatActivity {
         graph.getViewport().setXAxisBoundsManual(true);
         graph.getGridLabelRenderer().setHumanRounding(false);
     }
-    static double average(double[] a, int n) // FUNCTION RETURNS AVERAGE VALUE
-    {
-        // Find sum of array element
-        double sum = 0;
-        for (int i = 0; i < n; i++)
-            sum += a[i];
-        return sum / n;
-    }
-    static double max(double []a){ // function to find max UVI
-        double max=0;
-        for (int i = 0; i < a.length; i++) { // FUNCTION USED TO FIND MAX UVI LEVEL OF ENTIRE DAY
-            for (int counter = 1; counter < a.length; counter++) {
-                if (a[counter] > max) {
-                    max = a[counter]; } } }
-        return max;}
+
     public Context getActivity() {
         Context activity = null;
         return activity;

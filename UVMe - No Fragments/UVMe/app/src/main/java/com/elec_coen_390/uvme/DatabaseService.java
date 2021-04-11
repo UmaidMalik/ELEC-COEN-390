@@ -92,7 +92,9 @@ public class DatabaseService extends Service {
 
                 db.insertUV(UVSensorData.getUVIntensity(), calendar);
                 if (minute % 5 == 0) {
+
                     db.insertUVMax(maxUVDatabase, calendar);
+
                     sum += maxUVDatabase;
                     maxUVDatabase = 0;
                     count++;

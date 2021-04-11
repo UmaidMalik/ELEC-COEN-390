@@ -1,37 +1,36 @@
- package com.elec_coen_390.uvme;
-        import androidx.annotation.NonNull;
-        import androidx.annotation.RequiresApi;
-        import androidx.appcompat.app.AppCompatActivity;
+package com.elec_coen_390.uvme;
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
 
-        import android.app.DatePickerDialog;
-        import android.content.Context;
-        import android.content.Intent;
-        import android.graphics.Color;
-        import android.os.Build;
-        import android.os.Bundle;
-        import android.view.Menu;
-        import android.view.MenuItem;
-        import android.widget.Button;
-        import android.widget.DatePicker;
-        import android.widget.TextView;
-        import android.widget.Toast;
-        import com.google.android.material.bottomnavigation.BottomNavigationView;
-        import com.jjoe64.graphview.DefaultLabelFormatter;
-        import com.jjoe64.graphview.GraphView;
-        import com.jjoe64.graphview.GridLabelRenderer;
-        import com.jjoe64.graphview.series.DataPoint;
-        import com.jjoe64.graphview.series.DataPointInterface;
-        import com.jjoe64.graphview.series.LineGraphSeries;
-        import com.jjoe64.graphview.series.OnDataPointTapListener;
-        import com.jjoe64.graphview.series.PointsGraphSeries;
-        import com.jjoe64.graphview.series.Series;
+import android.app.DatePickerDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.TextView;
+import android.widget.Toast;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.jjoe64.graphview.DefaultLabelFormatter;
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.GridLabelRenderer;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.DataPointInterface;
+import com.jjoe64.graphview.series.LineGraphSeries;
+import com.jjoe64.graphview.series.OnDataPointTapListener;
+import com.jjoe64.graphview.series.PointsGraphSeries;
+import com.jjoe64.graphview.series.Series;
 
-        import java.text.NumberFormat;
-        import java.text.SimpleDateFormat;
-        import java.util.ArrayList;
-        import java.util.Calendar;
-        import java.util.Date;
-        import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+
+import java.util.List;
 
 public class DayGraph extends AppCompatActivity {
 
@@ -49,7 +48,7 @@ public class DayGraph extends AppCompatActivity {
 
     GraphView graph;
     DataPoint[] dataPoints;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,43 +73,29 @@ public class DayGraph extends AppCompatActivity {
         uvList = dbGraph.getUVGraphInfo(9, 4, 2021); // taking from MAX table
 
 
-        /*
-       series1 = new LineGraphSeries<>(new DataPoint[] { // SERIES ONE SHOWS USER A LINE GRAPH
-               new DataPoint(0, 0)
-                });
 
-        series3 = new PointsGraphSeries<>(new DataPoint[] { // SERIES 3 SHOWS THE USER A DOT GRAPH FROM SERIES 1
-                new DataPoint(0, 0)
-            });
-
-         */
 
 
         dataPoints = new DataPoint[uvList.size() - 2];
 
         for (int i = 2; i < uvList.size(); i++) {
             //if (selectedDay == uvList.get(i).getDay() && selectedMonth == uvList.get(i).getMonth() && selectedYear == uvList.get(i).getYear()) {
-                //int x = uvList.get(i).getHour();
-                int x = uvList.get(i).getMinute(); //@TODO change to hour remember
-                    /** @sal  one thing we forgot to consider, was the minutes have to be in ascending order that's why 'i' starts at 2 **/
-                float y  =  uvList.get(i).getUv_max();
-                //DataPoint point = new DataPoint(x, y);
-                //series3.appendData(new DataPoint(point.getX(), point.getY()), true, 12 ); @TODO this was causing problems but i dont know why :(
-                //series1.appendData(new DataPoint(point.getX(), point.getY()), true, 500, true);
-                DataPoint point = new DataPoint(x, y);
-                dataPoints[i-2] = point;
-          //  }
+            //int x = uvList.get(i).getHour();
+            int x = uvList.get(i).getMinute(); //@TODO change to hour remember
+            /** @sal  one thing we forgot to consider, was the minutes have to be in ascending order that's why 'i' starts at 2 **/
+            float y  =  uvList.get(i).getUv_max();
+            //DataPoint point = new DataPoint(x, y);
+            //series3.appendData(new DataPoint(point.getX(), point.getY()), true, 12 ); @TODO this was causing problems but i dont know why :(
+            //series1.appendData(new DataPoint(point.getX(), point.getY()), true, 500, true);
+            DataPoint point = new DataPoint(x, y);
+            dataPoints[i-2] = point;
+            //  }
         }
 
 
         series3 = new PointsGraphSeries<>(dataPoints);
         series1 = new LineGraphSeries<>(dataPoints);
 
-
-
-
-
-        //max(yArray);
         //avgUV.setText(nm.format(average(yArray, n)));
         //maxUV.setText(String.valueOf(max(yArray)));
 
@@ -120,7 +105,7 @@ public class DayGraph extends AppCompatActivity {
 
 
 
-        /*
+
         series3.setOnDataPointTapListener(new OnDataPointTapListener() { // ALLOWS USER TO SEE NODES
             @Override
             public void onTap(Series series, DataPointInterface dataPoint) {
@@ -128,7 +113,6 @@ public class DayGraph extends AppCompatActivity {
             }
         });
 
-         */
 
 
 
@@ -282,9 +266,7 @@ public class DayGraph extends AppCompatActivity {
                     zeroDay = String.valueOf(dayOfMonth);
                 }
                 String dateChosen = year + "-" + zeroMonth + "-" + zeroDay;
-
                 getUVReadingFromDate(dateChosen); // this function SHOULD associate the chosen day with UV values in database
-
                  */
                 getUVReadingFromDate(day, month, year);
             }
@@ -299,9 +281,6 @@ public class DayGraph extends AppCompatActivity {
         dbGraph.getReadableDatabase();
         uvList = dbGraph.getUVGraphInfo(9, 4, 2021); // taking from MAX table
 
-        //series3.resetData(new DataPoint[]{}); // Reset previous series
-        //series1.resetData(new DataPoint[]{}); // Reset previous series
-
         for (int i = 0; i < uvList.size(); i++) {
             if (selectedDay == uvList.get(i).getDay() && selectedMonth == uvList.get(i).getMonth() && selectedYear == uvList.get(i).getYear()) {
                 //int x = uvList.get(i).getHour();
@@ -312,37 +291,7 @@ public class DayGraph extends AppCompatActivity {
                 series1.appendData(new DataPoint(point.getX(), point.getY()), true, 500);
             }
         }
-        //graph.addSeries(series1);
-       // graph.addSeries(series3);
 
-        /*
-        float []yAxis={};
-        float[]xAxis={};
-        for (int i = 0; i < uvList.size(); i++) {
-            yAxis[i] = uvList.get(i).getUv_value();
-        }
-        // CREATES X AXIS
-        for (int i = 0; i < uvList.size(); i++) {
-            xAxis[i] = uvList.get(i).getHour();
-        }
-
-         */
-         /*
-        DataPoint[] points = new DataPoint[500];
-        int newCounter = 0;
-        for (int i = 0; i < uvList.size(); i++) {
-
-
-            DataPoint point = new DataPoint(x, y);
-            points[newCounter] = point;
-            series3.appendData(new DataPoint(point.getX(), point.getY()), true, 500);
-            series1.appendData(new DataPoint(point.getX(), point.getY()), true, 500);
-            newCounter = newCounter + 1;
-
-        }
-
-          */
-        //date2 = date;
     }
 }
 

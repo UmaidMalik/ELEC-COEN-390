@@ -26,3 +26,4 @@ public class Config {
     public static final String COLUMN_UV_AVERAGE_VALUE_GRAPH = "uv_average_value_graph";
 
 }
+

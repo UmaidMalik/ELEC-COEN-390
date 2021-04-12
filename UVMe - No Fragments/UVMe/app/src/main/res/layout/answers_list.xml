@@ -4,7 +4,6 @@
     android:background="@color/midnight_blue"
     android:padding="4dp"
     android:orientation="vertical"
-    android:gravity="center"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -12,9 +11,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/answer_tv"
-        android:text="Answers TextView"
-        android:textSize="25sp"
+        android:text="Answer"
+        android:textSize="18sp"
+        android:padding="4dp"
         android:textColor="@color/light_blue"
+        android:fontFamily="@font/roboto_thin"
         android:paddingLeft="?android:expandableListPreferredChildIndicatorLeft"
         android:paddingStart="?android:expandableListPreferredChildIndicatorLeft"
         />

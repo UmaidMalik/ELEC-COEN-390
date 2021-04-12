@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ExpandableListView;
@@ -18,9 +19,7 @@ import static com.elec_coen_390.uvme.R.layout.activity_about;
 
 public class AboutActivity extends AppCompatActivity {
 
-    Button buttonOpenURL;
-    TextView textViewQ1;
-    TextView textViewA1;
+
 
     // New stuff
     ExpandableListViewAdapter listViewAdapter;
@@ -28,6 +27,7 @@ public class AboutActivity extends AppCompatActivity {
     List<String> questionList;
     HashMap<String, List<String>> answerList;
 
+    TextView textViewGithubURL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +37,7 @@ public class AboutActivity extends AppCompatActivity {
 
 
         // About Page
-        expandableListView = findViewById(R.id.eListView);
+        expandableListView = findViewById(R.id.expandableListView);
         showList();
 
         listViewAdapter = new ExpandableListViewAdapter(this, questionList, answerList);
@@ -156,8 +156,13 @@ public class AboutActivity extends AppCompatActivity {
         answerList.put(questionList.get(10), answer11);
         answerList.put(questionList.get(11), answer12);
         answerList.put(questionList.get(12), answer13);
+        setupInfoURL();
 
+    }
 
+    private void setupInfoURL() {
+        textViewGithubURL = (TextView) findViewById(R.id.textViewAbout_AboutUVMe_GithubInfo);
+        textViewGithubURL.setMovementMethod(LinkMovementMethod.getInstance());
     }
 }
 

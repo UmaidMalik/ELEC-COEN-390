@@ -113,7 +113,10 @@
     <string name="ans_13">Most people seem to be familiar with the term ‘watts\' (from light bulbs and electric bills); but probably not the term ‘joules\' (a metric measurement term). In short, both are used in measuring energy in any form (e.g., electricity as well as light): A Watt is a measure of the rate of energy delivery (analogous to gallons-per-minute flow rate for water delivery). A Joule is a cumulative measure of the total amount of energy delivered (analogous to total gallons of water delivered). It usually is associated with how much time was needed to deliver the energy. The way the units work is 1 Joule (J) of energy delivered = delivering 1 Watt (W) of energy for 1 second. In the UV world, we usually measure things in small increments, i.e., thousandths of a Joule or Watt. These are shown as ‘milli-Joules\' (i.e., ‘mJ’ or 1/1,000 of a Joule), and milli-Watts (i.e., ‘mW’ or 1/1,000 of a Watt). Example: 40mJ (cumulative energy) = 10mW delivered for 4 seconds</string>
     <string name="AboutUVMe">UVMe was developed by 5 Concordia University students. Concordia is a university situated in Montreal, Canada. The team has since provided tools and educational content to teach people about UV and sun safety. We strongly believe in using technology for a healthy lifestyle.</string>
     <string name="AboutUVMe1">Technology for a healthy lifestyle</string>
-    <string name="ContactUs">umaid.ece@concordia.ca</string>
+
+    <string name="ContactUs">
+    <a href="https://github.com/UmaidMalik/ELEC-COEN-390">Go to repo</a>
+    </string>
 
     <string-array name="spinnerRefreshTimes">
         <item>15 seconds</item>

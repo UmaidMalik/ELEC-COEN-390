@@ -6,15 +6,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="8dp"
-    android:gravity="center"
     tools:context=".MainActivity">
 
-<ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/midnight_blue"
-    android:layout_marginBottom="58dp">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/midnight_blue"
+        android:layout_marginBottom="58dp">
+
 
 <RelativeLayout
 
@@ -47,18 +46,78 @@
 
     <ExpandableListView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/eListView"
-        android:layoutDirection="rtl"
-        android:layout_below="@+id/textViewAbout_FAQ"
-        />
+        android:layout_height="500dp"
+        android:id="@+id/expandableListView"
+        android:layoutDirection="ltr"
+        android:layout_below="@+id/textViewAbout_FAQ" />
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/expandableListView">
+
+        <TextView
+            android:id="@+id/textViewAbout_AboutUVMe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_light"
+            android:textColor="@color/light_blue"
+            android:paddingStart="15dp"
+            android:textSize="36sp"
+            android:text="About UVMe"/>
+
+        <TextView
+        android:id="@+id/textViewAbout_AboutUVMe_Info1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_light"
+        android:textColor="@color/light_blue"
+            android:layout_below="@id/textViewAbout_AboutUVMe"
+        android:padding="15dp"
+        android:text="@string/AboutUVMe1"/>
+
+    <TextView
+        android:id="@+id/textViewAbout_AboutUVMe_Info2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_light"
+        android:textColor="@color/light_blue"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
+        android:layout_below="@+id/textViewAbout_AboutUVMe_Info1"
+        android:text="@string/AboutUVMe"/>
+
+    <TextView
+        android:id="@+id/textViewAbout_ContactUs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_light"
+        android:textColor="@color/light_blue"
+        android:paddingStart="15dp"
+        android:layout_below="@+id/textViewAbout_AboutUVMe_Info2"
+        android:textSize="36sp"
+        android:text="Github"/>
+
+    <TextView
+        android:id="@+id/textViewAbout_AboutUVMe_GithubInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_light"
+        android:textColor="@color/light_blue"
+        android:paddingStart="15dp"
+        android:layout_below="@+id/textViewAbout_ContactUs"
+        android:text="@string/ContactUs"/>
+
+
+</RelativeLayout>
 
 
 
 </RelativeLayout>
 
-</ScrollView>
 
+    </ScrollView>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"

@@ -24,7 +24,6 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -56,9 +55,6 @@ import java.util.ArrayList;
 
 
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-
 public class MainActivity extends AppCompatActivity {
 
 
@@ -82,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
     private BluetoothLeService mBluetoothLeService;
     private ArrayList<BluetoothGattService> mBluetoothGattServices = new ArrayList<BluetoothGattService>() ;
 
-    private NotificationManagerCompat notificationManagerCompat;
+   // private NotificationManagerCompat notificationManagerCompat; @TODO remove this
 
     private String city;
     EditText editTextCitySearch;
@@ -96,8 +92,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView uvIndexStatusMessage;
     private TextView textViewSensorState;
 
-    SharedPreferences togglePreferences;
-    boolean uvi_level_alert_status = false, sunglasses_alert_status = false, sunburn_alert_status = false;
+    // SharedPreferences togglePreferences; @TODO remove
+    //boolean uvi_level_alert_status = false, sunglasses_alert_status = false, sunburn_alert_status = false;
 
     SharedPreferences prefs;
 
@@ -115,6 +111,8 @@ public class MainActivity extends AppCompatActivity {
     final Handler handler = new Handler();
 
 
+    private boolean firstStart;
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,11 +120,7 @@ public class MainActivity extends AppCompatActivity {
         this.getSupportActionBar().hide();
         setContentView(R.layout.activity_main);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN); // this is to prevent the keyboard from opening on startup since there is a EditText in this activity;)
-
-
-
-
-        notificationManagerCompat = NotificationManagerCompat.from(this);
+        // notificationManagerCompat = NotificationManagerCompat.from(this); @TODO remove this
 
         editTextCitySearch = (EditText) findViewById(R.id.editTextCitySearch);
         buttonCitySearch = (ToggleButton) findViewById(R.id.buttonCitySearch);
@@ -157,54 +151,14 @@ public class MainActivity extends AppCompatActivity {
         db.getWritableDatabase();
 
         prefs = getSharedPreferences("prefs", MODE_PRIVATE);
-        boolean firstStart = prefs.getBoolean("firstStart", true);
+        firstStart = prefs.getBoolean("firstStart", true);
         String location = prefs.getString("CITY", "");
         editTextCitySearch.setText(location);
         editTextCitySearch.setVisibility(View.INVISIBLE);
         FindWeather(); // initial call on startup
 
+        setupDisclaimer();
 
-
-        if (firstStart) {
-            Log.d(TAG, "Enter a Statement");
-            builder.setTitle(R.string.terms_of_services);
-            builder.setMessage(R.string.warning_label)
-                    .setCancelable(false)
-                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            dialog.cancel();
-                            Toast.makeText(getApplicationContext(), R.string.ok_terms_of_service,
-                                    Toast.LENGTH_SHORT).show();
-                            SharedPreferences.Editor editor = prefs.edit();
-                            editor.putBoolean("firstStart", false); // Set to false so that it will only appear once when accepted
-                            editor.apply();
-                        }
-                    })
-                    .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            //  Action for 'NO' Button
-                            finish();
-                            Toast.makeText(getApplicationContext(), R.string.cancel_terms_of_service,
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
-            //Creating dialog box
-            AlertDialog alert = builder.create();
-            //Setting the title manually
-            alert.setTitle("Terms of Services");
-            alert.show();
-
-
-            //alert.getWindow().setBackgroundDrawable(new ColorDrawable(0xFF0B1320)); // midnight_blue?
-            alert.getWindow().setBackgroundDrawable(new ColorDrawable(0xFF1C3F60)); // or secondary_blue?
-
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putBoolean("firstStart", false); // Set to false so that it will only appear once when accepted
-            editor.apply();
-
-
-        }
         this.getSupportActionBar().hide();
         setupBottomNavigationListener();
         textViewUVIndex = (TextView) findViewById(R.id.textViewUVIndex);
@@ -214,7 +168,6 @@ public class MainActivity extends AppCompatActivity {
 
         textViewUVIndex.setText(String.valueOf(UVSensorData.getUVIntensity()));
 
-        //textViewBatteryLevel.setText(String.valueOf(BatteryData.getBatteryLevel()));
         displayBatteryLevel(String.valueOf(BatteryData.getBatteryLevel()));
 
         imageViewSensor = (ImageView) findViewById(R.id.imageViewSensor);
@@ -222,17 +175,20 @@ public class MainActivity extends AppCompatActivity {
 
         startSunUIThread(getCurrentFocus());
         startUVIndexThread(getCurrentFocus());
-        startNotificationsThread(getCurrentFocus());
         startResetMaxUVThread(getCurrentFocus());
 
         startDatabaseService();
+        startNotificationsService();
 
         setupRefreshButton();
         setupMoreButton();
 
     }
 
-
+    private void startNotificationsService() {
+        Intent startIntent = new Intent(MainActivity.this, NotificationsService.class);
+        startService(startIntent);
+    }
 
     private void startDatabaseService() {
         Intent startIntent = new Intent(MainActivity.this, DatabaseService.class);
@@ -288,6 +244,49 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    private void setupDisclaimer() {
+        if (firstStart) {
+            Log.d(TAG, "Enter a Statement");
+            builder.setTitle(R.string.terms_of_services);
+            builder.setMessage(R.string.warning_label)
+                    .setCancelable(false)
+                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                            Toast.makeText(getApplicationContext(), R.string.ok_terms_of_service,
+                                    Toast.LENGTH_SHORT).show();
+                            SharedPreferences.Editor editor = prefs.edit();
+                            editor.putBoolean("firstStart", false); // Set to false so that it will only appear once when accepted
+                            editor.apply();
+                        }
+                    })
+                    .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            //  Action for 'NO' Button
+                            finish();
+                            Toast.makeText(getApplicationContext(), R.string.cancel_terms_of_service,
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+            //Creating dialog box
+            AlertDialog alert = builder.create();
+            //Setting the title manually
+            alert.setTitle("Terms of Services");
+            alert.show();
+
+
+            //alert.getWindow().setBackgroundDrawable(new ColorDrawable(0xFF0B1320)); // midnight_blue?
+            alert.getWindow().setBackgroundDrawable(new ColorDrawable(0xFF1C3F60)); // or secondary_blue?
+
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putBoolean("firstStart", false); // Set to false so that it will only appear once when accepted
+            editor.apply();
+
+
+        }
     }
 
     // function that updates the SunColor depending on the level of UV
@@ -353,21 +352,14 @@ public class MainActivity extends AppCompatActivity {
         textViewUVIndex.setText(String.valueOf(uvIndex));
     }
 
-
     private void startSunUIThread(View view) {
         RunnableSunColor runnableSunColor = new RunnableSunColor();
         new Thread(runnableSunColor).start();
     }
 
-
     private void startUVIndexThread(View view) {
         RunnableUVIndex runnableUVIndex = new RunnableUVIndex();
         new Thread(runnableUVIndex).start();
-    }
-
-    private void startNotificationsThread(View v) {
-        RunnableNotification runnableNotification = new RunnableNotification();
-        new Thread(runnableNotification).start();
     }
 
     private void startResetMaxUVThread(View view) {
@@ -386,32 +378,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private class RunnableNotification implements Runnable {
-        @Override
-        public void run() {
-            while (true) {
-
-                runOnUiThread(new Runnable() {
-                    @RequiresApi(api = Build.VERSION_CODES.O)
-                    @Override
-                    public void run() {
-                        reduceRiskOFBurnNotification(UVSensorData.getUVIntensity());
-
-                    }
-                });
-
-                try {
-                    Thread.sleep(200);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
 
     private class RunnableSunColor implements Runnable {
-
-
         @Override
         public void run() {
             while (true) {
@@ -475,8 +443,6 @@ public class MainActivity extends AppCompatActivity {
         public void run() {
             while (true) {
 
-
-
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -514,11 +480,6 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
         //***********************************
-        togglePreferences = getSharedPreferences(NotificationsActivity.PREFS, MODE_PRIVATE);
-        uvi_level_alert_status = togglePreferences.getBoolean(NotificationsActivity.UVI_LEVEL_ALERT_STATUS, true);
-        sunglasses_alert_status = togglePreferences.getBoolean(NotificationsActivity.SUNGLASSES_ALERT_STATUS, true);
-        sunburn_alert_status = togglePreferences.getBoolean(NotificationsActivity.SUNBURN_ALERT_STATUS, true);
-
         toggleUVModePreferences = getSharedPreferences(UVDisplayModeActivity.UV_MODE_PREFS, MODE_PRIVATE);
         uv_mode_status = toggleUVModePreferences.getBoolean(UVDisplayModeActivity.UV_MODE_STATUS, false);
         refresh_cycle_time = toggleUVModePreferences.getInt(UVDisplayModeActivity.UV_MODE_REFRESH_SETTING, 60);
@@ -622,76 +583,6 @@ public class MainActivity extends AppCompatActivity {
         //super.onBackPressed();
     }
 
-    // this function is used to alert user if they are exposed to a high level of UVI!
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public void reduceRiskOFBurnNotification(Float data){
-
-        uvi_level_alert_status = togglePreferences.getBoolean(NotificationsActivity.UVI_LEVEL_ALERT_STATUS, true);
-        sunglasses_alert_status = togglePreferences.getBoolean(NotificationsActivity.SUNGLASSES_ALERT_STATUS, true);
-        sunburn_alert_status = togglePreferences.getBoolean(NotificationsActivity.SUNBURN_ALERT_STATUS, true);
-
-        if (data >= 5 && data < 8 && uvi_level_alert_status) {
-            sendToChannel(R.drawable.ic_sunlight_level3,
-                    "SUNBURN ALERT!",
-                    "You Are Exposed To: " + UVSensorData.getUVIntensity() + "\n Long Exposure Term May Affect Health",
-                    NotificationChannelsClass.CHANNEL_1_ID, 1);
-
-        } if (data >= 8 && data < 20 && uvi_level_alert_status) {
-            sendToChannel(R.drawable.ic_sunlight_level5,
-                    "SUNBURN ALERT!!!",
-                    "You are exposed to a DANGEROUS level of UV Radiation:" + UVSensorData.getUVIntensity() + "\nStay out of sunlight!",
-                    NotificationChannelsClass.CHANNEL_1_ID, 1);
-        }
-    }
-
-    public void sendToChannel(int drawableID, String contentTitle, String contentText, final String notificationChannel , int id) {
-
-        Notification notification=new NotificationCompat.Builder(this, notificationChannel).setSmallIcon(drawableID)
-                .setContentTitle(contentTitle)
-                .setContentText(contentText)
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
-                .build();
-        notificationManagerCompat.notify( id, notification);
-    }
-
-
-    public void sendChannel2EyeColorBlue(){
-        Notification notification=new NotificationCompat.Builder(this,NotificationChannelsClass.CHANNEL_2_ID)
-                .setSmallIcon(R.drawable.ic_sunglasses)
-                .setContentTitle("Hey Blue Eyes")
-                .setContentText("UV is Moderate, get your shades on!")
-                .setPriority(NotificationCompat.PRIORITY_LOW)
-                .build();
-        notificationManagerCompat.notify(2,notification);
-    }
-    public void sendChannel2EyeColorGreen(){
-        Notification notification=new NotificationCompat.Builder(this,NotificationChannelsClass.CHANNEL_2_ID)
-                .setSmallIcon(R.drawable.ic_sunglasses)
-                .setContentTitle("Hey Green Eyes")
-                .setContentText("UV is Moderate, get your shades on!")
-                .setPriority(NotificationCompat.PRIORITY_LOW)
-                .build();
-        notificationManagerCompat.notify(2,notification);
-    }
-    public void sendChannel2EyeColorBrown(){
-        Notification notification=new NotificationCompat.Builder(this,NotificationChannelsClass.CHANNEL_2_ID)
-                .setSmallIcon(R.drawable.ic_sunglasses)
-                .setContentTitle("Hey Brown Eyes")
-                .setContentText("UV is Moderate, get your shades on!")
-                .setPriority(NotificationCompat.PRIORITY_LOW)
-                .build();
-        notificationManagerCompat.notify(2,notification);
-    }
-    public void sendChannel2EyeColorHazel(){
-        Notification notification=new NotificationCompat.Builder(this,NotificationChannelsClass.CHANNEL_2_ID)
-                .setSmallIcon(R.drawable.ic_sunglasses)
-                .setContentTitle("Hey Hazel Eyes")
-                .setContentText("UV is Moderate, get your shades on!")
-                .setPriority(NotificationCompat.PRIORITY_LOW)
-                .build();
-        notificationManagerCompat.notify(2,notification);
-    }
 
     // Weather Method
 

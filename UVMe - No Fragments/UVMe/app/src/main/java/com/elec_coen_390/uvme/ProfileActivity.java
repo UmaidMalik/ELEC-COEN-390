@@ -378,7 +378,6 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         editTextPersonName.setEnabled(false);
         saveButton.setCursorVisible(true);
         saveButton.setEnabled(false);
-
         editButton.setEnabled(true);
         eyeColourSpinner.setEnabled(true);
         skinToneSpinner.setEnabled(false);

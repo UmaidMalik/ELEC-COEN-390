@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ public class UVHistoryActivity extends AppCompatActivity {
     Button showGraphButton;
     Button showWeekGraphButton;
     Button showMonthGraphButton;
+    Button showOverallGraphButton;
     ListView listViewUVHistory;
 
     View moreView;
@@ -38,35 +40,12 @@ public class UVHistoryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.getSupportActionBar().hide();
+       // this.getSupportActionBar().hide();
         setContentView(R.layout.activity_uv_history);
         TextView title = (TextView) findViewById(R.id.activityUVHistory);
         title.setText("UV History");
         setupBottomNavigationListener();
-        showMonthGraphButton=findViewById(R.id.showMonthGraphButton);
-        showGraphButton=findViewById(R.id.showGraphButton);
-        showWeekGraphButton=findViewById(R.id.showWeekGraphButton);
 
-        showWeekGraphButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                goToWeekGraph();
-            }
-        });
-        showGraphButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                goToGraphActivity();
-            }
-        });
-        showMonthGraphButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //goToMonthGraph();
-                //listViewUVHistory.smoothScrollToPosition(0);
-                listViewUVHistory.setSelectionAfterHeaderView();
-            }
-        });
 
         uvList = new ArrayList<>();
         db = new DatabaseHelper(this);
@@ -151,8 +130,6 @@ public class UVHistoryActivity extends AppCompatActivity {
             uvIndex.setText(String.valueOf("A:"+ uvList.get(i).getUv_avg() + "M:"+ uvList.get(i).getUv_max())); // @TODO remove
 
             setListViewIcons(i);
-
-
 
 
             return moreView;
@@ -256,4 +233,34 @@ public class UVHistoryActivity extends AppCompatActivity {
         intentGraphMonth.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intentGraphMonth);
     }
+
+    public boolean onCreateOptionsMenu(Menu menu) { // access menu created.
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.uv_history_menu,menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected( MenuItem item) {
+        if (item.getItemId() == R.id.showDay) {
+            goToGraphActivity();
+            return true;
+        }
+        if (item.getItemId() == R.id.showWeek) {
+            goToWeekGraph();
+            return true;
+        }
+        if (item.getItemId() == R.id.showMonth) {
+            goToMonthGraph();
+            return true;
+        }
+
+        if (item.getItemId() == R.id.BTT) {
+            listViewUVHistory.setSelectionAfterHeaderView();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+
 }

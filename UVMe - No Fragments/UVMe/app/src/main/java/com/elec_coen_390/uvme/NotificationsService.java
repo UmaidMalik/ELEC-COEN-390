@@ -146,35 +146,38 @@ public class NotificationsService extends Service {
 
     public void sunburnNotification(){
 
-        if (uvMax >= 3)
-        switch(id_skin) {
+        if (uvMax >= 3) {
+            switch (id_skin) {
 
-            case SKIN_TYPE_PALE:
-                minutesToBurn = (int) (76.533 * (Math.pow(uvMax, -1.073)));
-                break;
-            case SKIN_TYPE_FAIR:
-                minutesToBurn = (int) (94.097 * (Math.pow(uvMax, -1.676)));
-                break;
-            case SKIN_TYPE_MEDIUM:
-                minutesToBurn = (int) (198.63 * (Math.pow(uvMax, -0.9907)));
-                break;
-            case SKIN_TYPE_OLIVE:
-                minutesToBurn = (int) (302.19 * (Math.pow(uvMax, -1.0059)));
-                break;
-            case SKIN_TYPE_BROWN:
-                minutesToBurn = (int) (396.33 * (Math.pow(uvMax, -0.9955)));
-                break;
-            case SKIN_TYPE_BLACK:
-                minutesToBurn = (int) (502.12 * (Math.pow(uvMax, -1.0023)));
-                break;
+                case SKIN_TYPE_PALE:
+                    minutesToBurn = (int) (76.533 * (Math.pow(uvMax, -1.073)));
+                    break;
+                case SKIN_TYPE_FAIR:
+                    minutesToBurn = (int) (94.097 * (Math.pow(uvMax, -1.676)));
+                    break;
+                case SKIN_TYPE_MEDIUM:
+                    minutesToBurn = (int) (198.63 * (Math.pow(uvMax, -0.9907)));
+                    break;
+                case SKIN_TYPE_OLIVE:
+                    minutesToBurn = (int) (302.19 * (Math.pow(uvMax, -1.0059)));
+                    break;
+                case SKIN_TYPE_BROWN:
+                    minutesToBurn = (int) (396.33 * (Math.pow(uvMax, -0.9955)));
+                    break;
+                case SKIN_TYPE_BLACK:
+                    minutesToBurn = (int) (502.12 * (Math.pow(uvMax, -1.0023)));
+                    break;
+            }
+
+            if (sunburn_alert_status) {
+                sendToChannel(R.drawable.ic_sunlight_level5,
+                        "SUNBURN ALERT!!!",
+                        "You can stay outside for a maximum of " + minutesToBurn + " minutes!",
+                        NotificationChannelsClass.CHANNEL_3_ID, 3);
+            }
         }
 
-        if (sunburn_alert_status) {
-            sendToChannel(R.drawable.ic_sunlight_level5,
-                    "SUNBURN ALERT!!!",
-                    "You can stay outside for a maximum of " + minutesToBurn + " minutes!",
-                    NotificationChannelsClass.CHANNEL_3_ID, 3);
-        }
+
     }
 
 

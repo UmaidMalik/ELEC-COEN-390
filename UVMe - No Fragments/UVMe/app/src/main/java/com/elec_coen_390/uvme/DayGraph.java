@@ -60,20 +60,20 @@ public class DayGraph extends AppCompatActivity {
         Intent intent = getIntent(); // lets us go back and forth from app to app
 
         graphSetup();
-        setDate();
+        //setDate();
 
     }
 
     protected void graphSetup() {
         // styling series
         graph = (GraphView) findViewById(R.id.graph);
-        //uvList = new ArrayList<>();
-        //dbGraph = new DatabaseHelper(this);
-        //dbGraph.getReadableDatabase();
-        //uvList = dbGraph.getUVGraphInfo(9, 4, 2021); // taking from MAX table
-        //dataPoints = new DataPoint[uvList.size() - 2];
+        uvList = new ArrayList<>();
+        dbGraph = new DatabaseHelper(this);
+        dbGraph.getReadableDatabase();
+        uvList = dbGraph.getUVGraphInfo(9, 4, 2021); // taking from MAX table
+        dataPoints = new DataPoint[uvList.size() - 2];
 
-        /*
+
         for (int i = 2; i < uvList.size(); i++) {
             //if (selectedDay == uvList.get(i).getDay() && selectedMonth == uvList.get(i).getMonth() && selectedYear == uvList.get(i).getYear()) {
             //int x = uvList.get(i).getHour();
@@ -84,7 +84,7 @@ public class DayGraph extends AppCompatActivity {
             //  }
         }
 
-         */
+
 
 
 

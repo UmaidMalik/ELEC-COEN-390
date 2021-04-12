@@ -178,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
         startResetMaxUVThread(getCurrentFocus());
 
         startDatabaseService();
-        startNotificationsService();
+        //startNotificationsService();
 
         setupRefreshButton();
         setupMoreButton();

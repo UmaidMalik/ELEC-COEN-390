@@ -71,11 +71,6 @@ public class DayGraph extends AppCompatActivity {
         dbGraph = new DatabaseHelper(this);
         dbGraph.getReadableDatabase();
         uvList = dbGraph.getUVGraphInfo(9, 4, 2021); // taking from MAX table
-
-
-
-
-
         dataPoints = new DataPoint[uvList.size() - 2];
 
         for (int i = 2; i < uvList.size(); i++) {
@@ -89,9 +84,10 @@ public class DayGraph extends AppCompatActivity {
         }
 
 
+
+
         series3 = new PointsGraphSeries<>(dataPoints);
         series1 = new LineGraphSeries<>(dataPoints);
-
         //avgUV.setText(nm.format(average(yArray, n)));
         //maxUV.setText(String.valueOf(max(yArray)));
 
@@ -149,7 +145,7 @@ public class DayGraph extends AppCompatActivity {
         graph.getViewport().setMinY(0);
         graph.getViewport().setMaxY(20);
         graph.getViewport().setMinX(0);
-        graph.getViewport().setMaxX(60);
+        graph.getViewport().setMaxX(24);
         graph.getGridLabelRenderer().setNumHorizontalLabels(12);
     }
 

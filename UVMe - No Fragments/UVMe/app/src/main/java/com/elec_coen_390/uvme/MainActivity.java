@@ -24,6 +24,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,6 +56,9 @@ import java.util.ArrayList;
 
 
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
 
@@ -118,6 +122,10 @@ public class MainActivity extends AppCompatActivity {
         this.getSupportActionBar().hide();
         setContentView(R.layout.activity_main);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN); // this is to prevent the keyboard from opening on startup since there is a EditText in this activity;)
+
+
+
+
         notificationManagerCompat = NotificationManagerCompat.from(this);
 
         editTextCitySearch = (EditText) findViewById(R.id.editTextCitySearch);
@@ -223,6 +231,8 @@ public class MainActivity extends AppCompatActivity {
         setupMoreButton();
 
     }
+
+
 
     private void startDatabaseService() {
         Intent startIntent = new Intent(MainActivity.this, DatabaseService.class);

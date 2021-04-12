@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    // Default Theme
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight.DarkActionBar">
+
+        // Customization of dark mode - when the phone is in dark mode the app will turn to dark
+        // mode as well
+
+        <item name="android:forceDarkAllowed">true</item>
+
+    </style>
+
+</resources>

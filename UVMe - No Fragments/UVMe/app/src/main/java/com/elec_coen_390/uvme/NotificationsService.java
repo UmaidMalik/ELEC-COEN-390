@@ -2,6 +2,7 @@ package com.elec_coen_390.uvme;
 
 import android.app.Notification;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -183,7 +184,7 @@ public class NotificationsService extends Service {
 
             if (sunburn_alert_status) {
                 sendToChannel(R.drawable.ic_sunlight_level5,
-                        "SUNBURN ALERT!!!",
+                        "SUNBURN ALERT!!",
                         "You can stay outside for a maximum of " + minutesToBurn + " minutes!",
                         NotificationChannelsClass.CHANNEL_3_ID, 3);
             }
@@ -219,12 +220,12 @@ public class NotificationsService extends Service {
 
                 }
 
-            }
+    }
+
 
         }
 
-
-    }
+            }
 
     public void sendToChannel(int drawableID, String contentTitle, String contentText, final String notificationChannel , int id) {
 
@@ -233,7 +234,6 @@ public class NotificationsService extends Service {
                 .setContentText(contentText)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setCategory(NotificationCompat.CATEGORY_MESSAGE)
-                .setColor(0xFFB1D4E0)
                 .build();
         notificationManagerCompat.notify( id, notification);
     }

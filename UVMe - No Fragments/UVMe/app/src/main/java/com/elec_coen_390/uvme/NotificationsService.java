@@ -38,6 +38,14 @@ public class NotificationsService extends Service {
     private final int SKIN_TYPE_BROWN = 4;
     private final int SKIN_TYPE_BLACK = 5;
 
+    SharedPreferences prefseye;
+    private int id_eye;
+
+    private final int EYE_TYPE_BLUE = 0;
+    private final int EYE_TYPE_BROWN = 1;
+    private final int EYE_TYPE_GREEN = 2;
+    private final int EYE_TYPE__HAZEL = 3;
+
     private int minutesToBurn = 0;
     private float uvMax = 0;
 
@@ -58,6 +66,9 @@ public class NotificationsService extends Service {
 
         prefsSkin = getSharedPreferences(ProfileActivity.prefNameSkin, MODE_PRIVATE);
         id_skin = prefsSkin.getInt("last_val_skin", 0);
+
+        prefseye = getSharedPreferences(ProfileActivity.prefNameEye, MODE_PRIVATE);
+        id_eye = prefseye.getInt("last_val_eye", 0);
 
 
         return START_STICKY;
@@ -120,6 +131,7 @@ public class NotificationsService extends Service {
     public void setupNotificationPreferences() {
         togglePreferences = getSharedPreferences(NotificationsActivity.PREFS, MODE_PRIVATE);
         id_skin = prefsSkin.getInt("last_val_skin", 0);
+        id_eye = prefseye.getInt("last_val_eye", 0);
         uvi_level_alert_status = togglePreferences.getBoolean(NotificationsActivity.UVI_LEVEL_ALERT_STATUS, true);
         sunglasses_alert_status = togglePreferences.getBoolean(NotificationsActivity.SUNGLASSES_ALERT_STATUS, true);
         sunburn_alert_status = togglePreferences.getBoolean(NotificationsActivity.SUNBURN_ALERT_STATUS, true);
@@ -175,13 +187,44 @@ public class NotificationsService extends Service {
                         "You can stay outside for a maximum of " + minutesToBurn + " minutes!",
                         NotificationChannelsClass.CHANNEL_3_ID, 3);
             }
+            //switch case, output depending on the eye color.
+            if(uvMax >= 2 && sunglasses_alert_status) {
+                switch (id_eye) {
+                    case EYE_TYPE_BLUE:
+                        sendToChannel(R.drawable.ic_sunglasses,
+                                "SUNGLASSES ALERT!!!\n Hey Blue Eyes",
+                                "UV is Moderate, get your shades on!",
+                                NotificationChannelsClass.CHANNEL_2_ID, 2);
+                        break;
+                    case EYE_TYPE_BROWN:
+                        sendToChannel(R.drawable.ic_sunglasses,
+                                "SUNGLASSES ALERT!!!\n Hey Green Eyes",
+                                "UV is Moderate, get your shades on!",
+                                NotificationChannelsClass.CHANNEL_2_ID, 2);
+
+                        break;
+                    case EYE_TYPE_GREEN:
+                        sendToChannel(R.drawable.ic_sunglasses,
+                                "SUNGLASSES ALERT!!!\n Hey Brown Eyes",
+                              "UV is Moderate, get your shades on!",
+                                NotificationChannelsClass.CHANNEL_2_ID, 2);
+
+                        break;
+                    case EYE_TYPE__HAZEL:
+                        sendToChannel(R.drawable.ic_sunglasses,
+                                "SUNGLASSES ALERT!!!\n Hey Hazel Eyes",
+                                "UV is Moderate, get your shades on!",
+                                NotificationChannelsClass.CHANNEL_2_ID, 2);
+                        break;
+
+                }
+
+            }
+
         }
 
 
     }
-
-
-
 
     public void sendToChannel(int drawableID, String contentTitle, String contentText, final String notificationChannel , int id) {
 

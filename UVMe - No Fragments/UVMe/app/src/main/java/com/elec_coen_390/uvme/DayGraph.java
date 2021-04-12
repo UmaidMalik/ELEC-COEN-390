@@ -81,12 +81,8 @@ public class DayGraph extends AppCompatActivity {
         for (int i = 2; i < uvList.size(); i++) {
             //if (selectedDay == uvList.get(i).getDay() && selectedMonth == uvList.get(i).getMonth() && selectedYear == uvList.get(i).getYear()) {
             //int x = uvList.get(i).getHour();
-            int x = uvList.get(i).getMinute(); //@TODO change to hour remember
-            /** @sal  one thing we forgot to consider, was the minutes have to be in ascending order that's why 'i' starts at 2 **/
+            int x = uvList.get(i).getMinute();
             float y  =  uvList.get(i).getUv_max();
-            //DataPoint point = new DataPoint(x, y);
-            //series3.appendData(new DataPoint(point.getX(), point.getY()), true, 12 ); @TODO this was causing problems but i dont know why :(
-            //series1.appendData(new DataPoint(point.getX(), point.getY()), true, 500, true);
             DataPoint point = new DataPoint(x, y);
             dataPoints[i-2] = point;
             //  }
@@ -123,7 +119,7 @@ public class DayGraph extends AppCompatActivity {
         graph.getGridLabelRenderer().setVerticalAxisTitle("UVI"); // AXIS
         graph.getGridLabelRenderer().setVerticalAxisTitleColor(Color.WHITE);
         graph.getGridLabelRenderer().setVerticalAxisTitleTextSize(50);
-        graph.getGridLabelRenderer().setVerticalLabelsColor(Color.WHITE);
+        graph.getGridLabelRenderer().setVerticalLabelsColor(Color.WHITE);  //0xFFB1D4E0 @TODO change color light blue
         graph.getGridLabelRenderer().setHorizontalLabelsColor(Color.WHITE);
         graph.getGridLabelRenderer().setHorizontalLabelsAngle(75); // ANGLE OF AXIS
         graph.getGridLabelRenderer().setGridColor(Color.WHITE);

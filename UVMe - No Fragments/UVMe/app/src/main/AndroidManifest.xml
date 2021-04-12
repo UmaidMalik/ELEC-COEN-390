@@ -67,6 +67,11 @@
             android:name=".DatabaseService"
             android:enabled="true"
             android:stopWithTask="false"/>
+
+        <service
+            android:name=".NotificationsService"
+            android:enabled="true"
+            android:stopWithTask="false"/>
     </application>
 
     

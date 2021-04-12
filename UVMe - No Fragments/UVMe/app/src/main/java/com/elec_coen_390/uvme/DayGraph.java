@@ -19,6 +19,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GridLabelRenderer;
+import com.jjoe64.graphview.helper.StaticLabelsFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.DataPointInterface;
 import com.jjoe64.graphview.series.LineGraphSeries;
@@ -30,6 +31,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import java.util.Date;
 import java.util.List;
 
 public class DayGraph extends AppCompatActivity {
@@ -43,6 +45,7 @@ public class DayGraph extends AppCompatActivity {
     DatabaseHelper dbGraph;
     List<UVReadings> uvList;
     SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a");
+    Calendar c = Calendar.getInstance();
     private Context activity;
     private float uvIndex = 0.00f;
 
@@ -77,10 +80,16 @@ public class DayGraph extends AppCompatActivity {
         for (int i = 2; i < uvList.size(); i++) {
             //if (selectedDay == uvList.get(i).getDay() && selectedMonth == uvList.get(i).getMonth() && selectedYear == uvList.get(i).getYear()) {
             //int x = uvList.get(i).getHour();
-            int x = uvList.get(i).getMinute();
+            int x = uvList.get(i).getMinute(); //@TODO change to hour remember
+            /** @sal  one thing we forgot to consider, was the minutes have to be in ascending order that's why 'i' starts at 2 **/
             float y  =  uvList.get(i).getUv_max();
+
+            //DataPoint point = new DataPoint(x, y);
+            //series3.appendData(new DataPoint(point.getX(), point.getY()), true, 12 ); @TODO this was causing problems but i dont know why :(
+            //series1.appendData(new DataPoint(point.getX(), point.getY()), true, 500, true);
             DataPoint point = new DataPoint(x, y);
             dataPoints[i-2] = point;
+
             //  }
         }
 
@@ -92,11 +101,10 @@ public class DayGraph extends AppCompatActivity {
         //series3 = new PointsGraphSeries<>(dataPoints);
        // series1 = new LineGraphSeries<>(dataPoints);
         //avgUV.setText(nm.format(average(yArray, n)));
-        //maxUV.setText(String.valueOf(max(yArray)));
 
 
-       // graph.addSeries(series3); // adds the graph to the UI
-      //  graph.addSeries(series1);
+        graph.addSeries(series3); // adds the graph to the UI
+        graph.addSeries(series1);
 
 
 
@@ -108,17 +116,13 @@ public class DayGraph extends AppCompatActivity {
             }
         });
 
-
-
-
-        graph.getGridLabelRenderer().setHumanRounding(false);
         graph.setTitle("DAY OVERVIEW"); // TITLE
         graph.setTitleTextSize(100);
         graph.setTitleColor(Color.WHITE);
         graph.getGridLabelRenderer().setVerticalAxisTitle("UVI"); // AXIS
         graph.getGridLabelRenderer().setVerticalAxisTitleColor(Color.WHITE);
         graph.getGridLabelRenderer().setVerticalAxisTitleTextSize(50);
-        graph.getGridLabelRenderer().setVerticalLabelsColor(Color.WHITE);  //0xFFB1D4E0 @TODO change color light blue
+        graph.getGridLabelRenderer().setVerticalLabelsColor(Color.WHITE);
         graph.getGridLabelRenderer().setHorizontalLabelsColor(Color.WHITE);
         graph.getGridLabelRenderer().setHorizontalLabelsAngle(75); // ANGLE OF AXIS
         graph.getGridLabelRenderer().setGridColor(Color.WHITE);
@@ -127,23 +131,25 @@ public class DayGraph extends AppCompatActivity {
         graph.getViewport().setScalableY(true);  // activate horizontal and vertical zooming and scrolling
         graph.getViewport().setScrollableY(true);
 
-        /*
+
         graph.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
             @Override
             public String formatLabel(double value, boolean isValueX){
                 if(isValueX)
                 {
-                    return timeFormat
-                            .format(new Date((long) value));
+                    return timeFormat.format(new Date((long) value));
                 }
                 else
                 {
                     return super.formatLabel(value, isValueX);
                 }}
         });
-         */
+
+
+
         graph.getGridLabelRenderer().setHumanRounding(false);
         GridLabelRenderer gridLabel = graph.getGridLabelRenderer();
+
         // SETTING BOUNDS
         graph.getViewport().setMinY(0);
         graph.getViewport().setMaxY(20);
@@ -160,8 +166,8 @@ public class DayGraph extends AppCompatActivity {
         return sum / n;
     }
 
-    static double max(double[] a) { // function to find max UVI
-        double max = 0;
+    static double max(float[] a) { // function to find max UVI
+        float max = 0;
         for (int i = 0; i < a.length; i++) { // FUNCTION USED TO FIND MAX UVI LEVEL OF ENTIRE DAY
             for (int counter = 1; counter < a.length; counter++) {
                 if (a[counter] > max) {
@@ -275,25 +281,18 @@ public class DayGraph extends AppCompatActivity {
         dbGraph = new DatabaseHelper(this);
         dbGraph.getReadableDatabase();
         uvList = dbGraph.getUVGraphInfo(9, 4, 2021); // taking from MAX table
-        dataPoints = new DataPoint[uvList.size() - 2];
 
-
-        for (int i = 0; i < 5; i++) {
-            if (selectedDay == uvList.get(i).getDay() && selectedMonth == uvList.get(i).getMonth() && selectedYear == uvList.get(i).getYear() && uvList.get(i).getHour() == 9) {
-            //int x = uvList.get(i).getHour();
-            int x = uvList.get(i).getMinute();
-            float y  =  uvList.get(i).getUv_max();
-            DataPoint point = new DataPoint(x, y);
-            dataPoints[i] = point;
-              }
+        for (int i = 0; i < uvList.size(); i++) {
+            if (selectedDay == uvList.get(i).getDay() && selectedMonth == uvList.get(i).getMonth() && selectedYear == uvList.get(i).getYear()) {
+                //int x = uvList.get(i).getHour();
+                int x = uvList.get(i).getMinute(); //@TODO change to hour remember
+                float y  =  uvList.get(i).getUv_max();
+                DataPoint point = new DataPoint(x, y);
+                series3.appendData(new DataPoint(point.getX(), point.getY()), true, 500);
+                series1.appendData(new DataPoint(point.getX(), point.getY()), true, 500);
+            }
         }
 
-        series3 = new PointsGraphSeries<>(dataPoints);
-        series1 = new LineGraphSeries<>(dataPoints);
-
-
-        graph.addSeries(series3); // adds the graph to the UI
-        graph.addSeries(series1);
     }
 }
 

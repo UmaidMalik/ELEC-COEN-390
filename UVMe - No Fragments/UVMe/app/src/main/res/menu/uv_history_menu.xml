@@ -2,6 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+
     <item
         android:title="Day Graph"
         android:id="@+id/showDay"
@@ -14,9 +15,19 @@
         android:title="Month Graph"
         android:id="@+id/showMonth"
         app:showAsAction="never"/>
+
     <item
-        android:title="Back to Top"
         android:id="@+id/BTT"
-        app:showAsAction="never"/>
+        android:title="Back to Top"
+        android:icon="@drawable/ic_go_up"
+        android:orderInCategory="100"
+        app:showAsAction="always" />
+
+    <item
+        android:title="Go to Bottom"
+        android:id="@+id/backToBottom"
+        android:icon="@drawable/ic_go_down"
+        android:orderInCategory="100"
+        app:showAsAction="always" />
 
 </menu>

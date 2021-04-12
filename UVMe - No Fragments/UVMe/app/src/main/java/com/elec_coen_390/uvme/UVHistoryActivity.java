@@ -5,6 +5,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.database.DataSetObserver;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
@@ -12,6 +13,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -40,7 +42,7 @@ public class UVHistoryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       // this.getSupportActionBar().hide();
+        // this.getSupportActionBar().hide();
         setContentView(R.layout.activity_uv_history);
         TextView title = (TextView) findViewById(R.id.activityUVHistory);
         title.setText("UV History");
@@ -127,7 +129,7 @@ public class UVHistoryActivity extends AppCompatActivity {
 
             //uvIndex.setText(uvList.get(i).uvToString());
             timeStamp.setText(uvList.get(i).timeStampToString());
-            uvIndex.setText(String.valueOf("A:"+ uvList.get(i).getUv_avg() + "M:"+ uvList.get(i).getUv_max())); // @TODO remove
+            uvIndex.setText(String.valueOf("A:" + uvList.get(i).getUv_avg() + "M:" + uvList.get(i).getUv_max())); // @TODO remove
 
             setListViewIcons(i);
 
@@ -141,28 +143,20 @@ public class UVHistoryActivity extends AppCompatActivity {
         //float uvIndexValue = uvList.get(position).getUv_value();
         float uvIndexValue = uvList.get(position).getUv_max(); // @TODO remove this
 
-        if (uvIndexValue  < 1) {
+        if (uvIndexValue < 1) {
             colorImage.setImageResource(R.drawable.ic_sunlight_default_level1_lightblue);
-        }
-        else if (uvIndexValue  >= 1 && uvIndexValue  < 3) {
+        } else if (uvIndexValue >= 1 && uvIndexValue < 3) {
             colorImage.setImageResource(R.drawable.ic_sunlight_default_level1_lightblue);
-        }
-        else if (uvIndexValue  >= 3 && uvIndexValue  < 6) {
+        } else if (uvIndexValue >= 3 && uvIndexValue < 6) {
             colorImage.setImageResource(R.drawable.ic_sunlight_level2);
-        }
-        else if (uvIndexValue  >= 6 && uvIndexValue  < 8) {
+        } else if (uvIndexValue >= 6 && uvIndexValue < 8) {
             colorImage.setImageResource(R.drawable.ic_sunlight_level3);
-        }
-        else if (uvIndexValue  >= 8 && uvIndexValue  < 11) {
+        } else if (uvIndexValue >= 8 && uvIndexValue < 11) {
             colorImage.setImageResource(R.drawable.ic_sunlight_level4);
-        }
-        else if (uvIndexValue  > 11){
+        } else if (uvIndexValue > 11) {
             colorImage.setImageResource(R.drawable.ic_sunlight_level5);
         }
     }
-
-
-
 
 
     @Override
@@ -170,6 +164,7 @@ public class UVHistoryActivity extends AppCompatActivity {
         //super.onBackPressed();
         goToMoreActivity();
     }
+
     private void setupBottomNavigationListener() {
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
@@ -202,6 +197,7 @@ public class UVHistoryActivity extends AppCompatActivity {
         });
 
     }
+
     protected void goToProfileActivity() {
         Intent intentProfile = new Intent(this, ProfileActivity.class);
         intentProfile.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
@@ -213,22 +209,26 @@ public class UVHistoryActivity extends AppCompatActivity {
         intentMore.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intentMore);
     }
+
     protected void goToMainActivity() {
         Intent intentMain = new Intent(this, MainActivity.class);
         intentMain.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intentMain);
     }
+
     protected void goToGraphActivity() {
         Intent intentGraph = new Intent(this, DayGraph.class);
         intentGraph.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intentGraph);
     }
-    protected  void goToWeekGraph(){
+
+    protected void goToWeekGraph() {
         Intent intentGraphWeek = new Intent(this, weekGraph.class);
         intentGraphWeek.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intentGraphWeek);
     }
-    protected  void goToMonthGraph(){
+
+    protected void goToMonthGraph() {
         Intent intentGraphMonth = new Intent(this, monthGraph.class);
         intentGraphMonth.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intentGraphMonth);
@@ -236,11 +236,12 @@ public class UVHistoryActivity extends AppCompatActivity {
 
     public boolean onCreateOptionsMenu(Menu menu) { // access menu created.
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.uv_history_menu,menu);
+        inflater.inflate(R.menu.uv_history_menu, menu);
         return true;
     }
+
     @Override
-    public boolean onOptionsItemSelected( MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.showDay) {
             goToGraphActivity();
             return true;
@@ -253,13 +254,23 @@ public class UVHistoryActivity extends AppCompatActivity {
             goToMonthGraph();
             return true;
         }
+        if (item.getItemId() == R.id.backToBottom) {
+            listViewUVHistory.setSelection(customAdapter.getCount() - 1);
 
-        if (item.getItemId() == R.id.BTT) {
+            return true;
+        }
+
+        if ( item.getItemId() == R.id.BTT) {
             listViewUVHistory.setSelectionAfterHeaderView();
             return true;
         }
         return super.onOptionsItemSelected(item);
+
+
+
+
     }
+
 
 
 

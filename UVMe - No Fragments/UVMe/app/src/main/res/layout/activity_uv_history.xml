@@ -70,62 +70,8 @@
         android:id="@+id/sensorDataListView"
         android:layout_width="match_parent"
         android:layout_height="465dp"
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="50dp"
         android:layout_alignParentBottom="true" />
-
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="0dp">
-
-        <Button
-            android:id="@+id/showWeekGraphButton"
-            android:text="Show Week"
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="0dp"
-            android:textSize="10sp"
-            android:textColor="@color/light_blue"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"/>
-        <Button
-            android:id="@+id/showGraphButton"
-            android:text="Show Day"
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_toStartOf="@+id/showWeekGraphButton"
-            android:layout_marginEnd="45dp"
-            android:textColor="@color/light_blue"
-            android:textSize="10sp"
-            />
-        <Button
-            android:id="@+id/showMonthGraphButton"
-            android:layout_width="80dp"
-            android:text="Show Month"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/showWeekGraphButton"
-            android:textColor="@color/light_blue"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="45dp"
-            android:textSize="10sp"
-            />
-        <Button
-            android:id="@+id/showOverallGraphButton"
-            android:layout_width="wrap_content"
-            android:text="Show Overall Exposure"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="0dp"
-            android:textColor="@color/light_blue"
-            android:layout_centerHorizontal="true"
-
-            />
-
-
-    </RelativeLayout>
-
 
 </RelativeLayout>
 

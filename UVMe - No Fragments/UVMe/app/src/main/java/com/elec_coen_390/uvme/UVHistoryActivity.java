@@ -132,8 +132,6 @@ public class UVHistoryActivity extends AppCompatActivity {
             setListViewIcons(i);
 
 
-
-
             return moreView;
         }
     }
@@ -253,6 +251,11 @@ public class UVHistoryActivity extends AppCompatActivity {
         }
         if (item.getItemId() == R.id.showMonth) {
             goToMonthGraph();
+            return true;
+        }
+
+        if (item.getItemId() == R.id.BTT) {
+            listViewUVHistory.setSelectionAfterHeaderView();
             return true;
         }
         return super.onOptionsItemSelected(item);

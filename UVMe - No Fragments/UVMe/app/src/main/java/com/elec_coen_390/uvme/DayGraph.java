@@ -60,19 +60,20 @@ public class DayGraph extends AppCompatActivity {
         Intent intent = getIntent(); // lets us go back and forth from app to app
 
         graphSetup();
-        //setDate();
+        setDate();
 
     }
 
     protected void graphSetup() {
         // styling series
         graph = (GraphView) findViewById(R.id.graph);
-        uvList = new ArrayList<>();
-        dbGraph = new DatabaseHelper(this);
-        dbGraph.getReadableDatabase();
-        uvList = dbGraph.getUVGraphInfo(9, 4, 2021); // taking from MAX table
-        dataPoints = new DataPoint[uvList.size() - 2];
+        //uvList = new ArrayList<>();
+        //dbGraph = new DatabaseHelper(this);
+        //dbGraph.getReadableDatabase();
+        //uvList = dbGraph.getUVGraphInfo(9, 4, 2021); // taking from MAX table
+        //dataPoints = new DataPoint[uvList.size() - 2];
 
+        /*
         for (int i = 2; i < uvList.size(); i++) {
             //if (selectedDay == uvList.get(i).getDay() && selectedMonth == uvList.get(i).getMonth() && selectedYear == uvList.get(i).getYear()) {
             //int x = uvList.get(i).getHour();
@@ -83,17 +84,19 @@ public class DayGraph extends AppCompatActivity {
             //  }
         }
 
+         */
 
 
 
-        series3 = new PointsGraphSeries<>(dataPoints);
-        series1 = new LineGraphSeries<>(dataPoints);
+
+        //series3 = new PointsGraphSeries<>(dataPoints);
+       // series1 = new LineGraphSeries<>(dataPoints);
         //avgUV.setText(nm.format(average(yArray, n)));
         //maxUV.setText(String.valueOf(max(yArray)));
 
 
-        graph.addSeries(series3); // adds the graph to the UI
-        graph.addSeries(series1);
+       // graph.addSeries(series3); // adds the graph to the UI
+      //  graph.addSeries(series1);
 
 
 
@@ -272,18 +275,25 @@ public class DayGraph extends AppCompatActivity {
         dbGraph = new DatabaseHelper(this);
         dbGraph.getReadableDatabase();
         uvList = dbGraph.getUVGraphInfo(9, 4, 2021); // taking from MAX table
+        dataPoints = new DataPoint[uvList.size() - 2];
 
-        for (int i = 0; i < uvList.size(); i++) {
-            if (selectedDay == uvList.get(i).getDay() && selectedMonth == uvList.get(i).getMonth() && selectedYear == uvList.get(i).getYear()) {
-                //int x = uvList.get(i).getHour();
-                int x = uvList.get(i).getMinute(); //@TODO change to hour remember
-                float y  =  uvList.get(i).getUv_max();
-                DataPoint point = new DataPoint(x, y);
-                series3.appendData(new DataPoint(point.getX(), point.getY()), true, 500);
-                series1.appendData(new DataPoint(point.getX(), point.getY()), true, 500);
-            }
+
+        for (int i = 0; i < 5; i++) {
+            if (selectedDay == uvList.get(i).getDay() && selectedMonth == uvList.get(i).getMonth() && selectedYear == uvList.get(i).getYear() && uvList.get(i).getHour() == 9) {
+            //int x = uvList.get(i).getHour();
+            int x = uvList.get(i).getMinute();
+            float y  =  uvList.get(i).getUv_max();
+            DataPoint point = new DataPoint(x, y);
+            dataPoints[i] = point;
+              }
         }
 
+        series3 = new PointsGraphSeries<>(dataPoints);
+        series1 = new LineGraphSeries<>(dataPoints);
+
+
+        graph.addSeries(series3); // adds the graph to the UI
+        graph.addSeries(series1);
     }
 }
 

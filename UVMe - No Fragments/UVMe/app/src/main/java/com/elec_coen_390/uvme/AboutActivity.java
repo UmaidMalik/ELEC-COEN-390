@@ -37,6 +37,7 @@ public class AboutActivity extends AppCompatActivity {
          */
 
         // start of FAQ
+        /*
         textViewQ1 = (TextView) findViewById(R.id.textViewAbout_Q1);
 
 
@@ -46,6 +47,8 @@ public class AboutActivity extends AppCompatActivity {
                     textViewA1.setVisibility(View.VISIBLE);
                 }
             });
+            
+         */
 
     }
 

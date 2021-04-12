@@ -74,7 +74,7 @@ public class DatabaseService extends Service {
 
     // function that reads values from database and saves it.
     // taking in UV sensor data and time.
-    private void startDatabaseThread(/*View view*/) {
+    private void startDatabaseThread() {
         new Thread(runnableDatabase).start();
     }
 

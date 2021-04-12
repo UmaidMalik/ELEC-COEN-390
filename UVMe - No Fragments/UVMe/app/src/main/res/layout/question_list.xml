@@ -13,7 +13,8 @@
         android:id="@+id/question_tv"
         android:text="Question"
         android:fontFamily="@font/roboto_thin"
-        android:textSize="30sp"
+        android:textSize="20sp"
+        android:paddingStart="15dp"
         android:padding="4dp"
         android:textColor="@color/light_blue" />
 

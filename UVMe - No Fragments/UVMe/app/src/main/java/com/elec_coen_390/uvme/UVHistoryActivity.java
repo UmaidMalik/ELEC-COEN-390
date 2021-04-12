@@ -256,6 +256,7 @@ public class UVHistoryActivity extends AppCompatActivity {
         }
         if (item.getItemId() == R.id.backToBottom) {
             listViewUVHistory.setSelection(customAdapter.getCount() - 1);
+
             return true;
         }
 
@@ -265,7 +266,7 @@ public class UVHistoryActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
 
-//
+
 
 
     }

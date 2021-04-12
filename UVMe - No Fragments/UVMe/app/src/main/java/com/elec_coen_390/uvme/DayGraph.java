@@ -62,49 +62,52 @@ public class DayGraph extends AppCompatActivity {
         maxUV = findViewById(R.id.maxUV);
         Intent intent = getIntent(); // lets us go back and forth from app to app
 
+
         graphSetup();
-        //setDate();
+        setDate();
 
     }
 
     protected void graphSetup() {
         // styling series
         graph = (GraphView) findViewById(R.id.graph);
+       /*
         uvList = new ArrayList<>();
         dbGraph = new DatabaseHelper(this);
         dbGraph.getReadableDatabase();
         uvList = dbGraph.getUVGraphInfo(9, 4, 2021); // taking from MAX table
-        dataPoints = new DataPoint[uvList.size() - 2];
+        dataPoints = new DataPoint[uvList.size()];
+*/
 
-
-        for (int i = 2; i < uvList.size(); i++) {
+    //    for (int i = 0; i < uvList.size(); i++) {
             //if (selectedDay == uvList.get(i).getDay() && selectedMonth == uvList.get(i).getMonth() && selectedYear == uvList.get(i).getYear()) {
             //int x = uvList.get(i).getHour();
-            int x = uvList.get(i).getMinute(); //@TODO change to hour remember
+     //       int x = uvList.get(i).getMinute(); //@TODO change to hour remember
             /** @sal  one thing we forgot to consider, was the minutes have to be in ascending order that's why 'i' starts at 2 **/
-            float y  =  uvList.get(i).getUv_max();
-
-            //DataPoint point = new DataPoint(x, y);
-            //series3.appendData(new DataPoint(point.getX(), point.getY()), true, 12 ); @TODO this was causing problems but i dont know why :(
-            //series1.appendData(new DataPoint(point.getX(), point.getY()), true, 500, true);
-            DataPoint point = new DataPoint(x, y);
-            dataPoints[i-2] = point;
-
-            //  }
-        }
+      //      float y  =  uvList.get(i).getUv_max();
 
 
+      //      DataPoint point = new DataPoint(x, y);
+     //       dataPoints[i] = point;
 
+           //   }
+      //  }
+
+        series1 = new LineGraphSeries<>(new DataPoint[] {
+                new DataPoint(0, 0)
+        });
+
+        series3 = new PointsGraphSeries<>(new DataPoint[] {
+                new DataPoint(0, 0)
+        }) ;
 
 
 
         //series3 = new PointsGraphSeries<>(dataPoints);
-       // series1 = new LineGraphSeries<>(dataPoints);
-        //avgUV.setText(nm.format(average(yArray, n)));
+        //series1 = new LineGraphSeries<>(dataPoints);
 
-
-        graph.addSeries(series3); // adds the graph to the UI
-        graph.addSeries(series1);
+        graph.addSeries(series1); // adds the graph to the UI
+        graph.addSeries(series3);
 
 
 
@@ -281,17 +284,33 @@ public class DayGraph extends AppCompatActivity {
         dbGraph = new DatabaseHelper(this);
         dbGraph.getReadableDatabase();
         uvList = dbGraph.getUVGraphInfo(9, 4, 2021); // taking from MAX table
+        dataPoints = new DataPoint[uvList.size()];
 
         for (int i = 0; i < uvList.size(); i++) {
-            if (selectedDay == uvList.get(i).getDay() && selectedMonth == uvList.get(i).getMonth() && selectedYear == uvList.get(i).getYear()) {
+            if (selectedDay == uvList.get(i).getDay() && selectedMonth + 1 == uvList.get(i).getMonth() && selectedYear == uvList.get(i).getYear() && uvList.get(i).getHour() == 1) {
                 //int x = uvList.get(i).getHour();
                 int x = uvList.get(i).getMinute(); //@TODO change to hour remember
                 float y  =  uvList.get(i).getUv_max();
+
                 DataPoint point = new DataPoint(x, y);
-                series3.appendData(new DataPoint(point.getX(), point.getY()), true, 500);
-                series1.appendData(new DataPoint(point.getX(), point.getY()), true, 500);
-            }
+                dataPoints[i] = point;
+           }
+
         }
+
+
+        series3.resetData( new DataPoint[] {});
+        series1.resetData( new DataPoint[] {});
+
+        series3 = new PointsGraphSeries<>(dataPoints);
+        series1 = new LineGraphSeries<>(dataPoints);
+
+        graph.removeAllSeries();
+        graph.addSeries(series3); // adds the graph to the UI
+      graph.addSeries(series1);
+
+
+
 
     }
 }

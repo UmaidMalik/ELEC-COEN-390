@@ -83,7 +83,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         long id =-1;
 
         DecimalFormat df = new DecimalFormat("#,###,##0.00");
-        //currentDateTime = Calendar.getInstance();
+
         int day = currentDateTime.get(Calendar.DAY_OF_MONTH);
         int month = currentDateTime.get(Calendar.MONTH);
         int year = currentDateTime.get(Calendar.YEAR);

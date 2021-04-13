@@ -27,6 +27,7 @@ import com.jjoe64.graphview.series.OnDataPointTapListener;
 import com.jjoe64.graphview.series.PointsGraphSeries;
 import com.jjoe64.graphview.series.Series;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -111,13 +112,15 @@ public class DayGraph extends AppCompatActivity {
 
 
 
-
+            /*
         series3.setOnDataPointTapListener(new OnDataPointTapListener() { // ALLOWS USER TO SEE NODES
             @Override
             public void onTap(Series series, DataPointInterface dataPoint) {
                 Toast.makeText(getApplicationContext(), "\t\t\t  UV Intensity \n [HOUR,INTENSITY] \n" +"\t\t\t\t\t"+ dataPoint, Toast.LENGTH_LONG).show();
             }
         });
+
+             */
 
         graph.setTitle("DAY OVERVIEW"); // TITLE
         graph.setTitleTextSize(100);
@@ -284,15 +287,31 @@ public class DayGraph extends AppCompatActivity {
         dbGraph = new DatabaseHelper(this);
         dbGraph.getReadableDatabase();
         uvList = dbGraph.getUVGraphInfo(9, 4, 2021); // taking from MAX table
-        dataPoints = new DataPoint[uvList.size()];
+        DecimalFormat df = new DecimalFormat("#,###,##0.00");
+
+        int countSize = 0;
+        for (int i = 0; i < uvList.size(); i++)
+            if (selectedDay == uvList.get(i).getDay() &&
+                    selectedMonth + 1 == uvList.get(i).getMonth() &&
+                    selectedYear == uvList.get(i).getYear() &&
+                    uvList.get(i).getHour() == 1) {
+
+                countSize++;
+            }
+
+        dataPoints = new DataPoint[countSize];
 
         for (int i = 0; i < uvList.size(); i++) {
-            if (selectedDay == uvList.get(i).getDay() && selectedMonth + 1 == uvList.get(i).getMonth() && selectedYear == uvList.get(i).getYear() && uvList.get(i).getHour() == 1) {
+            if (selectedDay == uvList.get(i).getDay() &&
+                    selectedMonth + 1 == uvList.get(i).getMonth() &&
+                    selectedYear == uvList.get(i).getYear() &&
+                    uvList.get(i).getHour() == 1) {
+
                 //int x = uvList.get(i).getHour();
                 int x = uvList.get(i).getMinute(); //@TODO change to hour remember
                 float y  =  uvList.get(i).getUv_max();
 
-                DataPoint point = new DataPoint(x, y);
+                DataPoint point = new DataPoint(x, Double.parseDouble(df.format(y)));
                 dataPoints[i] = point;
            }
 
@@ -308,6 +327,13 @@ public class DayGraph extends AppCompatActivity {
         graph.removeAllSeries();
         graph.addSeries(series3); // adds the graph to the UI
       graph.addSeries(series1);
+
+        series3.setOnDataPointTapListener(new OnDataPointTapListener() { // ALLOWS USER TO SEE NODES
+            @Override
+            public void onTap(Series series, DataPointInterface dataPoint) {
+                Toast.makeText(getApplicationContext(), "\t\t\t  UV Intensity \n [HOUR,INTENSITY] \n" +"\t\t\t\t\t"+ dataPoint, Toast.LENGTH_LONG).show();
+            }
+        });
 
 
 

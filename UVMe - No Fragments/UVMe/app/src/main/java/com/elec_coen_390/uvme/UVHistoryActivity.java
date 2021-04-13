@@ -40,6 +40,8 @@ public class UVHistoryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // this.getSupportActionBar().hide();
+        getSupportActionBar().setTitle("UV History");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         setContentView(R.layout.activity_uv_history);
         TextView title = (TextView) findViewById(R.id.activityUVHistory);
         title.setText("UV History");

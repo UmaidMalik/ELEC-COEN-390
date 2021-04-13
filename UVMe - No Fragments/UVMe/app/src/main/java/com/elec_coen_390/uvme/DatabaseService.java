@@ -104,6 +104,7 @@ public class DatabaseService extends Service {
                     db.insertUVGraph(maxUVDatabaseHOUR, avg, calendar);
                     sum = 0;
                     count = 0;
+                    maxUVDatabaseHOUR = 0;
                 }
 
             }

@@ -7,44 +7,53 @@
     android:background="@color/midnight_blue"
     tools:context=".DayGraph">
 
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:layout_above="@id/bottom_navigation">
 
 <TextView
+    android:id="@+id/textViewAVGExposure"
     android:text="AVERAGE UV EXPOSURE"
-    android:textColor="@android:color/holo_red_dark"
+    android:textColor="@color/light_blue"
     android:layout_width="100dp"
     android:layout_height="20dp"
-    android:textSize="15dp"
-    android:layout_marginLeft="25dp"
+    android:textSize="15sp"
+    android:layout_marginLeft="15dp"
     android:layout_marginBottom="10dp"
-    android:layout_marginTop="625dp"/>
+    />
     <TextView
         android:text="MAX UV LEVEL"
-        android:textColor="@android:color/holo_red_dark"
+        android:textColor="@color/light_blue"
         android:layout_width="100dp"
         android:layout_height="20dp"
-        android:textSize="15dp"
-        android:layout_marginLeft="25dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="660dp"/>
+        android:layout_below="@id/textViewAVGExposure"
+        android:textSize="15sp"
+        android:layout_marginStart="15dp"
+        />
     <TextView
         android:id="@+id/avgUV"
-        android:textColor="@android:color/holo_red_dark"
+        android:textColor="@color/light_blue"
         android:layout_width="50dp"
         android:layout_height="20dp"
-        android:textSize="15dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="200dp"
-        android:layout_marginTop="625dp"/>
+        android:textSize="15sp"
+        android:text="0.00"
+        android:layout_toEndOf="@id/textViewAVGExposure"
+
+        />
 
     <TextView
         android:id="@+id/maxUV"
-        android:textColor="@android:color/holo_red_dark"
+        android:textColor="@color/light_blue"
         android:layout_width="50dp"
-        android:textSize="15dp"
+        android:textSize="15sp"
         android:layout_height="20dp"
         android:layout_marginBottom="10dp"
-        android:layout_marginLeft="200dp"
-        android:layout_marginTop="660dp"/>
+        android:layout_toEndOf="@id/textViewAVGExposure"
+        android:layout_below="@id/textViewAVGExposure"
+        android:text="0.00"
+        />
+</RelativeLayout>
 
     <com.jjoe64.graphview.GraphView
     android:id="@+id/graph"
@@ -53,7 +62,7 @@
     android:layout_marginTop="10dp"
     android:layout_marginBottom="140dp"
     android:layout_marginRight="15dp"
-    android:layout_marginLeft="1dp">
+    android:layout_marginLeft="15dp">
 
 
 </com.jjoe64.graphview.GraphView>

@@ -21,6 +21,7 @@ import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GridLabelRenderer;
 import com.jjoe64.graphview.LegendRenderer;
 import com.jjoe64.graphview.helper.StaticLabelsFormatter;
+import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.DataPointInterface;
 import com.jjoe64.graphview.series.LineGraphSeries;
@@ -36,13 +37,14 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class DayGraph extends AppCompatActivity {
+public class DayGraph extends AppCompatActivity{
 
     public LineGraphSeries<DataPoint> seriesLineMax;
     public PointsGraphSeries<DataPoint> seriesPointsMax;
 
     public LineGraphSeries<DataPoint> seriesLineAvg;
     public PointsGraphSeries<DataPoint> seriesPointsAvg;
+
 
     TextView avgUV;
     TextView maxUV;
@@ -51,7 +53,6 @@ public class DayGraph extends AppCompatActivity {
     DatabaseHelper dbGraph;
     List<UVReadings> uvList;
     SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a");
-    Calendar c = Calendar.getInstance();
     private Context activity;
     private float uvIndex = 0.00f;
 
@@ -59,6 +60,12 @@ public class DayGraph extends AppCompatActivity {
     DataPoint[] dataPointsMAX;
     DataPoint[] dataPointsAVG;
 
+    private int selectedDay;
+    private int selectedMonth;
+    private int selectedYear;
+
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,16 +76,18 @@ public class DayGraph extends AppCompatActivity {
         maxUV = findViewById(R.id.maxUV);
 
         graphSetup();
-        setDate();
-
+        //setDate();
+        getUVReadingFromDate(13, 4 ,2021);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onResume() {
         super.onResume();
 
-        //graphSetup();
+       // graphSetup();
         //setDate();
+       // getUVReadingFromDate(13, 4 ,2021);
     }
 
     protected void graphSetup() {
@@ -97,9 +106,11 @@ public class DayGraph extends AppCompatActivity {
                 new DataPoint(0, 0)
         });
 
-        seriesPointsMax = new PointsGraphSeries<>(new DataPoint[] {
+        seriesPointsAvg = new PointsGraphSeries<>(new DataPoint[] {
                 new DataPoint(0, 0)
         });
+
+
 
 
 
@@ -113,24 +124,24 @@ public class DayGraph extends AppCompatActivity {
 
 
 
+
+
+
         seriesLineMax.setTitle("Max UV Readings");
         seriesLineMax.setBackgroundColor(Color.BLUE);
         seriesPointsMax.setTitle("Max Value");
-        seriesLineMax.setBackgroundColor(Color.RED);
+        seriesPointsMax.setColor(Color.WHITE);
 
-       // seriesLineAvg.setTitle("Avg UV Readings");
-      //  seriesLineAvg.setBackgroundColor(Color.BLUE);
-     //   seriesPointsAvg.setTitle("Avg Value");
-      //  seriesLineAvg.setBackgroundColor(Color.WHITE);
-
+        seriesLineAvg.setTitle("Avg UV Readings");
+        seriesLineAvg.setBackgroundColor(Color.RED);
+        seriesPointsAvg.setTitle("Avg Value");
+        seriesPointsAvg.setColor(Color.WHITE);
 
         graph.getLegendRenderer().setVisible(true);
         graph.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.BOTTOM);
 
         graph.setTitle("DAY OVERVIEW"); // TITLE
         graph.setTitleTextSize(100);
-        seriesPointsMax.setColor(Color.RED);
-       // seriesPointsAvg.setColor(Color.WHITE);
         graph.setTitleColor(0xFFB1D4E0); // lightBlue
         graph.getGridLabelRenderer().setVerticalAxisTitle("UVI"); // AXIS
         graph.getGridLabelRenderer().setVerticalAxisTitleColor(0xFFB1D4E0);
@@ -148,18 +159,7 @@ public class DayGraph extends AppCompatActivity {
 
 
 
-        graph.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
-            @Override
-            public String formatLabel(double value, boolean isValueX){
-                if(isValueX)
-                {
-                    return timeFormat.format(new Date((long) value));
-                }
-                else
-                {
-                    return super.formatLabel(value, isValueX);
-                }}
-        });
+
 
 
 
@@ -168,10 +168,11 @@ public class DayGraph extends AppCompatActivity {
 
         // SETTING BOUNDS
         graph.getViewport().setMinY(0);
-        graph.getViewport().setMaxY(20);
+        graph.getViewport().setMaxY(18);
         graph.getViewport().setMinX(0);
-        graph.getViewport().setMaxX(24);
-        graph.getGridLabelRenderer().setNumHorizontalLabels(12);
+        graph.getViewport().setMaxX(12);
+        graph.getGridLabelRenderer().setNumHorizontalLabels(7);
+        graph.getGridLabelRenderer().setNumVerticalLabels(2);
     }
 
 
@@ -237,19 +238,21 @@ public class DayGraph extends AppCompatActivity {
     protected void setDate() { // Used to date the date with calendar
         final Calendar calendar = Calendar.getInstance();
         int day = calendar.get(Calendar.DAY_OF_MONTH);
-        int month = calendar.get(Calendar.MONTH);
-        int year = calendar.get(Calendar.YEAR);
+       int month = calendar.get(Calendar.MONTH);
+       int year = calendar.get(Calendar.YEAR);
 
         datePicker = new DatePickerDialog(DayGraph.this, new DatePickerDialog.OnDateSetListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onDateSet(DatePicker view, int yearOfCentury, int monthOfYear, int dayOfMonth) {
-                getUVReadingFromDate(day, month, year);}}, year, month, day);
+                getUVReadingFromDate(yearOfCentury, monthOfYear, dayOfMonth);
+                }
+            }, year , month, day);
                  datePicker.show();}
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void getUVReadingFromDate(int selectedDay, int selectedMonth, int selectedYear) {
+    public void getUVReadingFromDate(int selectedDay_, int selectedMonth_, int selectedYear_) {
         uvList = new ArrayList<>();
         dbGraph = new DatabaseHelper(this);
         dbGraph.getReadableDatabase();
@@ -257,29 +260,34 @@ public class DayGraph extends AppCompatActivity {
         DecimalFormat df = new DecimalFormat("#,###,##0.00");
 
 
+       selectedDay = selectedDay_;
+       selectedMonth = selectedMonth_;
+      selectedYear = selectedYear_;
+
         int countSize = 0;
-        for (int i = 0; i < uvList.size(); i++)
-            if (selectedDay == uvList.get(i).getDay() &&
-                    selectedMonth + 1 == uvList.get(i).getMonth() &&
+        for (int i = 0; i < uvList.size(); i++) {
+            if ( selectedDay == uvList.get(i).getDay() &&
+                   selectedMonth == uvList.get(i).getMonth() &&
                     selectedYear == uvList.get(i).getYear() &&
-                    uvList.get(i).getHour() == 1) {
+                    7 == uvList.get(i).getHour() ) {
 
                 countSize++;
             }
-
-        seriesPointsMax.resetData( new DataPoint[] {});
-        seriesLineMax.resetData( new DataPoint[] {});
-        seriesPointsAvg.resetData( new DataPoint[] {});
-        seriesLineAvg.resetData( new DataPoint[] {});
+        }
+       seriesPointsMax.resetData( new DataPoint[] {});
+       seriesLineMax.resetData( new DataPoint[] {});
+       seriesPointsAvg.resetData( new DataPoint[] {});
+       seriesLineAvg.resetData( new DataPoint[] {});
 
         dataPointsMAX = new DataPoint[countSize];
         dataPointsAVG = new DataPoint[countSize];
 
+        int count = 0;
         for (int i = 0; i < uvList.size(); i++) {
             if (selectedDay == uvList.get(i).getDay() &&
-                    selectedMonth + 1 == uvList.get(i).getMonth() &&
+                    selectedMonth  == uvList.get(i).getMonth() &&
                     selectedYear == uvList.get(i).getYear() &&
-                    uvList.get(i).getHour() == 1) {
+                   7 == uvList.get(i).getHour() ) {
 
                 //int x = uvList.get(i).getHour();
                 int x = uvList.get(i).getMinute(); //@TODO change to hour remember
@@ -290,8 +298,10 @@ public class DayGraph extends AppCompatActivity {
                 DataPoint pointMax = new DataPoint(x, Double.parseDouble(df.format(yMax)));
                 DataPoint pointAvg = new DataPoint(x, Double.parseDouble(df.format(yAvg)));
 
-                dataPointsMAX[i] = pointMax;
-                dataPointsAVG[i] = pointAvg;
+
+                dataPointsMAX[count] = pointMax;
+                dataPointsAVG[count] = pointAvg;
+                count++;
             }
 
         }
@@ -306,18 +316,17 @@ public class DayGraph extends AppCompatActivity {
         seriesPointsAvg = new PointsGraphSeries<>(dataPointsAVG);
         seriesLineAvg = new LineGraphSeries<>(dataPointsAVG);
 
+        seriesLineMax.setTitle("Max UV Readings");
 
-        seriesLineMax.setTitle("UV Readings");
-        seriesLineMax.setBackgroundColor(Color.BLUE);
-        seriesPointsMax.setTitle("Max Value");
-        seriesPointsMax.setColor(Color.RED);
-        seriesLineMax.setBackgroundColor(Color.RED);
+        seriesLineMax.setColor(Color.BLUE);
+        seriesPointsMax.setColor(Color.WHITE);
+        seriesPointsMax.setTitle("Max data points");
 
-        //seriesLineAvg.setTitle("Avg UV Readings");
-       // seriesLineAvg.setBackgroundColor(Color.BLUE);
-       // seriesPointsAvg.setTitle("Avg Value");
-       // seriesPointsAvg.setColor(Color.WHITE);
-       // seriesLineAvg.setBackgroundColor(Color.WHITE);;
+        seriesLineAvg.setTitle("Avg UV Readings");
+
+        seriesLineAvg.setColor(Color.RED);
+        seriesPointsAvg.setColor(Color.GRAY);
+        seriesPointsAvg.setTitle("Avg data points");
 
         graph.getLegendRenderer().setVisible(true);
         graph.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.BOTTOM);
@@ -344,6 +353,7 @@ public class DayGraph extends AppCompatActivity {
             }
         });
 
+
     }
     protected void maxVal(float x) {
         if (x < UVSensorData.getUVIntensity()) {
@@ -353,4 +363,6 @@ public class DayGraph extends AppCompatActivity {
             x = UVSensorData.getUVIntensity();
         }
     }
+
+
 }

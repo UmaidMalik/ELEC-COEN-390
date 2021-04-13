@@ -126,7 +126,7 @@ public class UVHistoryActivity extends AppCompatActivity {
 
             //uvIndex.setText(uvList.get(i).uvToString());
             timeStamp.setText(uvList.get(i).timeStampToString());
-            uvIndex.setText(String.valueOf("A:" + uvList.get(i).getUv_avg() + "M:" + uvList.get(i).getUv_max())); // @TODO remove
+            uvIndex.setText(String.valueOf("A:" + uvList.get(i).getUv_avg() + "  M:" + uvList.get(i).getUv_max())); // @TODO remove
 
             setListViewIcons(i);
 
@@ -137,21 +137,33 @@ public class UVHistoryActivity extends AppCompatActivity {
 
     private void setListViewIcons(int position) {
         ImageView colorImage = moreView.findViewById(R.id.imageViewSunIcon);
+        ImageView warning = moreView.findViewById(R.id.warning);
+
         //float uvIndexValue = uvList.get(position).getUv_value();
         float uvIndexValue = uvList.get(position).getUv_max(); // @TODO remove this
 
         if (uvIndexValue < 1) {
             colorImage.setImageResource(R.drawable.ic_sunlight_default_level1_lightblue);
+            warning.setImageResource(R.drawable.ic_extreme_condition);
+
         } else if (uvIndexValue >= 1 && uvIndexValue < 3) {
             colorImage.setImageResource(R.drawable.ic_sunlight_default_level1_lightblue);
         } else if (uvIndexValue >= 3 && uvIndexValue < 6) {
+            warning.setImageResource(R.drawable.ic_extreme_condition);
             colorImage.setImageResource(R.drawable.ic_sunlight_level2);
+
         } else if (uvIndexValue >= 6 && uvIndexValue < 8) {
             colorImage.setImageResource(R.drawable.ic_sunlight_level3);
+            warning.setImageResource(R.drawable.ic_baseline_warning_24);
+
         } else if (uvIndexValue >= 8 && uvIndexValue < 11) {
             colorImage.setImageResource(R.drawable.ic_sunlight_level4);
+            warning.setImageResource(R.drawable.ic_baseline_warning_24);
+
         } else if (uvIndexValue > 11) {
             colorImage.setImageResource(R.drawable.ic_sunlight_level5);
+            warning.setImageResource(R.drawable.ic_baseline_warning_24);
+
         }
     }
 

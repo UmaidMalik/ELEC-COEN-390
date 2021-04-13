@@ -67,7 +67,8 @@
                 android:text="Info"
                 android:textAlignment="center"
                 android:textColor="@color/light_blue"
-                android:textSize="45sp" />
+                android:textSize="40sp"
+                android:textStyle="bold" />
 
             <ListView
                 android:id="@+id/moreActivityListView"

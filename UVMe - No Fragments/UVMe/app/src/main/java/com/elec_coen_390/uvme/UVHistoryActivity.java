@@ -26,10 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UVHistoryActivity extends AppCompatActivity {
-    Button showGraphButton;
-    Button showWeekGraphButton;
-    Button showMonthGraphButton;
-    Button showOverallGraphButton;
+
     ListView listViewUVHistory;
 
     View moreView;
@@ -62,7 +59,7 @@ public class UVHistoryActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         //uvList = db.getAllUVData();
-        uvList = db.getUVGraphInfo(12, 4, 2021);
+        uvList = db.getUVGraphInfo();
         setupListView();
     }
 
@@ -81,7 +78,7 @@ public class UVHistoryActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         //uvList = db.getAllUVData();
-                        uvList = db.getUVGraphInfo(12, 4, 2021);
+                        uvList = db.getUVGraphInfo();
                         customAdapter.notifyDataSetChanged();
                     }
                 });

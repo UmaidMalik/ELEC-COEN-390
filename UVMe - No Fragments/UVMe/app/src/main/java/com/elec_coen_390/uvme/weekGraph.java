@@ -84,7 +84,7 @@ public class weekGraph extends AppCompatActivity {
         uvList = new ArrayList<>();
         dbGraph = new DatabaseHelper(this);
         dbGraph.getReadableDatabase();
-        uvList = dbGraph.getUVGraphInfo(9, 4, 2021); // taking from MAX table
+        uvList = dbGraph.getUVGraphInfo(); // taking from MAX table
         
 
 

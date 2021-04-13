@@ -176,7 +176,8 @@
         android:text="Profile"
         android:fontFamily="@font/roboto_light"
         android:textColor="@color/light_blue"
-        android:textSize="36sp" />
+        android:textSize="40sp"
+        android:textStyle="bold"/>
 
 
 

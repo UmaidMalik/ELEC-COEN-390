@@ -31,7 +31,8 @@
         android:text="About"
         android:textAlignment="center"
         android:textColor="@color/light_blue"
-        android:textSize="40sp" />
+        android:textSize="40sp"
+        android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/textViewAbout_FAQ"

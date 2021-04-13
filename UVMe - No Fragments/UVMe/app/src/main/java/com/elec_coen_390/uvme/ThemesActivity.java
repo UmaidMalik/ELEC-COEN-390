@@ -26,16 +26,13 @@ public class ThemesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_themes);
 
         TextView title = (TextView) findViewById(R.id.activityThemes);
-        title.setText("Themes");
-        title.setTextSize(40);
-
 
         sharedPreferences = getSharedPreferences(MyPreference, MODE_PRIVATE);
         aSwitch = findViewById(R.id.darkmode_switch);
         checkNightModeActivated();
 
         boolean isChecked;
-        //CompoundButton.OnCheckedChangeListener buttonView;
+
 
         aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

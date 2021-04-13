@@ -9,72 +9,32 @@
     tools:context=".UVHistoryActivity">
 
 
-
-
-
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="670dp"
-    android:background="@color/midnight_blue">
-
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignBottom="@id/sensorDataListView"
-        android:layout_marginBottom="465dp">
+        android:layout_height="670dp"
+        android:background="@color/midnight_blue">
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true">
 
         <TextView
-            android:id="@+id/textViewUVID"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:textSize="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
+            android:textSize="30sp"
             android:textColor="@color/light_blue"
-            android:fontFamily="@font/roboto_light"
-            android:text="UV" />
+            android:fontFamily="@font/roboto_thin"
+            android:id="@+id/activityUVHistory"
+            android:textAlignment="center" />
 
-        <TextView
-            android:id="@+id/textViewHistoryTimeStamp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toEndOf="@+id/textViewUVID"
-            android:layout_marginStart="110dp"
-            android:text="Time stamp"
-            android:textColor="@color/light_blue"
-            android:fontFamily="@font/roboto_light"
-            android:textSize="20sp" />
+        <ListView
+            android:id="@+id/sensorDataListView"
+            android:layout_width="match_parent"
+            android:layout_height="465dp"
+            android:layout_marginBottom="50dp"
+            android:layout_alignParentBottom="true"
+            />
 
     </RelativeLayout>
-
-    </RelativeLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_centerHorizontal="true"
-        android:textSize="30sp"
-        android:textColor="@color/light_blue"
-        android:fontFamily="@font/roboto_thin"
-        android:id="@+id/activityUVHistory"
-        android:textAlignment="center" />
-
-    <ListView
-        android:id="@+id/sensorDataListView"
-        android:layout_width="match_parent"
-        android:layout_height="465dp"
-        android:layout_marginBottom="50dp"
-        android:layout_alignParentBottom="true"
-        />
-
-</RelativeLayout>
 
 
 

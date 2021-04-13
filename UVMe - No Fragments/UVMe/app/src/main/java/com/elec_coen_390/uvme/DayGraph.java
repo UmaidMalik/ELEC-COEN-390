@@ -251,13 +251,7 @@ public class DayGraph extends AppCompatActivity {
         dbGraph.getReadableDatabase();
         uvList = dbGraph.getUVGraphInfo(9, 4, 2021); // taking from MAX table
         DecimalFormat df = new DecimalFormat("#,###,##0.00");
-        series1.setTitle("UV Readings");
-        series1.setBackgroundColor(Color.BLUE);
-        series3.setTitle("Max Value");
-        series3.setColor(Color.RED);
-        series1.setBackgroundColor(Color.RED);
-        graph.getLegendRenderer().setVisible(true);
-        graph.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.BOTTOM);
+
 
         int countSize = 0;
         for (int i = 0; i < uvList.size(); i++)
@@ -269,13 +263,14 @@ public class DayGraph extends AppCompatActivity {
                 countSize++;
             }
 
+        series3.resetData( new DataPoint[] {});
+        series1.resetData( new DataPoint[] {});
         dataPoints = new DataPoint[countSize];
         for (int i = 0; i < uvList.size(); i++) {
             if (selectedDay == uvList.get(i).getDay() &&
                     selectedMonth + 1 == uvList.get(i).getMonth() &&
                     selectedYear == uvList.get(i).getYear() &&
                     uvList.get(i).getHour() == 3) {
-
                 //int x = uvList.get(i).getHour();
                 int x = uvList.get(i).getMinute(); //@TODO change to hour remember
                 float y  =  uvList.get(i).getUv_max();
@@ -285,13 +280,16 @@ public class DayGraph extends AppCompatActivity {
 
         }
 
-
-
-
-        series3.resetData( new DataPoint[] {});
-        series1.resetData( new DataPoint[] {});
         series3 = new PointsGraphSeries<>(dataPoints);
         series1 = new LineGraphSeries<>(dataPoints);
+
+        series1.setTitle("UV Readings");
+        series1.setBackgroundColor(Color.BLUE);
+        series3.setTitle("Max Value");
+        series3.setColor(Color.RED);
+        series1.setBackgroundColor(Color.RED);
+        graph.getLegendRenderer().setVisible(true);
+        graph.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.BOTTOM);
 
         graph.removeAllSeries();
         graph.addSeries(series3); // adds the graph to the UI

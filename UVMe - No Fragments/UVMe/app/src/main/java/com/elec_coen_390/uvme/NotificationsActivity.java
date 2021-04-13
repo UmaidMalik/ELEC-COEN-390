@@ -160,4 +160,3 @@ public class NotificationsActivity extends AppCompatActivity {
         startActivity(intentMain);
     }
 }
-

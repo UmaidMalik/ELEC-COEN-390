@@ -11,4 +11,6 @@
     <color name="secondary_blue">#1C3F60</color>
     <color name="light_blue">#B1D4E0</color>
     <color name="font_lightblue">#B1D4E0</color>
+    <color name="colorSettings">#40000000</color>
+    <color name="colorClick">#abcdef</color>
 </resources>

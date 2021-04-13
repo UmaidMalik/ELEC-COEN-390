@@ -240,7 +240,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return Collections.emptyList(); // Nothing to display
     }
 
-    public List<UVReadings> getUVGraphInfo(int calenderDay, int calenderMonth, int calenderYear) {
+    public List<UVReadings> getUVGraphInfo() {
         SQLiteDatabase database = this.getReadableDatabase();
         Cursor cursor = null;
 

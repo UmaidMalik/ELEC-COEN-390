@@ -62,7 +62,7 @@ public class UVHistoryActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         //uvList = db.getAllUVData();
-        uvList = db.getUVGraphInfo(9, 4, 2021);
+        uvList = db.getUVGraphInfo(12, 4, 2021);
         setupListView();
     }
 
@@ -81,7 +81,7 @@ public class UVHistoryActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         //uvList = db.getAllUVData();
-                        uvList = db.getUVGraphInfo(9, 4, 2021);
+                        uvList = db.getUVGraphInfo(12, 4, 2021);
                         customAdapter.notifyDataSetChanged();
                     }
                 });

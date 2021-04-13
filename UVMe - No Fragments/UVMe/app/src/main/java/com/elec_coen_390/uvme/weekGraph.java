@@ -1,14 +1,18 @@
 package com.elec_coen_390.uvme;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,7 +26,6 @@ import com.jjoe64.graphview.series.OnDataPointTapListener;
 import com.jjoe64.graphview.series.PointsGraphSeries;
 import com.jjoe64.graphview.series.Series;
 
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -34,6 +37,7 @@ public class weekGraph extends AppCompatActivity {
     private Context activity;
     TextView avgUV,maxUV;
     DatabaseHelper dbGraph;
+    DatePickerDialog weekPicker;
     List<UVReadings> uvList;
     GraphView graph ;
     @Override
@@ -45,6 +49,7 @@ public class weekGraph extends AppCompatActivity {
         avgUV=findViewById(R.id.avgUV);
         maxUV=findViewById(R.id.maxUV);
         Intent intent = getIntent(); // lets us go back and forth from app to app
+        setDate();
         week();
     }
     @Override
@@ -189,4 +194,21 @@ public class weekGraph extends AppCompatActivity {
             }
         });
     }
+    protected void setDate() { // Used to date the date with calendar
+        final Calendar calendar = Calendar.getInstance();
+
+        int week = calendar.get(Calendar.WEEK_OF_MONTH);
+        int month = calendar.get(Calendar.MONTH);
+        int year = calendar.get(Calendar.YEAR);
+
+        weekPicker = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onDateSet(DatePicker view, int yearOfCentury, int monthOfYear, int dayOfMonth) {
+
+            }
+        }, year, month, week);
+        weekPicker.show();}
+
+
 }

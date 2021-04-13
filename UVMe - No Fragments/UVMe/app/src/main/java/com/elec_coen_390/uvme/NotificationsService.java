@@ -130,9 +130,15 @@ public class NotificationsService extends Service {
 
 
     public void setupNotificationPreferences() {
-        togglePreferences = getSharedPreferences(NotificationsActivity.PREFS, MODE_PRIVATE);
+
+        prefsSkin = getSharedPreferences(ProfileActivity.prefNameSkin,MODE_PRIVATE);
         id_skin = prefsSkin.getInt("last_val_skin", 0);
+
+        prefseye = getSharedPreferences(ProfileActivity.prefNameEye,MODE_PRIVATE);
         id_eye = prefseye.getInt("last_val_eye", 0);
+
+
+        togglePreferences = getSharedPreferences(NotificationsActivity.PREFS, MODE_PRIVATE);
         uvi_level_alert_status = togglePreferences.getBoolean(NotificationsActivity.UVI_LEVEL_ALERT_STATUS, true);
         sunglasses_alert_status = togglePreferences.getBoolean(NotificationsActivity.SUNGLASSES_ALERT_STATUS, true);
         sunburn_alert_status = togglePreferences.getBoolean(NotificationsActivity.SUNBURN_ALERT_STATUS, true);
@@ -144,13 +150,13 @@ public class NotificationsService extends Service {
 
 
         if (data >= 5 && data < 8 && uvi_level_alert_status) {
-            sendToChannel(R.drawable.ic_sunlight_level3,
+            sendToChannel(R.drawable.ic_extreme_condition,
                     "UVI LEVEL ALERT!",
                     "You Are Exposed To: " + UVSensorData.getUVIntensity() + "\n Long Exposure Term May Affect Health",
                     NotificationChannelsClass.CHANNEL_1_ID, 1);
 
         } if (data >= 8 && data < 20 && uvi_level_alert_status) {
-            sendToChannel(R.drawable.ic_sunlight_level5,
+            sendToChannel(R.drawable.ic_extreme_condition,
                     "HIGH UVI LEVEL ALERT!!!",
                     "You are exposed to a DANGEROUS level of UV Radiation:" + UVSensorData.getUVIntensity() + "\nStay out of sunlight!",
                     NotificationChannelsClass.CHANNEL_1_ID, 1);
@@ -207,7 +213,7 @@ public class NotificationsService extends Service {
                     case EYE_TYPE_GREEN:
                         sendToChannel(R.drawable.ic_sunglasses,
                                 "SUNGLASSES ALERT!!!\n Hey Brown Eyes",
-                              "UV is Moderate, get your shades on!",
+                                "UV is Moderate, get your shades on!",
                                 NotificationChannelsClass.CHANNEL_2_ID, 2);
 
                         break;
@@ -220,12 +226,12 @@ public class NotificationsService extends Service {
 
                 }
 
-    }
+            }
 
 
         }
 
-            }
+    }
 
     public void sendToChannel(int drawableID, String contentTitle, String contentText, final String notificationChannel , int id) {
 

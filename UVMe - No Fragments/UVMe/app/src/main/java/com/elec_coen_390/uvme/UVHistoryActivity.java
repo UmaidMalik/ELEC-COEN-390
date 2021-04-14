@@ -35,7 +35,7 @@ public class UVHistoryActivity extends AppCompatActivity {
     List<UVReadings> uvList;
     int index = 0;
     UVHistoryActivity.CustomAdapter customAdapter;
-
+    Intent intent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -140,6 +140,7 @@ public class UVHistoryActivity extends AppCompatActivity {
     private void setListViewIcons(int position) {
         ImageView colorImage = moreView.findViewById(R.id.imageViewSunIcon);
         ImageView warning = moreView.findViewById(R.id.warning);
+        ImageView goToInfo = moreView.findViewById(R.id.goToInfo);
 
         //float uvIndexValue = uvList.get(position).getUv_value();
         float uvIndexValue = uvList.get(position).getUv_max(); // @TODO remove this
@@ -150,9 +151,12 @@ public class UVHistoryActivity extends AppCompatActivity {
 
         } else if (uvIndexValue >= 1 && uvIndexValue < 3) {
             colorImage.setImageResource(R.drawable.ic_sunlight_default_level1_lightblue);
+            warning.setImageResource(R.drawable.ic_extreme_condition);
+
         } else if (uvIndexValue >= 3 && uvIndexValue < 6) {
             warning.setImageResource(R.drawable.ic_extreme_condition);
             colorImage.setImageResource(R.drawable.ic_sunlight_level2);
+
 
         } else if (uvIndexValue >= 6 && uvIndexValue < 8) {
             colorImage.setImageResource(R.drawable.ic_sunlight_level3);
@@ -161,11 +165,28 @@ public class UVHistoryActivity extends AppCompatActivity {
         } else if (uvIndexValue >= 8 && uvIndexValue < 11) {
             colorImage.setImageResource(R.drawable.ic_sunlight_level4);
             warning.setImageResource(R.drawable.ic_baseline_warning_24);
+            goToInfo.setImageResource(R.drawable.ic_history_extreme);
+            goToInfo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    intent = new Intent(getApplicationContext(), InfoActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                    startActivity(intent);
+                }
+            });
 
         } else if (uvIndexValue > 11) {
             colorImage.setImageResource(R.drawable.ic_sunlight_level5);
             warning.setImageResource(R.drawable.ic_baseline_warning_24);
-
+            goToInfo.setImageResource(R.drawable.ic_history_extreme);
+            goToInfo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    intent = new Intent(getApplicationContext(), InfoActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                    startActivity(intent);
+                }
+            });
         }
     }
 

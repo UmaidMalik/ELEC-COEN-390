@@ -49,7 +49,6 @@ public class DayGraph extends AppCompatActivity{
 
     private DatePickerDialog.OnDateSetListener  mDateSetLister;
 
-
     TextView avgUV;
     TextView maxUV;
     TextView selectedDate,chooseDateTextView;
@@ -93,9 +92,6 @@ public class DayGraph extends AppCompatActivity{
     protected void onResume() {
         super.onResume();
 
-       // graphSetup();
-        //setDate();
-       // getUVReadingFromDate(13, 4 ,2021);
     }
 
     protected void graphSetup() {
@@ -237,7 +233,7 @@ public class DayGraph extends AppCompatActivity{
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onDateSet(DatePicker view, int yearOfCentury, int monthOfYear, int dayOfMonth) {
-                String date = (dayOfMonth+"/"+monthOfYear+"/"+yearOfCentury);
+                String date = (dayOfMonth+"/"+(monthOfYear+1) +"/"+yearOfCentury);
                 selectedDate.setText(date);
                 selectedDate.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -265,13 +261,13 @@ public class DayGraph extends AppCompatActivity{
 
 
        selectedDay = selectedDay_;
-       selectedMonth = selectedMonth_;
+       selectedMonth = selectedMonth_ +1;
        selectedYear = selectedYear_;
 
         int countSize = 0;
         for (int i = 0; i < uvList.size(); i++) {
             if ( selectedDay == uvList.get(i).getDay() &&
-                   selectedMonth+1 == uvList.get(i).getMonth() &&
+                   selectedMonth == uvList.get(i).getMonth() &&
                     selectedYear == uvList.get(i).getYear() &&
                     3 == uvList.get(i).getHour() ) {
 
@@ -289,7 +285,7 @@ public class DayGraph extends AppCompatActivity{
         int count = 0;
         for (int i = 0; i < uvList.size(); i++) {
             if (selectedDay == uvList.get(i).getDay() &&
-                    selectedMonth +1 == uvList.get(i).getMonth() &&
+                    selectedMonth  == uvList.get(i).getMonth() &&
                     selectedYear == uvList.get(i).getYear() &&
                     3== uvList.get(i).getHour() ) {
 

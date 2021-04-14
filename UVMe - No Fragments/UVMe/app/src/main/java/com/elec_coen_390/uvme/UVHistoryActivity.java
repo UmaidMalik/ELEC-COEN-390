@@ -124,7 +124,7 @@ public class UVHistoryActivity extends AppCompatActivity {
 
             //uvIndex.setText(uvList.get(i).uvToString());
             timeStamp.setText(uvList.get(i).timeStampToString());
-            uvIndex.setText(String.valueOf("Ave:" + uvList.get(i).getUv_avg() + "  Max:" + uvList.get(i).getUv_max())); // @TODO remove
+            uvIndex.setText(String.valueOf("Avg:" + uvList.get(i).getUv_avg() + "  Max:" + uvList.get(i).getUv_max())); // @TODO remove
 
             setListViewIcons(i);
 

@@ -229,7 +229,7 @@ public class MonthGraph extends AppCompatActivity {
         int count = 0;
 
 
-        // iterate through the LinkedHashMap and get
+        // iterate through the LinkedHashMap and get key (day) and value (month), put to DataPoint(x, y);
         for (Map.Entry<Integer, Float> entry : averagesMax.entrySet()) {
             int key = entry.getKey();
             float value = entry.getValue();
@@ -244,40 +244,6 @@ public class MonthGraph extends AppCompatActivity {
         seriesPointsAvg.resetData(new DataPoint[]{});
         seriesLineAvg.resetData(new DataPoint[]{});
 
-       /*
-
-        dataPointsMAX = new DataPoint[countSize];
-        dataPointsAVG = new DataPoint[countSize];
-
-
-
-         count = 0;
-        for (int i = 0; i < uvList.size(); i++) {
-            if (selectedDay == uvList.get(i).getDay() &&
-                    selectedMonth == uvList.get(i).getMonth() &&
-                    selectedYear == uvList.get(i).getYear()
-                ) {
-
-
-                int x = uvList.get(i).getMinute();
-
-                float yMax  =  uvList.get(i).getUv_max();
-                float yAvg = uvList.get(i).getUv_avg();
-
-                DataPoint pointMax = new DataPoint(count, Double.parseDouble(df.format(yMax)));
-                DataPoint pointAvg = new DataPoint(count, Double.parseDouble(df.format(yAvg)));
-
-
-                dataPointsMAX[count] = pointMax;
-                dataPointsAVG[count] = pointAvg;
-                count++;
-            }
-
-        }
-
-
-
-         */
 
 
         seriesPointsMax = new PointsGraphSeries<>(dataPointsMAX);

@@ -83,7 +83,7 @@ public class DayGraph extends AppCompatActivity{
         avgUV = findViewById(R.id.avgUV);
         maxUV = findViewById(R.id.maxUV);
         selectedDate = findViewById(R.id.selectedDate);
-        //chooseDateTextView= findViewById(R.id.chooseDateTextView);
+
 
         graphSetup();
         setDate();
@@ -142,11 +142,11 @@ public class DayGraph extends AppCompatActivity{
 
         graph.setTitle("DAY OVERVIEW"); // TITLE
         graph.setTitleTextSize(100);
-        graph.setTitleColor(0xFF03DAC5); // lightBlue
+        graph.setTitleColor(0xFF03DAC5);
         graph.getGridLabelRenderer().setVerticalAxisTitle("UVI"); // AXIS
         graph.getGridLabelRenderer().setVerticalAxisTitleColor(0xFF03DAC5);
         graph.getGridLabelRenderer().setVerticalAxisTitleTextSize(50);
-        graph.getGridLabelRenderer().setVerticalLabelsColor(0xFFB1D4E0);
+        graph.getGridLabelRenderer().setVerticalLabelsColor(0xFFB1D4E0); // lightBlue
         graph.getGridLabelRenderer().setHorizontalLabelsColor(0xFFB1D4E0);
 
         graph.getGridLabelRenderer().setGridColor(0xFFB1D4E0);
@@ -162,8 +162,8 @@ public class DayGraph extends AppCompatActivity{
         graph.getViewport().setMinY(0);
         graph.getViewport().setMaxY(18);
         graph.getViewport().setMinX(0);
-        graph.getViewport().setMaxX(12);
-        graph.getGridLabelRenderer().setNumHorizontalLabels(7);
+        graph.getViewport().setMaxX(26);
+        graph.getGridLabelRenderer().setNumHorizontalLabels(14);
         graph.getGridLabelRenderer().setNumVerticalLabels(2);
     }
 
@@ -177,34 +177,36 @@ public class DayGraph extends AppCompatActivity{
     }
 
     protected void goToMainActivity() {
-        Intent intentMain = new Intent(this, MainActivity.class);
-        startActivity(intentMain);
-        finish();
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent);
     }
 
     protected void goToMoreActivity() {
-        Intent intentMore = new Intent(this, MoreActivity.class);
-        startActivity(intentMore);
-        finish();
+        Intent intent = new Intent(this, MoreActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent);
     }
 
     protected void goToUVHistoryActivity() {
-        Intent intentHistory = new Intent(this, UVHistoryActivity.class);
-        startActivity(intentHistory);
-        finish();
+        Intent intent = new Intent(this, UVHistoryActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent);
     }
 
     protected void goToProfileActivity() {
-        Intent intentProfile = new Intent(this, ProfileActivity.class);
-        startActivity(intentProfile);
-        finish();
+        Intent intent = new Intent(this, ProfileActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent);
     }
 
     private void setupBottomNavigationListener() {
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
-        Menu menu = bottomNavigationView.getMenu();
-        MenuItem menuItem = menu.getItem(2); // bottom navigation menu index item {0(Profile),1(Home),2(More)}
-        menuItem.setChecked(true);
+        // Menu items are left unselected
+        bottomNavigationView.getMenu().getItem(0).setCheckable(false);
+        bottomNavigationView.getMenu().getItem(1).setCheckable(false);
+        bottomNavigationView.getMenu().getItem(2).setCheckable(false);
+
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {

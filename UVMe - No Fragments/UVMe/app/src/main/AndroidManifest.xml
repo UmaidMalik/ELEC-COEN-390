@@ -18,7 +18,6 @@
 
     <application
         android:name=".NotificationChannelsClass"
-        android:launchMode="singleTask"
         android:allowBackup="true"
         android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher"

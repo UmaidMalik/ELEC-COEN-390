@@ -75,20 +75,10 @@ public class YearGraph extends AppCompatActivity {
         yearGraphSetup();
         setDate();
     }
-//
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        goToUVHistoryActivity();
-    }
-    protected void goToUVHistoryActivity() {
-        Intent intentHistory = new Intent(this, UVHistoryActivity.class);
-        startActivity(intentHistory);
-        finish();
-    }
+
+
 
     protected void yearGraphSetup(){
-        // generate Dates
 
         uvList = new ArrayList<>();
         dbGraph = new DatabaseHelper(this);
@@ -155,31 +145,41 @@ public class YearGraph extends AppCompatActivity {
         yearGraph.getGridLabelRenderer().setNumVerticalLabels(2);
     }
 
-    public Context getActivity() {
-        Context activity = null;
-        return activity;
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        goToUVHistoryActivity();
+    }
+    protected void goToUVHistoryActivity() {
+        Intent intent = new Intent(this, UVHistoryActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent);
     }
 
-    public void setActivity(Context activity) {
-        this.activity = activity;
-    }
     protected void goToMainActivity() {
-        Intent intentMain = new Intent(this, MainActivity.class);
-        startActivity(intentMain);
-        finish();
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent);
     }
     protected void goToProfileActivity() {
-        Intent intentProfile = new Intent(this, ProfileActivity.class);
-        startActivity(intentProfile);
-        finish();
+        Intent intent = new Intent(this, ProfileActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent);
+    }
+
+    protected void goToMoreActivity() {
+        Intent intent = new Intent(this, MoreActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent);
     }
     private void setupBottomNavigationListener() {
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
 
-        Menu menu = bottomNavigationView.getMenu();
-        MenuItem menuItem = menu.getItem(2); // bottom navigation menu index item {0(Profile),1(Home),2(More)}
-        menuItem.setChecked(true);
+        // Menu items are left unselected
+        bottomNavigationView.getMenu().getItem(0).setCheckable(false);
+        bottomNavigationView.getMenu().getItem(1).setCheckable(false);
+        bottomNavigationView.getMenu().getItem(2).setCheckable(false);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -196,7 +196,7 @@ public class YearGraph extends AppCompatActivity {
                         break;
 
                     case R.id.action_more:
-
+                        goToMoreActivity();
                         break;
                 }
                 return false;

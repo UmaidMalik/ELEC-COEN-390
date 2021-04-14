@@ -44,10 +44,10 @@ public class UVHistoryActivity extends AppCompatActivity {
     private Spinner spinnerUVList;
 
     public static String UV_TABLE_PREFS = "uv_table_prefs";
-    public static String UV_TABLE_ID = "uvun";
+    public static String UV_TABLE_ID = "uv_table_id";
 
 
-    public static SharedPreferences toggleUVModePreferences;
+    public static SharedPreferences selectTablePreferences;
     public static SharedPreferences.Editor editor;
     
     @Override
@@ -66,6 +66,9 @@ public class UVHistoryActivity extends AppCompatActivity {
         uvList = new ArrayList<>();
         db = new DatabaseHelper(this);
         db.getReadableDatabase();
+
+        selectTablePreferences = getSharedPreferences(UV_TABLE_PREFS, MODE_PRIVATE);
+        SELECT = selectTablePreferences.getInt(UV_TABLE_ID, 0);
 
 
         startNotificationsThread(getCurrentFocus());
@@ -89,13 +92,20 @@ public class UVHistoryActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 ((TextView) adapterView.getChildAt(0)).setTextColor(getResources().getColor(R.color.light_blue));
 
+                selectTablePreferences = getSharedPreferences(UV_TABLE_PREFS, MODE_PRIVATE);
+                editor = getSharedPreferences(UV_TABLE_PREFS, MODE_PRIVATE).edit();
+
                 switch (i) {
 
-                    case 0:
-                        SELECT = 0;
+                    case SELECT_TABLE_ALL_UV_DATA:
+                        SELECT = SELECT_TABLE_ALL_UV_DATA;
+                        editor.putInt(UV_TABLE_ID, SELECT);
+                        editor.apply();
                         break;
-                    case 1:
-                        SELECT = 1;
+                    case SELECT_TABLE_UV_GRAPH_TABLE:
+                        SELECT = SELECT_TABLE_UV_GRAPH_TABLE;
+                        editor.putInt(UV_TABLE_ID, SELECT);
+                        editor.apply();
                         break;
                     default:
                         SELECT = 0;
@@ -114,12 +124,15 @@ public class UVHistoryActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+        selectTablePreferences = getSharedPreferences(UV_TABLE_PREFS, MODE_PRIVATE);
+        SELECT = selectTablePreferences.getInt(UV_TABLE_ID, 0);
+
         switch(SELECT) {
             case SELECT_TABLE_ALL_UV_DATA:
                 uvList = db.getAllUVData();
                 break;
             case SELECT_TABLE_UV_GRAPH_TABLE:
-                uvList = db.getUVGraphInfo();
+                uvList = db. getUVGraphInfoTable();
                 break;
         }
         setupListView();
@@ -132,6 +145,8 @@ public class UVHistoryActivity extends AppCompatActivity {
 
 
     private class RunnableList implements Runnable {
+
+
         @Override
         public void run() {
             while (true) {
@@ -145,7 +160,7 @@ public class UVHistoryActivity extends AppCompatActivity {
                                 uvList = db.getAllUVData();
                                 break;
                             case SELECT_TABLE_UV_GRAPH_TABLE:
-                                uvList = db.getUVGraphInfo();
+                                uvList = db. getUVGraphInfoTable();
                                 break;
                         }
                         customAdapter.notifyDataSetChanged();

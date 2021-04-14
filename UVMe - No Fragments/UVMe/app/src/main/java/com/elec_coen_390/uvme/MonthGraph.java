@@ -36,7 +36,7 @@ public class MonthGraph extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_month_graph);
         this.getSupportActionBar().hide();
-        setContentView(R.layout.activity_week_graph);
+        setContentView(R.layout.activity_year_graph);
         setupBottomNavigationListener();
         avgUV=findViewById(R.id.avgUV);
         maxUV=findViewById(R.id.maxUV);

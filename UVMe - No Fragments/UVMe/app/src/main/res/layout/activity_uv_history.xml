@@ -20,11 +20,22 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_centerHorizontal="true"
-            android:textSize="30sp"
-            android:textColor="@color/light_blue"
+            android:textSize="40sp"
+            android:text="UV History"
+            android:textColor="@color/teal_200"
             android:fontFamily="@font/roboto_thin"
             android:id="@+id/activityUVHistory"
             android:textAlignment="center" />
+
+        <Spinner
+            android:id="@+id/spinnerUVHistory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:textSize="40sp"
+            android:padding="10dp"
+            android:textColor="@color/light_blue"
+            android:layout_below="@+id/activityUVHistory"/>
 
         <ListView
             android:id="@+id/sensorDataListView"
@@ -32,6 +43,7 @@
             android:layout_height="465dp"
             android:layout_marginBottom="50dp"
             android:layout_alignParentBottom="true"
+            android:layout_below="@+id/spinnerUVHistory"
             />
 
     </RelativeLayout>

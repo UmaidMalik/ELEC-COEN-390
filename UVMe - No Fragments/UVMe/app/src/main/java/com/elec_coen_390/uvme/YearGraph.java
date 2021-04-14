@@ -124,15 +124,20 @@ public class YearGraph extends AppCompatActivity {
         seriesPointsAvgYear.setColor(Color.WHITE);
         yearGraph.getLegendRenderer().setVisible(true);
         yearGraph.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.BOTTOM);
-        yearGraph.setTitle("DAY OVERVIEW"); // TITLE
+
+        yearGraph.setTitle("Year OVERVIEW"); // TITLE
         yearGraph.setTitleTextSize(100);
-        yearGraph.setTitleColor(0xFFB1D4E0); // lightBlue
+        yearGraph.setTitleColor(0xFF03DAC5); // lightBlue
         yearGraph.getGridLabelRenderer().setVerticalAxisTitle("UVI"); // AXIS
-        yearGraph.getGridLabelRenderer().setVerticalAxisTitleColor(0xFFB1D4E0);
+        yearGraph.getGridLabelRenderer().setVerticalAxisTitleColor(0xFF03DAC5);
         yearGraph.getGridLabelRenderer().setVerticalAxisTitleTextSize(50);
         yearGraph.getGridLabelRenderer().setVerticalLabelsColor(0xFFB1D4E0);
+
+
         yearGraph.getGridLabelRenderer().setHorizontalLabelsColor(0xFFB1D4E0);
-        yearGraph.getGridLabelRenderer().setHorizontalLabelsAngle(75); // ANGLE OF AXIS
+        yearGraph.getGridLabelRenderer().setHorizontalAxisTitleTextSize(50);
+        yearGraph.getGridLabelRenderer().setHorizontalAxisTitleColor(0xFF03DAC5);
+
         yearGraph.getGridLabelRenderer().setGridColor(0xFFB1D4E0);
         yearGraph.getViewport().setScalable(true);  // activate horizontal zooming and scrolling
         yearGraph.getViewport().setScrollable(true);  // activate horizontal scrolling
@@ -146,7 +151,7 @@ public class YearGraph extends AppCompatActivity {
         yearGraph.getViewport().setMaxY(18);
         yearGraph.getViewport().setMinX(0);
         yearGraph.getViewport().setMaxX(12);
-        yearGraph.getGridLabelRenderer().setNumHorizontalLabels(7);
+        yearGraph.getGridLabelRenderer().setNumHorizontalLabels(4);
         yearGraph.getGridLabelRenderer().setNumVerticalLabels(2);
     }
 
@@ -210,6 +215,7 @@ public class YearGraph extends AppCompatActivity {
             @Override
             public void onDateSet(DatePicker view, int yearOfCentury, int monthOfYear, int dayOfMonth) {
                 String date = String.valueOf(yearOfCentury);
+                yearGraph.getGridLabelRenderer().setHorizontalAxisTitle("Months of: "+date ); // AXIS
                 selectedDateYear.setText(date);
                 selectedDateYear.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -319,14 +325,15 @@ public class YearGraph extends AppCompatActivity {
         seriesPointsMaxYear.setOnDataPointTapListener(new OnDataPointTapListener() { // ALLOWS USER TO SEE NODES
             @Override
             public void onTap(Series series, DataPointInterface dataPoint) {
-                Toast.makeText(getApplicationContext(), "\t\t\t  UV Intensity \n [HOUR,INTENSITY] \n" +"\t\t\t\t\t"+ dataPoint, Toast.LENGTH_SHORT).show();
+                avgUVYear.setText(String.valueOf(dataPoint.getX()));
+                maxUVYear.setText(String.valueOf(dataPoint.getY()));
             }
         });
 
         seriesPointsAvgYear.setOnDataPointTapListener(new OnDataPointTapListener() { // ALLOWS USER TO SEE NODES
             @Override
             public void onTap(Series series, DataPointInterface dataPoint) {
-                Toast.makeText(getApplicationContext(), "\t\t\t  UV Intensity \n [HOUR,INTENSITY] \n" +"\t\t\t\t\t"+ dataPoint, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "\t\t\t  UV Intensity \n [DAY,INTENSITY] \n" +"\t\t\t\t\t"+ dataPoint, Toast.LENGTH_SHORT).show();
             }
         });
 

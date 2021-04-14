@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -16,6 +17,7 @@ public class FeedbackActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         this.getSupportActionBar().hide();
         setContentView(R.layout.activity_feedback);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN); // this is to prevent the keyboard from opening on startup since there is a EditText in this activity;)
 
         // editTextFeedbackName contains Name of sender
 
@@ -34,11 +36,14 @@ public class FeedbackActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("message/html");
-                intent.putExtra(Intent.EXTRA_EMAIL, new String("umaid54321@hotmail.com"));
+                //intent.putExtra(Intent.EXTRA_EMAIL, new String("umaid54321@hotmail.com"));
+                intent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[] { "umaid54321@hotmail.com" });
                 intent.putExtra(Intent.EXTRA_SUBJECT, "Feedback for UVMe App");
                 intent.putExtra(Intent.EXTRA_TEXT, "Sender: " + editTextFeedbackName.getText() + "\n\n Message: " + editTextFeedbackDescription.getText());
                 try {
+
                     startActivity(Intent.createChooser(intent, "Please select Email"));
+
                 }
                 catch (android.content.ActivityNotFoundException exception){
 

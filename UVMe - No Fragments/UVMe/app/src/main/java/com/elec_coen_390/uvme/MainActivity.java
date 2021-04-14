@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
         this.getSupportActionBar().hide();
         setContentView(R.layout.activity_main);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN); // this is to prevent the keyboard from opening on startup since there is a EditText in this activity;)
-        // notificationManagerCompat = NotificationManagerCompat.from(this); @TODO remove this
+
 
         editTextCitySearch = (EditText) findViewById(R.id.editTextCitySearch);
         buttonCitySearch = (ToggleButton) findViewById(R.id.buttonCitySearch);

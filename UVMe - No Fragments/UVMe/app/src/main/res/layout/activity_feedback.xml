@@ -43,6 +43,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/roboto_light"
         android:textColorHint="@color/light_blue"
+        android:textColor="@color/light_blue"
         android:hint="Name" />
 
         <EditText
@@ -52,6 +53,7 @@
             android:layout_below="@id/editTextFeedbackName"
             android:fontFamily="@font/roboto_light"
             android:textColorHint="@color/light_blue"
+            android:textColor="@color/light_blue"
             android:hint="Feedback" />
 
 

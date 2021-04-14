@@ -61,8 +61,8 @@ public class UVHistoryActivity extends AppCompatActivity {
         //******* New Spinner: UV List
         setupUVListSpinner();
         spinnerUVList = (Spinner) findViewById(R.id.spinnerUVHistory);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.UVList, android.R.layout.simple_spinner_dropdown_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.UVList, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         SpinnerAdapter spinnerAdapter = null;
         spinnerUVList.setAdapter(spinnerAdapter);
         spinnerUVList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

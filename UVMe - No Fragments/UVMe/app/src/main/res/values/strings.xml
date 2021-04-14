@@ -160,8 +160,8 @@
 
 
     <string-array name="UVList">
-        <item>All UV Data</item>
-        <item>UV Graph Info</item>
+        <item>All UV Data (updates every 5 sec)</item>
+        <item>UV Graph Table (updates every min)</item>
     </string-array>
     
 </resources>

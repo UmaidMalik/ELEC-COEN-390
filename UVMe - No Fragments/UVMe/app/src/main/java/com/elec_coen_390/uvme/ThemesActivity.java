@@ -51,7 +51,7 @@ public class ThemesActivity extends AppCompatActivity {
 
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_setting);
-        //toolbar.setTitle("Settings");
+        toolbar.setTitle("Settings");
         toolbar.setBackgroundColor(Constant.color);
 
         methods = new Methods();

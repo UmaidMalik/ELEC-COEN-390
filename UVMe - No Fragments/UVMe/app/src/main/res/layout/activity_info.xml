@@ -8,6 +8,7 @@
     tools:context=".InfoActivity">
 
 
+<!--
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
@@ -241,6 +242,7 @@
         android:textSize="14sp"
         tools:layout_editor_absoluteX="162dp"
         tools:layout_editor_absoluteY="159dp" />
+-->
 
 
 

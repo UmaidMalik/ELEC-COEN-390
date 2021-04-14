@@ -1,9 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/midnight_blue"
     tools:context=".FeedbackActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/midnight_blue">
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/midnight_blue">
+
+    <TextView
+        android:id="@+id/activityFeedbackTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:fontFamily="@font/roboto_thin"
+        android:text="Info"
+        android:textAlignment="center"
+        android:textColor="@color/teal_200"
+        android:textSize="40sp"
+        android:textStyle="bold" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_below="@id/activityFeedbackTitle"
+        android:layout_margin="24dp">
+
+    <EditText
+        android:id="@+id/editTextFeedbackName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_light"
+        android:textColorHint="@color/light_blue"
+        android:hint="Name" />
+
+        <EditText
+            android:id="@+id/editTextFeedbackDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/editTextFeedbackName"
+            android:fontFamily="@font/roboto_light"
+            android:textColorHint="@color/light_blue"
+            android:hint="Feedback" />
+
+
+    </RelativeLayout>
+
+
+
+
+
+</RelativeLayout>
+
+</ScrollView>
+
+    <Button
+        android:id="@+id/buttonSendFeedback"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Send Feedback"
+        android:fontFamily="@font/roboto_light"
+        android:textColor="@color/light_blue"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@id/bottom_navigation"
+        android:layout_marginBottom="16dp"/>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:menu="@menu/bottom_nav_menu"
+        android:background="@color/secondary_blue"
+        app:itemBackground="@color/secondary_blue"
+        app:itemIconTint="@animator/nav_selector"
+        app:itemTextColor="@animator/nav_selector"/>
+
+</RelativeLayout>

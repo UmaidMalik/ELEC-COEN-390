@@ -115,7 +115,7 @@ public class MoreActivity extends AppCompatActivity {
                         intent = new Intent(getApplicationContext(), AboutActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                         startActivity(intent);
-
+                        break;
                     case 7:
                         intent = new Intent(getApplicationContext(), FeedbackActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);

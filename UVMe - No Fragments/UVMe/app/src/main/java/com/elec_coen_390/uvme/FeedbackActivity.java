@@ -14,32 +14,31 @@ public class FeedbackActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_more);
+        this.getSupportActionBar().hide();
+        setContentView(R.layout.activity_feedback);
 
-        // edit 1 contains Name of sender
+        // editTextFeedbackName contains Name of sender
 
-        EditText edit1 = (EditText)findViewById(R.id.edit1);
+        EditText editTextFeedbackName = (EditText) findViewById(R.id.editTextFeedbackName);
 
-        // edit 2 comprises the feedback text field
+        // editTextFeedbackDescription comprises the feedback text field
 
-        EditText edit2 = (EditText)findViewById(R.id.edit2);
+        EditText editTextFeedbackDescription = (EditText) findViewById(R.id.editTextFeedbackDescription);
 
         // button send feedback
 
-        Button btn = (Button) findViewById(R.id.button);
+        Button btn = (Button) findViewById(R.id.buttonSendFeedback);
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(Intent.ACTION_SEND);
-                i.setType("message/html");
-                i.putExtra(Intent.EXTRA_EMAIL, new String("umaid54321@hotmail.com"));
-                i.putExtra(Intent.EXTRA_SUBJECT, "Feedback from UVMe App");
-                i.putExtra(Intent.EXTRA_TEXT, "Sender:" +edit1.getText()+ "\n Message" +edit2.getText());
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("message/html");
+                intent.putExtra(Intent.EXTRA_EMAIL, new String("umaid54321@hotmail.com"));
+                intent.putExtra(Intent.EXTRA_SUBJECT, "Feedback for UVMe App");
+                intent.putExtra(Intent.EXTRA_TEXT, "Sender: " + editTextFeedbackName.getText() + "\n\n Message: " + editTextFeedbackDescription.getText());
                 try {
-                    startActivity(Intent.createChooser(i,"Please select Eamil"));
-
-
+                    startActivity(Intent.createChooser(intent, "Please select Email"));
                 }
                 catch (android.content.ActivityNotFoundException exception){
 

@@ -270,19 +270,20 @@ public class DayGraph extends AppCompatActivity{
         int countHours = 0;
         for (int i = 0; i < uvList.size(); i++) {
 
-           if(selectedDay == uvList.get(i).getDay() &&
-                   selectedYear == uvList.get(i).getYear() ) {
-               if (currentHour != uvList.get(i+1).getHour()) {
-                   selectedMonth == uvList.get(i).getMonth() &&
-               currentHour = uvList.get(i).getHour();
-                   countHours++;
-               }
-           }
-           if (selectedDay != uvList.get(i).getDay()) {
-               continue;
-           }
-       }
+            if(selectedDay == uvList.get(i).getDay() &&
+                    selectedMonth == uvList.get(i).getMonth() &&
+                    selectedYear == uvList.get(i).getYear() ) {
+                currentHour = uvList.get(i).getHour();
+                if (currentHour != uvList.get(i+1).getHour()) {
+                    countHours++;
+                }
+            }
+            if (selectedDay != uvList.get(i).getDay()) {
+                continue;
+            }
+        }
         avgUV.setText(String.valueOf(countHours));
+
 
 
 

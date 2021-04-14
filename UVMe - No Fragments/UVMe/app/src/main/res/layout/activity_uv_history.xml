@@ -22,6 +22,7 @@
             android:layout_centerHorizontal="true"
             android:textSize="40sp"
             android:text="UV History"
+            android:visibility="gone"
             android:textColor="@color/teal_200"
             android:fontFamily="@font/roboto_thin"
             android:id="@+id/activityUVHistory"
@@ -29,11 +30,12 @@
 
         <Spinner
             android:id="@+id/spinnerUVHistory"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:textSize="40sp"
             android:padding="10dp"
+            android:backgroundTint="@color/secondary_blue"
             android:textColor="@color/light_blue"
             android:layout_below="@+id/activityUVHistory"/>
 

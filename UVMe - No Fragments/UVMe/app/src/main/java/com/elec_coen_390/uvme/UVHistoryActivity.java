@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -33,11 +34,21 @@ public class UVHistoryActivity extends AppCompatActivity {
     int index = 0;
     UVHistoryActivity.CustomAdapter customAdapter;
     Intent intent;
-    
+
+    private int SELECT = 0;
+
+    private final int SELECT_TABLE_ALL_UV_DATA = 0;
+    private final int SELECT_TABLE_UV_GRAPH_TABLE = 1;
     
     //******* New spinner for UV lIST
     private Spinner spinnerUVList;
 
+    public static String UV_TABLE_PREFS = "uv_table_prefs";
+    public static String UV_TABLE_ID = "uvun";
+
+
+    public static SharedPreferences toggleUVModePreferences;
+    public static SharedPreferences.Editor editor;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +61,7 @@ public class UVHistoryActivity extends AppCompatActivity {
         TextView title = (TextView) findViewById(R.id.activityUVHistory);
         setupBottomNavigationListener();
 
+        spinnerUVList = (Spinner) findViewById(R.id.spinnerUVHistory);
 
         uvList = new ArrayList<>();
         db = new DatabaseHelper(this);
@@ -58,13 +70,19 @@ public class UVHistoryActivity extends AppCompatActivity {
 
         startNotificationsThread(getCurrentFocus());
 
+
         //******* New Spinner: UV List
         setupUVListSpinner();
-        spinnerUVList = (Spinner) findViewById(R.id.spinnerUVHistory);
+
+
+
+    }
+
+    //******** New Spinner: UV list
+    private void setupUVListSpinner() {
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.UVList, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        SpinnerAdapter spinnerAdapter = null;
-        spinnerUVList.setAdapter(spinnerAdapter);
+        spinnerUVList.setAdapter(adapter);
         spinnerUVList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
@@ -74,36 +92,36 @@ public class UVHistoryActivity extends AppCompatActivity {
                 switch (i) {
 
                     case 0:
-
+                        SELECT = 0;
                         break;
                     case 1:
-
+                        SELECT = 1;
                         break;
                     default:
-
+                        SELECT = 0;
                         break;
                 }
-                }
+            }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
 
             }
         });
-
-    }
-
-    //******** New Spinner: UV list
-    private void setupUVListSpinner() {
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        //uvList = db.getAllUVData();
-        uvList = db.getUVGraphInfo();
+        switch(SELECT) {
+            case SELECT_TABLE_ALL_UV_DATA:
+                uvList = db.getAllUVData();
+                break;
+            case SELECT_TABLE_UV_GRAPH_TABLE:
+                uvList = db.getUVGraphInfo();
+                break;
+        }
         setupListView();
     }
 
@@ -121,8 +139,15 @@ public class UVHistoryActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        //uvList = db.getAllUVData();
-                        uvList = db.getUVGraphInfo();
+
+                        switch(SELECT) {
+                            case SELECT_TABLE_ALL_UV_DATA:
+                                uvList = db.getAllUVData();
+                                break;
+                            case SELECT_TABLE_UV_GRAPH_TABLE:
+                                uvList = db.getUVGraphInfo();
+                                break;
+                        }
                         customAdapter.notifyDataSetChanged();
                     }
                 });
@@ -168,9 +193,16 @@ public class UVHistoryActivity extends AppCompatActivity {
             TextView timeStamp = moreView.findViewById(R.id.textViewHistoryTimeStamp);
 
 
-            //uvIndex.setText(uvList.get(i).uvToString());
+            switch(SELECT) {
+                case SELECT_TABLE_ALL_UV_DATA:
+                    uvIndex.setText("UV: "+ uvList.get(i).uvToString());
+                    break;
+                case SELECT_TABLE_UV_GRAPH_TABLE:
+                    uvIndex.setText(String.valueOf("Avg: " + uvList.get(i).getUv_avg() + "  Max: " + uvList.get(i).getUv_max())); // @TODO remove
+                    break;
+            }
             timeStamp.setText(uvList.get(i).timeStampToString());
-            uvIndex.setText(String.valueOf("Avg:" + uvList.get(i).getUv_avg() + "  Max:" + uvList.get(i).getUv_max())); // @TODO remove
+
 
             setListViewIcons(i);
 
@@ -184,8 +216,17 @@ public class UVHistoryActivity extends AppCompatActivity {
         ImageView warning = moreView.findViewById(R.id.warning);
         ImageView goToInfo = moreView.findViewById(R.id.goToInfo);
 
-        //float uvIndexValue = uvList.get(position).getUv_value();
-        float uvIndexValue = uvList.get(position).getUv_max(); // @TODO remove this
+        float uvIndexValue = 0;
+        switch(SELECT) {
+            case SELECT_TABLE_ALL_UV_DATA:
+                uvIndexValue = uvList.get(position).getUv_value();
+                break;
+            case SELECT_TABLE_UV_GRAPH_TABLE:
+                uvIndexValue = uvList.get(position).getUv_max();
+                break;
+        }
+
+
 
         if (uvIndexValue < 1) {
             colorImage.setImageResource(R.drawable.ic_sunlight_default_level1_lightblue);

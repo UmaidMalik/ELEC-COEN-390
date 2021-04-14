@@ -12,6 +12,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
@@ -51,6 +52,7 @@ public class DayGraph extends AppCompatActivity{
 
     TextView avgUV;
     TextView maxUV;
+    TextView selectedDate,chooseDateTextView;
     DatePickerDialog datePicker;
     String date2 = "";
     DatabaseHelper dbGraph;
@@ -77,6 +79,8 @@ public class DayGraph extends AppCompatActivity{
         setupBottomNavigationListener();
         avgUV = findViewById(R.id.avgUV);
         maxUV = findViewById(R.id.maxUV);
+        selectedDate = findViewById(R.id.selectedDate);
+        //chooseDateTextView= findViewById(R.id.chooseDateTextView);
 
         graphSetup();
         setDate();
@@ -233,6 +237,14 @@ public class DayGraph extends AppCompatActivity{
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onDateSet(DatePicker view, int yearOfCentury, int monthOfYear, int dayOfMonth) {
+                String date = (dayOfMonth+"/"+monthOfYear+"/"+yearOfCentury);
+                selectedDate.setText(date);
+                selectedDate.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        setDate();
+                    }
+                });
                 getUVReadingFromDate(dayOfMonth, monthOfYear, yearOfCentury);
                 }
             }, year , month, day);
@@ -261,7 +273,7 @@ public class DayGraph extends AppCompatActivity{
             if ( selectedDay == uvList.get(i).getDay() &&
                    selectedMonth+1 == uvList.get(i).getMonth() &&
                     selectedYear == uvList.get(i).getYear() &&
-                    11 == uvList.get(i).getHour() ) {
+                    3 == uvList.get(i).getHour() ) {
 
                 countSize++;
             }
@@ -279,7 +291,7 @@ public class DayGraph extends AppCompatActivity{
             if (selectedDay == uvList.get(i).getDay() &&
                     selectedMonth +1 == uvList.get(i).getMonth() &&
                     selectedYear == uvList.get(i).getYear() &&
-                    11== uvList.get(i).getHour() ) {
+                    3== uvList.get(i).getHour() ) {
 
                 //int x = uvList.get(i).getHour();
                 int x = uvList.get(i).getMinute(); //@TODO change to hour remember

@@ -89,7 +89,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         int year = currentDateTime.get(Calendar.YEAR);
         int second = currentDateTime.get(Calendar.SECOND);
         int minute = currentDateTime.get(Calendar.MINUTE);
-        int hour = currentDateTime.get(Calendar.HOUR);
+        int hour = currentDateTime.get(Calendar.HOUR_OF_DAY);
 
 
         SQLiteDatabase db = this.getWritableDatabase();

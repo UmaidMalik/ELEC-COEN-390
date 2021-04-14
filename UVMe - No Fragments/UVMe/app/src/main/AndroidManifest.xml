@@ -29,7 +29,7 @@
         android:theme="@style/Theme.UVMe">
         <activity android:name=".MonthGraph"
             android:screenOrientation="locked"/>
-        <activity android:name=".weekGraph"
+        <activity android:name=".YearGraph"
             android:screenOrientation="locked" />
         <activity android:name=".DayGraph"
             android:screenOrientation="locked"/>

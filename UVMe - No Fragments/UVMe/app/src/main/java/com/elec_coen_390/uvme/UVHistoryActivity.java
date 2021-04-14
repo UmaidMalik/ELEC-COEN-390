@@ -34,6 +34,7 @@ public class UVHistoryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         // this.getSupportActionBar().hide();
         getSupportActionBar().setTitle("UV History");
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
@@ -123,7 +124,7 @@ public class UVHistoryActivity extends AppCompatActivity {
 
             //uvIndex.setText(uvList.get(i).uvToString());
             timeStamp.setText(uvList.get(i).timeStampToString());
-            uvIndex.setText(String.valueOf("A:" + uvList.get(i).getUv_avg() + "  M:" + uvList.get(i).getUv_max())); // @TODO remove
+            uvIndex.setText(String.valueOf("Avg:" + uvList.get(i).getUv_avg() + "  Max:" + uvList.get(i).getUv_max())); // @TODO remove
 
             setListViewIcons(i);
 
@@ -249,10 +250,10 @@ public class UVHistoryActivity extends AppCompatActivity {
         startActivity(intentGraph);
     }
 
-    protected void goToWeekGraph() {
-        Intent intentGraphWeek = new Intent(this, weekGraph.class);
-        intentGraphWeek.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        startActivity(intentGraphWeek);
+    protected void goToYearGraph() {
+        Intent intentYearGraph = new Intent(this, YearGraph.class);
+        intentYearGraph.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intentYearGraph);
     }
 
     protected void goToMonthGraph() {
@@ -273,8 +274,8 @@ public class UVHistoryActivity extends AppCompatActivity {
             goToGraphActivity();
             return true;
         }
-        if (item.getItemId() == R.id.showWeek) {
-            goToWeekGraph();
+        if (item.getItemId() == R.id.showYear) {
+            goToYearGraph();
             return true;
         }
         if (item.getItemId() == R.id.showMonth) {

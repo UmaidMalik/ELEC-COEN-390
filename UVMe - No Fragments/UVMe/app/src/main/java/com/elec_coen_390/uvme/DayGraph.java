@@ -313,6 +313,7 @@ public class DayGraph extends AppCompatActivity{
             int key = entry.getKey();
             float value = entry.getValue();
             DataPoint pointMax = new DataPoint( key, Double.parseDouble(df.format(value)));
+            //DataPoint pointMax = new DataPoint( count, Double.parseDouble(df.format(value)));
             dataPointsMAX[count] = pointMax;
             count++;
         }

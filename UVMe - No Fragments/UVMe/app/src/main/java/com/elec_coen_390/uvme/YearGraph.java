@@ -209,7 +209,7 @@ public class YearGraph extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onDateSet(DatePicker view, int yearOfCentury, int monthOfYear, int dayOfMonth) {
-                String date = (dayOfMonth+"/"+(monthOfYear+1) +"/"+yearOfCentury);
+                String date = String.valueOf(yearOfCentury);
                 selectedDateYear.setText(date);
                 selectedDateYear.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -233,30 +233,30 @@ public class YearGraph extends AppCompatActivity {
         selectedMonth = selectedMonth_ +1;
         selectedYear = selectedYear_;
 
-        int currentHour;
+        int currentMonth;
         float maxAverageUV = 0;
-        int putHour;
+        int putMonth;
         LinkedHashMap<Integer, Float> averagesMax = new LinkedHashMap<>();
         int j;
         for (int i = 0; i < uvList.size(); i++) {
-            if (selectedDay == uvList.get(i).getDay() &&
-                    selectedMonth == uvList.get(i).getMonth() &&
-                    selectedYear == uvList.get(i).getYear() ) {
-                currentHour = uvList.get(i).getHour();
-                putHour = uvList.get(i).getHour();
+            if (selectedYear == uvList.get(i).getYear() ) {
+
+                currentMonth = uvList.get(i).getMonth();
+                putMonth = uvList.get(i).getMonth();
+
                 j = i; //
-                while (currentHour == uvList.get(j).getHour() && j < uvList.size() - 1) { // with the selected hour, we iterate to find the max
+                while (currentMonth == uvList.get(j).getMonth() && j < uvList.size() - 1) { // with the selected hour, we iterate to find the max
 
                     if (maxAverageUV < uvList.get(j).getUv_avg()) {
                         maxAverageUV = uvList.get(j).getUv_avg();
-                        putHour = uvList.get(j).getHour();
+                        putMonth = uvList.get(j).getMonth();
                     }
 
 
                     j++;
                 }
                 // to put maxAverageUV in list
-                averagesMax.put(putHour, maxAverageUV);
+                averagesMax.put(putMonth, maxAverageUV);
                 maxAverageUV = 0; // reset the max;
                 i = j;
 
@@ -281,16 +281,7 @@ public class YearGraph extends AppCompatActivity {
 
         // this is where we are , we need to get day 13 working
 
-        int countSize = 0;
-        for (int i = 0; i < uvList.size(); i++) {
-            if ( selectedDay == uvList.get(i).getDay() &&
-                    selectedMonth == uvList.get(i).getMonth() &&
-                    selectedYear == uvList.get(i).getYear()
-            ) {
 
-                countSize++;
-            }
-        }
         seriesPointsMaxYear.resetData( new DataPoint[] {});
         seriesLineMaxYear.resetData( new DataPoint[] {});
         seriesPointsAvgYear.resetData( new DataPoint[] {});

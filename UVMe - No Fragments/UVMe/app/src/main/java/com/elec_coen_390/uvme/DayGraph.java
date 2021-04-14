@@ -7,10 +7,12 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
@@ -45,9 +47,12 @@ public class DayGraph extends AppCompatActivity{
     public LineGraphSeries<DataPoint> seriesLineAvg;
     public PointsGraphSeries<DataPoint> seriesPointsAvg;
 
+    private DatePickerDialog.OnDateSetListener  mDateSetLister;
+
 
     TextView avgUV;
     TextView maxUV;
+    TextView selectedDate,chooseDateTextView;
     DatePickerDialog datePicker;
     String date2 = "";
     DatabaseHelper dbGraph;
@@ -74,10 +79,13 @@ public class DayGraph extends AppCompatActivity{
         setupBottomNavigationListener();
         avgUV = findViewById(R.id.avgUV);
         maxUV = findViewById(R.id.maxUV);
+        selectedDate = findViewById(R.id.selectedDate);
+        //chooseDateTextView= findViewById(R.id.chooseDateTextView);
 
         graphSetup();
         setDate();
-        //etUVReadingFromDate(13, 4 ,2021);
+
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -111,19 +119,11 @@ public class DayGraph extends AppCompatActivity{
         });
 
 
-
-
-
-
         graph.addSeries(seriesLineMax); // adds the graph to the UI
         graph.addSeries(seriesPointsMax);
 
         graph.addSeries(seriesLineAvg);
         graph.addSeries(seriesPointsAvg);
-
-
-
-
 
 
 
@@ -154,14 +154,6 @@ public class DayGraph extends AppCompatActivity{
         graph.getViewport().setScrollable(true);  // activate horizontal scrolling
         graph.getViewport().setScalableY(true);  // activate horizontal and vertical zooming and scrolling
         graph.getViewport().setScrollableY(true);
-
-
-
-
-
-
-
-
 
         graph.getGridLabelRenderer().setHumanRounding(false);
         GridLabelRenderer gridLabel = graph.getGridLabelRenderer();
@@ -238,21 +230,33 @@ public class DayGraph extends AppCompatActivity{
     protected void setDate() { // Used to date the date with calendar
         final Calendar calendar = Calendar.getInstance();
         int day = calendar.get(Calendar.DAY_OF_MONTH);
-       int month = calendar.get(Calendar.MONTH);
-       int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int year = calendar.get(Calendar.YEAR);
 
         datePicker = new DatePickerDialog(DayGraph.this, new DatePickerDialog.OnDateSetListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onDateSet(DatePicker view, int yearOfCentury, int monthOfYear, int dayOfMonth) {
-                getUVReadingFromDate( dayOfMonth, monthOfYear, yearOfCentury);
+                String date = (dayOfMonth+"/"+monthOfYear+"/"+yearOfCentury);
+                selectedDate.setText(date);
+                selectedDate.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View view) {
+                    }
+                });
+                getUVReadingFromDate(dayOfMonth, monthOfYear, yearOfCentury);
+                        setDate();
+                    @Override
                 }
             }, year , month, day);
-                 datePicker.show();}
+                 datePicker.show();
+
+
+    }
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void getUVReadingFromDate(int selectedDay_, int selectedMonth_, int selectedYear_) {
+
         uvList = new ArrayList<>();
         dbGraph = new DatabaseHelper(this);
         dbGraph.getReadableDatabase();
@@ -303,7 +307,7 @@ public class DayGraph extends AppCompatActivity{
         int countSize = 0;
         for (int i = 0; i < uvList.size(); i++) {
             if ( selectedDay == uvList.get(i).getDay() &&
-                   selectedMonth == uvList.get(i).getMonth() &&
+                   selectedMonth+1 == uvList.get(i).getMonth() &&
                     selectedYear == uvList.get(i).getYear() &&
                     6 == uvList.get(i).getHour() ) {
 
@@ -321,7 +325,7 @@ public class DayGraph extends AppCompatActivity{
         int count = 0;
         for (int i = 0; i < uvList.size(); i++) {
             if (selectedDay == uvList.get(i).getDay() &&
-                    selectedMonth  == uvList.get(i).getMonth() &&
+                    selectedMonth +1 == uvList.get(i).getMonth() &&
                     selectedYear == uvList.get(i).getYear() &&
                    6 == uvList.get(i).getHour() ) {
 
@@ -361,6 +365,7 @@ public class DayGraph extends AppCompatActivity{
         seriesLineAvg.setTitle("Avg UV Readings");
 
         seriesLineAvg.setColor(Color.RED);
+        seriesPointsAvg.setShape(PointsGraphSeries.Shape.RECTANGLE);
         seriesPointsAvg.setColor(Color.GRAY);
         seriesPointsAvg.setTitle("Avg data points");
 

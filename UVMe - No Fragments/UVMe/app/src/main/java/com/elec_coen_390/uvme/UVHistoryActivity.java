@@ -156,7 +156,7 @@ public class UVHistoryActivity extends AppCompatActivity {
 
         } else if (uvIndexValue >= 6 && uvIndexValue < 8) {
             colorImage.setImageResource(R.drawable.ic_sunlight_level3);
-            warning.setImageResource(R.drawable.ic_baseline_warning_24);
+            warning.setImageResource(R.drawable.ic_extreme_condition);
 
         } else if (uvIndexValue >= 8 && uvIndexValue < 11) {
             colorImage.setImageResource(R.drawable.ic_sunlight_level4);

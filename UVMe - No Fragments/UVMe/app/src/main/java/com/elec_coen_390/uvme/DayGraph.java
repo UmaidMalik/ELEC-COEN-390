@@ -76,8 +76,8 @@ public class DayGraph extends AppCompatActivity{
         maxUV = findViewById(R.id.maxUV);
 
         graphSetup();
-        //setDate();
-        getUVReadingFromDate(13, 4 ,2021);
+        setDate();
+        //etUVReadingFromDate(13, 4 ,2021);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -87,7 +87,7 @@ public class DayGraph extends AppCompatActivity{
 
        // graphSetup();
         //setDate();
-       // getUVReadingFromDate(13, 4 ,2021);
+       //getUVReadingFromDate(13, 4 ,2021);
     }
 
     protected void graphSetup() {
@@ -245,7 +245,7 @@ public class DayGraph extends AppCompatActivity{
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onDateSet(DatePicker view, int yearOfCentury, int monthOfYear, int dayOfMonth) {
-                getUVReadingFromDate(yearOfCentury, monthOfYear, dayOfMonth);
+                getUVReadingFromDate( dayOfMonth, monthOfYear, yearOfCentury);
                 }
             }, year , month, day);
                  datePicker.show();}
@@ -261,15 +261,51 @@ public class DayGraph extends AppCompatActivity{
 
 
        selectedDay = selectedDay_;
-       selectedMonth = selectedMonth_;
-      selectedYear = selectedYear_;
+       selectedMonth = selectedMonth_ + 1;
+       selectedYear = selectedYear_;
+
+        int countHours = 0;
+       for (int i = 0; i < uvList.size(); i++) {
+           if(selectedDay == uvList.get(j))
+       }
+
+      int currentHour;
+      int k = 0;
+      for (int i = 0; i < uvList.size(); i++) {
+          currentHour = uvList.get(i).getHour();
+
+          for (int j = i; j < uvList.size(); i++) {
+
+              if (selectedDay == uvList.get(j).getDay() && selectedMonth == uvList.get(j).getMonth() &&
+                      selectedYear == uvList.get(j).getYear() && currentHour == uvList.get(j).getHour()) {
+
+             //   sumMaxes += uvList.get(j).getUv_max();
+             //   countDatapoints++;
+
+              }
+
+
+          }
+
+
+        //  averageOfHour = sumMaxes/countDatapoints;
+
+          if (selectedDay != uvList.get(i).getDay()) {
+              continue;
+          }
+      }
+
+
+
+
+
 
         int countSize = 0;
         for (int i = 0; i < uvList.size(); i++) {
             if ( selectedDay == uvList.get(i).getDay() &&
                    selectedMonth == uvList.get(i).getMonth() &&
                     selectedYear == uvList.get(i).getYear() &&
-                    7 == uvList.get(i).getHour() ) {
+                    6 == uvList.get(i).getHour() ) {
 
                 countSize++;
             }
@@ -287,9 +323,9 @@ public class DayGraph extends AppCompatActivity{
             if (selectedDay == uvList.get(i).getDay() &&
                     selectedMonth  == uvList.get(i).getMonth() &&
                     selectedYear == uvList.get(i).getYear() &&
-                   7 == uvList.get(i).getHour() ) {
+                   6 == uvList.get(i).getHour() ) {
 
-                //int x = uvList.get(i).getHour();
+
                 int x = uvList.get(i).getMinute(); //@TODO change to hour remember
 
                 float yMax  =  uvList.get(i).getUv_max();

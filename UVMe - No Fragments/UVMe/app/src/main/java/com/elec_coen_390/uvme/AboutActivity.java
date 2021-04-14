@@ -139,6 +139,8 @@ public class AboutActivity extends AppCompatActivity {
                 "The way the units work is 1 Joule (J) of energy delivered = delivering 1 Watt (W) of energy for 1 second. In the UV world, we usually measure things in small increments, i.e., thousandths of a Joule or Watt. These are shown as ‘milli-Joules' (i.e., ‘mJ’ or 1/1,000 of a Joule), and milli-Watts (i.e., ‘mW’ or 1/1,000 of a Watt).\n" +
                 "Example: 40mJ (cumulative energy) = 10mW delivered for 4 seconds\n");
 
+        //String monkey = getString(R.string.ans_2); @TODO remove
+
         answerList.put(questionList.get(0), answer1);
         answerList.put(questionList.get(1), answer2);
         answerList.put(questionList.get(2), answer3);

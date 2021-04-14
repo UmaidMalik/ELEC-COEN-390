@@ -64,7 +64,14 @@
         android:layout_above="@id/bottom_navigation"
         android:layout_alignParentRight="true">
 
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/selectedDateYear"
+            android:textSize="12sp"
+            android:textColor="@color/light_blue"
+            android:text="select date"
+            android:layout_centerHorizontal="true"/>
         <TextView
             android:id="@+id/selectedDateYear"
             android:layout_width="wrap_content"

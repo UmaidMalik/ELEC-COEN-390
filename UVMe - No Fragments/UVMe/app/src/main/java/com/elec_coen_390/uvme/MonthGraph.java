@@ -42,7 +42,7 @@ public class MonthGraph extends AppCompatActivity {
     TextView maxUV;
     TextView selectedDate, chooseDateTextView;
     DatePickerDialog datePicker;
-    String date2 = "";
+    
     DatabaseHelper dbGraph;
     List<UVReadings> uvList;
     SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a");
@@ -70,7 +70,7 @@ public class MonthGraph extends AppCompatActivity {
         maxUV=findViewById(R.id.maxUV);
 
 
-        month();
+
     }
     @Override
     public void onBackPressed() {
@@ -82,92 +82,7 @@ public class MonthGraph extends AppCompatActivity {
         startActivity(intentHistory);
         finish();
     }
-    protected void month(){
-        // generate Dates
-        Calendar calendar = Calendar.getInstance();
-        Date d1 = calendar.getTime();
-        calendar.add(Calendar.MONTH, 1);
-        Date d2 = calendar.getTime();
-        calendar.add(Calendar.MONTH, 1);
-        Date d3 = calendar.getTime();
-        calendar.add(Calendar.MONTH, 1);
 
-        GraphView graph = (GraphView) findViewById(R.id.graph);
-
-        double []yArray=new double[]{1,2,5.33}; // this needs to be swapped out for database info
-        double maxUVI = yArray[0];
-        int n=yArray.length;
-
-        final double average = average(yArray, n); // USED TO FIND AVERAGE UVI LEVEL FROM DATABASE ( SOON )
-        NumberFormat nm = NumberFormat.getNumberInstance();
-        avgUV.setText(nm.format(average(yArray,n)));
-        max(yArray);
-        maxUV.setText(String.valueOf(max(yArray)));
-        lineGraphSeries = new LineGraphSeries<>(new DataPoint[] {
-                new DataPoint(d1,  uvIndex = UVSensorData.getUVIntensity()),
-                new DataPoint(d2, uvIndex = UVSensorData.getUVIntensity()),
-                new DataPoint(d3, uvIndex = UVSensorData.getUVIntensity())});
-
-
-        dataPointPointsGraphSeries =new PointsGraphSeries<>(new DataPoint[]{
-                new DataPoint(d1,  uvIndex = UVSensorData.getUVIntensity()),
-                new DataPoint(d2, uvIndex = UVSensorData.getUVIntensity()),
-                new DataPoint(d3, uvIndex = UVSensorData.getUVIntensity())});
-
-        graph.addSeries(lineGraphSeries);
-        graph.addSeries(dataPointPointsGraphSeries);
-        graph.setTitle("MONTH OVERVIEW");
-        graph.setTitleTextSize(100);
-        graph.setTitleColor(Color.WHITE);
-        graph.getGridLabelRenderer().setVerticalAxisTitle("UVI");
-        graph.getGridLabelRenderer().setVerticalAxisTitleColor(Color.WHITE);
-        graph.getGridLabelRenderer().setVerticalAxisTitleTextSize(50);
-        // set date label formatter
-        graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getActivity()));
-        graph.getGridLabelRenderer().setNumHorizontalLabels(4); // only 4 because of the space
-        graph.getGridLabelRenderer().setHorizontalAxisTitleColor(Color.WHITE);
-        graph.getGridLabelRenderer().setVerticalLabelsColor(Color.WHITE);
-        graph.getGridLabelRenderer().setHorizontalLabelsColor(Color.WHITE);
-        graph.getGridLabelRenderer().setHorizontalAxisTitle("WEEK");
-        graph.getGridLabelRenderer().setHorizontalAxisTitleColor(Color.WHITE);
-        graph.getGridLabelRenderer().setHorizontalLabelsAngle(85);
-        graph.getGridLabelRenderer().setGridColor(Color.WHITE);
-        graph.getViewport().setScalable(true);  // activate horizontal zooming and scrolling
-        graph.getViewport().setScrollable(true);  // activate horizontal scrolling
-        graph.getViewport().setScalableY(true);  // activate horizontal and vertical zooming and scrolling
-        graph.getViewport().setScrollableY(true);
-
-        // set manual x bounds to have nice steps
-        graph.getViewport().setMinY(0);
-        graph.getViewport().setMaxY(11);
-        graph.getViewport().setMinX(d1.getTime());
-        graph.getViewport().setMaxX(d3.getTime());
-        graph.getViewport().setXAxisBoundsManual(true);
-
-        dataPointPointsGraphSeries.setOnDataPointTapListener(new OnDataPointTapListener() {
-            @Override
-            public void onTap(Series series, DataPointInterface dataPoint) {
-                Toast.makeText(getApplicationContext(), "UV Intensity"+dataPoint, Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        graph.getGridLabelRenderer().setHumanRounding(false);}
-    static double average(double[] a, int n) // FUNCTION RETURNS AVERAGE VALUE
-    {
-        // Find sum of array element
-        double sum = 0;
-        for (int i = 0; i < n; i++)
-            sum += a[i];
-
-        return sum / n;
-    }
-    public Context getActivity() {
-        Context activity = null;
-        return activity;
-    }
-    public void setActivity(Context activity) {
-        this.activity = activity;
-    }
     protected void goToMainActivity() {
         Intent intentMain = new Intent(this, MainActivity.class);
         startActivity(intentMain);
@@ -208,11 +123,5 @@ public class MonthGraph extends AppCompatActivity {
             }
         });
     }
-    static double max(double []a){ // function to find max UVI
-        double max=0;
-        for (int i = 0; i < a.length; i++) { // FUNCTION USED TO FIND MAX UVI LEVEL OF ENTIRE DAY
-            for (int counter = 1; counter < a.length; counter++) {
-                if (a[counter] > max) {
-                    max = a[counter]; } } }
-        return max;}
+
 }

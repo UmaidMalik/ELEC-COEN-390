@@ -426,14 +426,7 @@ public class DayGraph extends AppCompatActivity{
 
 
     }
-    protected void maxVal(float x) {
-        if (x < UVSensorData.getUVIntensity()) {
-            x = UVSensorData.getUVIntensity();
-        }
-        if (x < UVSensorData.getUVIntensity()) {
-            x = UVSensorData.getUVIntensity();
-        }
-    }
+
 
 
 }

@@ -1,19 +1,26 @@
 package com.elec_coen_390.uvme;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.GridLabelRenderer;
+import com.jjoe64.graphview.LegendRenderer;
 import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.DataPointInterface;
@@ -22,133 +29,299 @@ import com.jjoe64.graphview.series.OnDataPointTapListener;
 import com.jjoe64.graphview.series.PointsGraphSeries;
 import com.jjoe64.graphview.series.Series;
 
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
 public class MonthGraph extends AppCompatActivity {
-    public LineGraphSeries<DataPoint> lineGraphSeries;
-    public PointsGraphSeries<DataPoint> dataPointPointsGraphSeries;
-    private Context activity;
-    TextView avgUV,maxUV;
-    private float uvIndex = 0.00f;
+    public LineGraphSeries<DataPoint> seriesLineMax;
+
+    public PointsGraphSeries<DataPoint> seriesPointsAvg;
+    public PointsGraphSeries<DataPoint> seriesPointsMax;
+
+    public LineGraphSeries<DataPoint> seriesLineAvg;
+
+    private DatePickerDialog.OnDateSetListener mDateSetLister;
+    TextView avgUV;
+    TextView maxUV;
+    TextView selectedDate, chooseDateTextView;
+    DatePickerDialog datePicker;
+
+    DatabaseHelper dbGraph;
+    List<UVReadings> uvList;
+    SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a");
+
+
+    GraphView graph;
+    DataPoint[] dataPointsMAX;
+    DataPoint[] dataPointsAVG;
+
+    private int selectedDay;
+    private int selectedMonth;
+    private int selectedYear;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_month_graph);
         this.getSupportActionBar().hide();
-        setContentView(R.layout.activity_year_graph);
+
         setupBottomNavigationListener();
-        avgUV=findViewById(R.id.avgUV);
-        maxUV=findViewById(R.id.maxUV);
-        Intent intent = getIntent(); // lets us go back and forth from app to app
-        month();
+        avgUV = findViewById(R.id.avgUV);
+        maxUV = findViewById(R.id.maxUV);
+        selectedDate = findViewById(R.id.selectedDate);
+
+        setDate();
+        graphSetup();
+
     }
+
+    protected void graphSetup() {
+
+        // styling series
+        graph = (GraphView) findViewById(R.id.graphMonth);
+
+        seriesLineMax = new LineGraphSeries<>(new DataPoint[]{
+                new DataPoint(0, 0)
+        });
+
+        seriesPointsMax = new PointsGraphSeries<>(new DataPoint[]{
+                new DataPoint(0, 0)
+
+        });
+        seriesLineAvg = new LineGraphSeries<>(new DataPoint[]{
+                new DataPoint(0, 0)
+        });
+        seriesPointsAvg = new PointsGraphSeries<>(new DataPoint[]{
+
+                new DataPoint(0, 0)
+
+        });
+
+        graph.addSeries(seriesLineMax); // adds the graph to the UI
+        graph.addSeries(seriesPointsMax);
+
+        graph.addSeries(seriesLineAvg);
+        graph.addSeries(seriesPointsAvg);
+
+
+        seriesLineMax.setTitle("Max UV Readings");
+        seriesLineMax.setBackgroundColor(Color.BLUE);
+        seriesPointsMax.setTitle("Max Value");
+        seriesPointsMax.setColor(Color.WHITE);
+
+        seriesLineAvg.setTitle("Avg UV Readings");
+        seriesLineAvg.setBackgroundColor(Color.RED);
+        seriesPointsAvg.setTitle("Avg Value");
+        seriesPointsAvg.setColor(Color.WHITE);
+
+        graph.getLegendRenderer().setVisible(true);
+        graph.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.BOTTOM);
+
+        graph.setTitle("Month Overview"); // TITLE
+        graph.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.BOTTOM);
+        graph.setTitleTextSize(100);
+        graph.getGridLabelRenderer().setVerticalAxisTitleTextSize(50);
+        graph.getGridLabelRenderer().setHorizontalLabelsColor(0xFFB1D4E0);
+        graph.getViewport().setScrollable(true);  // activate horizontal scrolling
+        graph.getViewport().setScalableY(true);  // activate horizontal and vertical zooming and scrolling
+        GridLabelRenderer gridLabel = graph.getGridLabelRenderer();
+        graph.setTitleColor(0xFFB1D4E0); // lightBlue
+        graph.getGridLabelRenderer().setVerticalAxisTitleColor(0xFFB1D4E0);
+        graph.getGridLabelRenderer().setVerticalAxisTitle("UVI"); // AXIS
+        graph.getGridLabelRenderer().setVerticalLabelsColor(0xFFB1D4E0);
+        //graph.getGridLabelRenderer().setHorizontalLabelsAngle(75); // ANGLE OF AXIS
+        graph.getGridLabelRenderer().setGridColor(0xFFB1D4E0);
+        graph.getViewport().setScalable(true);  // activate horizontal zooming and scrolling
+        graph.getViewport().setScrollableY(true);
+
+        graph.getGridLabelRenderer().setHumanRounding(false);
+
+        // SETTING BOUNDS
+        graph.getViewport().setMinY(0);
+        graph.getViewport().setMaxY(18);
+        graph.getViewport().setMinX(1);
+        graph.getViewport().setMaxX(33);
+        graph.getGridLabelRenderer().setNumVerticalLabels(6);
+        graph.getGridLabelRenderer().setNumHorizontalLabels(17);
+    }
+
+    protected void setDate() { // Used to date the date with calendar
+        final Calendar calendar = Calendar.getInstance();
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        int month = calendar.get(Calendar.MONTH);
+        int year = calendar.get(Calendar.YEAR);
+
+        datePicker = new DatePickerDialog(MonthGraph.this, new DatePickerDialog.OnDateSetListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onDateSet(DatePicker view, int yearOfCentury, int monthOfYear, int dayOfMonth) {
+                String date = ((monthOfYear + 1) + "/" + yearOfCentury);
+                selectedDate.setText(date);
+                selectedDate.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        setDate();
+                    }
+                });
+                getUVReadingFromDate(dayOfMonth, monthOfYear, yearOfCentury);
+            }
+        }, year, month, day);
+        datePicker.show();
+
+
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void getUVReadingFromDate(int selectedDay_, int selectedMonth_, int selectedYear_) {
+
+        uvList = new ArrayList<>();
+        dbGraph = new DatabaseHelper(this);
+        dbGraph.getReadableDatabase();
+        uvList = dbGraph.getUVGraphInfo(); // taking from MAX table
+        DecimalFormat df = new DecimalFormat("#,###,##0.00");
+
+
+        selectedDay = selectedDay_;
+        selectedMonth = selectedMonth_ + 1;
+        selectedYear = selectedYear_;
+
+
+        int currentDay;
+        float maxAverageUV = 0;
+        int putDay;
+        LinkedHashMap<Integer, Float> averagesMax = new LinkedHashMap<>();
+        int j;
+        for (int i = 0; i < uvList.size(); i++) {
+
+            if (selectedMonth == uvList.get(i).getMonth() &&
+                    selectedYear == uvList.get(i).getYear()) {
+                currentDay = uvList.get(i).getDay();
+                putDay = uvList.get(i).getDay();
+                j = i; //
+                while (currentDay == uvList.get(j).getDay() && j < uvList.size() - 1) { // with the selected day, we iterate to find the max in the month
+
+                    if (maxAverageUV < uvList.get(j).getUv_avg()) {
+                        maxAverageUV = uvList.get(j).getUv_avg();
+                        putDay = uvList.get(j).getDay();
+                    }
+
+
+                    j++;
+                }
+                // to put maxAverageUV in list
+                averagesMax.put(putDay, maxAverageUV);
+                maxAverageUV = 0; // reset the max;
+                i = j;
+
+            }
+
+        }
+        avgUV.setText(String.valueOf(averagesMax.size()));
+
+        dataPointsMAX = new DataPoint[averagesMax.size()];
+        int count = 0;
+
+
+        // iterate through the LinkedHashMap and get key (day) and value (month), put to DataPoint(x, y);
+        for (Map.Entry<Integer, Float> entry : averagesMax.entrySet()) {
+            int key = entry.getKey();
+            float value = entry.getValue();
+            DataPoint pointMax = new DataPoint(key, Double.parseDouble(df.format(value)));
+            dataPointsMAX[count] = pointMax;
+            count++;
+        }
+
+
+        seriesPointsMax.resetData(new DataPoint[]{});
+        seriesLineMax.resetData(new DataPoint[]{});
+        seriesPointsAvg.resetData(new DataPoint[]{});
+        seriesLineAvg.resetData(new DataPoint[]{});
+
+
+
+        seriesPointsMax = new PointsGraphSeries<>(dataPointsMAX);
+        seriesLineMax = new LineGraphSeries<>(dataPointsMAX);
+
+        //seriesPointsAvg = new PointsGraphSeries<>(dataPointsAVG);
+        // seriesLineAvg = new LineGraphSeries<>(dataPointsAVG);
+
+        seriesLineMax.setTitle("Max UV Readings");
+
+        seriesLineMax.setColor(Color.BLUE);
+        seriesPointsMax.setColor(Color.WHITE);
+        seriesPointsMax.setTitle("Max data points");
+
+        // seriesLineAvg.setTitle("Avg UV Readings");
+
+        // seriesLineAvg.setColor(Color.RED);
+        //seriesPointsAvg.setShape(PointsGraphSeries.Shape.RECTANGLE);
+        // seriesPointsAvg.setColor(Color.GRAY);
+        //seriesPointsAvg.setTitle("Avg data points");
+
+        graph.getLegendRenderer().setVisible(true);
+        graph.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.BOTTOM);
+
+        graph.removeAllSeries();
+
+        graph.addSeries(seriesPointsMax); // adds the graph to the UI
+        graph.addSeries(seriesLineMax);
+
+        //graph.addSeries(seriesPointsAvg);
+        //graph.addSeries(seriesLineAvg);
+
+        seriesPointsMax.setOnDataPointTapListener(new OnDataPointTapListener() { // ALLOWS USER TO SEE NODES
+            @Override
+            public void onTap(Series series, DataPointInterface dataPoint) {
+                Toast.makeText(getApplicationContext(), "\t\t\t  UV Intensity \n [HOUR,INTENSITY] \n" + "\t\t\t\t\t" + dataPoint, Toast.LENGTH_SHORT).show();
+                avgUV.setText(String.valueOf(dataPoint.getX()));
+                maxUV.setText(String.valueOf(dataPoint.getY()));
+            }
+        });
+
+        seriesPointsAvg.setOnDataPointTapListener(new OnDataPointTapListener() { // ALLOWS USER TO SEE NODES
+            @Override
+            public void onTap(Series series, DataPointInterface dataPoint) {
+                Toast.makeText(getApplicationContext(), "\t\t\t  UV Intensity \n [HOUR,INTENSITY] \n" + "\t\t\t\t\t" + dataPoint, Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+
+    }
+
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         goToUVHistoryActivity();
     }
+
     protected void goToUVHistoryActivity() {
         Intent intentHistory = new Intent(this, UVHistoryActivity.class);
         startActivity(intentHistory);
         finish();
     }
-    protected void month(){
-        // generate Dates
-        Calendar calendar = Calendar.getInstance();
-        Date d1 = calendar.getTime();
-        calendar.add(Calendar.MONTH, 1);
-        Date d2 = calendar.getTime();
-        calendar.add(Calendar.MONTH, 1);
-        Date d3 = calendar.getTime();
-        calendar.add(Calendar.MONTH, 1);
-
-        GraphView graph = (GraphView) findViewById(R.id.graph);
-
-        double []yArray=new double[]{1,2,5.33}; // this needs to be swapped out for database info
-        double maxUVI = yArray[0];
-        int n=yArray.length;
-
-        final double average = average(yArray, n); // USED TO FIND AVERAGE UVI LEVEL FROM DATABASE ( SOON )
-        NumberFormat nm = NumberFormat.getNumberInstance();
-        avgUV.setText(nm.format(average(yArray,n)));
-        max(yArray);
-        maxUV.setText(String.valueOf(max(yArray)));
-        lineGraphSeries = new LineGraphSeries<>(new DataPoint[] {
-                new DataPoint(d1,  uvIndex = UVSensorData.getUVIntensity()),
-                new DataPoint(d2, uvIndex = UVSensorData.getUVIntensity()),
-                new DataPoint(d3, uvIndex = UVSensorData.getUVIntensity())});
 
 
-        dataPointPointsGraphSeries =new PointsGraphSeries<>(new DataPoint[]{
-                new DataPoint(d1,  uvIndex = UVSensorData.getUVIntensity()),
-                new DataPoint(d2, uvIndex = UVSensorData.getUVIntensity()),
-                new DataPoint(d3, uvIndex = UVSensorData.getUVIntensity())});
-
-        graph.addSeries(lineGraphSeries);
-        graph.addSeries(dataPointPointsGraphSeries);
-        graph.setTitle("MONTH OVERVIEW");
-        graph.setTitleTextSize(100);
-        graph.setTitleColor(Color.WHITE);
-        graph.getGridLabelRenderer().setVerticalAxisTitle("UVI");
-        graph.getGridLabelRenderer().setVerticalAxisTitleColor(Color.WHITE);
-        graph.getGridLabelRenderer().setVerticalAxisTitleTextSize(50);
-        // set date label formatter
-        graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getActivity()));
-        graph.getGridLabelRenderer().setNumHorizontalLabels(4); // only 4 because of the space
-        graph.getGridLabelRenderer().setHorizontalAxisTitleColor(Color.WHITE);
-        graph.getGridLabelRenderer().setVerticalLabelsColor(Color.WHITE);
-        graph.getGridLabelRenderer().setHorizontalLabelsColor(Color.WHITE);
-        graph.getGridLabelRenderer().setHorizontalAxisTitle("WEEK");
-        graph.getGridLabelRenderer().setHorizontalAxisTitleColor(Color.WHITE);
-        graph.getGridLabelRenderer().setHorizontalLabelsAngle(85);
-        graph.getGridLabelRenderer().setGridColor(Color.WHITE);
-        graph.getViewport().setScalable(true);  // activate horizontal zooming and scrolling
-        graph.getViewport().setScrollable(true);  // activate horizontal scrolling
-        graph.getViewport().setScalableY(true);  // activate horizontal and vertical zooming and scrolling
-        graph.getViewport().setScrollableY(true);
-
-        // set manual x bounds to have nice steps
-        graph.getViewport().setMinY(0);
-        graph.getViewport().setMaxY(11);
-        graph.getViewport().setMinX(d1.getTime());
-        graph.getViewport().setMaxX(d3.getTime());
-        graph.getViewport().setXAxisBoundsManual(true);
-
-        dataPointPointsGraphSeries.setOnDataPointTapListener(new OnDataPointTapListener() {
-            @Override
-            public void onTap(Series series, DataPointInterface dataPoint) {
-                Toast.makeText(getApplicationContext(), "UV Intensity"+dataPoint, Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        graph.getGridLabelRenderer().setHumanRounding(false);}
-    static double average(double[] a, int n) // FUNCTION RETURNS AVERAGE VALUE
-    {
-        // Find sum of array element
-        double sum = 0;
-        for (int i = 0; i < n; i++)
-            sum += a[i];
-
-        return sum / n;
-    }
-    public Context getActivity() {
-        Context activity = null;
-        return activity;
-    }
-    public void setActivity(Context activity) {
-        this.activity = activity;
-    }
     protected void goToMainActivity() {
         Intent intentMain = new Intent(this, MainActivity.class);
         startActivity(intentMain);
         finish();
     }
+
     protected void goToProfileActivity() {
         Intent intentProfile = new Intent(this, ProfileActivity.class);
         startActivity(intentProfile);
         finish();
     }
+
     private void setupBottomNavigationListener() {
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
@@ -179,11 +352,4 @@ public class MonthGraph extends AppCompatActivity {
             }
         });
     }
-    static double max(double []a){ // function to find max UVI
-        double max=0;
-        for (int i = 0; i < a.length; i++) { // FUNCTION USED TO FIND MAX UVI LEVEL OF ENTIRE DAY
-            for (int counter = 1; counter < a.length; counter++) {
-                if (a[counter] > max) {
-                    max = a[counter]; } } }
-        return max;}
 }

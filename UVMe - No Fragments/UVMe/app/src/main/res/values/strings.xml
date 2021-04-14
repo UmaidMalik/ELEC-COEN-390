@@ -157,6 +157,12 @@
         <item>30 minutes</item>
         <item>Never</item>
     </string-array>
+
+
+    <string-array name="UVList">
+        <item>All UV Data</item>
+        <item>UV Graph Info</item>
+    </string-array>
     
 </resources>
 

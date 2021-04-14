@@ -10,9 +10,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -23,14 +27,18 @@ import java.util.List;
 public class UVHistoryActivity extends AppCompatActivity {
 
     ListView listViewUVHistory;
-
     View moreView;
-
     DatabaseHelper db;
     List<UVReadings> uvList;
     int index = 0;
     UVHistoryActivity.CustomAdapter customAdapter;
     Intent intent;
+    
+    
+    //******* New spinner for UV lIST
+    private Spinner spinnerUVList;
+
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +48,6 @@ public class UVHistoryActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         setContentView(R.layout.activity_uv_history);
         TextView title = (TextView) findViewById(R.id.activityUVHistory);
-        title.setText("UV History");
         setupBottomNavigationListener();
 
 
@@ -51,11 +58,50 @@ public class UVHistoryActivity extends AppCompatActivity {
 
         startNotificationsThread(getCurrentFocus());
 
+        //******* New Spinner: UV List
+        setupUVListSpinner();
+        spinnerUVList = (Spinner) findViewById(R.id.spinnerUVHistory);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.UVList, android.R.layout.simple_spinner_dropdown_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+        SpinnerAdapter spinnerAdapter = null;
+        spinnerUVList.setAdapter(spinnerAdapter);
+        spinnerUVList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                ((TextView) adapterView.getChildAt(0)).setTextColor(getResources().getColor(R.color.light_blue));
+
+                switch (i) {
+
+                    case 0:
+
+                        break;
+                    case 1:
+
+                        break;
+                    default:
+
+                        break;
+                }
+                }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+    }
+
+    //******** New Spinner: UV list
+    private void setupUVListSpinner() {
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+
         //uvList = db.getAllUVData();
         uvList = db.getUVGraphInfo();
         setupListView();
@@ -295,11 +341,7 @@ public class UVHistoryActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
 
 
-
-
     }
-
-
 
 
 }

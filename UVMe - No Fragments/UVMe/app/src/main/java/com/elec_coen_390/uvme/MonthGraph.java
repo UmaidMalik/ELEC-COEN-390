@@ -3,6 +3,7 @@ package com.elec_coen_390.uvme;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -23,24 +24,52 @@ import com.jjoe64.graphview.series.PointsGraphSeries;
 import com.jjoe64.graphview.series.Series;
 
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+
 public class MonthGraph extends AppCompatActivity {
-    public LineGraphSeries<DataPoint> lineGraphSeries;
-    public PointsGraphSeries<DataPoint> dataPointPointsGraphSeries;
-    private Context activity;
-    TextView avgUV,maxUV;
-    private float uvIndex = 0.00f;
+    public LineGraphSeries<DataPoint> seriesLineMax;
+    public PointsGraphSeries<DataPoint> seriesPointsMax;
+
+    public LineGraphSeries<DataPoint> seriesLineAvg;
+    public PointsGraphSeries<DataPoint> seriesPointsAvg;
+
+    private DatePickerDialog.OnDateSetListener  mDateSetLister;
+
+    TextView avgUV;
+    TextView maxUV;
+    TextView selectedDate, chooseDateTextView;
+    DatePickerDialog datePicker;
+    String date2 = "";
+    DatabaseHelper dbGraph;
+    List<UVReadings> uvList;
+    SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a");
+
+
+    GraphView graph;
+    DataPoint[] dataPointsMAX;
+    DataPoint[] dataPointsAVG;
+
+    private int selectedDay;
+    private int selectedMonth;
+    private int selectedYear;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_month_graph);
         this.getSupportActionBar().hide();
-        setContentView(R.layout.activity_week_graph);
+
         setupBottomNavigationListener();
+
+        selectedDate = findViewById(R.id.selectedDate);
+
         avgUV=findViewById(R.id.avgUV);
         maxUV=findViewById(R.id.maxUV);
-        Intent intent = getIntent(); // lets us go back and forth from app to app
+
+
         month();
     }
     @Override

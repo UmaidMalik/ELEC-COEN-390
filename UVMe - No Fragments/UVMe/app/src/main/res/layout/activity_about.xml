@@ -30,7 +30,7 @@
         android:fontFamily="@font/roboto_light"
         android:text="About"
         android:textAlignment="center"
-        android:textColor="@color/light_blue"
+        android:textColor="@color/teal_200"
         android:textSize="40sp"
         android:textStyle="bold"/>
 

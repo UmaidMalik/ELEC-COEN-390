@@ -62,8 +62,7 @@ public class DayGraph extends AppCompatActivity{
     DatabaseHelper dbGraph;
     List<UVReadings> uvList;
     SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a");
-    private Context activity;
-    private float uvIndex = 0.00f;
+
 
     GraphView graph;
     DataPoint[] dataPointsMAX;
@@ -301,9 +300,7 @@ public class DayGraph extends AppCompatActivity{
                 i = j;
 
             }
-           // if (selectedDay != uvList.get(i).getDay()) {
-          //      continue;
-          //  }
+
         }
         avgUV.setText(String.valueOf(averagesMax.size()));
 
@@ -321,7 +318,7 @@ public class DayGraph extends AppCompatActivity{
             count++;
         }
 
-        // this is where we are , we need to get day 13 working
+
 
 
 

@@ -34,6 +34,7 @@ public class UVHistoryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         // this.getSupportActionBar().hide();
         getSupportActionBar().setTitle("UV History");
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
@@ -123,7 +124,7 @@ public class UVHistoryActivity extends AppCompatActivity {
 
             //uvIndex.setText(uvList.get(i).uvToString());
             timeStamp.setText(uvList.get(i).timeStampToString());
-            uvIndex.setText(String.valueOf("A:" + uvList.get(i).getUv_avg() + "  M:" + uvList.get(i).getUv_max())); // @TODO remove
+            uvIndex.setText(String.valueOf("Avg:" + uvList.get(i).getUv_avg() + "  Max:" + uvList.get(i).getUv_max())); // @TODO remove
 
             setListViewIcons(i);
 

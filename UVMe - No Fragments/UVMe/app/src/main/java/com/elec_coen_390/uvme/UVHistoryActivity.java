@@ -1,21 +1,16 @@
 package com.elec_coen_390.uvme;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.database.DataSetObserver;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -240,7 +235,7 @@ public class UVHistoryActivity extends AppCompatActivity {
     }
 
     protected void goToMonthGraph() {
-        Intent intentGraphMonth = new Intent(this, monthGraph.class);
+        Intent intentGraphMonth = new Intent(this, MonthGraph.class);
         intentGraphMonth.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intentGraphMonth);
     }

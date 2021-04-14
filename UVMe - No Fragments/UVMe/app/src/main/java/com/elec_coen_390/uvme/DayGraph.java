@@ -237,15 +237,15 @@ public class DayGraph extends AppCompatActivity{
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onDateSet(DatePicker view, int yearOfCentury, int monthOfYear, int dayOfMonth) {
-                String date = (dayOfMonth+"/"+monthOfYear+"/"+yearOfCentury);
+                String date = (dayOfMonth+"/"+ (monthOfYear+1) +"/"+yearOfCentury);
                 selectedDate.setText(date);
                 selectedDate.setOnClickListener(new View.OnClickListener() {
+                    @Override
                     public void onClick(View view) {
+                        setDate();
                     }
                 });
                 getUVReadingFromDate(dayOfMonth, monthOfYear, yearOfCentury);
-                        setDate();
-                    @Override
                 }
             }, year , month, day);
                  datePicker.show();
@@ -268,11 +268,31 @@ public class DayGraph extends AppCompatActivity{
        selectedMonth = selectedMonth_ + 1;
        selectedYear = selectedYear_;
 
-        int countHours = 0;
-       for (int i = 0; i < uvList.size(); i++) {
-           if(selectedDay == uvList.get(j))
-       }
 
+
+        int currentHour;
+        int countHours = 0;
+        for (int i = 0; i < uvList.size(); i++) {
+
+           if(selectedDay == uvList.get(i).getDay() &&
+                   selectedMonth == uvList.get(i).getMonth() &&
+                   selectedYear == uvList.get(i).getYear() ) {
+               currentHour = uvList.get(i).getHour();
+               if (currentHour != uvList.get(i+1).getHour()) {
+                   countHours++;
+               }
+           }
+           if (selectedDay != uvList.get(i).getDay()) {
+               continue;
+           }
+       }
+        avgUV.setText(String.valueOf(countHours));
+
+
+
+
+
+       /*
       int currentHour;
       int k = 0;
       for (int i = 0; i < uvList.size(); i++) {
@@ -283,8 +303,8 @@ public class DayGraph extends AppCompatActivity{
               if (selectedDay == uvList.get(j).getDay() && selectedMonth == uvList.get(j).getMonth() &&
                       selectedYear == uvList.get(j).getYear() && currentHour == uvList.get(j).getHour()) {
 
-             //   sumMaxes += uvList.get(j).getUv_max();
-             //   countDatapoints++;
+                sumMaxes += uvList.get(j).getUv_max();
+               countDatapoints++;
 
               }
 
@@ -292,24 +312,23 @@ public class DayGraph extends AppCompatActivity{
           }
 
 
-        //  averageOfHour = sumMaxes/countDatapoints;
+          averageOfHour = sumMaxes/countDatapoints;
 
           if (selectedDay != uvList.get(i).getDay()) {
               continue;
           }
       }
 
-
-
+        */
 
 
 
         int countSize = 0;
         for (int i = 0; i < uvList.size(); i++) {
             if ( selectedDay == uvList.get(i).getDay() &&
-                   selectedMonth+1 == uvList.get(i).getMonth() &&
-                    selectedYear == uvList.get(i).getYear() &&
-                    6 == uvList.get(i).getHour() ) {
+                   selectedMonth == uvList.get(i).getMonth() &&
+                    selectedYear == uvList.get(i).getYear()
+            ) {
 
                 countSize++;
             }
@@ -325,9 +344,9 @@ public class DayGraph extends AppCompatActivity{
         int count = 0;
         for (int i = 0; i < uvList.size(); i++) {
             if (selectedDay == uvList.get(i).getDay() &&
-                    selectedMonth +1 == uvList.get(i).getMonth() &&
-                    selectedYear == uvList.get(i).getYear() &&
-                   6 == uvList.get(i).getHour() ) {
+                    selectedMonth == uvList.get(i).getMonth() &&
+                    selectedYear == uvList.get(i).getYear()
+                ) {
 
 
                 int x = uvList.get(i).getMinute(); //@TODO change to hour remember
@@ -335,8 +354,8 @@ public class DayGraph extends AppCompatActivity{
                 float yMax  =  uvList.get(i).getUv_max();
                 float yAvg = uvList.get(i).getUv_avg();
 
-                DataPoint pointMax = new DataPoint(x, Double.parseDouble(df.format(yMax)));
-                DataPoint pointAvg = new DataPoint(x, Double.parseDouble(df.format(yAvg)));
+                DataPoint pointMax = new DataPoint(count, Double.parseDouble(df.format(yMax)));
+                DataPoint pointAvg = new DataPoint(count, Double.parseDouble(df.format(yAvg)));
 
 
                 dataPointsMAX[count] = pointMax;

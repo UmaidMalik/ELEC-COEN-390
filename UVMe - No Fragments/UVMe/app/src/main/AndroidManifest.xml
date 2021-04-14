@@ -27,7 +27,7 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/Theme.UVMe">
-        <activity android:name=".monthGraph"
+        <activity android:name=".MonthGraph"
             android:screenOrientation="locked"/>
         <activity android:name=".weekGraph"
             android:screenOrientation="locked" />

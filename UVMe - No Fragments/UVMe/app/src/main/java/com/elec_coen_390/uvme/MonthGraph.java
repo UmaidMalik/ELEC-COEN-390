@@ -25,7 +25,7 @@ import com.jjoe64.graphview.series.Series;
 import java.text.NumberFormat;
 import java.util.Calendar;
 import java.util.Date;
-public class monthGraph extends AppCompatActivity {
+public class MonthGraph extends AppCompatActivity {
     public LineGraphSeries<DataPoint> lineGraphSeries;
     public PointsGraphSeries<DataPoint> dataPointPointsGraphSeries;
     private Context activity;

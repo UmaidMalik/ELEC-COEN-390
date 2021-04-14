@@ -49,7 +49,6 @@ public class DayGraph extends AppCompatActivity{
 
     private DatePickerDialog.OnDateSetListener  mDateSetLister;
 
-
     TextView avgUV;
     TextView maxUV;
     TextView selectedDate,chooseDateTextView;
@@ -93,9 +92,6 @@ public class DayGraph extends AppCompatActivity{
     protected void onResume() {
         super.onResume();
 
-       // graphSetup();
-        //setDate();
-       //getUVReadingFromDate(13, 4 ,2021);
     }
 
     protected void graphSetup() {
@@ -237,7 +233,7 @@ public class DayGraph extends AppCompatActivity{
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onDateSet(DatePicker view, int yearOfCentury, int monthOfYear, int dayOfMonth) {
-                String date = (dayOfMonth+"/"+ (monthOfYear+1) +"/"+yearOfCentury);
+                String date = (dayOfMonth+"/"+(monthOfYear+1) +"/"+yearOfCentury);
                 selectedDate.setText(date);
                 selectedDate.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -265,7 +261,7 @@ public class DayGraph extends AppCompatActivity{
 
 
        selectedDay = selectedDay_;
-       selectedMonth = selectedMonth_ + 1;
+       selectedMonth = selectedMonth_ +1;
        selectedYear = selectedYear_;
 
 
@@ -275,10 +271,10 @@ public class DayGraph extends AppCompatActivity{
         for (int i = 0; i < uvList.size(); i++) {
 
            if(selectedDay == uvList.get(i).getDay() &&
-                   selectedMonth == uvList.get(i).getMonth() &&
                    selectedYear == uvList.get(i).getYear() ) {
-               currentHour = uvList.get(i).getHour();
                if (currentHour != uvList.get(i+1).getHour()) {
+                   selectedMonth == uvList.get(i).getMonth() &&
+               currentHour = uvList.get(i).getHour();
                    countHours++;
                }
            }
@@ -293,21 +289,21 @@ public class DayGraph extends AppCompatActivity{
 
 
        /*
+      for (int i = 0; i < uvList.size(); i++) {
       int currentHour;
       int k = 0;
-      for (int i = 0; i < uvList.size(); i++) {
           currentHour = uvList.get(i).getHour();
 
-          for (int j = i; j < uvList.size(); i++) {
 
+          for (int j = i; j < uvList.size(); i++) {
               if (selectedDay == uvList.get(j).getDay() && selectedMonth == uvList.get(j).getMonth() &&
                       selectedYear == uvList.get(j).getYear() && currentHour == uvList.get(j).getHour()) {
 
                 sumMaxes += uvList.get(j).getUv_max();
+
                countDatapoints++;
 
               }
-
 
           }
 
@@ -348,7 +344,7 @@ public class DayGraph extends AppCompatActivity{
                     selectedYear == uvList.get(i).getYear()
                 ) {
 
-
+                //int x = uvList.get(i).getHour();
                 int x = uvList.get(i).getMinute(); //@TODO change to hour remember
 
                 float yMax  =  uvList.get(i).getUv_max();

@@ -27,7 +27,7 @@
                 android:textStyle="bold"
                 android:text="UV Display Mode"
                 android:fontFamily="@font/roboto_thin"
-                android:textColor="@color/light_blue"
+                android:textColor="@color/teal_200"
                 android:id="@+id/textViewUVDisplayMode"
                 android:textAlignment="center" />
 

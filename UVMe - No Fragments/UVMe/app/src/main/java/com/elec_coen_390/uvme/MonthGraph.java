@@ -132,8 +132,8 @@ public class MonthGraph extends AppCompatActivity {
         graph.getViewport().setScrollable(true);  // activate horizontal scrolling
         graph.getViewport().setScalableY(true);  // activate horizontal and vertical zooming and scrolling
         GridLabelRenderer gridLabel = graph.getGridLabelRenderer();
-        graph.setTitleColor(0xFFB1D4E0); // lightBlue
-        graph.getGridLabelRenderer().setVerticalAxisTitleColor(0xFFB1D4E0);
+        graph.setTitleColor(0xFF03DAC5); // lightBlue
+        graph.getGridLabelRenderer().setVerticalAxisTitleColor(0xFF03DAC5);
         graph.getGridLabelRenderer().setVerticalAxisTitle("UVI"); // AXIS
         graph.getGridLabelRenderer().setVerticalLabelsColor(0xFFB1D4E0);
         //graph.getGridLabelRenderer().setHorizontalLabelsAngle(75); // ANGLE OF AXIS
@@ -142,6 +142,8 @@ public class MonthGraph extends AppCompatActivity {
         graph.getViewport().setScrollableY(true);
 
         graph.getGridLabelRenderer().setHumanRounding(false);
+
+
 
         // SETTING BOUNDS
         graph.getViewport().setMinY(0);
@@ -223,7 +225,6 @@ public class MonthGraph extends AppCompatActivity {
             }
 
         }
-        avgUV.setText(String.valueOf(averagesMax.size()));
 
         dataPointsMAX = new DataPoint[averagesMax.size()];
         int count = 0;

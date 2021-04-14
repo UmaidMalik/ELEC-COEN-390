@@ -142,13 +142,13 @@ public class DayGraph extends AppCompatActivity{
 
         graph.setTitle("DAY OVERVIEW"); // TITLE
         graph.setTitleTextSize(100);
-        graph.setTitleColor(0xFFB1D4E0); // lightBlue
+        graph.setTitleColor(0xFF03DAC5); // lightBlue
         graph.getGridLabelRenderer().setVerticalAxisTitle("UVI"); // AXIS
-        graph.getGridLabelRenderer().setVerticalAxisTitleColor(0xFFB1D4E0);
+        graph.getGridLabelRenderer().setVerticalAxisTitleColor(0xFF03DAC5);
         graph.getGridLabelRenderer().setVerticalAxisTitleTextSize(50);
         graph.getGridLabelRenderer().setVerticalLabelsColor(0xFFB1D4E0);
         graph.getGridLabelRenderer().setHorizontalLabelsColor(0xFFB1D4E0);
-        graph.getGridLabelRenderer().setHorizontalLabelsAngle(75); // ANGLE OF AXIS
+
         graph.getGridLabelRenderer().setGridColor(0xFFB1D4E0);
         graph.getViewport().setScalable(true);  // activate horizontal zooming and scrolling
         graph.getViewport().setScrollable(true);  // activate horizontal scrolling
@@ -302,7 +302,7 @@ public class DayGraph extends AppCompatActivity{
             }
 
         }
-        avgUV.setText(String.valueOf(averagesMax.size()));
+       // avgUV.setText(String.valueOf(averagesMax.size()));
 
         dataPointsMAX = new DataPoint[averagesMax.size()];
         int count = 0;
@@ -413,8 +413,8 @@ public class DayGraph extends AppCompatActivity{
         seriesPointsMax.setOnDataPointTapListener(new OnDataPointTapListener() { // ALLOWS USER TO SEE NODES
             @Override
             public void onTap(Series series, DataPointInterface dataPoint) {
-                Toast.makeText(getApplicationContext(), "\t\t\t  UV Intensity \n [HOUR,INTENSITY] \n" +"\t\t\t\t\t"+ dataPoint, Toast.LENGTH_SHORT).show();
-            }
+                avgUV.setText(String.valueOf(dataPoint.getX()));
+                maxUV.setText(String.valueOf(dataPoint.getY()));}
         });
 
         seriesPointsAvg.setOnDataPointTapListener(new OnDataPointTapListener() { // ALLOWS USER TO SEE NODES

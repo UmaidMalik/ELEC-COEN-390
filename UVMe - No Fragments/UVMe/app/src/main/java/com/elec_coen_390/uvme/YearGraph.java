@@ -213,10 +213,12 @@ public class YearGraph extends AppCompatActivity {
         datePicker = new DatePickerDialog(YearGraph.this, new DatePickerDialog.OnDateSetListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
+
             public void onDateSet(DatePicker view, int yearOfCentury, int monthOfYear, int dayOfMonth) {
                 String date = String.valueOf(yearOfCentury);
                 yearGraph.getGridLabelRenderer().setHorizontalAxisTitle("Months of: "+date ); // AXIS
                 selectedDateYear.setText(date);
+
                 selectedDateYear.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -267,11 +269,9 @@ public class YearGraph extends AppCompatActivity {
                 i = j;
 
             }
-            // if (selectedDay != uvList.get(i).getDay()) {
-            //      continue;
-            //  }
+
         }
-        avgUVYear.setText(String.valueOf(averagesMax.size()));
+
 
         dataPointsMAX = new DataPoint[averagesMax.size()];
         int count = 0;

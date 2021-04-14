@@ -21,8 +21,8 @@ import androidx.appcompat.app.AppCompatActivity;
 public class MoreActivity extends AppCompatActivity {
 
     private ListView listView;
-    String[] iconNames = {"Notifications", "UV History", "UV Sensor", "UV Index Info", "Themes", "UV Display Mode", "About"};
-    int[] iconImages = {R.drawable.ic_notifications, R.drawable.ic_uv_history, R.drawable.ic_uv_sensor, R.drawable.ic_info, R.drawable.ic_themes, R.drawable.ic_mode, R.drawable.ic_about};
+    String[] iconNames = {"Notifications", "UV History", "UV Sensor", "UV Index Info", "Themes", "UV Display Mode", "About", "Send Feedback"};
+    int[] iconImages = {R.drawable.ic_notifications, R.drawable.ic_uv_history, R.drawable.ic_uv_sensor, R.drawable.ic_info, R.drawable.ic_themes, R.drawable.ic_mode, R.drawable.ic_about, R.drawable.ic_baseline_feedback_24};
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -113,6 +113,11 @@ public class MoreActivity extends AppCompatActivity {
                         break;
                     case 6:
                         intent = new Intent(getApplicationContext(), AboutActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                        startActivity(intent);
+
+                    case 7:
+                        intent = new Intent(getApplicationContext(), FeedbackActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                         startActivity(intent);
                         break;

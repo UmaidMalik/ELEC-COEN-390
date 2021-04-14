@@ -18,30 +18,34 @@
 
     <application
         android:name=".NotificationChannelsClass"
-        android:launchMode="singleTask"
         android:allowBackup="true"
-        android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:launchMode="singleTask"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:screenOrientation="portrait"
         android:supportsRtl="true"
-        android:theme="@style/Theme.UVMe">
-        <activity android:name=".MonthGraph"
-            android:screenOrientation="locked"/>
-        <activity android:name=".YearGraph"
+        android:theme="@style/Theme.UVMe"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".FeedbackActivity"></activity>
+        <activity
+            android:name=".MonthGraph"
             android:screenOrientation="locked" />
-        <activity android:name=".DayGraph"
-            android:screenOrientation="locked"/>
+        <activity
+            android:name=".YearGraph"
+            android:screenOrientation="locked" />
+        <activity
+            android:name=".DayGraph"
+            android:screenOrientation="locked" />
         <activity android:name=".ThemesActivity" />
         <activity android:name=".InfoActivity" />
-        <activity android:name=".UVSensorActivity"
+        <activity
+            android:name=".UVSensorActivity"
             android:screenOrientation="locked" />
         <activity android:name=".UVHistoryActivity" />
-        <activity android:name=".NotificationsActivity"/>
+        <activity android:name=".NotificationsActivity" />
         <activity android:name=".AboutActivity" />
-        <activity android:name=".UVDisplayModeActivity"/>
-
+        <activity android:name=".UVDisplayModeActivity" />
         <activity android:name=".WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -50,11 +54,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".ProfileActivity" />
-
-        <activity android:name=".MainActivity"/>
-
+        <activity android:name=".MainActivity" />
         <activity android:name=".MoreActivity" />
-
         <activity
             android:name=".DeviceControlActivity"
             android:screenOrientation="locked" />
@@ -62,18 +63,14 @@
         <service
             android:name=".BluetoothLeService"
             android:enabled="true" />
-
         <service
             android:name=".DatabaseService"
             android:enabled="true"
-            android:stopWithTask="false"/>
-
+            android:stopWithTask="false" />
         <service
             android:name=".NotificationsService"
             android:enabled="true"
-            android:stopWithTask="false"/>
+            android:stopWithTask="false" />
     </application>
-
-    
 
 </manifest>

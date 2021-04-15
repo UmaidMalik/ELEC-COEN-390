@@ -281,8 +281,8 @@ public class NotificationsService extends Service {
 
 
                 calendar = Calendar.getInstance();
-                //calendarNext = Calendar.getInstance();
-                //calendarNext.add(Calendar.MINUTE, minutesToBurn);
+                calendarNext = Calendar.getInstance();
+                calendarNext.add(Calendar.MINUTE, minutesToBurn);
                 sendToChannel(R.drawable.ic_sunlight_level5,
                         "SUNBURN ALERT!! UV: " + uvMax,
                         "Exposure time limit: " + minutesToBurn + " minutes" +

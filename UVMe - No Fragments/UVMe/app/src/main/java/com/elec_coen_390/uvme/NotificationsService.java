@@ -135,15 +135,15 @@ public class NotificationsService extends Service {
         public void run() {
 
 
-            calendarCheck = Calendar.getInstance();
-            if (calendarCheck.get(Calendar.HOUR_OF_DAY) == calendarNext.get(Calendar.HOUR_OF_DAY)
-                    && calendarCheck.get(Calendar.MINUTE)  == calendarNext.get(Calendar.MINUTE) && sunburn_alert_status) {
-                sendBurnTimeoutNotification();
+           // calendarCheck = Calendar.getInstance();
+          // if (calendarCheck.get(Calendar.HOUR_OF_DAY) == calendarNext.get(Calendar.HOUR_OF_DAY)
+         //           && calendarCheck.get(Calendar.MINUTE)  == calendarNext.get(Calendar.MINUTE) && sunburn_alert_status) {
+                //sendBurnTimeoutNotification();
                 uvMax = 0;
-            }
+         //   }
 
 
-            handler.postDelayed(this,  1000);
+            handler.postDelayed(this,  60000);
         }
     };
 
@@ -254,7 +254,7 @@ public class NotificationsService extends Service {
 
     public void sunburnNotification(){
 
-        if (uvMax >= 2 && sunburn_alert_status) {
+        if (uvMax >= 2 && sunburn_alert_status && UVSensorData.getUVIntensity() > 1.0) {
             switch (id_skin) {
 
                 case SKIN_TYPE_PALE:
@@ -279,14 +279,15 @@ public class NotificationsService extends Service {
 
 
 
+
                 calendar = Calendar.getInstance();
                 //calendarNext = Calendar.getInstance();
                 //calendarNext.add(Calendar.MINUTE, minutesToBurn);
                 sendToChannel(R.drawable.ic_sunlight_level5,
                         "SUNBURN ALERT!! UV: " + uvMax,
                         "Exposure time limit: " + minutesToBurn + " minutes" +
-                        " Time: " + calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE) + ":" + calendar.get(Calendar.SECOND),
-                        //" Till: " + calendarNext.get(Calendar.HOUR_OF_DAY) + ":" + calendarNext.get(Calendar.MINUTE) + ":" + calendarNext.get(Calendar.SECOND),
+                        " Time: " + calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE) + ":" + calendar.get(Calendar.SECOND) +
+                        " Till: " + calendarNext.get(Calendar.HOUR_OF_DAY) + ":" + calendarNext.get(Calendar.MINUTE) + ":" + calendarNext.get(Calendar.SECOND),
                         NotificationCompat.PRIORITY_HIGH,
                         NotificationCompat.CATEGORY_MESSAGE,
                         NotificationChannelsClass.CHANNEL_3_ID, 3);

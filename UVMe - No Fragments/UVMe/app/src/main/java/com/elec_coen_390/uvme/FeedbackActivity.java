@@ -1,14 +1,18 @@
 package com.elec_coen_390.uvme;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class FeedbackActivity extends AppCompatActivity {
 
@@ -31,6 +35,8 @@ public class FeedbackActivity extends AppCompatActivity {
 
         Button btn = (Button) findViewById(R.id.buttonSendFeedback);
 
+        setupBottomNavigationListener();
+
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -51,5 +57,71 @@ public class FeedbackActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        goToMoreActivity();
+    }
+
+    protected void goToMainActivity() {
+        Intent intentMain = new Intent(this, MainActivity.class);
+        intentMain.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intentMain);
+    }
+
+    protected void goToMoreActivity() {
+        Intent intentMore = new Intent(this, MoreActivity.class);
+        intentMore.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intentMore);
+    }
+
+    protected void goToProfileActivity() {
+        Intent intentProfile = new Intent(this, ProfileActivity.class);
+        intentProfile.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intentProfile);
+    }
+
+    private void setupBottomNavigationListener() {
+
+        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+
+        // Menu items are left unselected
+        bottomNavigationView.getMenu().getItem(0).setCheckable(false);
+        bottomNavigationView.getMenu().getItem(1).setCheckable(false);
+        bottomNavigationView.getMenu().getItem(2).setCheckable(false);
+
+
+
+
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                switch (item.getItemId()) {
+
+                    case R.id.action_profile:
+                        item.setCheckable(true);
+                        goToProfileActivity();
+                        break;
+
+                    case R.id.action_more:
+                        item.setCheckable(true);
+                        goToMoreActivity();;
+                        break;
+
+                    case R.id.action_home:
+                        item.setCheckable(true);
+                        goToMainActivity();
+                        break;
+
+                    default:
+
+                }
+                return false;
+            }
+        });
     }
 }

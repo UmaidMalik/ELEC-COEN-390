@@ -45,5 +45,16 @@
         android:layout_marginTop="480dp"
         tools:ignore="UseSwitchCompatOrMaterialXml" />
 
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:menu="@menu/bottom_nav_menu"
+        android:background="?colorPrimary"
+        app:itemBackground="?colorPrimary"
+        app:itemIconTint="@animator/nav_selector"
+        app:itemTextColor="@animator/nav_selector"/>
+
 
 </RelativeLayout>

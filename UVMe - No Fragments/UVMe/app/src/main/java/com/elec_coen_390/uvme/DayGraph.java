@@ -85,8 +85,7 @@ public class DayGraph extends AppCompatActivity{
         selectedDate = findViewById(R.id.selectedDate);
 
 
-        graphSetup();
-        setDate();
+
 
 
     }
@@ -95,6 +94,8 @@ public class DayGraph extends AppCompatActivity{
     @Override
     protected void onResume() {
         super.onResume();
+        graphSetup();
+        setDate();
 
     }
 

@@ -88,10 +88,10 @@ public class DatabaseService extends Service {
             second = calendar.get(Calendar.SECOND);
             minute = calendar.get(Calendar.MINUTE);
 
-            if (maxUVDatabase > 0.5 ) {
+            if (maxUVDatabase > 0.5) {
 
                 db.insertUV(UVSensorData.getUVIntensity(), calendar);
-                    // every 5 seconds uv is stored
+                // every 5 seconds uv is stored
                 if (second % 5 == 0) {
 
                     db.insertUVMax(maxUVDatabase, calendar);
@@ -100,7 +100,8 @@ public class DatabaseService extends Service {
                     maxUVDatabase = 0;
                     count++;
                 } // every minute the uv is stored
-                if (second % 60 == 0) {
+            }
+                if (second % 60 == 0 && maxUVDatabaseMINUTE > 0.5) {
                     avg = sum/count;
                     db.insertUVGraph(maxUVDatabaseMINUTE, avg, calendar);
                     sum = 0;
@@ -108,7 +109,7 @@ public class DatabaseService extends Service {
                     maxUVDatabaseMINUTE = 0;
                 }
 
-            } // this run method repeats every second
+             // this run method repeats every second
             handler.postDelayed(this, 1000);
         }
     };

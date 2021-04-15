@@ -5,14 +5,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/midnight_blue"
+    android:background="?colorPrimaryVariant"
     tools:context=".UVHistoryActivity">
 
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="670dp"
-        android:background="@color/midnight_blue">
+        android:background="?colorPrimaryVariant">
 
 
         <TextView
@@ -36,7 +36,7 @@
             android:textSize="40sp"
             android:padding="10dp"
             android:backgroundTint="@color/secondary_blue"
-            android:textColor="@color/light_blue"
+            android:textColor="?colorOnPrimary"
             android:layout_below="@+id/activityUVHistory"/>
 
         <ListView
@@ -58,8 +58,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         app:menu="@menu/bottom_nav_menu"
-        android:background="@color/secondary_blue"
-        app:itemBackground="@color/secondary_blue"
+        android:background="?colorPrimary"
+        app:itemBackground="?colorPrimary"
         app:itemIconTint="@animator/nav_selector"
         app:itemTextColor="@animator/nav_selector"/>
 </RelativeLayout>

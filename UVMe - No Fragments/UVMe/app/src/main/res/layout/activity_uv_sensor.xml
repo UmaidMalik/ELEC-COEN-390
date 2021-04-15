@@ -3,8 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/midnight_blue"
-    >
+    android:background="?colorPrimaryVariant">
 
 <FrameLayout
     android:id="@+id/frameLayoutProgress"
@@ -38,7 +37,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginBottom="65dp"
         android:fontFamily="@font/roboto_light"
-        android:textColor="@color/light_blue"
+        android:textColor="?colorOnPrimary"
         android:text="Disconnect">
 
     </Button>
@@ -52,7 +51,7 @@
         android:layout_alignParentLeft="true"
         android:layout_marginBottom="65dp"
         android:fontFamily="@font/roboto_light"
-        android:textColor="@color/light_blue"
+        android:textColor="?colorOnPrimary"
         android:text="Device">
 
     </Button>
@@ -63,8 +62,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         app:menu="@menu/bottom_nav_menu"
-        android:background="@color/secondary_blue"
-        app:itemBackground="@color/secondary_blue"
+        android:background="?colorPrimary"
+        app:itemBackground="?colorPrimary"
         app:itemIconTint="@animator/nav_selector"
         app:itemTextColor="@animator/nav_selector"/>
 </RelativeLayout>

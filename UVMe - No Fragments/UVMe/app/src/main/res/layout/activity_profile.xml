@@ -6,20 +6,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
-    android:background="@color/midnight_blue">
+    android:background="?colorPrimaryVariant">
 
 <ScrollView
 
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
-    android:background="@color/midnight_blue">
+    android:background="?colorPrimaryVariant">
 
 
 
 <RelativeLayout
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="@color/midnight_blue"
+    android:background="?colorPrimaryVariant"
     tools:context=".ProfileActivity">
 
     <Button
@@ -28,7 +28,7 @@
         android:layout_height="52dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="150dp"
-        android:textColor="@color/light_blue"
+        android:textColor="?colorOnPrimary"
         android:text="EDIT" />
 
     <TextView
@@ -38,7 +38,7 @@
         android:text="Name"
         android:layout_marginTop="260dp"
         android:layout_marginLeft="25dp"
-        android:textColor="@color/light_blue"
+        android:textColor="?colorOnPrimary"
         android:textSize="18sp"
         />
 
@@ -54,8 +54,8 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:hint="ENTER NAME"
-        android:textColorHint="@color/light_blue"
-        android:textColor="@color/light_blue" />
+        android:textColorHint="?colorOnPrimary"
+        android:textColor="?colorOnPrimary" />
 
     <TextView
         android:id="@+id/textView3"
@@ -64,7 +64,7 @@
         android:layout_marginTop="350dp"
         android:layout_marginLeft="25dp"
         android:text="Age"
-        android:textColor="@color/light_blue"
+        android:textColor="?colorOnPrimary"
         android:textSize="18sp"
         />
 
@@ -82,7 +82,7 @@
         android:maxLength="2"
         android:hint="ENTER AGE"
         android:textColorHint="@color/font_lightblue"
-        android:textColor="@color/light_blue"
+        android:textColor="?colorOnPrimary"
         />
 
     <TextView
@@ -92,7 +92,7 @@
         android:layout_marginTop="530dp"
         android:layout_marginLeft="25dp"
         android:text="Skin Tone "
-        android:textColor="@color/light_blue"
+        android:textColor="?colorOnPrimary"
         android:textSize="18sp"
         />
 
@@ -103,7 +103,7 @@
         android:layout_marginTop="620dp"
         android:layout_marginLeft="25dp"
         android:text="Eye Colour"
-        android:textColor="@color/light_blue"
+        android:textColor="?colorOnPrimary"
         android:textSize="18sp"
         />
 
@@ -113,7 +113,7 @@
         android:layout_height="52dp"
         android:layout_marginTop="150dp"
         android:layout_marginLeft="270dp"
-        android:textColor="@color/light_blue"
+        android:textColor="?colorOnPrimary"
         android:text="SAVE" />
 
     <Spinner
@@ -124,7 +124,7 @@
         android:layout_marginLeft="280dp"
         android:layout_marginTop="515dp"
         android:layout_toEndOf="@+id/textView4"
-        android:dropDownSelector="@color/light_blue"
+        android:dropDownSelector="?colorOnPrimary"
         />
 
 
@@ -191,8 +191,8 @@ android:layout_width="match_parent"
 android:layout_height="wrap_content"
 android:layout_alignParentBottom="true"
 app:menu="@menu/bottom_nav_menu"
-android:background="@color/secondary_blue"
-app:itemBackground="@color/secondary_blue"
+android:background="?colorPrimary"
+app:itemBackground="?colorPrimary"
 app:itemIconTint="@animator/nav_selector"
 app:itemTextColor="@animator/nav_selector"/>
 

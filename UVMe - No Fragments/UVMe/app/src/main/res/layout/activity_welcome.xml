@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".WelcomeActivity"
-    android:background="@color/midnight_blue">
+    android:background="?colorPrimaryVariant">
 
     <TextView
         android:layout_width="wrap_content"
@@ -16,7 +16,7 @@
         android:fontFamily="@font/roboto_light"
         android:layout_alignBottom="@id/layout_welcome_sun"
         android:layout_marginBottom="560dp"
-        android:textColor="@color/light_blue"
+        android:textColor="?colorOnPrimary"
         android:textAlignment="center" />
 
     <TextView

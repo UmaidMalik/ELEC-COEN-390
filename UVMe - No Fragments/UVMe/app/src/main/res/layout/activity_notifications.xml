@@ -6,20 +6,20 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/midnight_blue"
+        android:background="?colorPrimaryVariant"
         tools:context=".NotificationsActivity">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="60dp"
-        android:background="@color/midnight_blue"
+        android:background="?colorPrimaryVariant"
         tools:context=".NotificationsActivity">
 
 <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/midnight_blue"
+    android:background="?colorPrimaryVariant"
     tools:context=".NotificationsActivity">
 
     <TextView
@@ -55,14 +55,14 @@
             android:layout_marginStart="10dp"
             android:text="UVI Level Alert"
             android:fontFamily="@font/roboto_light"
-            android:textColor="@color/light_blue"
+            android:textColor="?colorOnPrimary"
             android:textSize="20sp"/>
         <ToggleButton
             android:id="@+id/toggleButtonUVILevelAlert"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:textColor="@color/light_blue"
+            android:textColor="?colorOnPrimary"
             android:backgroundTint="@color/secondary_blue"/>
     </RelativeLayout>
 
@@ -81,7 +81,7 @@
             android:layout_marginStart="10dp"
             android:text="Sunglasses Alert"
             android:fontFamily="@font/roboto_light"
-            android:textColor="@color/light_blue"
+            android:textColor="?colorOnPrimary"
             android:textSize="20sp"/>
 
         <ToggleButton
@@ -89,7 +89,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:textColor="@color/light_blue"
+            android:textColor="?colorOnPrimary"
             android:backgroundTint="@color/secondary_blue"/>
     </RelativeLayout>
 
@@ -109,7 +109,7 @@
             android:layout_marginStart="10dp"
             android:text="Sunburn Alert"
             android:fontFamily="@font/roboto_light"
-            android:textColor="@color/light_blue"
+            android:textColor="?colorOnPrimary"
             android:textSize="20sp"/>
 
         <ToggleButton
@@ -117,7 +117,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:textColor="@color/light_blue"
+            android:textColor="?colorOnPrimary"
             android:backgroundTint="@color/secondary_blue" />
     </RelativeLayout>
 
@@ -139,8 +139,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         app:menu="@menu/bottom_nav_menu"
-        android:background="@color/secondary_blue"
-        app:itemBackground="@color/secondary_blue"
+        android:background="?colorPrimary"
+        app:itemBackground="?colorPrimary"
         app:itemIconTint="@animator/nav_selector"
         app:itemTextColor="@animator/nav_selector"/>
 

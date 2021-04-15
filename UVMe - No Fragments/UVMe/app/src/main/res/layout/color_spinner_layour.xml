@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     android:padding="10dp"
     android:text="autochunck"
-    android:textColor="@color/light_blue"
+    android:background="?colorPrimaryVariant"
+    android:textColor="?colorOnPrimary"
     android:textSize="18dp">
 </CheckedTextView>

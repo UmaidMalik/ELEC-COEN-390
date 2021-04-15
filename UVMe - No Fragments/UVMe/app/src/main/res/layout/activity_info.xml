@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/midnight_blue"
+    android:background="?colorPrimaryVariant"
     android:orientation="vertical">
 
     <LinearLayout
@@ -36,7 +36,7 @@
                 android:layout_marginLeft="25dp"
                 android:fontFamily="@font/roboto_light"
                 android:text="UV Index"
-                android:textColor="@color/light_blue" />
+                android:textColor="?colorOnPrimary" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -45,7 +45,7 @@
 
                 android:fontFamily="@font/roboto_light"
                 android:text="Risk of Harm"
-                android:textColor="@color/light_blue" />
+                android:textColor="?colorOnPrimary" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -54,7 +54,7 @@
 
                 android:fontFamily="@font/roboto_light"
                 android:text="Recommended Protection"
-                android:textColor="@color/light_blue" />
+                android:textColor="?colorOnPrimary" />
             </RelativeLayout>
 
             <TextView
@@ -104,8 +104,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         app:menu="@menu/bottom_nav_menu"
-        android:background="@color/secondary_blue"
-        app:itemBackground="@color/secondary_blue"
+        android:background="?colorPrimary"
+        app:itemBackground="?colorPrimary"
         app:itemIconTint="@animator/nav_selector"
         app:itemTextColor="@animator/nav_selector"/>
 

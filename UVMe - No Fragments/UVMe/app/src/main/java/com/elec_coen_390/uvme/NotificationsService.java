@@ -211,7 +211,7 @@ public class NotificationsService extends Service {
         );
 
         //switch case, output depending on the eye color.
-        if(sunglasses_alert_status) {
+        if(sunglasses_alert_status && uvMax >= 2) {
             switch (id_eye) {
                 case EYE_TYPE_BLUE:
                     sendToChannel(R.drawable.ic_sunglasses,

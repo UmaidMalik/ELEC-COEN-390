@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 
-    android:background="@color/midnight_blue"
+    android:background="?colorPrimaryVariant"
     android:orientation="vertical"
     android:padding="4dp"
     android:layout_width="match_parent"
@@ -16,7 +16,7 @@
         android:textSize="20sp"
         android:paddingStart="15dp"
         android:padding="4dp"
-        android:textColor="@color/light_blue" />
+        android:textColor="?colorOnPrimary" />
 
 
 </RelativeLayout>

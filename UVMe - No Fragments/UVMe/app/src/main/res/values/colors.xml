@@ -11,4 +11,9 @@
     <color name="secondary_blue">#1C3F60</color>
     <color name="light_blue">#B1D4E0</color>
     <color name="font_lightblue">#B1D4E0</color>
+
+    <color name="primary_red">#7C0000</color>
+    <color name="text_red">#FFC7C7</color>
+    <color name="background_red">#340808</color>
+
 </resources>

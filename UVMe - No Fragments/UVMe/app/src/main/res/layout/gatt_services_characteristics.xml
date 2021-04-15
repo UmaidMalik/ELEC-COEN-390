@@ -12,8 +12,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/midnight_blue"
-    >
+    android:background="?colorPrimaryVariant">
 
 
     <TextView
@@ -22,7 +21,7 @@
         android:layout_marginTop="10dp"
         android:layout_centerHorizontal="true"
         android:textSize="30sp"
-        android:textColor="@color/light_blue"
+        android:textColor="?colorOnPrimary"
         android:fontFamily="@font/roboto_thin"
         android:id="@+id/activityUVSensor"
         android:textAlignment="center" />
@@ -35,7 +34,7 @@
         android:layout_marginRight="0dp"
         android:layout_marginBottom="58dp"
         android:layout_marginTop="40dp"
-        android:background="@color/secondary_blue"
+        android:background="?colorPrimary"
         >
 
 
@@ -46,7 +45,7 @@
             android:layout_margin="10dp">
             <TextView android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/light_blue"
+                android:textColor="?colorOnPrimary"
                 android:fontFamily="@font/roboto_thin"
                 android:text="@string/label_device_address"
                 android:textSize="18sp"/>
@@ -55,7 +54,7 @@
             <TextView android:id="@+id/device_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/light_blue"
+                android:textColor="?colorOnPrimary"
                 android:fontFamily="@font/roboto_thin"
                 android:textSize="18sp"/>
         </LinearLayout>
@@ -66,7 +65,7 @@
             <TextView android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/label_state"
-                android:textColor="@color/light_blue"
+                android:textColor="?colorOnPrimary"
                 android:fontFamily="@font/roboto_thin"
                 android:textSize="18sp"/>
             <Space android:layout_width="5dp"
@@ -74,7 +73,7 @@
             <TextView android:id="@+id/connection_state"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/light_blue"
+                android:textColor="?colorOnPrimary"
                 android:fontFamily="@font/roboto_thin"
                 android:text="@string/disconnected"
                 android:textSize="18sp"/>
@@ -85,7 +84,7 @@
             android:layout_margin="10dp">
             <TextView android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/light_blue"
+                android:textColor="?colorOnPrimary"
                 android:fontFamily="@font/roboto_thin"
                 android:text="@string/label_data"
                 android:textSize="18sp"/>
@@ -94,7 +93,7 @@
             <TextView android:id="@+id/data_value"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/light_blue"
+                android:textColor="?colorOnPrimary"
                 android:fontFamily="@font/roboto_thin"
                 android:text="@string/no_data"
                 android:textSize="18sp"/>
@@ -103,9 +102,9 @@
             android:id="@+id/gatt_services_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/light_blue"
+            android:textColor="?colorOnPrimary"
             android:fontFamily="@font/roboto_thin"
-            android:background="@color/light_blue"
+            android:background="?colorOnPrimary"
             />
 
     </LinearLayout>
@@ -120,8 +119,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         app:menu="@menu/bottom_nav_menu"
-        android:background="@color/secondary_blue"
-        app:itemBackground="@color/secondary_blue"
+        android:background="?colorPrimary"
+        app:itemBackground="?colorPrimary"
         app:itemIconTint="@animator/nav_selector"
         app:itemTextColor="@animator/nav_selector"/>
 

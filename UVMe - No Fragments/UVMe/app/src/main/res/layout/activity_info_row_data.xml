@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:background="?colorPrimaryVariant"
     android:layout_height="match_parent">
 
     <RelativeLayout
@@ -17,7 +18,7 @@
             android:layout_centerVertical="true"
             android:layout_marginStart="15dp"
             android:textSize="16dp"
-            android:textColor="@color/light_blue"
+            android:textColor="?colorOnPrimary"
             android:fontFamily="@font/roboto_light"
             android:text="0-2"
             />
@@ -30,7 +31,7 @@
             android:layout_marginStart="25dp"
             android:layout_toEndOf="@id/relativeViewColorImage"
             android:text="recommended protections"
-            android:textColor="@color/light_blue"
+            android:textColor="?colorOnPrimary"
             android:fontFamily="@font/roboto_thin"
             android:textSize="20sp" />
 

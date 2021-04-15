@@ -49,6 +49,8 @@ public class ThemesActivity extends AppCompatActivity {
                     recreate();
                 }
 
+
+
             }
 
 

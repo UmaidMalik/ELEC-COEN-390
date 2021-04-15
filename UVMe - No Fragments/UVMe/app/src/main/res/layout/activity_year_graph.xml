@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/midnight_blue"
+    android:background="?colorPrimaryVariant"
     tools:context=".YearGraph">
 
     <RelativeLayout
@@ -16,7 +16,7 @@
             android:id="@+id/textViewAVGExposureYear"
             android:text="Month: "
             android:layout_marginTop="10dp"
-            android:textColor="@color/light_blue"
+            android:textColor="?colorOnPrimary"
             android:layout_width="100dp"
             android:layout_height="20dp"
             android:textSize="15sp"
@@ -25,7 +25,7 @@
             />
         <TextView
             android:text="UV Level: "
-            android:textColor="@color/light_blue"
+            android:textColor="?colorOnPrimary"
             android:layout_width="100dp"
             android:layout_height="20dp"
             android:layout_below="@id/textViewAVGExposureYear"
@@ -34,7 +34,7 @@
             />
         <TextView
             android:id="@+id/avgUVYear"
-            android:textColor="@color/light_blue"
+            android:textColor="?colorOnPrimary"
             android:layout_width="50dp"
             android:layout_height="20dp"
             android:textSize="15sp"
@@ -46,7 +46,7 @@
 
         <TextView
             android:id="@+id/maxUVYear"
-            android:textColor="@color/light_blue"
+            android:textColor="?colorOnPrimary"
             android:layout_width="50dp"
             android:textSize="15sp"
             android:layout_height="20dp"
@@ -71,7 +71,7 @@
             android:layout_height="wrap_content"
             android:layout_above="@id/selectedDateYear"
             android:textSize="12sp"
-            android:textColor="@color/light_blue"
+            android:textColor="?colorOnPrimary"
             android:text="select year"
             android:layout_centerHorizontal="true"/>
         <TextView
@@ -81,7 +81,7 @@
             android:text="yyyy"
             android:layout_centerInParent="true"
             android:textSize="32sp"
-            android:textColor="@color/light_blue"/>
+            android:textColor="?colorOnPrimary"/>
 
 
 
@@ -105,8 +105,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         app:menu="@menu/bottom_nav_menu"
-        android:background="@color/secondary_blue"
-        app:itemBackground="@color/secondary_blue"
+        android:background="?colorPrimary"
+        app:itemBackground="?colorPrimary"
         app:itemIconTint="@animator/nav_selector"
         app:itemTextColor="@animator/nav_selector"/>
 

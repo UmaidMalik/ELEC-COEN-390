@@ -627,17 +627,17 @@ public class MainActivity extends AppCompatActivity {
                             //find feels
                             JSONObject object13 = jsonObject.getJSONObject("main");
                             double feels_find = object13.getDouble("feels_like");
-                            textViewFeelsLike.setText("feels like: " + feels_find+" °C");
+                            textViewFeelsLike.setText("Feels like: " + feels_find+" °C");
 
                             //find pressure
                             JSONObject object7 = jsonObject.getJSONObject("main");
                             String pressure_find = object7.getString("pressure");
-                            textViewPressure.setText( + pressure_find+" hPa");
+                            textViewPressure.setText("Pressure: " + pressure_find+" hPa");
 
                             //find humidity
                             JSONObject object4 = jsonObject.getJSONObject("main");
                             int humidity_find = object4.getInt("humidity");
-                            textViewHumidity.setText(humidity_find+"%");
+                            textViewHumidity.setText("Humidity: " + humidity_find+"%");
 
 
                         } catch (JSONException e) {

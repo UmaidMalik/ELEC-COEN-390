@@ -14,16 +14,17 @@
 
 <TextView
     android:id="@+id/textViewAVGExposure"
-    android:text="AVERAGE UV EXPOSURE"
+    android:text="Hour:"
     android:textColor="@color/light_blue"
     android:layout_width="100dp"
     android:layout_height="20dp"
+    android:layout_marginTop="10dp"
     android:textSize="15sp"
     android:layout_marginLeft="15dp"
     android:layout_marginBottom="10dp"
     />
     <TextView
-        android:text="MAX UV LEVEL"
+        android:text="UV Level:"
         android:textColor="@color/light_blue"
         android:layout_width="100dp"
         android:layout_height="20dp"
@@ -37,6 +38,7 @@
         android:layout_width="50dp"
         android:layout_height="20dp"
         android:textSize="15sp"
+        android:layout_marginTop="10dp"
         android:text="0.00"
         android:layout_toEndOf="@id/textViewAVGExposure"
 

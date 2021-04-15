@@ -14,7 +14,8 @@
 
         <TextView
             android:id="@+id/textViewAVGExposureYear"
-            android:text="AVERAGE UV EXPOSURE"
+            android:text="Month: "
+            android:layout_marginTop="10dp"
             android:textColor="@color/light_blue"
             android:layout_width="100dp"
             android:layout_height="20dp"
@@ -23,7 +24,7 @@
             android:layout_marginBottom="10dp"
             />
         <TextView
-            android:text="MAX UV LEVEL"
+            android:text="UV Level: "
             android:textColor="@color/light_blue"
             android:layout_width="100dp"
             android:layout_height="20dp"
@@ -37,6 +38,7 @@
             android:layout_width="50dp"
             android:layout_height="20dp"
             android:textSize="15sp"
+            android:layout_marginTop="10dp"
             android:text="0.00"
             android:layout_toEndOf="@id/textViewAVGExposureYear"
 
@@ -70,13 +72,13 @@
             android:layout_above="@id/selectedDateYear"
             android:textSize="12sp"
             android:textColor="@color/light_blue"
-            android:text="select date"
+            android:text="select year"
             android:layout_centerHorizontal="true"/>
         <TextView
             android:id="@+id/selectedDateYear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="dd/mm/yyyy"
+            android:text="yyyy"
             android:layout_centerInParent="true"
             android:textSize="32sp"
             android:textColor="@color/light_blue"/>

@@ -140,7 +140,7 @@ public class DayGraph extends AppCompatActivity{
         graph.getLegendRenderer().setVisible(true);
         graph.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.BOTTOM);
 
-        graph.setTitle("DAY OVERVIEW"); // TITLE
+        graph.setTitle("Day Overview"); // TITLE
         graph.setTitleTextSize(100);
         graph.setTitleColor(0xFF03DAC5);
         graph.getGridLabelRenderer().setVerticalAxisTitle("UVI"); // AXIS

@@ -115,7 +115,7 @@ public class YearGraph extends AppCompatActivity {
         yearGraph.getLegendRenderer().setVisible(true);
         yearGraph.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.BOTTOM);
 
-        yearGraph.setTitle("Year OVERVIEW"); // TITLE
+        yearGraph.setTitle("Year Overview"); // TITLE
         yearGraph.setTitleTextSize(100);
         yearGraph.setTitleColor(0xFF03DAC5); // lightBlue
         yearGraph.getGridLabelRenderer().setVerticalAxisTitle("UVI"); // AXIS

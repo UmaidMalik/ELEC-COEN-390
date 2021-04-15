@@ -9,6 +9,7 @@ public class NotificationChannelsClass extends Application {
     public static final String CHANNEL_1_ID ="channel1";
     public static final String CHANNEL_2_ID ="channel2";
     public static final String CHANNEL_3_ID ="channel3";
+    public static final String CHANNEL_4_ID ="channel4";
 
     @Override
     public void onCreate() {
@@ -23,7 +24,7 @@ public class NotificationChannelsClass extends Application {
             NotificationChannel channel1 = new NotificationChannel(
                     CHANNEL_1_ID,
                     "Channel 1",
-                            NotificationManager.IMPORTANCE_HIGH
+                            NotificationManager.IMPORTANCE_LOW
             );
             channel1.setDescription("UVI Level Alert ");
 
@@ -35,10 +36,18 @@ public class NotificationChannelsClass extends Application {
             );
             channel2.setDescription("Sunglasses Alert ");
 
-            // Notification channel 3 used for sunglasses reminder
+            // Notification channel 3 used for sunburn reminder
             NotificationChannel channel3 = new NotificationChannel(
                     CHANNEL_3_ID,
                     "Channel 3",
+                    NotificationManager.IMPORTANCE_HIGH
+            );
+            channel3.setDescription("Sunburn Alert ");
+
+            // Notification channel 4 used for sun exposure limit reached
+            NotificationChannel channel4 = new NotificationChannel(
+                    CHANNEL_4_ID,
+                    "Channel 4",
                     NotificationManager.IMPORTANCE_HIGH
             );
             channel3.setDescription("Sunburn Alert ");
@@ -47,6 +56,7 @@ public class NotificationChannelsClass extends Application {
             manager.createNotificationChannel(channel1);
             manager.createNotificationChannel(channel2);
             manager.createNotificationChannel(channel3);
+            manager.createNotificationChannel(channel4);
         }
     }
 }

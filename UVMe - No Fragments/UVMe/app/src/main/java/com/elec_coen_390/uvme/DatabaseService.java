@@ -108,7 +108,7 @@ public class DatabaseService extends Service {
                     maxUVDatabaseMINUTE = 0;
                 }
 
-            }
+            } // this run method repeats every second
             handler.postDelayed(this, 1000);
         }
     };

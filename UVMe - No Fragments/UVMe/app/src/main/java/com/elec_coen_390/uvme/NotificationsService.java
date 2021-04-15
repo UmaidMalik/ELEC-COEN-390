@@ -18,6 +18,7 @@ import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import java.math.*;
+import java.util.Calendar;
 
 public class NotificationsService extends Service {
 
@@ -49,13 +50,19 @@ public class NotificationsService extends Service {
 
     private int minutesToBurn = 0;
     private float uvMax = 0;
-    private int resetTime = 1;
 
 
+
+    private Calendar calendar;
+    private Calendar calendarNext;
+    private Calendar calendarCheck;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        calendar = Calendar.getInstance();
+        calendarNext = Calendar.getInstance();
+        calendarNext.add(Calendar.MINUTE, 1);
     }
 
     @Override
@@ -67,6 +74,8 @@ public class NotificationsService extends Service {
         startNotificationsThread();
         startMaxUVThread();
         startResetMaxUVThread();
+
+
 
         prefsSkin = getSharedPreferences(ProfileActivity.prefNameSkin, MODE_PRIVATE);
         id_skin = prefsSkin.getInt("last_val_skin", 0);
@@ -126,10 +135,15 @@ public class NotificationsService extends Service {
         public void run() {
 
 
+            calendarCheck = Calendar.getInstance();
+            if (calendarCheck.get(Calendar.HOUR_OF_DAY) == calendarNext.get(Calendar.HOUR_OF_DAY)
+                    && calendarCheck.get(Calendar.MINUTE)  == calendarNext.get(Calendar.MINUTE) && sunburn_alert_status) {
+                sendBurnTimeoutNotification();
                 uvMax = 0;
+            }
 
 
-            handler.postDelayed(this, resetTime * 1000);
+            handler.postDelayed(this,  1000);
         }
     };
 
@@ -141,8 +155,10 @@ public class NotificationsService extends Service {
 
         @RequiresApi(api = Build.VERSION_CODES.O)
         public void run() {
+
             maxUV();
-            handler.postDelayed(this, 5);
+
+            handler.postDelayed(this, 1000);
         }
     };
 
@@ -170,7 +186,7 @@ public class NotificationsService extends Service {
             sendToChannel(R.drawable.ic_extreme_condition,
                     "UVI LEVEL ALERT!",
                     "You Are Exposed To: " + UVSensorData.getUVIntensity() + "\n Long Exposure Term May Affect Health",
-                    NotificationCompat.PRIORITY_HIGH,
+                    NotificationCompat.PRIORITY_LOW,
                     NotificationCompat.CATEGORY_MESSAGE,
                     NotificationChannelsClass.CHANNEL_1_ID, 1);
 
@@ -178,15 +194,67 @@ public class NotificationsService extends Service {
             sendToChannel(R.drawable.ic_extreme_condition,
                     "HIGH UVI LEVEL ALERT!!!",
                     "You are exposed to a DANGEROUS level of UV Radiation:" + UVSensorData.getUVIntensity() + "\nStay out of sunlight!",
-                    NotificationCompat.PRIORITY_HIGH,
+                    NotificationCompat.PRIORITY_LOW,
                     NotificationCompat.CATEGORY_MESSAGE,
                     NotificationChannelsClass.CHANNEL_1_ID, 1);
         }
     }
 
+    public void sendBurnTimeoutNotification() {
+        sendToChannel(R.drawable.ic_extreme_condition,
+                "WARNING: Sun Exposure Limit Reached",
+                "If you have been outside since " + calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE)
+                        + ", then you have reached your UV exposure limit.",
+                NotificationCompat.PRIORITY_HIGH,
+                NotificationCompat.CATEGORY_MESSAGE,
+                NotificationChannelsClass.CHANNEL_4_ID, 4
+        );
+
+        //switch case, output depending on the eye color.
+        if(sunglasses_alert_status) {
+            switch (id_eye) {
+                case EYE_TYPE_BLUE:
+                    sendToChannel(R.drawable.ic_sunglasses,
+                            "SUNGLASSES ALERT!!!\n Hey Blue Eyes",
+                            "UV is +2, get your shades on!",
+                            NotificationCompat.PRIORITY_LOW,
+                            NotificationCompat.CATEGORY_MESSAGE,
+                            NotificationChannelsClass.CHANNEL_2_ID, 2);
+                    break;
+                case EYE_TYPE_BROWN:
+                    sendToChannel(R.drawable.ic_sunglasses,
+                            "SUNGLASSES ALERT!!!\n Hey Green Eyes",
+                            "UV is +2, get your shades on!",
+                            NotificationCompat.PRIORITY_LOW,
+                            NotificationCompat.CATEGORY_MESSAGE,
+                            NotificationChannelsClass.CHANNEL_2_ID, 2);
+                    break;
+                case EYE_TYPE_GREEN:
+                    sendToChannel(R.drawable.ic_sunglasses,
+                            "SUNGLASSES ALERT!!!\n Hey Brown Eyes",
+                            "UV is +2, get your shades on!",
+                            NotificationCompat.PRIORITY_LOW,
+                            NotificationCompat.CATEGORY_MESSAGE,
+                            NotificationChannelsClass.CHANNEL_2_ID, 2);
+
+                    break;
+                case EYE_TYPE__HAZEL:
+                    sendToChannel(R.drawable.ic_sunglasses,
+                            "SUNGLASSES ALERT!!!\n Hey Hazel Eyes",
+                            "UV is +2, get your shades on!",
+                            NotificationCompat.PRIORITY_LOW,
+                            NotificationCompat.CATEGORY_MESSAGE,
+                            NotificationChannelsClass.CHANNEL_2_ID, 2);
+                    break;
+
+            }
+
+        }
+    }
+
     public void sunburnNotification(){
 
-        if (uvMax >= 3) {
+        if (uvMax >= 2 && sunburn_alert_status) {
             switch (id_skin) {
 
                 case SKIN_TYPE_PALE:
@@ -209,58 +277,19 @@ public class NotificationsService extends Service {
                     break;
             }
 
-            resetTime = minutesToBurn * 60;
 
-            if (sunburn_alert_status) {
+
+                calendar = Calendar.getInstance();
+                //calendarNext = Calendar.getInstance();
+                //calendarNext.add(Calendar.MINUTE, minutesToBurn);
                 sendToChannel(R.drawable.ic_sunlight_level5,
                         "SUNBURN ALERT!! UV: " + uvMax,
-                        "You can stay outside for a maximum of " + minutesToBurn + " minutes!",
+                        "Exposure time limit: " + minutesToBurn + " minutes" +
+                        " Time: " + calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE) + ":" + calendar.get(Calendar.SECOND),
+                        //" Till: " + calendarNext.get(Calendar.HOUR_OF_DAY) + ":" + calendarNext.get(Calendar.MINUTE) + ":" + calendarNext.get(Calendar.SECOND),
                         NotificationCompat.PRIORITY_HIGH,
                         NotificationCompat.CATEGORY_MESSAGE,
                         NotificationChannelsClass.CHANNEL_3_ID, 3);
-            }
-            //switch case, output depending on the eye color.
-            if(uvMax >= 2 && sunglasses_alert_status) {
-                switch (id_eye) {
-                    case EYE_TYPE_BLUE:
-                        sendToChannel(R.drawable.ic_sunglasses,
-                                "SUNGLASSES ALERT!!!\n Hey Blue Eyes",
-                                "UV is Moderate, get your shades on!",
-                                NotificationCompat.PRIORITY_LOW,
-                                NotificationCompat.CATEGORY_MESSAGE,
-                                NotificationChannelsClass.CHANNEL_2_ID, 2);
-                        break;
-                    case EYE_TYPE_BROWN:
-                        sendToChannel(R.drawable.ic_sunglasses,
-                                "SUNGLASSES ALERT!!!\n Hey Green Eyes",
-                                "UV is Moderate, get your shades on!",
-                                NotificationCompat.PRIORITY_LOW,
-                                NotificationCompat.CATEGORY_MESSAGE,
-                                NotificationChannelsClass.CHANNEL_2_ID, 2);
-
-                        break;
-                    case EYE_TYPE_GREEN:
-                        sendToChannel(R.drawable.ic_sunglasses,
-                                "SUNGLASSES ALERT!!!\n Hey Brown Eyes",
-                                NotificationCompat.CATEGORY_MESSAGE,
-                                NotificationCompat.PRIORITY_LOW,
-                              "UV is Moderate, get your shades on!",
-                                NotificationChannelsClass.CHANNEL_2_ID, 2);
-
-                        break;
-                    case EYE_TYPE__HAZEL:
-                        sendToChannel(R.drawable.ic_sunglasses,
-                                "SUNGLASSES ALERT!!!\n Hey Hazel Eyes",
-                                "UV is Moderate, get your shades on!",
-                                NotificationCompat.PRIORITY_LOW,
-                                NotificationCompat.CATEGORY_MESSAGE,
-                                NotificationChannelsClass.CHANNEL_2_ID, 2);
-                        break;
-
-                }
-
-            }
-
 
         }
 

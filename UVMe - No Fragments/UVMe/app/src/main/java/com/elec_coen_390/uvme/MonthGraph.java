@@ -280,7 +280,7 @@ public class MonthGraph extends AppCompatActivity {
         seriesPointsMax.setOnDataPointTapListener(new OnDataPointTapListener() { // ALLOWS USER TO SEE NODES
             @Override
             public void onTap(Series series, DataPointInterface dataPoint) {
-                Toast.makeText(getApplicationContext(), "\t\t\t  UV Intensity \n [HOUR,INTENSITY] \n" + "\t\t\t\t\t" + dataPoint, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "\t\t\t  UV Intensity \n [HOUR,INTENSITY] \n" + "\t\t\t\t\t" + dataPoint, Toast.LENGTH_SHORT).show();
                 avgUV.setText(String.valueOf(dataPoint.getX()));
                 maxUV.setText(String.valueOf(dataPoint.getY()));
             }
@@ -289,7 +289,7 @@ public class MonthGraph extends AppCompatActivity {
         seriesPointsAvg.setOnDataPointTapListener(new OnDataPointTapListener() { // ALLOWS USER TO SEE NODES
             @Override
             public void onTap(Series series, DataPointInterface dataPoint) {
-                Toast.makeText(getApplicationContext(), "\t\t\t  UV Intensity \n [HOUR,INTENSITY] \n" + "\t\t\t\t\t" + dataPoint, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "\t\t\t  UV Intensity \n [HOUR,INTENSITY] \n" + "\t\t\t\t\t" + dataPoint, Toast.LENGTH_SHORT).show();
 
             }
         });

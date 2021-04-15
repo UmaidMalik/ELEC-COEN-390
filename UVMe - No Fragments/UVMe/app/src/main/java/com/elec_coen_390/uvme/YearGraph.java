@@ -140,9 +140,9 @@ public class YearGraph extends AppCompatActivity {
         yearGraph.getViewport().setMinY(0);
         yearGraph.getViewport().setMaxY(18);
         yearGraph.getViewport().setMinX(0);
-        yearGraph.getViewport().setMaxX(12);
-        yearGraph.getGridLabelRenderer().setNumHorizontalLabels(4);
-        yearGraph.getGridLabelRenderer().setNumVerticalLabels(2);
+        yearGraph.getViewport().setMaxX(14);
+        yearGraph.getGridLabelRenderer().setNumHorizontalLabels(8);
+        yearGraph.getGridLabelRenderer().setNumVerticalLabels(4);
     }
 
     @Override

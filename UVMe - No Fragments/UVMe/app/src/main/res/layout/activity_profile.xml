@@ -81,7 +81,7 @@
         android:inputType="textPersonName"
         android:maxLength="2"
         android:hint="ENTER AGE"
-        android:textColorHint="@color/font_lightblue"
+        android:textColorHint="?colorOnPrimary"
         android:textColor="?colorOnPrimary"
         />
 
@@ -144,7 +144,7 @@
         android:layout_height="40dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="80dp"
-        android:textColor="#B1D4E0"
+        android:textColor="?colorOnPrimary"
         android:textSize="30dp" />
 
 
@@ -155,7 +155,7 @@
         android:layout_marginTop="440dp"
         android:layout_marginLeft="25dp"
         android:text="Gender"
-        android:textColor="#B1D4E0"
+        android:textColor="?colorOnPrimary"
         android:textSize="18sp"
         />
 
@@ -166,6 +166,7 @@
         android:layout_marginStart="150dp"
         android:layout_marginLeft="280dp"
         android:layout_marginTop="425dp"
+        android:textColor="?colorOnPrimary"
         android:layout_toEndOf="@+id/textView8" />
 
     <TextView

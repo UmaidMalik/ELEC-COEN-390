@@ -144,6 +144,11 @@ public class MonthGraph extends AppCompatActivity {
         graph.getGridLabelRenderer().setHumanRounding(false);
 
 
+        graph.getGridLabelRenderer().setHorizontalLabelsColor(0xFFB1D4E0);
+        graph.getGridLabelRenderer().setHorizontalAxisTitleTextSize(50);
+        graph.getGridLabelRenderer().setHorizontalAxisTitleColor(0xFF03DAC5);
+
+
 
         // SETTING BOUNDS
         graph.getViewport().setMinY(0);
@@ -165,6 +170,7 @@ public class MonthGraph extends AppCompatActivity {
             @Override
             public void onDateSet(DatePicker view, int yearOfCentury, int monthOfYear, int dayOfMonth) {
                 String date = ((monthOfYear + 1) + "/" + yearOfCentury);
+                graph.getGridLabelRenderer().setHorizontalAxisTitle("Day of month: "+ monthOfYear + 1 ); // AXIS
                 selectedDate.setText(date);
                 selectedDate.setOnClickListener(new View.OnClickListener() {
                     @Override

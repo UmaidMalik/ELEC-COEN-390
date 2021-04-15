@@ -149,6 +149,10 @@ public class DayGraph extends AppCompatActivity{
         graph.getGridLabelRenderer().setVerticalLabelsColor(0xFFB1D4E0); // lightBlue
         graph.getGridLabelRenderer().setHorizontalLabelsColor(0xFFB1D4E0);
 
+        graph.getGridLabelRenderer().setHorizontalLabelsColor(0xFFB1D4E0);
+        graph.getGridLabelRenderer().setHorizontalAxisTitleTextSize(50);
+        graph.getGridLabelRenderer().setHorizontalAxisTitleColor(0xFF03DAC5);
+
         graph.getGridLabelRenderer().setGridColor(0xFFB1D4E0);
         graph.getViewport().setScalable(true);  // activate horizontal zooming and scrolling
         graph.getViewport().setScrollable(true);  // activate horizontal scrolling
@@ -240,6 +244,7 @@ public class DayGraph extends AppCompatActivity{
             @Override
             public void onDateSet(DatePicker view, int yearOfCentury, int monthOfYear, int dayOfMonth) {
                 String date = (dayOfMonth+"/"+(monthOfYear+1) +"/"+yearOfCentury);
+                graph.getGridLabelRenderer().setHorizontalAxisTitle("Date: "+ date); // AXIS
                 selectedDate.setText(date);
                 selectedDate.setOnClickListener(new View.OnClickListener() {
                     @Override

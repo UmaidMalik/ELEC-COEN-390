@@ -20,90 +20,52 @@ import android.widget.Toolbar;
 
 public class ThemesActivity extends AppCompatActivity {
 
-    SharedPreferences sharedPreferences, app_preferences;
-    SharedPreferences.Editor editor;
-    Button button;
-    Methods methods;
-
-    int appTheme;
-    int themeColor;
-    int appColor;
-    Constant constant;
-
+    Button redButton;
+    SharedPreferenceHelper sharedPreferenceHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-
-        app_preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        appColor = app_preferences.getInt("color", 0);
-        appTheme = app_preferences.getInt("theme", 0);
-        themeColor = appColor;
-        constant.color = appColor;
-
-        if (themeColor == 0){
-            setTheme(Constant.theme);
-        }else if (appTheme == 0){
-            setTheme(Constant.theme);
-        }else{
-            setTheme(appTheme);
-        }
+        sharedPreferenceHelper = new SharedPreferenceHelper(this);
+        getTheme().applyStyle(sharedPreferenceHelper.getTheme(),true);
         setContentView(R.layout.activity_themes);
 
 
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_setting);
-        toolbar.setTitle("Settings");
-        toolbar.setBackgroundColor(Constant.color);
 
-        methods = new Methods();
-        button = (Button) findViewById(R.id.button_color);
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        editor = sharedPreferences.edit();
 
-        colorize();
-
-        button.setOnClickListener(new View.OnClickListener(){
+        redButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                ColorChooserDialog dialog = new ColorChooserDialog(ThemesActivity.this);
-                dialog.setTitle("Select");
-                dialog.setColorListener(new ColorListener() {
-                    @Override
-                    public void OnColorClick(View v, int color) {
-                        colorize();
-                        Constant.color = color;
-
-                        methods.setColorTheme();
-                        editor.putInt("color", color);
-                        editor.putInt("theme",Constant.theme);
-                        editor.commit();
-
-                        Intent intent = new Intent(ThemesActivity.this, MainActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(intent);
-                    }
-                });
-
-                dialog.show();
+                sharedPreferenceHelper.saveRedTheme(R.style.OverlayThemeRed);
+                Intent intent = getIntent();
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                finish();
+                startActivity(intent);
             }
         });
     }
-@Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        switch (item.getItemId()){
-            case android.R.id.home:
-                onBackPressed();
-                break;
+    public class SharedPreferenceHelper {
+        private SharedPreferences sharedPreferences;
+        public SharedPreferenceHelper(Context context)
+        {
+            sharedPreferences = context.getSharedPreferences("ProfilePreference",
+                    Context.MODE_PRIVATE );
         }
-        return super.onOptionsItemSelected(item);
+        public void saveRedTheme(int red){
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putInt("themeKey",red );
+            editor.commit();
+        }
+        public int getTheme(){
+            return sharedPreferences.getInt("themeKey", 0);
+        }
+        public void saveBlueTheme(int blue){
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putInt("themeKey",blue );
+            editor.commit();
+        }
     }
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    private void colorize(){
-        ShapeDrawable d= new ShapeDrawable(new OvalShape());
-        d.setBounds(58,58,58,58);
-
-        d.getPaint().setStyle(Paint.Style.FILL);
-        d.getPaint().setColor(constant.color);
-
-        button.setBackground(d);
+    public void setupUI(){
+        redButton = findViewById(R.id.red);
     }
+
 }

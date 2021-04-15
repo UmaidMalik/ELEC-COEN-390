@@ -240,7 +240,7 @@
                 android:layout_marginTop="60dp"
                 android:fontFamily="@font/roboto_thin"
                 android:text="UVI"
-                android:textColor="?colorPrimary"
+                android:textColor="?colorOnPrimary"
                 android:textSize="30sp" />
         </RelativeLayout>
 

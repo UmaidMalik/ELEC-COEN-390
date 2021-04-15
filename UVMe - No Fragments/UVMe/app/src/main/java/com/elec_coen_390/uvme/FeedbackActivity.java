@@ -36,7 +36,6 @@ public class FeedbackActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("message/html");
-                //intent.putExtra(Intent.EXTRA_EMAIL, new String("umaid54321@hotmail.com"));
                 intent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[] { "umaid54321@hotmail.com" });
                 intent.putExtra(Intent.EXTRA_SUBJECT, "Feedback for UVMe App");
                 intent.putExtra(Intent.EXTRA_TEXT, "Sender: " + editTextFeedbackName.getText() + "\n\n Message: " + editTextFeedbackDescription.getText());

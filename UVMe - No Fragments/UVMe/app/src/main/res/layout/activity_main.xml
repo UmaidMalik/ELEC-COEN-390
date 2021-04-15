@@ -55,7 +55,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="70dp">
 
         <TextView
@@ -98,13 +98,12 @@
             android:id="@+id/textViewPressure"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="195dp"
-            android:layout_below="@id/textViewCity"
-            android:layout_marginTop="0dp"
+            android:layout_marginStart="30dp"
+            android:layout_below="@id/textViewHumidity"
             android:text="Pressure"
             android:fontFamily="@font/roboto_thin"
             android:textColor="@color/light_blue"
-            android:textSize="20sp"/>
+            android:textSize="15sp"/>
 
 
 
@@ -125,11 +124,10 @@
             android:id="@+id/textViewHumidity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
+            android:layout_marginStart="30dp"
             android:text="Humidity"
-            android:layout_below="@id/textViewTemperature"
+            android:layout_below="@id/textViewFeelsLike"
             android:layout_marginTop="2dp"
-            android:layout_toEndOf="@id/textViewFeelsLike"
             android:textSize="15sp"
             android:fontFamily="@font/roboto_thin"
             android:textColor="@color/light_blue"/>

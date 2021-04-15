@@ -170,7 +170,7 @@ public class MonthGraph extends AppCompatActivity {
             @Override
             public void onDateSet(DatePicker view, int yearOfCentury, int monthOfYear, int dayOfMonth) {
                 String date = ((monthOfYear + 1) + "/" + yearOfCentury);
-                graph.getGridLabelRenderer().setHorizontalAxisTitle("Day of month: "+ monthOfYear + 1 ); // AXIS
+                graph.getGridLabelRenderer().setHorizontalAxisTitle("Days of the month"); // AXIS
                 selectedDate.setText(date);
                 selectedDate.setOnClickListener(new View.OnClickListener() {
                     @Override

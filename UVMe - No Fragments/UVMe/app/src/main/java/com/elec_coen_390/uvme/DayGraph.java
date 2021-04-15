@@ -245,7 +245,7 @@ public class DayGraph extends AppCompatActivity{
             @Override
             public void onDateSet(DatePicker view, int yearOfCentury, int monthOfYear, int dayOfMonth) {
                 String date = (dayOfMonth+"/"+(monthOfYear+1) +"/"+yearOfCentury);
-                graph.getGridLabelRenderer().setHorizontalAxisTitle("Date: "+ date); // AXIS
+                graph.getGridLabelRenderer().setHorizontalAxisTitle("Hours of the day"); // AXIS
                 selectedDate.setText(date);
                 selectedDate.setOnClickListener(new View.OnClickListener() {
                     @Override

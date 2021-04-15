@@ -51,7 +51,7 @@ public class YearGraph extends AppCompatActivity {
     String date2 = "";
     DatabaseHelper dbGraph;
     List<UVReadings> uvList;
-    SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a");
+    SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm a");
     private Context activity;
     private float uvIndex = 0.00f;
 
@@ -216,7 +216,7 @@ public class YearGraph extends AppCompatActivity {
 
             public void onDateSet(DatePicker view, int yearOfCentury, int monthOfYear, int dayOfMonth) {
                 String date = String.valueOf(yearOfCentury);
-                yearGraph.getGridLabelRenderer().setHorizontalAxisTitle("Months of: "+date ); // AXIS
+                yearGraph.getGridLabelRenderer().setHorizontalAxisTitle("Months of the year "); // AXIS
                 selectedDateYear.setText(date);
 
                 selectedDateYear.setOnClickListener(new View.OnClickListener() {

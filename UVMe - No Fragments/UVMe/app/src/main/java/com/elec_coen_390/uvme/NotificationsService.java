@@ -123,10 +123,11 @@ public class NotificationsService extends Service {
         public void run() {
 
             setupNotificationPreferences();
+            sunglassesReminder();
             reduceRiskOFBurnNotification(UVSensorData.getUVIntensity());
             sunburnNotification();
 
-            handler.postDelayed(this, 200);
+            handler.postDelayed(this, 50);
         }
     };
 
@@ -135,15 +136,15 @@ public class NotificationsService extends Service {
         public void run() {
 
 
-           // calendarCheck = Calendar.getInstance();
-          // if (calendarCheck.get(Calendar.HOUR_OF_DAY) == calendarNext.get(Calendar.HOUR_OF_DAY)
-         //           && calendarCheck.get(Calendar.MINUTE)  == calendarNext.get(Calendar.MINUTE) && sunburn_alert_status) {
-                //sendBurnTimeoutNotification();
+            calendarCheck = Calendar.getInstance();
+           if (calendarCheck.get(Calendar.HOUR_OF_DAY) == calendarNext.get(Calendar.HOUR_OF_DAY)
+                    && calendarCheck.get(Calendar.MINUTE)  == calendarNext.get(Calendar.MINUTE) && sunburn_alert_status) {
+                sendBurnTimeoutNotification();
                 uvMax = 0;
-         //   }
+            }
 
 
-            handler.postDelayed(this,  60000);
+            handler.postDelayed(this,  2000);
         }
     };
 
@@ -158,7 +159,7 @@ public class NotificationsService extends Service {
 
             maxUV();
 
-            handler.postDelayed(this, 1000);
+            handler.postDelayed(this, 200);
         }
     };
 
@@ -206,12 +207,16 @@ public class NotificationsService extends Service {
                 "If you have been outside since " + calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE)
                         + ", then you have reached your UV exposure limit.",
                 NotificationCompat.PRIORITY_HIGH,
-                NotificationCompat.CATEGORY_MESSAGE,
+                NotificationCompat.CATEGORY_ALARM,
                 NotificationChannelsClass.CHANNEL_4_ID, 4
         );
 
+
+    }
+
+    public void sunglassesReminder(){
         //switch case, output depending on the eye color.
-        if(sunglasses_alert_status && uvMax >= 2) {
+        if(sunglasses_alert_status && UVSensorData.getUVIntensity() >= 2) {
             switch (id_eye) {
                 case EYE_TYPE_BLUE:
                     sendToChannel(R.drawable.ic_sunglasses,
@@ -254,7 +259,7 @@ public class NotificationsService extends Service {
 
     public void sunburnNotification(){
 
-        if (uvMax >= 2 && sunburn_alert_status && UVSensorData.getUVIntensity() > 1.0) {
+        if (uvMax >= 2 && sunburn_alert_status && UVSensorData.getUVIntensity() > uvMax) {
             switch (id_skin) {
 
                 case SKIN_TYPE_PALE:
@@ -286,8 +291,8 @@ public class NotificationsService extends Service {
                 sendToChannel(R.drawable.ic_sunlight_level5,
                         "SUNBURN ALERT!! UV: " + uvMax,
                         "Exposure time limit: " + minutesToBurn + " minutes" +
-                        " Time: " + calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE) + ":" + calendar.get(Calendar.SECOND) +
-                        " Till: " + calendarNext.get(Calendar.HOUR_OF_DAY) + ":" + calendarNext.get(Calendar.MINUTE) + ":" + calendarNext.get(Calendar.SECOND),
+                        " Time: " + calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE) +
+                        " Till: " + calendarNext.get(Calendar.HOUR_OF_DAY) + ":" + calendarNext.get(Calendar.MINUTE),
                         NotificationCompat.PRIORITY_HIGH,
                         NotificationCompat.CATEGORY_MESSAGE,
                         NotificationChannelsClass.CHANNEL_3_ID, 3);

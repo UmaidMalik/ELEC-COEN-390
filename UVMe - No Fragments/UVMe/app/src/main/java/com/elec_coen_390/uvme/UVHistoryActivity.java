@@ -348,19 +348,19 @@ public class UVHistoryActivity extends AppCompatActivity {
 
     protected void goToGraphActivity() {
         Intent intentGraph = new Intent(this, DayGraph.class);
-        intentGraph.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        //intentGraph.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intentGraph);
     }
 
     protected void goToYearGraph() {
         Intent intentYearGraph = new Intent(this, YearGraph.class);
-        intentYearGraph.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        //intentYearGraph.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intentYearGraph);
     }
 
     protected void goToMonthGraph() {
         Intent intentGraphMonth = new Intent(this, MonthGraph.class);
-        intentGraphMonth.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        //intentGraphMonth.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intentGraphMonth);
     }
 

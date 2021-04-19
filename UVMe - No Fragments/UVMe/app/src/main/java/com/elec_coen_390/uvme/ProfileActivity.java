@@ -47,8 +47,8 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
     private SharedPreferences prefseye;
     private SharedPreferences prefsSkin;
     private SharedPreferences prefsGender;
-    public  final String prefNameEye = getString(R.string.spinner_value_eye);
-    public  final String prefNameSkin = getString(R.string.spinner_value_skin);
+    public static final String prefNameEye = "spinner_value_eye";
+    public static final String prefNameSkin = "spinner_value_skin";
     private  final String prefNameGender =getString(spinner_value_gender);
     int id_gender,id_eye,id_skin=0;
     final String TAG = "ProfileActivity";

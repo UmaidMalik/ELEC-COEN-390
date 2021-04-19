@@ -142,6 +142,8 @@
     <string name="ans_13d">It usually is associated with how much time was needed to deliver the energy.\n</string>
     <string name="ans_13e">The way the units work is 1 Joule (J) of energy delivered = delivering 1 Watt (W) of energy for 1 second. In the UV world, we usually measure things in small increments, i.e., thousandths of a Joule or Watt. These are shown as ‘milli-Joules\' (i.e., ‘mJ’ or 1/1,000 of a Joule), and milli-Watts (i.e., ‘mW’ or 1/1,000 of a Watt).\n</string>
     <string name="ans_13f">Example: 40mJ (cumulative energy) = 10mW delivered for 4 seconds\n</string>
+    <string name="spinner_value_skin">spinner_value_skin</string>
+    <string name="last_val_gender">last_val_gender</string>
 
 
     <string-array name="spinnerRefreshTimes">

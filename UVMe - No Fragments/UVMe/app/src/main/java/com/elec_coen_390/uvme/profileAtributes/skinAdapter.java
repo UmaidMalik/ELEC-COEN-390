@@ -1,5 +1,5 @@
 package com.elec_coen_390.uvme.profileAtributes;
-
+// class used to follow MVC structure
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,7 +30,7 @@ public class skinAdapter extends ArrayAdapter<skinTone> {
     public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         return initview(position,convertView,parent);
     }
-
+    // saving the position of the spinner
     private View initview(int position,View convertView,ViewGroup parent){
         if (convertView==null){
             convertView=LayoutInflater.from(getContext()).inflate(R.layout.skin_tone_row,parent,false);

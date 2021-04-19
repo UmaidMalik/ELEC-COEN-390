@@ -1,5 +1,6 @@
 package com.elec_coen_390.uvme.profileAtributes;
 
+// class to follow MVC structure
 public class eyeColor {
     private String meyeColor;
     private int mEyeIcon;

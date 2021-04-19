@@ -6,4 +6,8 @@
     <string name="profileEye">last_val_eye</string>
     <string name="profileSkin">last_val_skin</string>
     <string name="profileGender">last_val_gender</string>
+    <string name="spinner_value_gender">spinner_value_gender</string>
+    <string name="spinner_value_eye">spinner_value_eye</string>
+    <string name="last_val_eye">last_val_eye</string>
+    <string name="last_val_skin">last_val_skin</string>
 </resources>

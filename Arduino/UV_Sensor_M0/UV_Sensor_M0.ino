@@ -43,6 +43,11 @@
 
 */
 
+/*
+ * THIS CODE APPLIES TO THE ADAFRUIT FEATHER M0 BLUEFRUIT LE BOARD
+ * 
+ * 
+ */
 
 
 //Hardware pin definitions
@@ -80,8 +85,8 @@ int count = 0;
  int32_t uvIntensityCharIdNotify;
 
 
-  int32_t batteryServiceId;
-  int32_t batteryLevelCharId;
+ int32_t batteryServiceId;
+ int32_t batteryLevelCharId;
 
 
  /* Function: error
@@ -130,8 +135,6 @@ void emitUVSensorData(float uvIntensity) {
 
   updateIntCharacteristic("UV Intensity", uvIntensity, uvIntensityCharId);
   updateIntCharacteristic("UV Intensity", uvIntensity, uvIntensityCharIdNotify);
-  //updateIntCharacteristic("UV Sensor Time", counter, int(uvTimeReference), uvTimeCharId);
-  
 
 }
 
@@ -211,11 +214,6 @@ void setup()
 
 void loop()
 {
-  //StartTime = millis();
-  //TimeReference = millis();
-
-  //count = 0;
-
   
   int uvLevel = averageAnalogRead(UVOUT);
   int refLevel = averageAnalogRead(REF_3V3);
@@ -233,8 +231,6 @@ void loop()
 
   emitUVSensorData(uvIntensity);
   emitBatteryLevel((int)measuredvbat);
-
-  //count++;
 
   /*
   Serial.print("VBat: " ); Serial.println(measuredvbat);

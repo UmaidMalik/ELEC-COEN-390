@@ -43,7 +43,11 @@
 
 */
 
-
+/*
+ * THIS CODE APPLIES TO THE ADAFRUIT FEATHER 32u4 BLUEFRUIT LE BOARD
+ * 
+ * 
+ */
 
 //Hardware pin definitions
 
@@ -69,7 +73,6 @@ Adafruit_BluefruitLE_SPI ble(BLUEFRUIT_SPI_CS, BLUEFRUIT_SPI_IRQ, BLUEFRUIT_SPI_
 unsigned long StartTime;
 unsigned long TimeReference;
 
-int count = 0;
 
 /* UV SENSOR SERIVCE ITEMS
  * 
@@ -130,8 +133,6 @@ void emitUVSensorData(float uvIntensity) {
 
   updateIntCharacteristic("UV Intensity", uvIntensity, uvIntensityCharId);
   updateIntCharacteristic("UV Intensity", uvIntensity, uvIntensityCharIdNotify);
-  //updateIntCharacteristic("UV Sensor Time", counter, int(uvTimeReference), uvTimeCharId);
-  
 
 }
 
@@ -239,8 +240,6 @@ void loop()
 
   emitUVSensorData(uvIntensity);
   emitBatteryLevel((int)measuredvbat);
-
-  //count++;
 
   /*
   Serial.print("VBat: " ); Serial.println(measuredvbat);

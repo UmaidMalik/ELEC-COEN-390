@@ -1,29 +1,20 @@
-package com.elec_coen_390.uvme;
+package com.elec_coen_390.uvme.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationManagerCompat;
 
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
 
 import android.widget.ToggleButton;
 
+import com.elec_coen_390.uvme.Activities.MainActivity;
+import com.elec_coen_390.uvme.Activities.MoreActivity;
+import com.elec_coen_390.uvme.Activities.ProfileActivity;
+import com.elec_coen_390.uvme.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class NotificationsActivity extends AppCompatActivity {

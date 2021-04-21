@@ -28,47 +28,47 @@
         android:theme="@style/Theme.UVMe"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".MonthGraph"
+            android:name=".Activities.MonthGraph"
             android:screenOrientation="locked" />
         <activity
-            android:name=".YearGraph"
+            android:name=".Activities.YearGraph"
             android:screenOrientation="locked" />
         <activity
-            android:name=".DayGraph"
+            android:name=".Activities.DayGraph"
             android:screenOrientation="locked" />
-        <activity android:name=".ThemesActivity" />
-        <activity android:name=".InfoActivity" />
+        <activity android:name=".Activities.ThemesActivity" />
+        <activity android:name=".Activities.InfoActivity" />
         <activity
-            android:name=".UVSensorActivity"
+            android:name=".Activities.UVSensorActivity"
             android:screenOrientation="locked" />
-        <activity android:name=".UVHistoryActivity" />
-        <activity android:name=".NotificationsActivity" />
-        <activity android:name=".AboutActivity" />
-        <activity android:name=".UVDisplayModeActivity" />
-        <activity android:name=".FeedbackActivity"/>
-        <activity android:name=".WelcomeActivity">
+        <activity android:name=".Activities.UVHistoryActivity" />
+        <activity android:name=".Activities.NotificationsActivity" />
+        <activity android:name=".Activities.AboutActivity" />
+        <activity android:name=".Activities.UVDisplayModeActivity" />
+        <activity android:name=".Activities.FeedbackActivity"/>
+        <activity android:name=".Activities.WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ProfileActivity" />
-        <activity android:name=".MainActivity" />
-        <activity android:name=".MoreActivity" />
+        <activity android:name=".Activities.ProfileActivity" />
+        <activity android:name=".Activities.MainActivity" />
+        <activity android:name=".Activities.MoreActivity" />
         <activity
             android:name=".DeviceControlActivity"
             android:screenOrientation="locked" />
 
         <service
-            android:name=".BluetoothLeService"
+            android:name=".Services.BluetoothLeService"
             android:enabled="true" />
         <service
-            android:name=".DatabaseService"
+            android:name=".Services.DatabaseService"
             android:enabled="true"
             android:stopWithTask="false" />
         <service
-            android:name=".NotificationsService"
+            android:name=".Services.NotificationsService"
             android:enabled="true"
             android:stopWithTask="false" />
     </application>

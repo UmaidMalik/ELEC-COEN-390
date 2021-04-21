@@ -1,4 +1,4 @@
-package com.elec_coen_390.uvme;
+package com.elec_coen_390.uvme.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -10,13 +10,14 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.elec_coen_390.uvme.DatabaseHelper;
+import com.elec_coen_390.uvme.R;
+import com.elec_coen_390.uvme.UVReadings;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GridLabelRenderer;

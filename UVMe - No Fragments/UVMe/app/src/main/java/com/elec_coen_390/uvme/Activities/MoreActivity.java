@@ -1,4 +1,4 @@
-package com.elec_coen_390.uvme;
+package com.elec_coen_390.uvme.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.elec_coen_390.uvme.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;

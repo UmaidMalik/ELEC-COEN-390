@@ -1,11 +1,13 @@
-package com.elec_coen_390.uvme;
+package com.elec_coen_390.uvme.Services;
 
 import android.app.Service;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
-import android.view.View;
+
+import com.elec_coen_390.uvme.DatabaseHelper;
+import com.elec_coen_390.uvme.UVSensorData;
 
 import java.util.Calendar;
 

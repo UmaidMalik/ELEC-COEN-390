@@ -1,4 +1,4 @@
-package com.elec_coen_390.uvme;
+package com.elec_coen_390.uvme.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,7 +9,6 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.view.View;
@@ -20,6 +19,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 import java.util.ArrayList;
+
+import com.elec_coen_390.uvme.R;
 import com.elec_coen_390.uvme.profileAtributes.eyeAdapter;
 import com.elec_coen_390.uvme.profileAtributes.eyeColor;
 import com.elec_coen_390.uvme.profileAtributes.skinAdapter;

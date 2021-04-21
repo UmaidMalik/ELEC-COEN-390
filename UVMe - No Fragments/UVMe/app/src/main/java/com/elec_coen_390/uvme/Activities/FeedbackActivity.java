@@ -1,4 +1,4 @@
-package com.elec_coen_390.uvme;
+package com.elec_coen_390.uvme.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.elec_coen_390.uvme.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class FeedbackActivity extends AppCompatActivity {

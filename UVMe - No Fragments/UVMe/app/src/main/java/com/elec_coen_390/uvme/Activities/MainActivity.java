@@ -1,9 +1,5 @@
-package com.elec_coen_390.uvme;
+package com.elec_coen_390.uvme.Activities;
 
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.bluetooth.BluetoothGatt;
-import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattService;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -15,13 +11,11 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -34,16 +28,19 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
-
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.gms.tasks.Task;
+import com.elec_coen_390.uvme.BatteryData;
+import com.elec_coen_390.uvme.Services.BluetoothLeService;
+import com.elec_coen_390.uvme.DatabaseHelper;
+import com.elec_coen_390.uvme.Services.DatabaseService;
+import com.elec_coen_390.uvme.Services.NotificationsService;
+import com.elec_coen_390.uvme.R;
+import com.elec_coen_390.uvme.UVSensorData;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.squareup.picasso.Picasso;
 

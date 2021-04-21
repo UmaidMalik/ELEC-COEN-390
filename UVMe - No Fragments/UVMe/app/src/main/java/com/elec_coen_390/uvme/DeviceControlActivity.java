@@ -1,7 +1,6 @@
 package com.elec_coen_390.uvme;
 
 import android.app.Activity;
-import android.app.Application;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattService;
 import android.content.BroadcastReceiver;
@@ -21,6 +20,11 @@ import android.widget.ExpandableListView;
 import android.widget.SimpleExpandableListAdapter;
 import android.widget.TextView;
 
+import com.elec_coen_390.uvme.Activities.MainActivity;
+import com.elec_coen_390.uvme.Activities.MoreActivity;
+import com.elec_coen_390.uvme.Activities.ProfileActivity;
+import com.elec_coen_390.uvme.Activities.UVSensorActivity;
+import com.elec_coen_390.uvme.Services.BluetoothLeService;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
@@ -28,7 +32,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * This Activity provides the UI to connect, display GATT services,

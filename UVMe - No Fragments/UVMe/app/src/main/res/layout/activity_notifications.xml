@@ -7,20 +7,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="?colorPrimaryVariant"
-        tools:context=".NotificationsActivity">
+        tools:context=".Activities.NotificationsActivity">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="60dp"
         android:background="?colorPrimaryVariant"
-        tools:context=".NotificationsActivity">
+        tools:context=".Activities.NotificationsActivity">
 
 <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?colorPrimaryVariant"
-    tools:context=".NotificationsActivity">
+    tools:context=".Activities.NotificationsActivity">
 
     <TextView
         android:layout_width="wrap_content"

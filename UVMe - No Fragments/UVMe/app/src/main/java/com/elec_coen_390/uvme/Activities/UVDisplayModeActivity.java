@@ -1,9 +1,8 @@
-package com.elec_coen_390.uvme;
+package com.elec_coen_390.uvme.Activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -13,10 +12,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import com.elec_coen_390.uvme.Activities.MainActivity;
+import com.elec_coen_390.uvme.Activities.MoreActivity;
+import com.elec_coen_390.uvme.Activities.ProfileActivity;
+import com.elec_coen_390.uvme.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import static com.elec_coen_390.uvme.R.layout.activity_uv_display_mode;

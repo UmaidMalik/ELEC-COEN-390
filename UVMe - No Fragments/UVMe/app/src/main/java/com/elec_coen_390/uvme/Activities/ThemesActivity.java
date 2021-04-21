@@ -1,4 +1,4 @@
-package com.elec_coen_390.uvme;
+package com.elec_coen_390.uvme.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +12,10 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.elec_coen_390.uvme.Activities.MainActivity;
+import com.elec_coen_390.uvme.Activities.MoreActivity;
+import com.elec_coen_390.uvme.Activities.ProfileActivity;
+import com.elec_coen_390.uvme.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class ThemesActivity extends AppCompatActivity {

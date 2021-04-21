@@ -1,4 +1,4 @@
-package com.elec_coen_390.uvme;
+package com.elec_coen_390.uvme.Services;
 
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
@@ -16,14 +16,13 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
 
-import com.google.android.gms.tasks.Task;
+import com.elec_coen_390.uvme.BatteryData;
+import com.elec_coen_390.uvme.GattAttributes;
+import com.elec_coen_390.uvme.UVSensorData;
 
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
-import androidx.annotation.Nullable;
 
 import static com.elec_coen_390.uvme.GattAttributes.UV_INTENSITY_READ;
 import static com.elec_coen_390.uvme.GattAttributes.BATTERY_LEVEL_READ;

@@ -1,18 +1,17 @@
-package com.elec_coen_390.uvme;
+package com.elec_coen_390.uvme.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
+import com.elec_coen_390.uvme.ExpandableListViewAdapter;
+import com.elec_coen_390.uvme.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;

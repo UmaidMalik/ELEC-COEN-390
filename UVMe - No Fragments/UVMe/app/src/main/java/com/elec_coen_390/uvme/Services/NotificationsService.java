@@ -1,23 +1,25 @@
-package com.elec_coen_390.uvme;
+package com.elec_coen_390.uvme.Services;
 
 import android.app.Notification;
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
-import android.os.Looper;
-import android.provider.ContactsContract;
 import android.util.Log;
-import android.view.View;
+
+import com.elec_coen_390.uvme.Activities.NotificationsActivity;
+import com.elec_coen_390.uvme.Activities.ProfileActivity;
+import com.elec_coen_390.uvme.NotificationChannelsClass;
+import com.elec_coen_390.uvme.R;
+import com.elec_coen_390.uvme.UVSensorData;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
-import java.math.*;
+
 import java.util.Calendar;
 
 public class NotificationsService extends Service {

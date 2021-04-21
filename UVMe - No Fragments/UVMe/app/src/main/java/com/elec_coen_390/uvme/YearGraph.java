@@ -53,6 +53,7 @@ public class YearGraph extends AppCompatActivity {
     private float uvIndex = 0.00f;
     GraphView yearGraph;
     DataPoint[] dataPointsMAX;
+    DataPoint[] dataPointsAVG;
     private int selectedDay;
     private int selectedMonth;
     private int selectedYear;
@@ -173,29 +174,40 @@ public class YearGraph extends AppCompatActivity {
         int currentMonth;
         float maxAverageUV = 0;
         int putMonth;
+        LinkedHashMap<Integer, Float> maxes = new LinkedHashMap<>();
         LinkedHashMap<Integer, Float> averagesMax = new LinkedHashMap<>();
-        int j;
+        int countSize = 0;
+        float sum = 0;
+        float averageOfMonth = 0;
+
         // same algorithm as day and month but we are only considering the year and month to find the database value.
         for (int i = 0; i < uvList.size(); i++) {
             if (selectedYear == uvList.get(i).getYear() ) {
                 currentMonth = uvList.get(i).getMonth();
                 putMonth = uvList.get(i).getMonth();
-                j = i; //
-                while (currentMonth == uvList.get(j).getMonth() && j < uvList.size() - 1) { // with the selected hour, we iterate to find the max
 
-                    if (maxAverageUV < uvList.get(j).getUv_avg()) {
-                        maxAverageUV = uvList.get(j).getUv_avg();
-                        putMonth = uvList.get(j).getMonth();
+                while (currentMonth == uvList.get(i).getMonth() && i < uvList.size() - 1) { // with the selected hour, we iterate to find the max
+
+                    if (maxAverageUV < uvList.get(i).getUv_avg()) {
+                        maxAverageUV = uvList.get(i).getUv_avg();
+                        putMonth = uvList.get(i).getMonth();
                     }
-                    j++;
+                    sum += uvList.get(i).getUv_avg();
+                    countSize++;
+                    i++;
                 }
+                averageOfMonth = sum/countSize;
                 // to put maxAverageUV in list
-                averagesMax.put(putMonth, maxAverageUV);
+                maxes.put(putMonth, maxAverageUV);
+                averagesMax.put(putMonth, averageOfMonth);
+                sum = 0;
+                countSize = 0;
                 maxAverageUV = 0; // reset the max;
-                i = j; } }
-        dataPointsMAX = new DataPoint[averagesMax.size()];
+            }
+        }
+        dataPointsMAX = new DataPoint[maxes.size()];
         int count = 0;
-        for (Map.Entry<Integer, Float> entry : averagesMax.entrySet()) {
+        for (Map.Entry<Integer, Float> entry : maxes.entrySet()) {
             int key = entry.getKey();
             float value = entry.getValue();
             DataPoint pointMax = new DataPoint( key, Double.parseDouble(df.format(value)));
@@ -203,31 +215,59 @@ public class YearGraph extends AppCompatActivity {
             dataPointsMAX[count] = pointMax;
             count++;
         }
+
+        dataPointsAVG = new DataPoint[averagesMax.size()];
+        count = 0;
+        // iterate through the linked HashMap and get the key(hour), value(max of the hour) and put to DataPoint(x, y)
+        for (Map.Entry<Integer, Float> entry : averagesMax.entrySet()) {
+            int key = entry.getKey();
+            float value = entry.getValue();
+            dataPointsAVG[count] = new DataPoint( key, Double.parseDouble(df.format(value)));;
+            count++;
+        }
+
         seriesPointsMaxYear.resetData( new DataPoint[] {});
         seriesLineMaxYear.resetData( new DataPoint[] {});
         seriesPointsAvgYear.resetData( new DataPoint[] {});
         seriesLineAvgYear.resetData( new DataPoint[] {});
         seriesPointsMaxYear = new PointsGraphSeries<>(dataPointsMAX);
         seriesLineMaxYear = new LineGraphSeries<>(dataPointsMAX);
-        seriesLineMaxYear.setTitle("Max UV Readings");
+        seriesPointsAvgYear = new PointsGraphSeries<>(dataPointsAVG);
+        seriesLineAvgYear = new LineGraphSeries<>(dataPointsAVG);
+
+        // setting up the output
+        seriesLineMaxYear.setTitle("Max UV readings");
         seriesLineMaxYear.setColor(Color.BLUE);
         seriesPointsMaxYear.setColor(Color.WHITE);
         seriesPointsMaxYear.setTitle("Max data points");
+        seriesPointsAvgYear.setTitle("Avg data points");
+        seriesLineAvgYear.setTitle("AVG UV readings");
+        seriesLineAvgYear.setColor(Color.RED);
+
         yearGraph.getLegendRenderer().setVisible(true);
         yearGraph.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.BOTTOM);
         yearGraph.removeAllSeries();
+
         yearGraph.addSeries(seriesPointsMaxYear); // adds the graph to the UI
         yearGraph.addSeries(seriesLineMaxYear);
+        yearGraph.addSeries(seriesPointsAvgYear); // adds the graph to the UI
+        yearGraph.addSeries(seriesLineAvgYear);
 
         seriesPointsMaxYear.setOnDataPointTapListener(new OnDataPointTapListener() { // ALLOWS USER TO SEE NODES
             @Override
             public void onTap(Series series, DataPointInterface dataPoint) {
                 avgUVYear.setText(String.valueOf(dataPoint.getX()));
-                maxUVYear.setText(String.valueOf(dataPoint.getY())); }});
+                maxUVYear.setText(String.valueOf(dataPoint.getY()));
+            }
+        });
+
         seriesPointsAvgYear.setOnDataPointTapListener(new OnDataPointTapListener() { // ALLOWS USER TO SEE NODES
             @Override
             public void onTap(Series series, DataPointInterface dataPoint) {
-                Toast.makeText(getApplicationContext(), "\t\t\t  UV Intensity \n [DAY,INTENSITY] \n" +"\t\t\t\t\t"+ dataPoint, Toast.LENGTH_SHORT).show(); }});
+                avgUVYear.setText(String.valueOf(dataPoint.getX()));
+                maxUVYear.setText(String.valueOf(dataPoint.getY()));
+            }
+        });
     }
     @Override
     public void onBackPressed() {

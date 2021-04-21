@@ -53,6 +53,7 @@ public class MonthGraph extends AppCompatActivity {
     List<UVReadings> uvList;
     GraphView graph;
     DataPoint[] dataPointsMAX;
+    DataPoint[] dataPointsAVG;
     private int selectedDay;
     private int selectedMonth;
     private int selectedYear;
@@ -173,36 +174,55 @@ public class MonthGraph extends AppCompatActivity {
         int currentDay;
         float maxAverageUV = 0;
         int putDay;
+        LinkedHashMap<Integer, Float> maxes = new LinkedHashMap<>();
         LinkedHashMap<Integer, Float> averagesMax = new LinkedHashMap<>();
-        int j;
+        int countSize = 0;
+        float sum = 0;
+        float averageOfDay = 0;
+
         // same algorithm used as day graph but we do not include the hour, looking for only month day year.
         for (int i = 0; i < uvList.size(); i++) {
             if (selectedMonth == uvList.get(i).getMonth() &&
                     selectedYear == uvList.get(i).getYear()) {
                 currentDay = uvList.get(i).getDay();
                 putDay = uvList.get(i).getDay();
-                j = i;
-                while (currentDay == uvList.get(j).getDay() && j < uvList.size() - 1) { // with the selected day, we iterate to find the max in the month
-                    if (maxAverageUV < uvList.get(j).getUv_avg()) {
-                        maxAverageUV = uvList.get(j).getUv_avg();
-                        putDay = uvList.get(j).getDay();
+
+                while (currentDay == uvList.get(i).getDay() && i < uvList.size() - 1) { // with the selected day, we iterate to find the max in the month
+                    if (maxAverageUV < uvList.get(i).getUv_avg()) {
+                        maxAverageUV = uvList.get(i).getUv_avg();
+                        putDay = uvList.get(i).getDay();
                     }
-                    j++;
+                    sum += uvList.get(i).getUv_avg();
+                    countSize++;
+                    i++;
                 }
+                averageOfDay = sum/countSize;
                 // to put maxAverageUV in list
-                averagesMax.put(putDay, maxAverageUV);
+                maxes.put(putDay, maxAverageUV);
+                averagesMax.put(putDay, averageOfDay);
+                sum = 0;
+                countSize = 0;
                 maxAverageUV = 0; // reset the max;
-                i = j;
+
             }
         }
-        dataPointsMAX = new DataPoint[averagesMax.size()];
+        dataPointsMAX = new DataPoint[maxes.size()];
         int count = 0;
         // iterate through the LinkedHashMap and get key (day) and value (month), put to DataPoint(x, y);
+        for (Map.Entry<Integer, Float> entry : maxes.entrySet()) {
+            int key = entry.getKey();
+            float value = entry.getValue();
+            dataPointsMAX[count] = new DataPoint(key, Double.parseDouble(df.format(value)));
+            count++;
+        }
+
+        dataPointsAVG = new DataPoint[averagesMax.size()];
+        count = 0;
+        // iterate through the linked HashMap and get the key(hour), value(max of the hour) and put to DataPoint(x, y)
         for (Map.Entry<Integer, Float> entry : averagesMax.entrySet()) {
             int key = entry.getKey();
             float value = entry.getValue();
-            DataPoint pointMax = new DataPoint(key, Double.parseDouble(df.format(value)));
-            dataPointsMAX[count] = pointMax;
+            dataPointsAVG[count] = new DataPoint( key, Double.parseDouble(df.format(value)));;
             count++;
         }
 
@@ -212,16 +232,25 @@ public class MonthGraph extends AppCompatActivity {
         seriesLineAvg.resetData(new DataPoint[]{});
         seriesPointsMax = new PointsGraphSeries<>(dataPointsMAX);
         seriesLineMax = new LineGraphSeries<>(dataPointsMAX);
+        seriesPointsAvg = new PointsGraphSeries<>(dataPointsAVG);
+        seriesLineAvg = new LineGraphSeries<>(dataPointsAVG);
+
         // setting up the output
-        seriesLineMax.setTitle("Max UV Readings");
+        seriesLineMax.setTitle("Max UV readings");
         seriesLineMax.setColor(Color.BLUE);
         seriesPointsMax.setColor(Color.WHITE);
         seriesPointsMax.setTitle("Max data points");
+        seriesPointsAvg.setTitle("Avg data points");
+        seriesLineAvg.setTitle("AVG UV readings");
+        seriesLineAvg.setColor(Color.RED);
         graph.getLegendRenderer().setVisible(true);
         graph.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.BOTTOM);
         graph.removeAllSeries();
+
         graph.addSeries(seriesPointsMax); // adds the graph to the UI
         graph.addSeries(seriesLineMax);
+        graph.addSeries(seriesPointsAvg); // adds the graph to the UI
+        graph.addSeries(seriesLineAvg);
         // if user taps on the node it will output the value of day and UV reading.
         seriesPointsMax.setOnDataPointTapListener(new OnDataPointTapListener() { // ALLOWS USER TO SEE NODES
             @Override
@@ -234,6 +263,8 @@ public class MonthGraph extends AppCompatActivity {
         seriesPointsAvg.setOnDataPointTapListener(new OnDataPointTapListener() { // ALLOWS USER TO SEE NODES
             @Override
             public void onTap(Series series, DataPointInterface dataPoint) {
+                avgUV.setText(String.valueOf(dataPoint.getX()));
+                maxUV.setText(String.valueOf(dataPoint.getY()));
             }
         });
     }

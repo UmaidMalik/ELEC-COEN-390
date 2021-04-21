@@ -59,6 +59,7 @@ public class DayGraph extends AppCompatActivity{
     List<UVReadings> uvList;
     GraphView graph;
     DataPoint[] dataPointsMAX;
+    DataPoint[] dataPointsAVG;
     private int selectedDay;
     private int selectedMonth;
     private int selectedYear;
@@ -124,7 +125,7 @@ public class DayGraph extends AppCompatActivity{
         graph.getLegendRenderer().setVisible(true);
         graph.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.BOTTOM);
 
-        // Settingup the graphs UI ( the axis and lables)
+        // Setting up the graphs UI ( the axis and lables)
         graph.setTitle("Day Overview");
         graph.setTitleTextSize(100);
         graph.setTitleColor(0xFF03DAC5);
@@ -158,7 +159,7 @@ public class DayGraph extends AppCompatActivity{
         super.onBackPressed();
         goToUVHistoryActivity();
     }
-    // intents used to go backand forth in the application.
+    // intents used to go back and forth in the application.
     protected void goToMainActivity() {
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
@@ -250,8 +251,11 @@ public class DayGraph extends AppCompatActivity{
         int currentHour;
         float maxAverageUV = 0;
         int putHour;
-        LinkedHashMap<Integer, Float> averagesMax = new LinkedHashMap<>(); // hash map used to organize datapoints for database.
-        int j;
+        LinkedHashMap<Integer, Float> averagesMax = new LinkedHashMap<>(); // linked hash map used to organize the datapoints for database.
+        LinkedHashMap<Integer, Float> maxes = new LinkedHashMap<>();
+        int countSize = 0;
+        float sum = 0;
+        float averageOfHour = 0;
 
         for (int i = 0; i < uvList.size(); i++) {
             // finds which row in the database to look for and sets the values.
@@ -260,43 +264,50 @@ public class DayGraph extends AppCompatActivity{
                     selectedYear == uvList.get(i).getYear() ) {
                 currentHour = uvList.get(i).getHour();
                 putHour = uvList.get(i).getHour();
-                j = i;
-                // with the selected hour, we iterate to find the max -> go through entire list.
-                while (currentHour == uvList.get(j).getHour() && j < uvList.size() - 1) {
-                    if (maxAverageUV < uvList.get(j).getUv_avg()) {
-                        maxAverageUV = uvList.get(j).getUv_avg();
-                        putHour = uvList.get(j).getHour();
-                    }
-                    j++;
-                }
-                // to put maxAverageUV in list
-                averagesMax.put(putHour, maxAverageUV);
-                maxAverageUV = 0; // reset the max;
-                i = j;
 
+                // with the selected hour, we iterate to find the max -> go through entire list.
+                while (currentHour == uvList.get(i).getHour() && i < uvList.size() - 1) {
+                    if (maxAverageUV < uvList.get(i).getUv_avg()) {
+                        maxAverageUV = uvList.get(i).getUv_avg();
+                        putHour = uvList.get(i).getHour();
+                    }
+                    sum += uvList.get(i).getUv_avg();
+                    countSize++;
+                    i++;
+                }
+
+                averageOfHour = sum/countSize;
+                // to put maxAverageUV in list
+                maxes.put(putHour, maxAverageUV);
+                averagesMax.put(putHour, averageOfHour);
+                sum = 0;
+                countSize = 0;
+                maxAverageUV = 0; // reset the max;
             }
 
         }
-        dataPointsMAX = new DataPoint[averagesMax.size()];
+        dataPointsMAX = new DataPoint[maxes.size()];
         int count = 0;
-        // hash map used to find the key value and display our MAX value from the hour we wish to output.
-        for (Map.Entry<Integer, Float> entry : averagesMax.entrySet()) {
+        // iterate through the LinkedHashMap and get the key(hour), value(max of the hour) and put to DataPoint(x, y)
+        for (Map.Entry<Integer, Float> entry : maxes.entrySet()) {
             int key = entry.getKey();
             float value = entry.getValue();
-            DataPoint pointMax = new DataPoint( key, Double.parseDouble(df.format(value)));
-            dataPointsMAX[count] = pointMax;
+            dataPointsMAX[count] = new DataPoint( key, Double.parseDouble(df.format(value)));;
             count++;
         }
 
-        int countSize = 0;
-        for (int i = 0; i < uvList.size(); i++) {
-            if ( selectedDay == uvList.get(i).getDay() &&
-                   selectedMonth == uvList.get(i).getMonth() &&
-                    selectedYear == uvList.get(i).getYear()
-            ) {
-                countSize++;
-            }
+        dataPointsAVG = new DataPoint[averagesMax.size()];
+        count = 0;
+        // iterate through the linked HashMap and get the key(hour), value(max of the hour) and put to DataPoint(x, y)
+        for (Map.Entry<Integer, Float> entry : averagesMax.entrySet()) {
+            int key = entry.getKey();
+            float value = entry.getValue();
+            dataPointsAVG[count] = new DataPoint( key, Double.parseDouble(df.format(value)));;
+            count++;
         }
+
+
+
         //reset data points so there are no repeats when user changes the date.
        seriesPointsMax.resetData( new DataPoint[] {});
        seriesLineMax.resetData( new DataPoint[] {});
@@ -305,16 +316,23 @@ public class DayGraph extends AppCompatActivity{
 
         seriesPointsMax = new PointsGraphSeries<>(dataPointsMAX);
         seriesLineMax = new LineGraphSeries<>(dataPointsMAX);
-        seriesLineMax.setTitle("Max UV Readings");
+        seriesPointsAvg = new PointsGraphSeries<>(dataPointsAVG);
+        seriesLineAvg = new LineGraphSeries<>(dataPointsAVG);
+        seriesLineMax.setTitle("Max UV readings");
         seriesLineMax.setColor(Color.BLUE);
         seriesPointsMax.setColor(Color.WHITE);
         seriesPointsMax.setTitle("Max data points");
+        seriesPointsAvg.setTitle("Avg data points");
+        seriesLineAvg.setTitle("AVG UV readings");
+        seriesLineAvg.setColor(Color.RED);
         graph.getLegendRenderer().setVisible(true);
         graph.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.BOTTOM);
         graph.removeAllSeries();
 
         graph.addSeries(seriesPointsMax); // adds the graph to the UI
         graph.addSeries(seriesLineMax);
+        graph.addSeries(seriesPointsAvg);
+        graph.addSeries(seriesLineAvg);
 
         // when the user selects on a node, it will display the max value and the hour it was set at.
         seriesPointsMax.setOnDataPointTapListener(new OnDataPointTapListener() { // ALLOWS USER TO SEE NODES
@@ -327,8 +345,9 @@ public class DayGraph extends AppCompatActivity{
         seriesPointsAvg.setOnDataPointTapListener(new OnDataPointTapListener() { // ALLOWS USER TO SEE NODES
             @Override
             public void onTap(Series series, DataPointInterface dataPoint) {
-                Toast.makeText(getApplicationContext(), "\t\t\t  UV Intensity \n [HOUR,INTENSITY] \n" +"\t\t\t\t\t"+ dataPoint, Toast.LENGTH_SHORT).show();
-            }
+                avgUV.setText(String.valueOf(dataPoint.getX()));
+                maxUV.setText(String.valueOf(dataPoint.getY()));}
+
         });
     }
 }

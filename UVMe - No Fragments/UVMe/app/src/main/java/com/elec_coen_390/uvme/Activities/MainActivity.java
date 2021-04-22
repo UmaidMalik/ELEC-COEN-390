@@ -65,17 +65,11 @@ public class MainActivity extends AppCompatActivity {
     private float uvIndex = 0;
     float maxUV = 0;
 
-    float maxUVDatabase = 0;
-    Calendar calendar;
-    int minute = 0;
-
     private float batteryLevel = 0;
     private TextView textViewBatteryLevel;
 
     private BluetoothLeService mBluetoothLeService;
     private ArrayList<BluetoothGattService> mBluetoothGattServices = new ArrayList<BluetoothGattService>() ;
-
-   // private NotificationManagerCompat notificationManagerCompat; @TODO remove this
 
     private String city;
     EditText editTextCitySearch;
@@ -88,9 +82,6 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView uvIndexStatusMessage;
     private TextView textViewSensorState;
-
-    // SharedPreferences togglePreferences; @TODO remove
-    //boolean uvi_level_alert_status = false, sunglasses_alert_status = false, sunburn_alert_status = false;
 
     SharedPreferences prefs;
 

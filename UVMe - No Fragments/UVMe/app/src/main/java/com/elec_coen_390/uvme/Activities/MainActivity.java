@@ -36,7 +36,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.elec_coen_390.uvme.BatteryData;
 import com.elec_coen_390.uvme.Services.BluetoothLE.BluetoothLeService;
-import com.elec_coen_390.uvme.DatabaseHelper;
+import com.elec_coen_390.uvme.Services.Database.DatabaseHelper;
 import com.elec_coen_390.uvme.Services.Database.DatabaseService;
 import com.elec_coen_390.uvme.Services.Notifications.NotificationsService;
 import com.elec_coen_390.uvme.R;

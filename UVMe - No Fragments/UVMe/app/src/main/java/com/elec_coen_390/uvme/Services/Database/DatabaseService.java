@@ -6,7 +6,6 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
 
-import com.elec_coen_390.uvme.DatabaseHelper;
 import com.elec_coen_390.uvme.UVSensorData;
 
 import java.util.Calendar;

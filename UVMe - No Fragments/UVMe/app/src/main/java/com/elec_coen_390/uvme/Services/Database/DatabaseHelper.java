@@ -1,4 +1,4 @@
-package com.elec_coen_390.uvme;
+package com.elec_coen_390.uvme.Services.Database;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -10,6 +10,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.elec_coen_390.uvme.Services.Database.Config;
+import com.elec_coen_390.uvme.UVSensorData;
 
 import java.util.ArrayList;
 import java.util.Calendar;

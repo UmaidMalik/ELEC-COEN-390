@@ -14,7 +14,7 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
-import com.elec_coen_390.uvme.DatabaseHelper;
+import com.elec_coen_390.uvme.Services.Database.DatabaseHelper;
 import com.elec_coen_390.uvme.R;
 import com.elec_coen_390.uvme.UVSensorData;
 import com.google.android.material.bottomnavigation.BottomNavigationView;

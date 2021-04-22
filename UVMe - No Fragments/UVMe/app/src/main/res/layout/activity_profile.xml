@@ -4,170 +4,237 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?colorPrimaryVariant">
 
 <ScrollView
 
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?colorPrimaryVariant">
 
 
 
 <RelativeLayout
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?colorPrimaryVariant"
     tools:context=".Activities.ProfileActivity">
 
-    <Button
-        android:id="@+id/editButton"
-        android:layout_width="118dp"
-        android:layout_height="52dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="150dp"
-        android:textColor="?colorOnPrimary"
-        android:text="EDIT" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/relativeLayoutButton"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Name"
-        android:layout_marginTop="260dp"
-        android:layout_marginLeft="25dp"
-        android:textColor="?colorOnPrimary"
-        android:textSize="18sp"
-        />
+        android:layout_below="@+id/selectedProfileTextView"
+        android:layout_marginTop="24dp">
 
-    <EditText
-        android:id="@+id/editTextPersonName"
-        android:layout_width="123dp"
-        android:layout_height="58dp"
-        android:layout_marginStart="180dp"
-        android:layout_marginLeft="280dp"
-        android:layout_marginTop="240dp"
-        android:layout_toEndOf="@+id/textView2"
-        android:digits=" abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="ENTER NAME"
-        android:textColorHint="?colorOnPrimary"
-        android:textColor="?colorOnPrimary" />
+        <Button
+            android:id="@+id/editButton"
+            android:layout_width="118dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:fontFamily="@font/roboto_light"
+            android:layout_centerVertical="true"
+            android:textColor="?colorOnPrimary"
+            android:text="EDIT" />
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="350dp"
-        android:layout_marginLeft="25dp"
-        android:text="Age"
-        android:textColor="?colorOnPrimary"
-        android:textSize="18sp"
-        />
+        <Button
+            android:id="@+id/saveButton"
+            android:layout_width="118dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:textColor="?colorOnPrimary"
+            android:text="SAVE" />
 
-    <EditText
-        android:id="@+id/editTextAge"
-        android:layout_width="123dp"
-        android:layout_height="58dp"
-        android:layout_marginStart="195dp"
-        android:layout_marginLeft="280dp"
-        android:layout_marginTop="338dp"
-        android:layout_toEndOf="@+id/textView3"
-        android:digits="0123456789"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:maxLength="2"
-        android:hint="ENTER AGE"
-        android:textColorHint="?colorOnPrimary"
-        android:textColor="?colorOnPrimary"
-        />
+    </RelativeLayout>
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="530dp"
-        android:layout_marginLeft="25dp"
-        android:text="Skin Tone "
-        android:textColor="?colorOnPrimary"
-        android:textSize="18sp"
-        />
+    <RelativeLayout
+        android:id="@+id/relativeLayoutName"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_below="@+id/relativeLayoutButton"
+        android:layout_marginTop="24dp">
 
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="620dp"
-        android:layout_marginLeft="25dp"
-        android:text="Eye Colour"
-        android:textColor="?colorOnPrimary"
-        android:textSize="18sp"
-        />
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Name"
+            android:fontFamily="@font/roboto_light"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="25dp"
+            android:textColor="?colorOnPrimary"
+            android:textSize="18sp" />
 
-    <Button
-        android:id="@+id/saveButton"
-        android:layout_width="118dp"
-        android:layout_height="52dp"
-        android:layout_marginTop="150dp"
-        android:layout_marginLeft="270dp"
-        android:textColor="?colorOnPrimary"
-        android:text="SAVE" />
-
-    <Spinner
-        android:id="@+id/skinToneSpinner"
-        android:layout_width="188dp"
-        android:layout_height="59dp"
-        android:layout_marginStart="88dp"
-        android:layout_marginLeft="280dp"
-        android:layout_marginTop="515dp"
-        android:layout_toEndOf="@+id/textView4"
-        android:dropDownSelector="?colorOnPrimary"
-        />
+        <EditText
+            android:id="@+id/editTextPersonName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_light"
+            android:digits=" abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+            android:ems="10"
+            android:layout_marginEnd="25dp"
+            android:inputType="textPersonName"
+            android:hint="ENTER NAME"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:textColorHint="?colorOnPrimary"
+            android:textColor="?colorOnPrimary" />
 
 
-    <Spinner
-        android:id="@+id/eyeColourSpinner"
-        android:layout_width="183dp"
-        android:layout_height="63dp"
-        android:layout_marginStart="85dp"
-        android:layout_marginLeft="280dp"
-        android:layout_marginTop="600dp"
-        android:layout_toEndOf="@+id/textView5"
-        />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relativeLayoutAge"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_below="@+id/relativeLayoutName"
+        android:layout_marginTop="24dp">
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:text="Age"
+            android:fontFamily="@font/roboto_light"
+            android:layout_centerVertical="true"
+            android:textColor="?colorOnPrimary"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/editTextAge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:digits="0123456789"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:maxLength="2"
+            android:hint="ENTER AGE"
+            android:layout_alignParentEnd="true"
+            android:fontFamily="@font/roboto_light"
+            android:layout_marginEnd="25dp"
+            android:layout_centerVertical="true"
+            android:textColorHint="?colorOnPrimary"
+            android:textColor="?colorOnPrimary"
+            />
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/relativeLayoutSkinTone"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_below="@+id/relativeLayoutAge"
+        android:layout_marginTop="24dp">
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_light"
+            android:layout_marginStart="25dp"
+            android:text="Skin Tone"
+            android:layout_centerVertical="true"
+            android:textColor="?colorOnPrimary"
+            android:textSize="18sp" />
+        <Spinner
+            android:id="@+id/skinToneSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="25dp"
+            android:layout_centerVertical="true"
+            android:dropDownSelector="?colorOnPrimary" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relativeLayoutGender"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_below="@+id/relativeLayoutSkinTone"
+        android:layout_marginTop="24dp">
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="25dp"
+            android:text="Gender"
+            android:textColor="?colorOnPrimary"
+            android:textSize="18sp"
+            android:fontFamily="@font/roboto_light" />
+
+        <Spinner
+            android:id="@+id/genderSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="25dp"
+            android:layout_centerVertical="true"
+            android:textColor="?colorOnPrimary" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relativeLayoutEye"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_below="@+id/relativeLayoutGender"
+        android:layout_marginTop="24dp">
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:text="Eye Colour"
+            android:layout_centerVertical="true"
+            android:fontFamily="@font/roboto_light"
+            android:textColor="?colorOnPrimary"
+            android:textSize="18sp" />
+
+        <Spinner
+            android:id="@+id/eyeColourSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="25dp"
+            android:fontFamily="@font/roboto_light"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"/>
+
+    </RelativeLayout>
+
+
+
+
+
+
+
+
+
+
+
 
     <TextView
         android:id="@+id/selectedProfileTextView"
         android:layout_width="wrap_content"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="80dp"
+        android:fontFamily="@font/roboto_light"
         android:textColor="?colorOnPrimary"
-        android:textSize="30dp" />
+        android:textSize="30sp" />
 
 
-    <TextView
-        android:id="@+id/textView8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="440dp"
-        android:layout_marginLeft="25dp"
-        android:text="Gender"
-        android:textColor="?colorOnPrimary"
-        android:textSize="18sp"
-        />
 
-    <Spinner
-        android:id="@+id/genderSpinner"
-        android:layout_width="133dp"
-        android:layout_height="59dp"
-        android:layout_marginStart="150dp"
-        android:layout_marginLeft="280dp"
-        android:layout_marginTop="425dp"
-        android:textColor="?colorOnPrimary"
-        android:layout_toEndOf="@+id/textView8" />
+
+
 
     <TextView
         android:id="@+id/textMain"
@@ -175,7 +242,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:text="Profile"
-        android:fontFamily="@font/roboto_light"
+        android:fontFamily="@font/roboto_thin"
         android:textColor="@color/teal_200"
         android:textSize="40sp"
         android:textStyle="bold"/>

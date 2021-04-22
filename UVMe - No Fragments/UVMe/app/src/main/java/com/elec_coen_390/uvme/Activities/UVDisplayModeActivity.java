@@ -12,9 +12,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
-import com.elec_coen_390.uvme.Activities.MainActivity;
-import com.elec_coen_390.uvme.Activities.MoreActivity;
-import com.elec_coen_390.uvme.Activities.ProfileActivity;
 import com.elec_coen_390.uvme.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -25,6 +22,13 @@ import static com.elec_coen_390.uvme.R.layout.activity_uv_display_mode;
 
 public class UVDisplayModeActivity extends AppCompatActivity {
 
+    /**
+     * This activity is used for toggle UV Display Max Mode to ON/OFF
+     * This will change how the main activity will display the uv data
+     *
+     * This activity will NOT affect how the uv data is being put in the database tables
+     * The max reset time can be set by the user and can be manually reset
+     */
 
     private ToggleButton toggleButtonUVDisplayMode;
 
@@ -42,12 +46,12 @@ public class UVDisplayModeActivity extends AppCompatActivity {
 
     private Spinner spinnerUVRefresh;
 
-    private int t_15_seconds = 15;
-    private int t_30_seconds = 30;
-    private int t_1_minute = 60;
-    private int t_5_minutes = 300;
-    private int t_15_minutes = 900;
-    private int t_30_minutes = 1800;
+    private final int t_15_seconds = 15;      // 15 sec
+    private final int t_30_seconds = 30;      // 30 sec
+    private final int t_1_minute = 60;        // 01 min
+    private final int t_5_minutes = 300;      // 05 min
+    private final int t_15_minutes = 900;     // 15 min
+    private final int t_30_minutes = 1800;    // 30 min
 
 
 
@@ -78,6 +82,7 @@ public class UVDisplayModeActivity extends AppCompatActivity {
         setupBottomNavigationListener();
     }
 
+    // setup of the toggle button with shared preferences
     private void toggleButton() {
         toggleButtonUVDisplayMode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -88,6 +93,7 @@ public class UVDisplayModeActivity extends AppCompatActivity {
         });
     }
 
+    // spinner items setup
     private void setupUVRefreshSpinner() {
         ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.spinnerRefreshTimes, android.R.layout.simple_spinner_item);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -147,6 +153,7 @@ public class UVDisplayModeActivity extends AppCompatActivity {
         });
     }
 
+    // bottom navigation menu setup
     private void setupBottomNavigationListener() {
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
@@ -180,6 +187,7 @@ public class UVDisplayModeActivity extends AppCompatActivity {
 
     }
 
+    // navigation methods
     @Override
     public void onBackPressed() {
         //super.onBackPressed();

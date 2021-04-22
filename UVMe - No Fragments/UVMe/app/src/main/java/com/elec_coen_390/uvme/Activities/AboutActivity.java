@@ -26,6 +26,14 @@ import static com.elec_coen_390.uvme.R.layout.activity_about;
 
 public class AboutActivity extends AppCompatActivity {
 
+    /**
+     *
+     * This activity encompasses a ExpandableListView containing the FAQ
+     *
+     * */
+
+
+
     ExpandableListViewAdapter listViewAdapter; // private adapter class existing in this activity class
     ExpandableListView expandableListView;
     List<String> questionList;
@@ -51,7 +59,7 @@ public class AboutActivity extends AppCompatActivity {
 
 
 
-
+    // method used to setup and add the Questions and Answers to the HashMap
     private void showList() {
 
         questionList = new ArrayList<String>();
@@ -150,14 +158,16 @@ public class AboutActivity extends AppCompatActivity {
 
     }
 
+    // Github url for this project
     private void setupURL() {
         textViewGithubURL = (TextView) findViewById(R.id.textViewAbout_AboutUVMe_GithubInfo);
         textViewGithubURL.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
+
+    // Navigation methods
     @Override
     public void onBackPressed() {
-
         goToMoreActivity();
     }
 
@@ -221,6 +231,7 @@ public class AboutActivity extends AppCompatActivity {
         });
     }
 
+    // private adapter class for the expandable list view
     private class ExpandableListViewAdapter extends BaseExpandableListAdapter {
 
 

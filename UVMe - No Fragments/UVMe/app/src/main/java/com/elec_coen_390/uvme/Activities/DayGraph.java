@@ -72,7 +72,7 @@ public class DayGraph extends AppCompatActivity{
     protected void onResume() {
         super.onResume();
         graphSetup(); // graph setup is called on resume to abide by the program execution
-        setDate(); // set date is also set up so the user can select new dates continously.
+        setDate(); // set date is also set up so the user can select new dates continuously.
 
     }
 
@@ -279,7 +279,7 @@ public class DayGraph extends AppCompatActivity{
         }
         dataPointsMAX = new DataPoint[maxes.size()];
         int count = 0;
-        // iterate through the LinkedHashMap and get the key(hour), value(max of the hour) and put to DataPoint(x, y)
+        // iterate through the LinkedHashMap and get the key(hour), value(max of each hour) and put to DataPoint(x, y)
         for (Map.Entry<Integer, Float> entry : maxes.entrySet()) {
             int key = entry.getKey();
             float value = entry.getValue();
@@ -289,7 +289,7 @@ public class DayGraph extends AppCompatActivity{
 
         dataPointsAVG = new DataPoint[averagesMax.size()];
         count = 0;
-        // iterate through the linked HashMap and get the key(hour), value(max of the hour) and put to DataPoint(x, y)
+        // iterate through the LinkedHashMap and get the key(hour), value(average of each hour) and put to DataPoint(x, y)
         for (Map.Entry<Integer, Float> entry : averagesMax.entrySet()) {
             int key = entry.getKey();
             float value = entry.getValue();

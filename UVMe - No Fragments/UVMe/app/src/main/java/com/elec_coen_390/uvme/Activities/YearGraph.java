@@ -68,6 +68,13 @@ public class YearGraph extends AppCompatActivity {
         avgUVYear = findViewById(R.id.avgUVYear);
         maxUVYear = findViewById(R.id.maxUVYear);
         selectedDateYear = findViewById(R.id.selectedDateYear);
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
         yearGraphSetup(); // sets up the graph
         setDate(); // select day and send date chosen to function reads database value
     }

@@ -110,7 +110,8 @@ public class DeviceControlActivity extends Activity {
         }
     };
 
-    private final ExpandableListView.OnChildClickListener servicesListClickListner =
+    // Expandable list childView click listener used to show characteristics of the gatt service when clicked upon
+    private final ExpandableListView.OnChildClickListener servicesListClickListener =
             new ExpandableListView.OnChildClickListener() {
                 @Override
                 public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
@@ -164,7 +165,7 @@ public class DeviceControlActivity extends Activity {
 
         ((TextView) findViewById(R.id.device_address)).setText(mDeviceAddress);
         mGattServicesList = (ExpandableListView) findViewById(R.id.gatt_services_list);
-        mGattServicesList.setOnChildClickListener(servicesListClickListner);
+        mGattServicesList.setOnChildClickListener(servicesListClickListener);
         mConnectionState = (TextView) findViewById(R.id.connection_state);
         mDataField = (TextView) findViewById(R.id.data_value);
 
@@ -212,6 +213,7 @@ public class DeviceControlActivity extends Activity {
     }
 
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.gatt_services, menu);
@@ -256,7 +258,7 @@ public class DeviceControlActivity extends Activity {
         }
     }
 
-
+    // search through the available gatt services and puts them to a ArrayList of HashMaps
     private void displayGattServices(List<BluetoothGattService> gattServices) {
         if (gattServices == null) return;
         String uuid = null;
@@ -345,7 +347,7 @@ public class DeviceControlActivity extends Activity {
 
 
 
-
+        // navigation setup
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {

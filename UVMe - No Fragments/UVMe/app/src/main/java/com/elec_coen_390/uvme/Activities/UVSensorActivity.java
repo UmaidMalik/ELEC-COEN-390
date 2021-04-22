@@ -35,6 +35,15 @@ import java.util.ArrayList;
 
 public class UVSensorActivity extends AppCompatActivity {
 
+    /**
+     * This activity scans for BLE devices
+     * It shows a list of BLE devices
+     * The user connects to the UV sensor when they find it
+     * If disconnected, the user can reconnect with the Device button
+     * The user can also disconnect with the Disconnect button
+     *
+     */
+
     private static final int ACCESS_COARSE_LOCATION_REQUEST = 1;
     private LeDeviceListAdapter mLeDeviceListAdapter;
     private BluetoothAdapter mBluetoothAdapter;
@@ -204,22 +213,7 @@ public class UVSensorActivity extends AppCompatActivity {
 
     }
 
-    /*
-    @Override
-    protected void onListItemClick(ListView l, View v, int position, long id) {
-        final BluetoothDevice device = mLeDeviceListAdapter.getDevice(position);
-        if (device == null) return;
-        final Intent intent = new Intent(this, DeviceControlActivity.class);
-        intent.putExtra(DeviceControlActivity.EXTRAS_DEVICE_NAME, device.getName());
-        intent.putExtra(DeviceControlActivity.EXTRAS_DEVICE_ADDRESS, device.getAddress());
-        if (mScanning) {
-            mBluetoothAdapter.stopLeScan(mLeScanCallback);
-            mScanning = false;
-        }
-        startActivity(intent);
-    }
 
-     */
 
 
 
@@ -368,6 +362,7 @@ public class UVSensorActivity extends AppCompatActivity {
         TextView deviceAddress;
     }
 
+    // navigation methods
     @Override
     public void onBackPressed() {
         //super.onBackPressed();
@@ -395,6 +390,7 @@ public class UVSensorActivity extends AppCompatActivity {
        // finish();
     }
 
+    // bottom navigation setup
     private void setupBottomNavigationListener() {
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
@@ -403,10 +399,6 @@ public class UVSensorActivity extends AppCompatActivity {
         bottomNavigationView.getMenu().getItem(0).setCheckable(false);
         bottomNavigationView.getMenu().getItem(1).setCheckable(false);
         bottomNavigationView.getMenu().getItem(2).setCheckable(false);
-
-
-
-
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override

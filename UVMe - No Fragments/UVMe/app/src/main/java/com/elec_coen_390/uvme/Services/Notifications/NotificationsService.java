@@ -23,6 +23,14 @@ import java.util.Calendar;
 
 public class NotificationsService extends Service {
 
+    /**
+     * Notifications service will run in the background
+     *
+     * Notifications are displayed depending on the uv index level
+     *
+     *
+     */
+
     private static final String LOG_TAG = "NotificationsService";
 
     final Handler handler = new Handler();

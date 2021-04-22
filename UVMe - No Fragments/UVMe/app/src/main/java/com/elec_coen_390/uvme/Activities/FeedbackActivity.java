@@ -15,6 +15,11 @@ import android.widget.Toast;
 import com.elec_coen_390.uvme.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+/**
+ * This activity allows the user send feedback and issues via email to the developer
+ *
+ */
+
 public class FeedbackActivity extends AppCompatActivity {
 
     @Override
@@ -25,15 +30,12 @@ public class FeedbackActivity extends AppCompatActivity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN); // this is to prevent the keyboard from opening on startup since there is a EditText in this activity;)
 
         // editTextFeedbackName contains Name of sender
-
         EditText editTextFeedbackName = (EditText) findViewById(R.id.editTextFeedbackName);
 
         // editTextFeedbackDescription comprises the feedback text field
-
         EditText editTextFeedbackDescription = (EditText) findViewById(R.id.editTextFeedbackDescription);
 
         // button send feedback
-
         Button btn = (Button) findViewById(R.id.buttonSendFeedback);
 
         setupBottomNavigationListener();
@@ -60,6 +62,7 @@ public class FeedbackActivity extends AppCompatActivity {
 
     }
 
+    // Navigation methods
     @Override
     public void onBackPressed() {
 
@@ -84,6 +87,7 @@ public class FeedbackActivity extends AppCompatActivity {
         startActivity(intentProfile);
     }
 
+    // bottom navigation ui setup
     private void setupBottomNavigationListener() {
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);

@@ -1,5 +1,10 @@
 package com.elec_coen_390.uvme.Services.Database;
 
+/**
+ * Config for the database
+ *
+ */
+
 public class Config {
     public static  int DATABASE_VERSION = 1;
     // database table name used to access this database.

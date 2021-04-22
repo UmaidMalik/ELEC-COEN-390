@@ -29,8 +29,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import static com.elec_coen_390.uvme.R.string.spinner_value_gender;
-
 public class ProfileActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private ArrayList<eyeColor> meyeColor;
@@ -50,7 +48,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
     private SharedPreferences prefsGender;
     public static final String prefNameEye = "spinner_value_eye";
     public static final String prefNameSkin = "spinner_value_skin";
-    private  final String prefNameGender =getString(spinner_value_gender);
+    private static final String prefNameGender = "spinner_value_skin";//getString(spinner_value_gender);
     int id_gender,id_eye,id_skin=0;
     final String TAG = "ProfileActivity";
     @Override

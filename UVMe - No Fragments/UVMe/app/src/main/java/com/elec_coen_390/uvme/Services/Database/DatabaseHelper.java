@@ -18,6 +18,12 @@ import java.util.Collections;
 import java.util.List;
 import java.text.DecimalFormat;
 
+/**
+ * Database helper used for creating tables
+ *
+ * Get methods used to return a list of these tables
+ */
+
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TAG = "DatabaseHelper";
     private float uvIndex = 0.00f;

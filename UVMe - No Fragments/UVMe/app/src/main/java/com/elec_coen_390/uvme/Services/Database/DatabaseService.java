@@ -12,6 +12,18 @@ import java.util.Calendar;
 
 import androidx.annotation.Nullable;
 
+/**
+ *
+ * Database service runs in the background
+ * As long as the UV sensor reads and index greater than 0.5, data will be put in the database
+ *
+ * Every 5 seconds, the max UV found is put to the table
+ * Every minute, the max in that minute is put to another table and the average is also put
+ *
+ *
+ *
+ */
+
 public class DatabaseService extends Service {
 
     private static final String LOG_TAG = "DatabaseService";
@@ -41,7 +53,6 @@ public class DatabaseService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        // Your logical code here
         db = new DatabaseHelper(this);
         db.getWritableDatabase();
         startUVIndexThread();
@@ -91,8 +102,8 @@ public class DatabaseService extends Service {
 
             if (maxUVDatabase > 0.5) {
 
-                db.insertUV(UVSensorData.getUVIntensity(), calendar);
-                // every 5 seconds uv is stored
+                //db.insertUV(UVSensorData.getUVIntensity(), calendar);
+                // every 5 seconds uv is stored in the database table
                 if (second % 5 == 0) {
 
                     db.insertUVMax(maxUVDatabase, calendar);
@@ -102,6 +113,7 @@ public class DatabaseService extends Service {
                     count++;
                 } // every minute the uv is stored
             }
+            // every minute we put to the data base table
                 if (second % 60 == 0 && maxUVDatabaseMINUTE > 0.5) {
                     avg = sum/count;
                     db.insertUVGraph(maxUVDatabaseMINUTE, avg, calendar);
@@ -125,6 +137,7 @@ public class DatabaseService extends Service {
         }
     }
 
+    // refresh rate for the next max is 5 millis
     private void startUVIndexThread() {
         new Thread(runnableUVMax).start();
     }

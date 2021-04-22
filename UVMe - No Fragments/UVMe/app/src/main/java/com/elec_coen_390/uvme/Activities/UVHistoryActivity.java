@@ -27,6 +27,21 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ *
+ * This activity shows what is being put in the database
+ * The user can switch between two lists: All UV Data (updates every 5 sec); & UV Graph Table (updates every min);
+ *
+ * Up and down arrows on the top menu are used to view the top or bottom of the list
+ * The list items are ordered from most recent data to oldest data put
+ * The list updates in real time using a thread
+ *
+ * Depending on the list item if the saved UV index is high, the user can click the right red exclamation icon to go to the info page
+ *
+ * the user can access the graphs from this activity (day, month, year)
+ */
+
 public class UVHistoryActivity extends AppCompatActivity {
 
     ListView listViewUVHistory;
@@ -146,6 +161,9 @@ public class UVHistoryActivity extends AppCompatActivity {
     }
 
 
+    // runnable used to display whichever list was selected
+    // Depends on what value SELECT is
+    // allows the list to be updated in real time without having to resume the activity
     private class RunnableList implements Runnable {
 
 
@@ -178,6 +196,7 @@ public class UVHistoryActivity extends AppCompatActivity {
         }
     }
 
+    // sets up the listview with the adapter
     private void setupListView() {
         listViewUVHistory = (ListView) findViewById(R.id.sensorDataListView);
 
@@ -185,6 +204,7 @@ public class UVHistoryActivity extends AppCompatActivity {
         listViewUVHistory.setAdapter(customAdapter);
     }
 
+    // custom adapter for the lsitview
     private class CustomAdapter extends BaseAdapter {
 
         @Override

@@ -14,7 +14,12 @@ import com.elec_coen_390.uvme.R;
 
 public class WelcomeActivity extends AppCompatActivity {
 
-    private static int splash = 1800;
+    /**
+     * On app startup, this activity will be displayed for a short 700 millis
+     *
+     */
+
+    private static int splash = 700;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

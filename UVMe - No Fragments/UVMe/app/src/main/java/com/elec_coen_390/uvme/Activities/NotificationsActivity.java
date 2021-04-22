@@ -11,17 +11,20 @@ import android.widget.CompoundButton;
 
 import android.widget.ToggleButton;
 
-import com.elec_coen_390.uvme.Activities.MainActivity;
-import com.elec_coen_390.uvme.Activities.MoreActivity;
-import com.elec_coen_390.uvme.Activities.ProfileActivity;
 import com.elec_coen_390.uvme.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+/**
+ * Activity used for toggling ON/OFF notification channels
+ *
+ */
 
 public class NotificationsActivity extends AppCompatActivity {
 
 
     private ToggleButton toggleButtonUVILevelAlert, toggleButtonSunglassesAlert, toggleButtonSunburnAlert;
 
+    // names for the share preferences
     public static String PREFS = "toggle_prefs";
     public static String UVI_LEVEL_ALERT_STATUS = "uvi_level_alert_on";
     public static String SUNGLASSES_ALERT_STATUS = "sunglasses_alert_on";
@@ -66,6 +69,8 @@ public class NotificationsActivity extends AppCompatActivity {
         super.onResume();
     }
 
+    // toggle buttons listener setup
+    // applies changes to the shared preferences
     private void setupToggleButtons() {
 
 
@@ -95,6 +100,7 @@ public class NotificationsActivity extends AppCompatActivity {
 
     }
 
+    // bottom navigation listener setup
     private void setupBottomNavigationListener() {
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
@@ -128,6 +134,7 @@ public class NotificationsActivity extends AppCompatActivity {
 
     }
 
+    // navigation setup
     @Override
     public void onBackPressed() {
         //super.onBackPressed();

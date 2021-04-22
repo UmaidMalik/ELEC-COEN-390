@@ -5,6 +5,13 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.os.Build;
 
+
+/**
+ * This class contains the setup for the notification channels
+ * 
+ */
+
+
 public class NotificationChannelsClass extends Application {
     public static final String CHANNEL_1_ID ="channel1";
     public static final String CHANNEL_2_ID ="channel2";
@@ -14,10 +21,10 @@ public class NotificationChannelsClass extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        creatNotificationChannels();
+        createNotificationChannels();
 
     }
-    private void  creatNotificationChannels(){
+    private void  createNotificationChannels(){
         // channel one is used to alert the user if they are exposed to a high level of UVI
 
         if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){

@@ -71,9 +71,6 @@ public class BluetoothLeService extends Service {
     public final static UUID UUID_CLIENT_CHARACTERISTIC_CONFIG =
             UUID.fromString(GattAttributes.CLIENT_CHARACTERISTIC_CONFIG);
 
-    public final static UUID UUID_CLIENT_CHARACTERISTIC_CONFIG2 =
-            UUID.fromString(GattAttributes.CLIENT_CHARACTERISTIC_CONFIG2);
-
     public final static UUID UUID_UV_INTENSITY_MEASUREMENT_NOTIFY =
             UUID.fromString(GattAttributes.UV_SENSOR_INTENSITY_MEASUREMENT_NOTIFY);
 

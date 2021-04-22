@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -12,14 +13,17 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import com.elec_coen_390.uvme.Activities.MainActivity;
-import com.elec_coen_390.uvme.Activities.MoreActivity;
-import com.elec_coen_390.uvme.Activities.ProfileActivity;
 import com.elec_coen_390.uvme.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+@SuppressLint("UseSwitchCompatOrMaterialCode")
 public class ThemesActivity extends AppCompatActivity {
 
+
+    /**
+     * Theme activity used to switch between the default (midnight blue) theme to the red theme
+     *
+     */
 
     private Switch aSwitch;
     public static final String MyPreference = "NightModePrefs";
@@ -88,6 +92,7 @@ public class ThemesActivity extends AppCompatActivity {
 
     }
 
+    // navigation methods
     @Override
     public void onBackPressed() {
 
@@ -112,6 +117,7 @@ public class ThemesActivity extends AppCompatActivity {
         startActivity(intentProfile);
     }
 
+    // bottom navigation
     private void setupBottomNavigationListener() {
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);

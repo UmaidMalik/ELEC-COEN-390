@@ -15,8 +15,17 @@ import android.widget.TextView;
 
 import com.elec_coen_390.uvme.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+/**
+ * This activity contains the the recommended protection and information depending on the
+ * UV Index level.
+ * The bottom of the info list contains a URL link which sends the user to the Government
+ * of Canada website which shows information on how to use the the UV index
+ */
+
 public class InfoActivity extends AppCompatActivity {
 
+    // initialize the arrays for the ListView adapter setup
     private ListView listView;
     private String[] indexLevels = {"0-2", "3-5", "6-7", "8-10", "11+"};
     private String[] indexColorMeanings = {"Low", "Moderate", "High", "Very High", "Extreme"};
@@ -58,6 +67,7 @@ public class InfoActivity extends AppCompatActivity {
 
     }
 
+    // url setup for the Government of Canada website
     private void setupInfoURL() {
         textViewInfoURL = (TextView) findViewById(R.id.textViewInfoURL);
         textViewInfoURL.setMovementMethod(LinkMovementMethod.getInstance());
@@ -70,6 +80,7 @@ public class InfoActivity extends AppCompatActivity {
         listView.setAdapter(customAdapter);
     }
 
+    // private adapter used to setup the ListView
     private class CustomAdapter extends BaseAdapter {
 
         @Override
@@ -106,6 +117,7 @@ public class InfoActivity extends AppCompatActivity {
         }
     }
 
+    // bottom navigation setup
     private void setupBottomNavigationListener() {
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
@@ -148,6 +160,7 @@ public class InfoActivity extends AppCompatActivity {
         });
     }
 
+    // Navigation methods
     @Override
     public void onBackPressed() {
         //super.onBackPressed();

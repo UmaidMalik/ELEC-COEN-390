@@ -19,8 +19,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+/**
+ * This method displays a list of all the other activities which can be
+ * accessed from here { notifications, uv history, uv sensor, uv index
+ * info, themes, uv display mode, about, send feedback}
+ *
+ *
+ */
+
 public class MoreActivity extends AppCompatActivity {
 
+    // initialize arrays for the ListView
     private ListView listView;
     String[] iconNames = {"Notifications", "UV History", "UV Sensor", "UV Index Info", "Themes", "UV Display Mode", "About", "Send Feedback"};
     int[] iconImages = {R.drawable.ic_notifications, R.drawable.ic_uv_history, R.drawable.ic_uv_sensor, R.drawable.ic_info, R.drawable.ic_themes, R.drawable.ic_mode, R.drawable.ic_about, R.drawable.ic_baseline_feedback_24};
@@ -38,6 +47,7 @@ public class MoreActivity extends AppCompatActivity {
         setupBottomNavigationListener();
     }
 
+    // custom list view adapter setup
     private class CustomAdapter extends BaseAdapter {
 
         @Override
@@ -69,6 +79,7 @@ public class MoreActivity extends AppCompatActivity {
         }
     }
 
+    // setup list view icons , names, and intent
     private void setupListView() {
         listView = (ListView) findViewById(R.id.moreActivityListView);
 
@@ -127,6 +138,7 @@ public class MoreActivity extends AppCompatActivity {
         });
     }
 
+    // setup bottom navigation
     private void setupBottomNavigationListener() {
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
@@ -159,6 +171,7 @@ public class MoreActivity extends AppCompatActivity {
 
     }
 
+    // navigation methods
     @Override
     public void onBackPressed() {
         //super.onBackPressed();

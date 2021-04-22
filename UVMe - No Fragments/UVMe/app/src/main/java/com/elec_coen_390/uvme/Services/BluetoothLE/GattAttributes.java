@@ -4,6 +4,10 @@ import java.util.HashMap;
 
 public class GattAttributes {
 
+    /**
+     * Use for the activity DeviceControl
+     * Will display the name of services and characteristics based on their UUIDs
+     */
 
     private  static HashMap<String, String> attributes = new HashMap();
 
@@ -32,7 +36,7 @@ public class GattAttributes {
     public static String SERVICE_CHANGED = "00002a05-0000-1000-8000-00805f9b34fb";
 
     public static String CLIENT_CHARACTERISTIC_CONFIG = "00002902-0000-1000-8000-00805f9b34fb";
-    public static String CLIENT_CHARACTERISTIC_CONFIG2 = "00002902-0000-1000-8000-00805f9b34fc";
+
 
     public static final int UV_INTENSITY_READ = 1;
     public static final int BATTERY_LEVEL_READ = 2;

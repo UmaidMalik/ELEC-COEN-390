@@ -10,7 +10,6 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -36,7 +35,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.elec_coen_390.uvme.BatteryData;
 import com.elec_coen_390.uvme.Services.BluetoothLE.BluetoothLeService;
-import com.elec_coen_390.uvme.Services.Database.DatabaseHelper;
 import com.elec_coen_390.uvme.Services.Database.DatabaseService;
 import com.elec_coen_390.uvme.Services.Notifications.NotificationsService;
 import com.elec_coen_390.uvme.R;
@@ -50,17 +48,24 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+/**
+ * This activity shows the weather (location, temperature, feels like temperature, humidity, pressure, wind speed, and current weather icon)
+ * Contains an EditText for the user to enter their city
+ * Shows the ON/OFF state of the sensor
+ * Shows the current battery level of the sensor
+ * Displays the UV index
+ * Contains the reset/refresh icon button. Note: only visible when "Display max UV intensity" is set to ON in the UVDisplayMode Activity
+ * Reset/refresh button set the UV max intensity read to be set back to 0.0
+ * The sun icon at center changes color (lightblue; yellow; red-yellow; red; violet) based of the UV index level
+ */
 
-import java.util.Calendar;
 public class MainActivity extends AppCompatActivity {
 
 
-    DatabaseHelper db;
     AlertDialog.Builder builder;
     public static final String TAG = "Main Activity";
 
     private TextView textViewUVIndex;
-    private TextView textViewUVI;
     private ImageView ic_sun;
     private float uvIndex = 0;
     float maxUV = 0;
@@ -96,8 +101,7 @@ public class MainActivity extends AppCompatActivity {
 
     boolean isBatteryConnected = false;
 
-    final Handler handler = new Handler();
-
+    private int backButtonCount = 0;
 
     private boolean firstStart;
 
@@ -109,7 +113,52 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN); // this is to prevent the keyboard from opening on startup since there is a EditText in this activity;)
 
+        setupFindViewById();
 
+
+        setupCitySearchButton();
+
+
+        builder = new AlertDialog.Builder(this, R.style.AlertDialogStyle);
+
+        uvIndexStatusMessage = (TextView) findViewById(R.id.uvIndexStatusMessage);
+        uvIndexStatusMessage.setText("");
+
+        prefs = getSharedPreferences("prefs", MODE_PRIVATE);
+        firstStart = prefs.getBoolean("firstStart", true); // saved status of the disclaimer page is returned
+        String location = prefs.getString("CITY", ""); // saved location of the city is returned
+        editTextCitySearch.setText(location);
+        editTextCitySearch.setVisibility(View.INVISIBLE);
+        FindWeather(); // initial api call on startup
+
+        setupDisclaimer();
+
+        this.getSupportActionBar().hide();
+
+        setupBottomNavigationListener();
+
+
+        textViewUVIndex.setText(String.valueOf(UVSensorData.getUVIntensity()));
+
+        displayBatteryLevel(String.valueOf(BatteryData.getBatteryLevel()));
+
+
+
+
+        startSunUIThread(getCurrentFocus());
+        startUVIndexThread(getCurrentFocus());
+        startResetMaxUVThread(getCurrentFocus());
+
+        startDatabaseService();
+        startNotificationsService();
+
+        setupRefreshButton();
+        setupMoreButton();
+
+    }
+
+    // assign front-end ids to the back-end
+    private void setupFindViewById() {
         editTextCitySearch = (EditText) findViewById(R.id.editTextCitySearch);
         buttonCitySearch = (ToggleButton) findViewById(R.id.buttonCitySearch);
         imageViewWeather = (ImageView) findViewById(R.id.imageViewWeather);
@@ -127,62 +176,29 @@ public class MainActivity extends AppCompatActivity {
         textViewRefresh = (TextView) findViewById(R.id.textViewRefresh);
         buttonMoreInfo = (ToggleButton) findViewById(R.id.buttonMoreInfo);
 
-        setupCitySearchButton();
-
-
-        builder = new AlertDialog.Builder(this, R.style.AlertDialogStyle);
-
-        uvIndexStatusMessage = (TextView) findViewById(R.id.uvIndexStatusMessage);
-        uvIndexStatusMessage.setText("");
-
-        db = new DatabaseHelper(this);
-        db.getWritableDatabase();
-
-        prefs = getSharedPreferences("prefs", MODE_PRIVATE);
-        firstStart = prefs.getBoolean("firstStart", true);
-        String location = prefs.getString("CITY", "");
-        editTextCitySearch.setText(location);
-        editTextCitySearch.setVisibility(View.INVISIBLE);
-        FindWeather(); // initial call on startup
-
-        setupDisclaimer();
-
-        this.getSupportActionBar().hide();
-        setupBottomNavigationListener();
-        textViewUVIndex = (TextView) findViewById(R.id.textViewUVIndex);
-        ic_sun = (ImageView) findViewById(R.id.ic_sun);
-
         textViewBatteryLevel = (TextView) findViewById(R.id.textViewBatteryLevel);
-
-        textViewUVIndex.setText(String.valueOf(UVSensorData.getUVIntensity()));
-
-        displayBatteryLevel(String.valueOf(BatteryData.getBatteryLevel()));
-
         imageViewSensor = (ImageView) findViewById(R.id.imageViewSensor);
 
-
-        startSunUIThread(getCurrentFocus());
-        startUVIndexThread(getCurrentFocus());
-        startResetMaxUVThread(getCurrentFocus());
-
-        startDatabaseService();
-        startNotificationsService();
-
-        setupRefreshButton();
-        setupMoreButton();
-
+        textViewUVIndex = (TextView) findViewById(R.id.textViewUVIndex);
+        ic_sun = (ImageView) findViewById(R.id.ic_sun);
     }
 
+    // starts the notifications service upon creating of main activity
     private void startNotificationsService() {
         Intent startIntent = new Intent(MainActivity.this, NotificationsService.class);
         startService(startIntent);
     }
 
+    // starts the database service upon creating of main activity
     private void startDatabaseService() {
         Intent startIntent = new Intent(MainActivity.this, DatabaseService.class);
         startService(startIntent);
     }
 
+    // setup the city search button as a toggle
+    // Toggles the state of the EditText as being writable or hidden
+    // Saves the city upon clicking
+    // Runs the method FindWeather() which will call on the Weather API
     private void setupCitySearchButton() {
         editTextCitySearch.setEnabled(false);
 
@@ -214,6 +230,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    // The button used for resetting the maxUV read back to 0
     private void setupRefreshButton() {
         toggleButtonRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -223,6 +240,8 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    // The button displayed next to the UV level message
+    // Upon clicking, will send the user to the the Info Activity
     private void setupMoreButton() {
         buttonMoreInfo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -234,6 +253,8 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    // Disclaimer page setup
+    // Shows upon first time apps startup
     private void setupDisclaimer() {
         if (firstStart) {
             Log.d(TAG, "Enter a Statement");
@@ -277,7 +298,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // function that updates the SunColor depending on the level of UV
+    // method that updates the sun Color depending on the level of UV
+    // displays message based on the current UV index level
     private void updateSunColor() {
         uv_mode_status = toggleUVModePreferences.getBoolean(UVDisplayModeActivity.UV_MODE_STATUS, false);
         if (uv_mode_status)
@@ -317,6 +339,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // displays the current battery level of the sensor device
     private void updateBatteryLevelIcon() {
         batteryLevel = BatteryData.getBatteryLevel();
         if (!isBatteryConnected) {
@@ -336,25 +359,30 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // displays the UV index by sending data to a TextView
     private void displayUVSensorData(float uvIndex) {
         textViewUVIndex.setText(String.valueOf(uvIndex));
     }
 
+    // creates and starts a thread of the runnable sun ui object
     private void startSunUIThread(View view) {
         RunnableSunColor runnableSunColor = new RunnableSunColor();
         new Thread(runnableSunColor).start();
     }
 
+    // creates and starts a thread of the runnable uv index object
     private void startUVIndexThread(View view) {
         RunnableUVIndex runnableUVIndex = new RunnableUVIndex();
         new Thread(runnableUVIndex).start();
     }
 
+    // creates and starts a thread of the runnable reset max uv object
     private void startResetMaxUVThread(View view) {
         RunnableResetMaxUV runnableResetMaxUV = new RunnableResetMaxUV();
         new Thread(runnableResetMaxUV).start();
     }
 
+    // method used for setting the visibility of the refresh/reset button
     private void setRefreshButtonVisibility(boolean condition) {
         if (condition) {
             toggleButtonRefresh.setVisibility(View.VISIBLE);
@@ -366,7 +394,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
+    // runnable used for updating the sun color, uv index message, and the battery level icon
+    // sleeps for 2000 millis
     private class RunnableSunColor implements Runnable {
         @Override
         public void run() {
@@ -389,6 +418,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // runnable used for updating the uv index level display, and the battery level data (0 to 100%)
+    // sleeps for 5 millis
+    // updates the refresh button visibility
     private class RunnableUVIndex implements Runnable {
 
 
@@ -423,9 +455,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    // runnable used for automatically resetting max UV index being displayed
+    // sleeps for (user inputted reset time) * 1000 millis
     private class RunnableResetMaxUV implements Runnable {
-
-
 
         @Override
         public void run() {
@@ -453,7 +485,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
+    // used if UV Max Mode is ON
+    // determines the max uv by reading the current UV level
+    // and displays it at the center of the sun icon
     protected void displayUVMaxMode() {
         if (maxUV < UVSensorData.getUVIntensity()) {
             maxUV = UVSensorData.getUVIntensity();
@@ -462,6 +496,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    // receive the shared preferences upon resuming this activity
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onResume() {
@@ -475,6 +510,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    // updates the sensor connection state drawable icon to ON/OFF
+    // changes to ON if data is available
+    // changes to OFF if disconnected
     private final BroadcastReceiver mGattUpdateReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -492,7 +530,7 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-
+    // sets the image drawable, and TextView
     private void updateSensorConnectionState(boolean condition) {
         runOnUiThread(new Runnable() {
             @Override
@@ -514,6 +552,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    // sets the battery level TextView
     private void displayBatteryLevel(String stringExtra) {
         textViewBatteryLevel.setText(stringExtra);
     }
@@ -527,6 +566,7 @@ public class MainActivity extends AppCompatActivity {
         return intentFilter;
     }
 
+    // bottom navigation ui setup
     private void setupBottomNavigationListener() {
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
@@ -554,6 +594,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    // Navigation methods
     protected void goToProfileActivity() {
         Intent intentProfile = new Intent(this, ProfileActivity.class);
         intentProfile.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
@@ -569,11 +610,23 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         //super.onBackPressed();
+
+        if(backButtonCount >= 1)
+        {
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }
+        else
+        {
+            Toast.makeText(this, "Press the back button once again to close the application.", Toast.LENGTH_SHORT).show();
+            backButtonCount++;
+        }
     }
 
 
     // Weather Method
-
     public void FindWeather()
     {
         city = prefs.getString("CITY", "Enter City Name");

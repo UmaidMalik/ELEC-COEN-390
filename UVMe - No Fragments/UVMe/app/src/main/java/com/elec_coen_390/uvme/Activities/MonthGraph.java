@@ -64,9 +64,16 @@ public class MonthGraph extends AppCompatActivity {
         maxUV = findViewById(R.id.maxUV);
         selectedDate = findViewById(R.id.selectedDate);
 
+
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
         setDate();
         graphSetup();
-
     }
 
     protected void graphSetup() {
@@ -204,7 +211,7 @@ public class MonthGraph extends AppCompatActivity {
         }
         dataPointsMAX = new DataPoint[maxes.size()];
         int count = 0;
-        // iterate through the LinkedHashMap and get key (day) and value (month), put to DataPoint(x, y);
+        // iterate through the LinkedHashMap and get the key(day), value(max of each day) and put to DataPoint(x, y)
         for (Map.Entry<Integer, Float> entry : maxes.entrySet()) {
             int key = entry.getKey();
             float value = entry.getValue();
@@ -214,7 +221,7 @@ public class MonthGraph extends AppCompatActivity {
 
         dataPointsAVG = new DataPoint[averagesMax.size()];
         count = 0;
-        // iterate through the linked HashMap and get the key(hour), value(max of the hour) and put to DataPoint(x, y)
+        // iterate through the LinkedHashMap and get the key(day), value(average of each day) and put to DataPoint(x, y)
         for (Map.Entry<Integer, Float> entry : averagesMax.entrySet()) {
             int key = entry.getKey();
             float value = entry.getValue();
@@ -264,33 +271,43 @@ public class MonthGraph extends AppCompatActivity {
             }
         });
     }
+
+    // method used for navigation
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         goToUVHistoryActivity();
     }
 
+    // method used for navigation
     protected void goToUVHistoryActivity() {
         Intent intent = new Intent(this, UVHistoryActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
     }
+
+    // method used for navigation
     protected void goToMainActivity() {
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
     }
+
+    // method used for navigation
     protected void goToProfileActivity() {
         Intent intent = new Intent(this, ProfileActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
     }
+
+    // method used for navigation
     protected void goToMoreActivity() {
         Intent intent = new Intent(this, MoreActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
     }
 
+    // method used for bottom navigation
     private void setupBottomNavigationListener() {
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         // Menu items are left unselected

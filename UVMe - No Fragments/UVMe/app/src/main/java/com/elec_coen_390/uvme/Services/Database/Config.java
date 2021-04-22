@@ -1,4 +1,4 @@
-package com.elec_coen_390.uvme;
+package com.elec_coen_390.uvme.Services.Database;
 
 public class Config {
     public static  int DATABASE_VERSION = 1;

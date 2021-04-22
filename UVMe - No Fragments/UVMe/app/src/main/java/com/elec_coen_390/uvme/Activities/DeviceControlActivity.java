@@ -1,4 +1,4 @@
-package com.elec_coen_390.uvme;
+package com.elec_coen_390.uvme.Activities;
 
 import android.app.Activity;
 import android.bluetooth.BluetoothGattCharacteristic;
@@ -20,11 +20,9 @@ import android.widget.ExpandableListView;
 import android.widget.SimpleExpandableListAdapter;
 import android.widget.TextView;
 
-import com.elec_coen_390.uvme.Activities.MainActivity;
-import com.elec_coen_390.uvme.Activities.MoreActivity;
-import com.elec_coen_390.uvme.Activities.ProfileActivity;
-import com.elec_coen_390.uvme.Activities.UVSensorActivity;
-import com.elec_coen_390.uvme.Services.BluetoothLeService;
+import com.elec_coen_390.uvme.R;
+import com.elec_coen_390.uvme.Services.BluetoothLE.BluetoothLeService;
+import com.elec_coen_390.uvme.Services.BluetoothLE.GattAttributes;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
@@ -176,7 +174,7 @@ public class DeviceControlActivity extends Activity {
         //getActionBar().setDisplayHomeAsUpEnabled(true);
         Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
         bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
-        startService(gattServiceIntent); // @TODO try to find out if BLE service will stop or not
+        startService(gattServiceIntent);
 
     }
 
@@ -213,36 +211,6 @@ public class DeviceControlActivity extends Activity {
         }
     }
 
-    private void startUIThread(View view) {
-        DeviceControlActivity.RunnableUVIndex runnableUVIndex = new DeviceControlActivity.RunnableUVIndex();
-        new Thread(runnableUVIndex).start();
-    }
-
-    private class RunnableUVIndex implements Runnable {
-
-        @Override
-        public void run() {
-            while (true) {
-
-
-
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-
-                    }
-                });
-
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-
-            }
-        }
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

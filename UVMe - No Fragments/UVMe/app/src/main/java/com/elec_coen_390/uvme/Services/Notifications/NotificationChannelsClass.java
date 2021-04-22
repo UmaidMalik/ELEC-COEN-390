@@ -1,4 +1,4 @@
-package com.elec_coen_390.uvme;
+package com.elec_coen_390.uvme.Services.Notifications;
 
 import android.app.Application;
 import android.app.NotificationChannel;

@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import com.elec_coen_390.uvme.DatabaseHelper;
 import com.elec_coen_390.uvme.R;
-import com.elec_coen_390.uvme.UVReadings;
+import com.elec_coen_390.uvme.UVSensorData;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GridLabelRenderer;
@@ -46,7 +46,7 @@ public class MonthGraph extends AppCompatActivity {
     TextView selectedDate, chooseDateTextView;
     DatePickerDialog datePicker;
     DatabaseHelper dbGraph;
-    List<UVReadings> uvList;
+    List<UVSensorData> uvList;
     GraphView graph;
     DataPoint[] dataPointsMAX;
     DataPoint[] dataPointsAVG;

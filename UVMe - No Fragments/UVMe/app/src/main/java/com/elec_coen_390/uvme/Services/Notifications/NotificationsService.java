@@ -1,4 +1,4 @@
-package com.elec_coen_390.uvme.Services;
+package com.elec_coen_390.uvme.Services.Notifications;
 
 import android.app.Notification;
 import android.app.Service;
@@ -11,7 +11,6 @@ import android.util.Log;
 
 import com.elec_coen_390.uvme.Activities.NotificationsActivity;
 import com.elec_coen_390.uvme.Activities.ProfileActivity;
-import com.elec_coen_390.uvme.NotificationChannelsClass;
 import com.elec_coen_390.uvme.R;
 import com.elec_coen_390.uvme.UVSensorData;
 

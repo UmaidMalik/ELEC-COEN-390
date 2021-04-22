@@ -1,4 +1,4 @@
-package com.elec_coen_390.uvme.Services;
+package com.elec_coen_390.uvme.Services.Database;
 
 import android.app.Service;
 import android.content.Intent;

@@ -21,7 +21,7 @@ import android.widget.TextView;
 
 import com.elec_coen_390.uvme.DatabaseHelper;
 import com.elec_coen_390.uvme.R;
-import com.elec_coen_390.uvme.UVReadings;
+import com.elec_coen_390.uvme.UVSensorData;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
@@ -32,7 +32,7 @@ public class UVHistoryActivity extends AppCompatActivity {
     ListView listViewUVHistory;
     View moreView;
     DatabaseHelper db;
-    List<UVReadings> uvList;
+    List<UVSensorData> uvList;
     int index = 0;
     UVHistoryActivity.CustomAdapter customAdapter;
     Intent intent;
@@ -134,7 +134,7 @@ public class UVHistoryActivity extends AppCompatActivity {
                 uvList = db.getAllUVData();
                 break;
             case SELECT_TABLE_UV_GRAPH_TABLE:
-                uvList = db. getUVGraphInfoTable();
+                uvList = db.getUVGraphInfoTable();
                 break;
         }
         setupListView();

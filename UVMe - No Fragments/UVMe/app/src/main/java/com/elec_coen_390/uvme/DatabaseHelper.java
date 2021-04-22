@@ -9,6 +9,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.elec_coen_390.uvme.Services.Database.Config;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -183,7 +185,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     // gets all the data Stored in the database table MAX. Uses a list from the UVREADINGS class implemented.
-    public List<UVReadings> getAllUVData() {
+    public List<UVSensorData> getAllUVData() {
         SQLiteDatabase database = this.getReadableDatabase();
         Cursor cursor = null;
         try {
@@ -192,7 +194,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             if (cursor != null && cursor.moveToLast())
             {
                 cursor.moveToLast();
-                List<UVReadings> uvList = new ArrayList<>();
+                List<UVSensorData> uvList = new ArrayList<>();
                 do {
                     // We get all the parameters
                     long id = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_ID));
@@ -206,7 +208,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     int year = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_YEAR));
 
                     // passes the elements t othe UvReadings class
-                    UVReadings uvReadings = new UVReadings(id, uvIndexValue, hour, minute, second, day, month, year);
+                    UVSensorData uvReadings = new UVSensorData(id, uvIndexValue, hour, minute, second, day, month, year);
                     // adds readings stored  to the class.
                     uvList.add(uvReadings);
                 } while (cursor.moveToPrevious());
@@ -224,7 +226,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     // used to access the UV Graph table values.
-    public List<UVReadings> getUVGraphInfo() {
+    public List<UVSensorData> getUVGraphInfo() {
         SQLiteDatabase database = this.getReadableDatabase();
         Cursor cursor = null;
 
@@ -233,7 +235,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             if (cursor != null && cursor.moveToFirst())
             {
                 cursor.moveToFirst();
-                List<UVReadings> uvList = new ArrayList<>();
+                List<UVSensorData> uvList = new ArrayList<>();
                 do {
                     // We get all the parameters
                     long id = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_ID));
@@ -246,7 +248,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     int day = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_DAY));
                     int month = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_MONTH));
                     int year = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_YEAR));
-                    UVReadings uvReadings = new UVReadings(id, uvIndexMAX, uvIndexAVG, hour, minute, second, day, month, year);
+                    UVSensorData uvReadings = new UVSensorData(id, uvIndexMAX, uvIndexAVG, hour, minute, second, day, month, year);
                     uvList.add(uvReadings);
 
                 } while (cursor.moveToNext());
@@ -262,7 +264,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return Collections.emptyList(); // Nothing to display
     }
 
-    public List<UVReadings> getUVGraphInfoTable() {
+    public List<UVSensorData> getUVGraphInfoTable() {
         SQLiteDatabase database = this.getReadableDatabase();
         Cursor cursor = null;
 
@@ -271,7 +273,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             if (cursor != null && cursor.moveToLast())
             {
                 cursor.moveToLast();
-                List<UVReadings> uvList = new ArrayList<>();
+                List<UVSensorData> uvList = new ArrayList<>();
                 do {
                     // We get all the parameters
                     long id = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_ID));
@@ -283,7 +285,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     int day = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_DAY));
                     int month = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_MONTH));
                     int year = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_YEAR));
-                    UVReadings uvReadings = new UVReadings(id, uvIndexMAX, uvIndexAVG, hour, minute, second, day, month, year);
+                    UVSensorData uvReadings = new UVSensorData(id, uvIndexMAX, uvIndexAVG, hour, minute, second, day, month, year);
                     uvList.add(uvReadings);
                 } while (cursor.moveToPrevious());
                 return uvList;

@@ -1,4 +1,4 @@
-package com.elec_coen_390.uvme.Services;
+package com.elec_coen_390.uvme.Services.BluetoothLE;
 
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
@@ -17,15 +17,14 @@ import android.os.IBinder;
 import android.util.Log;
 
 import com.elec_coen_390.uvme.BatteryData;
-import com.elec_coen_390.uvme.GattAttributes;
 import com.elec_coen_390.uvme.UVSensorData;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static com.elec_coen_390.uvme.GattAttributes.UV_INTENSITY_READ;
-import static com.elec_coen_390.uvme.GattAttributes.BATTERY_LEVEL_READ;
+import static com.elec_coen_390.uvme.Services.BluetoothLE.GattAttributes.UV_INTENSITY_READ;
+import static com.elec_coen_390.uvme.Services.BluetoothLE.GattAttributes.BATTERY_LEVEL_READ;
 
 public class BluetoothLeService extends Service {
 
@@ -303,7 +302,7 @@ public class BluetoothLeService extends Service {
 
 
     public class LocalBinder extends Binder {
-        BluetoothLeService getService() {
+        public BluetoothLeService getService() {
             return BluetoothLeService.this;
         }
     }

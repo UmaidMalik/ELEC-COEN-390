@@ -27,8 +27,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.elec_coen_390.uvme.Services.BluetoothLeService;
-import com.elec_coen_390.uvme.DeviceControlActivity;
+import com.elec_coen_390.uvme.Services.BluetoothLE.BluetoothLeService;
 import com.elec_coen_390.uvme.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
